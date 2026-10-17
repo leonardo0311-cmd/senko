@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   LA PASIÓN DE ROSAS — SISTEMA DE DISEÑO
+   ========================================================================== */
+
+@theme {
+  /* --- Color ------------------------------------------------------------ */
+  --color-carbon: #10100f;
+  --color-carbon-alto: #161513; /* variación tonal: evita el negro plano */
+  --color-carbon-bajo: #0a0a09;
+  --color-chocolate: #241b18;
+  --color-borgona: #501d2c;
+  --color-borgona-claro: #6b2839;
+  --color-oro: #c4a477;
+  --color-oro-tenue: #a78e60;
+  --color-brasa: #d57939;
+  --color-marfil: #f0e9df;
+  --color-marfil-tenue: #b9b1a6;
+
+  /* --- Tipografía ------------------------------------------------------- */
+  --font-serif: var(--fuente-serif), "Cormorant Garamond", "Iowan Old Style",
+    "Palatino Linotype", Georgia, serif;
+  --font-sans: var(--fuente-sans), "Manrope", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+
+  /* --- Movimiento ------------------------------------------------------- */
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-editorial: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  --borde-sutil: color-mix(in oklab, var(--color-marfil) 14%, transparent);
+  --borde-tenue: color-mix(in oklab, var(--color-marfil) 8%, transparent);
+  --marco: clamp(1.25rem, 5vw, 5rem);
+  --alto-header: 4.75rem;
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+* {
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Compensa el header fijo al saltar a una sección con el teclado o un ancla */
+  scroll-padding-top: calc(var(--alto-header) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-carbon);
+  color: var(--color-marfil);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Ninguna sección debe provocar scroll horizontal */
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-borgona);
+  color: var(--color-marfil);
+}
+
+/* Foco visible y consistente en todo el sitio (WCAG 2.2 — 2.4.11) */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-oro);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA EDITORIAL
+   ========================================================================== */
+
+.tipo-display {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.tipo-titulo {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.tipo-enfasis {
+  font-style: italic;
+  color: var(--color-oro);
+}
+
+/* Etiqueta de sección: 01 / LA EXPERIENCIA */
+.tipo-indice {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-oro-tenue);
+}
+
+.tipo-bajada {
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
+  line-height: 1.7;
+  color: var(--color-marfil-tenue);
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   UTILIDADES DE COMPOSICIÓN
+   ========================================================================== */
+
+.marco {
+  padding-inline: var(--marco);
+  margin-inline: auto;
+  max-width: 96rem;
+}
+
+.seccion {
+  padding-block: clamp(5rem, 11vh, 9.5rem);
+}
+
+/* Línea fina de separación, firma visual de la marca */
+.filete {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--color-oro) 45%, transparent),
+    transparent
+  );
+}
+
+/* Grano fotográfico muy sutil sobre fondos oscuros */
+.grano::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   REVELADO POR SCROLL
+   Estado inicial solo cuando hay JS y el usuario acepta movimiento.
+   Sin JS (o con prefers-reduced-motion) el contenido se ve completo.
+   ========================================================================== */
+
+[data-revelar] {
+  opacity: 1;
+}
+
+html.js-animaciones [data-revelar] {
+  opacity: 0;
+  transform: translate3d(0, var(--revelar-y, 1.75rem), 0);
+  transition:
+    opacity 0.9s var(--ease-suave),
+    transform 1s var(--ease-suave);
+  transition-delay: var(--revelar-retraso, 0ms);
+  will-change: opacity, transform;
+}
+
+html.js-animaciones [data-revelar].es-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* El recorte vive en el hijo: el nodo observado conserva su caja completa. */
+html.js-animaciones [data-revelar-mascara] > * {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.2s var(--ease-editorial);
+  transition-delay: var(--revelar-retraso, 0ms);
+  will-change: clip-path;
+}
+
+html.js-animaciones [data-revelar-mascara].es-visible > * {
+  clip-path: inset(0 0 0 0);
+  will-change: auto;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js-animaciones [data-revelar],
+  html.js-animaciones [data-revelar-mascara] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enlace de salto para teclado y lectores de pantalla */
+.salto-contenido {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--color-marfil);
+  color: var(--color-carbon);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: transform 0.2s var(--ease-suave);
+}
+
+.salto-contenido:focus {
+  transform: translateY(0);
+}
