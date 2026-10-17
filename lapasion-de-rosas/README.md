@@ -16,9 +16,15 @@ STATIC_EXPORT=1 npm run build   # sitio estático en /out
 
 ## 1. Antes de publicar: leé `VERIFICAR.md`
 
-Hay **platos y precios de ejemplo** en la carta, con un aviso naranja visible
-en la página. El sitio no debe publicarse así. `VERIFICAR.md` tiene la lista
-completa de lo que falta confirmar y cómo cargarlo.
+Dos cosas impiden publicarlo hoy:
+
+1. **La carta** tiene platos y precios de ejemplo, con un aviso naranja visible
+   en la página (`cartaVerificada = false`).
+2. **Las fotos** son imágenes de referencia generadas con IA, art-directadas a
+   la paleta: no son fotos del local ni de sus platos (`generada: true` en
+   `content/medios.ts`).
+
+`VERIFICAR.md` tiene la lista completa y la tabla de qué reemplazar por qué.
 
 ---
 
@@ -41,13 +47,19 @@ Todo el contenido vive en `/content`. No hace falta tocar ningún componente.
 2. En `content/medios.ts`, escribí la ruta en `src`:
 
 ```ts
-hero: { src: "/fotos/costillar.avif", alt: "…", altEn: "…", tono: "fuego", encuadre: "…" },
+hero: { src: "/fotos/costillar.avif", ancho: 1920, alto: 1080, generada: false, … }
 ```
 
-Mientras `src` sea `null`, el sitio dibuja una composición provisional hecha
-con CSS —**sin usar fotos de otros restaurantes**— que lleva una marca visible
-y, en `encuadre`, el plano sugerido para la producción fotográfica. Sirve como
-guion para la sesión de fotos.
+`ancho` y `alto` son los del archivo: reservan el espacio y evitan saltos de
+maquetado
+
+y poné `generada: false`.
+
+Las imágenes que vienen cargadas son **originales generadas para este
+proyecto** —no stock ajeno— pero no retratan el local: son referencia hasta
+que llegue la producción real. Si `src` es `null` (hoy, sólo la fachada), el
+sitio dibuja una composición hecha con CSS marcada como provisional. El campo
+`encuadre` de cada entrada es el guion para la sesión de fotos.
 
 ### Cargar la carta
 

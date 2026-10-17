@@ -9,6 +9,11 @@ o un horario equivocado y que alguien viaje a Ezeiza un día que está cerrado.
 
 ## Lo más urgente
 
+> **Dos cosas impiden publicar el sitio hoy:** la carta tiene precios de
+> ejemplo y las fotos son imágenes de referencia generadas con IA. Un
+> restaurante que muestra platos que no son los suyos induce a error a quien
+> reserva. Ambas están marcadas en el código y son de una línea cada una.
+
 | # | Dato | Dónde se edita | Qué pasa hoy |
 |---|---|---|---|
 | 1 | **La carta** | `content/menu.ts` | ⚠️ Hay platos y precios **de ejemplo** con un aviso naranja visible. Poné `cartaVerificada = true` sólo cuando los reemplaces por los reales. **No publiques el sitio así.** |
@@ -16,7 +21,7 @@ o un horario equivocado y que alguien viaje a Ezeiza un día que está cerrado.
 | 3 | **Dirección** | `contacto.direccion` | Se muestra "Ezeiza, Provincia de Buenos Aires · dirección exacta al confirmar la reserva". |
 | 4 | **Horarios** | `contacto.horarios` | Se muestra "Días y horarios a confirmar · escribinos". |
 | 5 | **Instagram** | `redes.instagram` | La sección del feed **no se renderiza** hasta confirmarlo. |
-| 6 | **Fotos** | `content/medios.ts` | Composiciones provisionales marcadas, con el encuadre sugerido para la sesión de fotos. |
+| 6 | **Fotos** | `content/medios.ts` | ⚠️ Las 9 imágenes del sitio son **de referencia, generadas con IA**: no son fotos de La Pasión de Rosas ni de sus platos. Llevan `generada: true`. **Reemplazalas antes de publicar.** Falta la fachada, que sigue como composición provisional. |
 | 7 | **Logotipo** | `marca.logo` | Se compone el nombre tipográficamente. No se redibujó ningún logo. |
 | 8 | Teléfono y correo | `contacto.telefono`, `contacto.email` | No aparecen en el pie. |
 | 9 | Google Maps | `contacto.mapaUrl` | El enlace "Ver en mapa" no aparece. |
@@ -31,6 +36,30 @@ whatsapp: dato("5491155550000", true),
 ```
 
 La sección correspondiente aparece sola.
+
+## Sobre las fotografías
+
+Las imágenes de `/public/fotos/` se generaron para este proyecto,
+art-directadas a la paleta del sitio (negro #0d0a08, brasa #ff8347 / #c8481f,
+hueso #f4ecdc). Son originales —no son stock de otro restaurante ni fotos
+ajenas— pero **no retratan el local real**.
+
+Cada entrada de `content/medios.ts` incluye en `encuadre` el plano sugerido:
+sirve como guion para la sesión de fotos. Cuando lleguen las reales, cambiá
+`src` y poné `generada: false`.
+
+| Archivo | Qué muestra | Reemplazar por |
+|---|---|---|
+| `hero.avif` | Costillar sobre las brasas | Plano general bajo del costillar en la parrilla |
+| `especialidad.avif` | El costillar de cerca | Plano cerrado del plato de la casa |
+| `fuego.avif` | Brasas bajo la parrilla | Brasas reales, sin llama |
+| `parrilla.avif` | Parrilla y brasas | La parrilla en pleno servicio |
+| `detalle.avif` | Macro de brasas | Macro de mesa: sal, cuchillo, pan |
+| `nosotros.avif` | Mesa servida (vertical) | Mesa servida, salón detrás |
+| `salon.avif` | El salón (panorámica) | El salón preparado, antes de abrir |
+| `vino.avif` | Copa de vino | Copa a contraluz |
+| `reservas.avif` | Mesa esperando | Mesa preparada, luz baja |
+| — | *(falta)* | **Fachada al anochecer** |
 
 ## Por qué están en conflicto
 
