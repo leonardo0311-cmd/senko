@@ -1,20 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { marca, seo, siteUrl } from "@content/site";
+import { tituloDocumento } from "@content/i18n";
+import { ProveedorIdioma } from "@/lib/idioma";
 import { DatosEstructurados } from "@/components/DatosEstructurados";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
+const serif = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
   variable: "--fuente-serif",
 });
 
-const sans = Manrope({
+const sans = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
   variable: "--fuente-sans",
 });
@@ -22,57 +24,39 @@ const sans = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: seo.titulo,
-    template: `%s — ${marca.nombre}`,
+    default: tituloDocumento.es,
+    template: `%s · ${marca.nombre}`,
   },
   description: seo.descripcion,
   keywords: [...seo.palabras],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    locale: seo.locale,
+    locale: "es_AR",
+    alternateLocale: ["en_US"],
     url: siteUrl,
     siteName: marca.nombre,
-    title: seo.titulo,
+    title: tituloDocumento.es,
     description: seo.descripcion,
   },
   twitter: {
     card: "summary_large_image",
-    title: seo.titulo,
+    title: tituloDocumento.es,
     description: seo.descripcion,
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10100F",
+  themeColor: "#0d0a08",
   colorScheme: "dark",
 };
-
-/**
- * Marca el documento antes de la primera pintura para que el revelado por
- * scroll no provoque un parpadeo. Si JavaScript no corre, la clase nunca se
- * agrega y todo el contenido queda visible: la página funciona igual.
- */
-const scriptAnimaciones = `
-try {
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.classList.add('js-animaciones');
-  }
-} catch (e) {}
-`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es-AR" className={`${serif.variable} ${sans.variable}`}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: scriptAnimaciones }} />
-      </head>
       <body>
-        <a href="#contenido" className="salto-contenido">
-          Saltar al contenido
-        </a>
-        {children}
+        <ProveedorIdioma>{children}</ProveedorIdioma>
         <DatosEstructurados />
       </body>
     </html>

@@ -1,89 +1,50 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  type ComponentPropsWithoutRef,
-  type ElementType,
-  type ReactNode,
-} from "react";
-
-type Props = {
-  children: ReactNode;
-  /** `desplazar` sube el bloque; `mascara` lo descubre de abajo hacia arriba. */
-  tipo?: "desplazar" | "mascara";
-  /** Retraso en milisegundos, para escalonar varios elementos. */
-  retraso?: number;
-  /** Distancia inicial del desplazamiento. */
-  distancia?: string;
-  como?: ElementType;
-  className?: string;
-} & Omit<ComponentPropsWithoutRef<"div">, "children" | "className" | "style">;
+import { useEffect } from "react";
 
 /**
- * Revela un bloque cuando entra en pantalla.
+ * Activa el revelado por scroll.
  *
- * Usa IntersectionObserver y transiciones CSS: no bloquea el hilo principal
- * ni depende de una librería. El estado inicial oculto lo aplica la clase
- * `js-animaciones` del <html>, así que sin JavaScript —o con movimiento
- * reducido— el contenido se ve completo desde el primer render.
- *
- * El recorte de la variante `mascara` va SIEMPRE en un nodo interno, nunca en
- * el que se observa: un `clip-path` que achica la caja a cero hace que
- * IntersectionObserver informe una intersección nula, y el elemento quedaría
- * oculto para siempre esperando un cruce que nunca llega.
+ * El contenido está visible en reposo (ver `.reveal` en globals.css): sólo
+ * cuando sabemos que IntersectionObserver existe agregamos la clase que
+ * habilita el ocultar-y-acomodar, y todo lo que ya está en pantalla se marca
+ * visible de inmediato. Así nada queda nunca atascado en opacity 0.
  */
-export function Revelar({
-  children,
-  tipo = "desplazar",
-  retraso = 0,
-  distancia,
-  como: Como = "div",
-  className,
-  ...resto
-}: Props) {
-  const ref = useRef<HTMLElement>(null);
-
+export function ActivarRevelado() {
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    if (!("IntersectionObserver" in window)) {
-      el.classList.add("es-visible");
-      return;
-    }
+    document.documentElement.classList.add("js-reveal-ready");
 
-    const observador = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entradas) => {
-        for (const entrada of entradas) {
-          if (!entrada.isIntersecting) continue;
-          entrada.target.classList.add("es-visible");
-          observador.unobserve(entrada.target);
+        for (const e of entradas) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add("in");
+          io.unobserve(e.target);
         }
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.1 },
+      { threshold: 0.16, rootMargin: "0px 0px -6% 0px" },
     );
 
-    observador.observe(el);
-    return () => observador.disconnect();
+    const marcar = () => {
+      document.querySelectorAll<HTMLElement>(".reveal:not(.in)").forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight * 1.05) el.classList.add("in");
+        else io.observe(el);
+      });
+    };
+
+    marcar();
+    // La carta se re-renderiza al cambiar de idioma: volvemos a mirar.
+    const timer = window.setInterval(marcar, 1200);
+
+    return () => {
+      io.disconnect();
+      window.clearInterval(timer);
+      document.documentElement.classList.remove("js-reveal-ready");
+    };
   }, []);
 
-  const estilo = {
-    "--revelar-retraso": `${retraso}ms`,
-    ...(distancia ? { "--revelar-y": distancia } : {}),
-  } as React.CSSProperties;
-
-  if (tipo === "mascara") {
-    return (
-      <Como {...resto} ref={ref} data-revelar-mascara="" className={className} style={estilo}>
-        <span className="block">{children}</span>
-      </Como>
-    );
-  }
-
-  return (
-    <Como {...resto} ref={ref} data-revelar="" className={className} style={estilo}>
-      {children}
-    </Como>
-  );
+  return null;
 }

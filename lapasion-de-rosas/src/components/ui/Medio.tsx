@@ -1,197 +1,118 @@
+"use client";
+
 import Image from "next/image";
-import { medios, type ClaveMedio, type RatioMedio, type TonoMedio } from "@content/medios";
-import { MarcaRosa } from "./MarcaRosa";
-
-/* -------------------------------------------------------------------------- */
-
-const ratios: Record<RatioMedio, string> = {
-  "4/5": "4 / 5",
-  "3/4": "3 / 4",
-  "1/1": "1 / 1",
-  "16/9": "16 / 9",
-  "21/9": "21 / 9",
-};
-
-/**
- * Paletas de las composiciones provisionales. No son fotografías: son
- * degradados generados por CSS, pensados para sostener la dirección de arte
- * sin hacer pasar material ajeno por fotos del restaurante.
- */
-const paletas: Record<
-  TonoMedio,
-  { base: string; luzBaja: string; luzAlta: string; realce: string }
-> = {
-  brasa: {
-    base: "#2a1a12",
-    luzBaja: "rgba(213,121,57,0.62)",
-    luzAlta: "rgba(255,196,128,0.3)",
-    realce: "rgba(196,164,119,0.26)",
-  },
-  borgona: {
-    base: "#2b1620",
-    luzBaja: "rgba(122,43,66,0.85)",
-    luzAlta: "rgba(196,164,119,0.22)",
-    realce: "rgba(213,121,57,0.2)",
-  },
-  carbon: {
-    base: "#232220",
-    luzBaja: "rgba(62,51,44,0.95)",
-    luzAlta: "rgba(196,164,119,0.2)",
-    realce: "rgba(240,233,223,0.08)",
-  },
-  oro: {
-    base: "#2b2318",
-    luzBaja: "rgba(196,164,119,0.5)",
-    luzAlta: "rgba(255,226,180,0.26)",
-    realce: "rgba(213,121,57,0.24)",
-  },
-};
-
-/* -------------------------------------------------------------------------- */
-
-type Props = {
-  clave: ClaveMedio;
-  /** `true` sólo para la imagen principal de la portada. */
-  prioridad?: boolean;
-  /** Pista de tamaño para servir la resolución justa. */
-  sizes?: string;
-  /** Sobrescribe la proporción definida en medios.ts. */
-  ratio?: RatioMedio;
-  className?: string;
-  /** Oculta el pie del marcador (útil en mosaicos muy chicos). */
-  compacto?: boolean;
-  /** Ocupa todo el alto del contenedor en vez de respetar la proporción. */
-  llenar?: boolean;
-};
+import { medios, type ClaveMedio, type TonoMedio } from "@content/medios";
+import { useIdioma } from "@/lib/idioma";
 
 /**
  * Muestra una fotografía del restaurante.
  *
- * Mientras `src` sea `null` en content/medios.ts, dibuja una composición
- * provisional identificada como tal, con el encuadre sugerido para la
- * producción fotográfica. En cuanto se carga la foto real, el marcador
- * desaparece solo.
+ * Mientras no haya foto real cargada en content/medios.ts, dibuja una
+ * composición provisional identificada como tal. En cuanto se carga la foto,
+ * la marca desaparece sola.
  */
+
+const paletas: Record<TonoMedio, { base: string; capas: string }> = {
+  fuego: {
+    base: "#2a1409",
+    capas: [
+      "radial-gradient(90% 100% at 22% 100%, rgba(255,131,71,0.62) 0%, transparent 66%)",
+      "radial-gradient(60% 70% at 78% 10%, rgba(200,72,31,0.42) 0%, transparent 72%)",
+      "linear-gradient(118deg, transparent 18%, rgba(255,226,200,0.07) 44%, transparent 64%)",
+      "radial-gradient(120% 110% at 50% 45%, transparent 36%, rgba(9,6,4,0.76) 100%)",
+    ].join(", "),
+  },
+  brasa: {
+    base: "#2a1b10",
+    capas: [
+      "radial-gradient(85% 100% at 25% 100%, rgba(200,72,31,0.5) 0%, transparent 68%)",
+      "radial-gradient(55% 65% at 80% 12%, rgba(244,236,220,0.14) 0%, transparent 72%)",
+      "linear-gradient(118deg, transparent 20%, rgba(255,255,255,0.05) 44%, transparent 62%)",
+      "radial-gradient(120% 110% at 50% 45%, transparent 38%, rgba(9,6,4,0.74) 100%)",
+    ].join(", "),
+  },
+  carbon: {
+    base: "#211c16",
+    capas: [
+      "radial-gradient(85% 100% at 20% 100%, rgba(60,48,36,0.95) 0%, transparent 70%)",
+      "radial-gradient(55% 65% at 80% 8%, rgba(244,236,220,0.12) 0%, transparent 72%)",
+      "linear-gradient(118deg, transparent 20%, rgba(255,255,255,0.05) 44%, transparent 62%)",
+      "radial-gradient(120% 110% at 50% 45%, transparent 38%, rgba(9,6,4,0.76) 100%)",
+    ].join(", "),
+  },
+  humo: {
+    base: "#262019",
+    capas: [
+      "radial-gradient(90% 100% at 30% 100%, rgba(154,142,120,0.4) 0%, transparent 70%)",
+      "radial-gradient(55% 65% at 75% 10%, rgba(255,131,71,0.2) 0%, transparent 72%)",
+      "linear-gradient(118deg, transparent 20%, rgba(255,255,255,0.06) 44%, transparent 62%)",
+      "radial-gradient(120% 110% at 50% 45%, transparent 38%, rgba(9,6,4,0.72) 100%)",
+    ].join(", "),
+  },
+};
+
 export function Medio({
   clave,
   prioridad,
   sizes = "100vw",
-  ratio,
   className = "",
+  /** Oculta el pie del marcador en mosaicos chicos. */
   compacto,
-  llenar,
-}: Props) {
+}: {
+  clave: ClaveMedio;
+  prioridad?: boolean;
+  sizes?: string;
+  className?: string;
+  compacto?: boolean;
+}) {
+  const { t, pick } = useIdioma();
   const m = medios[clave];
-  // Al llenar el contenedor, la proporción la manda el contenedor.
-  const proporcion = llenar ? undefined : ratios[ratio ?? m.ratio];
+  const alt = pick(m.alt, m.altEn);
 
   if (m.src) {
     return (
-      <div
-        className={`relative overflow-hidden bg-carbon-alto ${llenar ? "h-full w-full" : ""} ${className}`}
-        style={proporcion ? { aspectRatio: proporcion } : undefined}
-      >
-        <Image
-          src={m.src}
-          alt={m.alt}
-          fill
-          sizes={sizes}
-          priority={prioridad}
-          loading={prioridad ? undefined : "lazy"}
-          className="object-cover"
-        />
-      </div>
+      <Image
+        src={m.src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={prioridad}
+        className={`ph object-cover ${className}`}
+      />
     );
   }
 
-  return (
-    <Provisional
-      ratio={proporcion}
-      tono={m.tono}
-      encuadre={m.encuadre}
-      compacto={compacto}
-      className={`${llenar ? "h-full w-full" : ""} ${className}`}
-    />
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-function Provisional({
-  ratio,
-  tono,
-  encuadre,
-  compacto,
-  className = "",
-}: {
-  ratio?: string;
-  tono: TonoMedio;
-  encuadre: string;
-  compacto?: boolean;
-  className?: string;
-}) {
-  const p = paletas[tono];
+  const p = paletas[m.tono];
 
   return (
     <div
       role="img"
-      aria-label={`Espacio reservado para una fotografía del restaurante. Encuadre sugerido: ${encuadre}`}
-      className={`grano relative overflow-hidden ${className}`}
-      style={{ ...(ratio ? { aspectRatio: ratio } : {}), backgroundColor: p.base }}
+      aria-label={`${alt}. ${t("media_pending")}.`}
+      className={`ph relative overflow-hidden ${className}`}
+      style={{ backgroundColor: p.base }}
     >
-      {/* Luz principal baja —como una brasa fuera de cuadro— y un realce alto */}
-      <div
+      <span aria-hidden className="absolute inset-0" style={{ backgroundImage: p.capas }} />
+      <span
         aria-hidden
-        className="absolute inset-0"
-        style={{
-          backgroundImage: [
-            `radial-gradient(85% 100% at 20% 100%, ${p.luzBaja} 0%, transparent 68%)`,
-            `radial-gradient(55% 65% at 80% 8%, ${p.luzAlta} 0%, transparent 72%)`,
-            `radial-gradient(40% 45% at 62% 58%, ${p.realce} 0%, transparent 75%)`,
-          ].join(", "),
-        }}
-      />
-
-      {/* Barrido diagonal: da volumen y evita el degradado plano */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-70"
+        className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
         style={{
           backgroundImage:
-            "linear-gradient(118deg, transparent 18%, rgba(255,255,255,0.07) 42%, transparent 60%)",
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E\")",
         }}
       />
-
-      {/* Caída a negro en los bordes, para que la tipografía apoye encima */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(120% 110% at 50% 45%, transparent 38%, rgba(10,10,9,0.72) 100%)",
-        }}
-      />
-
-      <div aria-hidden className="absolute inset-0 grid place-items-center">
-        <MarcaRosa className="h-[22%] max-h-28 w-auto text-marfil/[0.13]" />
-      </div>
-
-      {/* Marca de material provisional: siempre visible mientras no haya foto */}
-      <div aria-hidden className={`absolute inset-x-0 bottom-0 ${compacto ? "p-3" : "p-4 sm:p-5"}`}>
-        <p
-          className="inline-flex items-center gap-2 border border-marfil/20 bg-carbon/65 px-2.5 py-1
-                     font-sans text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-marfil/80
-                     backdrop-blur-sm"
+      {!compacto && (
+        <span
+          aria-hidden
+          className="absolute bottom-2.5 left-2.5 border px-2 py-1 text-[0.5rem] font-bold uppercase tracking-[0.18em] backdrop-blur-sm"
+          style={{
+            color: "rgba(244,236,220,0.78)",
+            background: "rgba(9,6,4,0.62)",
+            borderColor: "rgba(244,236,220,0.22)",
+          }}
         >
-          <span className="inline-block h-1 w-1 rounded-full bg-brasa" />
-          Imagen provisional
-        </p>
-        {!compacto && (
-          <p className="mt-2 max-w-sm font-sans text-[0.6875rem] leading-relaxed text-marfil/60">
-            {encuadre}
-          </p>
-        )}
-      </div>
+          {t("media_pending")}
+        </span>
+      )}
     </div>
   );
 }

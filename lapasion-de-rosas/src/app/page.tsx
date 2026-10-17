@@ -1,54 +1,46 @@
+import { SaltoContenido } from "@/components/SaltoContenido";
+import { Cursor } from "@/components/ui/Cursor";
+import { ActivarRevelado } from "@/components/ui/Revelar";
 import { Header } from "@/components/Header";
-import { Preloader } from "@/components/Preloader";
-import { HeroExperiencia } from "@/components/HeroExperiencia";
-import { Historia } from "@/components/Historia";
-import { TransicionFuego } from "@/components/TransicionFuego";
-import { Gastronomia } from "@/components/Gastronomia";
+import { BarraMovil } from "@/components/BarraMovil";
+import { Hero } from "@/components/Hero";
+import { Marquesina } from "@/components/Marquesina";
+import { Nosotros } from "@/components/Nosotros";
+import { Fuego } from "@/components/Fuego";
 import { Carta } from "@/components/Carta";
-import { Ocasiones } from "@/components/Ocasiones";
-import { SelectorOcasion } from "@/components/SelectorOcasion";
-import { Espacios } from "@/components/Espacios";
-import { PruebaSocial } from "@/components/PruebaSocial";
+import { Especialidades } from "@/components/Especialidades";
 import { Galeria } from "@/components/Galeria";
-import { FormularioReserva } from "@/components/FormularioReserva";
-import { Ubicacion } from "@/components/Ubicacion";
+import { Ocasiones } from "@/components/Ocasiones";
+import { Lugar } from "@/components/Lugar";
+import { Reservas } from "@/components/Reservas";
+import { Instagram } from "@/components/Instagram";
 import { Footer } from "@/components/Footer";
-import { ContactoFlotante } from "@/components/ContactoFlotante";
 
-/**
- * Recorrido narrativo de la página.
- *
- *   curiosidad  -> portada
- *   descubrimiento -> historia
- *   deseo       -> fuego + gastronomía + carta
- *   identificación -> ocasiones + selector
- *   confianza   -> espacios + notoriedad + galería
- *   acción      -> reservas + ubicación
- *   recuerdo    -> cierre
- */
 export default function Pagina() {
   return (
     <>
-      <Preloader />
-      <Header />
+      <SaltoContenido />
+      <Cursor />
+      <ActivarRevelado />
 
-      <main id="contenido">
-        <HeroExperiencia />
-        <Historia />
-        <TransicionFuego />
-        <Gastronomia />
+      <Header />
+      <BarraMovil />
+
+      <main>
+        <Hero />
+        <Marquesina />
+        <Nosotros />
+        <Fuego />
         <Carta />
-        <Ocasiones />
-        <SelectorOcasion />
-        <Espacios />
-        <PruebaSocial />
+        <Especialidades />
         <Galeria />
-        <FormularioReserva />
-        <Ubicacion />
+        <Ocasiones />
+        <Lugar />
+        <Reservas />
+        <Instagram />
       </main>
 
       <Footer />
-      <ContactoFlotante />
     </>
   );
 }

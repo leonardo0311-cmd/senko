@@ -17,8 +17,8 @@ export default function Icono() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#10100F",
-          color: "#C4A477",
+          background: "#0d0a08",
+          color: "#ff8347",
           fontSize: 22,
           fontFamily: "serif",
         }}

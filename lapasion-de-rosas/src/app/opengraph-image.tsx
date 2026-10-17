@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { marca, seo } from "@content/site";
+import { marca } from "@content/site";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -26,10 +26,10 @@ export default function Imagen() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#10100F",
+          backgroundColor: "#0d0a08",
           backgroundImage:
-            "radial-gradient(70% 90% at 20% 108%, rgba(213,121,57,0.34) 0%, transparent 62%), radial-gradient(60% 70% at 85% 0%, rgba(80,29,44,0.6) 0%, transparent 70%)",
-          color: "#F0E9DF",
+            "radial-gradient(80% 100% at 18% 110%, rgba(255,131,71,0.42) 0%, transparent 64%), radial-gradient(60% 70% at 85% 0%, rgba(200,72,31,0.4) 0%, transparent 70%)",
+          color: "#f4ecdc",
           fontFamily: "serif",
         }}
       >
@@ -38,7 +38,7 @@ export default function Imagen() {
             fontSize: 40,
             letterSpacing: 14,
             textTransform: "uppercase",
-            color: "#C4A477",
+            color: "#ff8347",
             marginBottom: 34,
           }}
         >
@@ -51,7 +51,7 @@ export default function Imagen() {
             fontSize: 44,
             letterSpacing: 22,
             textTransform: "uppercase",
-            color: "#C4A477",
+            color: "#ff8347",
             marginTop: 18,
           }}
         >
@@ -62,15 +62,13 @@ export default function Imagen() {
           style={{
             width: 280,
             height: 1,
-            backgroundColor: "rgba(196,164,119,0.5)",
+            backgroundColor: "rgba(255,131,71,0.55)",
             margin: "46px 0",
           }}
         />
 
-        <div style={{ fontSize: 34, fontStyle: "italic", color: "rgba(240,233,223,0.82)" }}>
-          {seo.tituloCorto === marca.nombre
-            ? "Hay encuentros que merecen un lugar extraordinario."
-            : seo.tituloCorto}
+        <div style={{ fontSize: 34, fontStyle: "italic", color: "rgba(238,228,207,0.85)" }}>
+          Costillar a las brasas · Con reserva previa
         </div>
       </div>
     ),

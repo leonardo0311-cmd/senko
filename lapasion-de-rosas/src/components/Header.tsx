@@ -1,110 +1,122 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navegacion, textos } from "@content/site";
-import { LogotipoCompacto } from "./ui/Logotipo";
-import { NavegacionMovil } from "./NavegacionMovil";
+import { navegacion } from "@content/site";
+import { useIdioma } from "@/lib/idioma";
 import { medir } from "@/lib/analitica";
 
-/**
- * Encabezado fijo. Transparente sobre la portada; al desplazarse se vuelve
- * una barra oscura con desenfoque, sin perder presencia el logotipo.
- */
 export function Header() {
-  const [desplazado, setDesplazado] = useState(false);
-  const [seccionActiva, setSeccionActiva] = useState<string>("");
+  const { t, idioma, cambiar } = useIdioma();
+  const [solido, setSolido] = useState(false);
+  const [abierto, setAbierto] = useState(false);
 
   useEffect(() => {
-    let pendiente = false;
-    const alScrollear = () => {
-      if (pendiente) return;
-      pendiente = true;
-      requestAnimationFrame(() => {
-        setDesplazado(window.scrollY > 24);
-        pendiente = false;
-      });
-    };
-
+    const alScrollear = () => setSolido(window.scrollY > 60);
     alScrollear();
     window.addEventListener("scroll", alScrollear, { passive: true });
     return () => window.removeEventListener("scroll", alScrollear);
   }, []);
 
-  // Marca la sección visible en la navegación.
   useEffect(() => {
-    const secciones = navegacion
-      .map((n) => document.getElementById(n.id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (secciones.length === 0) return;
+    document.body.classList.toggle("menu-open", abierto);
+    return () => document.body.classList.remove("menu-open");
+  }, [abierto]);
 
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        const visible = entradas
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setSeccionActiva(visible.target.id);
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5] },
-    );
+  // Escape cierra el panel móvil.
+  useEffect(() => {
+    if (!abierto) return;
+    const alTeclado = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAbierto(false);
+    };
+    document.addEventListener("keydown", alTeclado);
+    return () => document.removeEventListener("keydown", alTeclado);
+  }, [abierto]);
 
-    secciones.forEach((s) => observador.observe(s));
-    return () => observador.disconnect();
-  }, []);
+  const otro = idioma === "es" ? "en" : "es";
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-[var(--ease-suave)] ${
-        desplazado
-          ? "border-b border-[var(--borde-tenue)] bg-carbon/80 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      }`}
-      style={{ height: "var(--alto-header)" }}
-    >
-      <div className="marco flex h-full items-center justify-between gap-6">
-        <a
-          href="#inicio"
-          className="shrink-0 text-marfil transition-opacity hover:opacity-80"
-          aria-label="La Pasión de Rosas — Inicio"
-        >
-          <LogotipoCompacto />
-        </a>
+    <header className={`site-header${solido ? " solid" : ""}`}>
+      <a href="#inicio" className="brand-word" aria-label="La Pasión de Rosas">
+        La Pasión <em>de Rosas</em>
+      </a>
 
-        <nav aria-label="Navegación principal" className="hidden lg:block">
-          <ul className="flex items-center gap-9">
-            {navegacion.map((item) => {
-              const activo = seccionActiva === item.id;
-              return (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    aria-current={activo ? "true" : undefined}
-                    className="group relative block py-2 font-sans text-[0.75rem] uppercase tracking-[0.15em] text-marfil/70 transition-colors hover:text-marfil"
-                  >
-                    {item.etiqueta}
-                    <span
-                      aria-hidden
-                      className={`absolute -bottom-0.5 left-0 h-px bg-oro transition-[width] duration-400 ease-[var(--ease-suave)] ${
-                        activo ? "w-full" : "w-0 group-hover:w-full"
-                      }`}
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-3">
+      <div className="header-right">
+        <nav className={`main-nav${abierto ? " open" : ""}`} id="nav-principal">
+          {navegacion.map((n) => (
+            <a key={n.id} href={`#${n.id}`} onClick={() => setAbierto(false)}>
+              {t(n.clave)}
+            </a>
+          ))}
           <a
             href="#reservas"
-            onClick={() => medir("reserva_click", { origen: "header" })}
-            className="hidden items-center border border-oro/45 px-5 py-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-oro transition-colors duration-300 hover:bg-oro hover:text-carbon sm:inline-flex"
+            className="btn header-cta"
+            data-cursor="link"
+            onClick={() => {
+              setAbierto(false);
+              medir("reserva_click", { origen: "header" });
+            }}
           >
-            {textos.hero.ctaPrimario}
+            {t("cta_book")}
           </a>
-          <NavegacionMovil seccionActiva={seccionActiva} />
-        </div>
+        </nav>
+
+        <button
+          type="button"
+          className="lang-toggle"
+          onClick={() => cambiar(otro)}
+          aria-label={idioma === "es" ? "Switch to English" : "Cambiar a español"}
+        >
+          <BanderaDoble />
+          <span>{otro.toUpperCase()}</span>
+        </button>
+
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={t("nav_toggle_aria")}
+          aria-expanded={abierto}
+          aria-controls="nav-principal"
+          onClick={() => setAbierto((v) => !v)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
     </header>
+  );
+}
+
+/** Mitad bandera argentina, mitad estadounidense: indica el cambio de idioma. */
+function BanderaDoble() {
+  return (
+    <svg className="lang-flag" viewBox="0 0 40 26" aria-hidden focusable="false">
+      <clipPath id="arg-clip">
+        <rect x="0" y="0" width="20" height="26" />
+      </clipPath>
+      <g clipPath="url(#arg-clip)">
+        <rect x="0" y="0" width="20" height="26" fill="#74ACDF" />
+        <rect x="0" y="8.7" width="20" height="8.6" fill="#fff" />
+        <circle cx="10" cy="13" r="2.5" fill="#F6B40E" stroke="#85340A" strokeWidth="0.35" />
+      </g>
+      <clipPath id="us-clip">
+        <rect x="20" y="0" width="20" height="26" />
+      </clipPath>
+      <g clipPath="url(#us-clip)">
+        <rect x="20" y="0" width="20" height="26" fill="#fff" />
+        <g fill="#B22234">
+          {[0, 4, 8, 12, 16, 20, 24].map((y) => (
+            <rect key={y} x="20" y={y} width="20" height="2" />
+          ))}
+        </g>
+        <rect x="20" y="0" width="9" height="12" fill="#3C3B6E" />
+        <g fill="#fff">
+          {[2.5, 5.5, 8.5].map((cy) =>
+            [22.5, 25.5, 28.5].map((cx) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="0.6" />),
+          )}
+        </g>
+      </g>
+      <line x1="20" y1="0" x2="20" y2="26" stroke="rgba(0,0,0,.22)" strokeWidth="0.6" />
+    </svg>
   );
 }

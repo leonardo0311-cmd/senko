@@ -1,35 +1,26 @@
-/**
- * ============================================================================
- * GALERÍA
- * ============================================================================
- * Orden configurable. Cada entrada apunta a una clave de `content/medios.ts`.
- * Para sumar fotos: agregá la imagen en medios.ts y referencia su clave acá.
- */
-
 import type { ClaveMedio } from "./medios";
 
-export type CategoriaGaleria = "todo" | "gastronomia" | "ambiente" | "detalles";
-
+/**
+ * Galería. `cls` define el tamaño dentro de la grilla editorial (g1…g5).
+ * El orden es configurable: mové las filas y listo.
+ */
 export type ItemGaleria = {
   medio: ClaveMedio;
-  categoria: Exclude<CategoriaGaleria, "todo">;
+  cap: string;
+  capEn: string;
+  cls: "g1" | "g2" | "g3" | "g4" | "g5";
 };
 
-export const filtrosGaleria: { id: CategoriaGaleria; etiqueta: string }[] = [
-  { id: "todo", etiqueta: "Todo" },
-  { id: "gastronomia", etiqueta: "Gastronomía" },
-  { id: "ambiente", etiqueta: "Ambiente" },
-  { id: "detalles", etiqueta: "Detalles" },
+export const GALERIA: ItemGaleria[] = [
+  { medio: "especialidad", cap: "El costillar, directo de la parrilla", capEn: "The short ribs, straight off the grill", cls: "g1" },
+  { medio: "salon", cap: "El salón antes del servicio", capEn: "The dining room before service", cls: "g2" },
+  { medio: "parrilla", cap: "La parrilla trabajando", capEn: "The grill at work", cls: "g3" },
+  { medio: "detalle", cap: "Los detalles de la mesa", capEn: "Details on the table", cls: "g4" },
+  { medio: "vino", cap: "La bodega", capEn: "From the cellar", cls: "g5" },
 ];
 
-export const galeria: ItemGaleria[] = [
-  { medio: "platoPrincipal", categoria: "gastronomia" },
-  { medio: "espacioMesa", categoria: "ambiente" },
-  { medio: "platoDetalle", categoria: "detalles" },
-  { medio: "espacioParrilla", categoria: "gastronomia" },
-  { medio: "vino", categoria: "detalles" },
-  { medio: "espacioDetalleLuz", categoria: "ambiente" },
-  { medio: "platoBrasas", categoria: "gastronomia" },
-  { medio: "historiaDetalle", categoria: "detalles" },
-  { medio: "fachada", categoria: "ambiente" },
+/** Mosaico de Instagram: se repiten claves a propósito, como un feed. */
+export const FEED: ClaveMedio[] = [
+  "especialidad", "salon", "parrilla", "detalle", "vino",
+  "hero", "nosotros", "fachada", "fuego", "reservas",
 ];

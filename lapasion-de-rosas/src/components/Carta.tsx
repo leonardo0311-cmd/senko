@@ -1,157 +1,342 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { avisoMenu, cartaPdf, categorias, formatosServicio } from "@content/menu";
-import { Revelar } from "./ui/Revelar";
-import { Separador } from "./ui/MarcaRosa";
-import { ContactoDirecto } from "./ui/ContactoDirecto";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { MENU, TAGS, cartaVerificada, type Categoria, type Plato, type Tag } from "@content/menu";
+import { useIdioma } from "@/lib/idioma";
 import { medir } from "@/lib/analitica";
 
-const pesos = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
-
 /**
- * La carta en HTML, accesible y editable desde content/menu.ts.
+ * La carta.
  *
- * Mientras una categoría no tenga platos cargados, se muestra su descripción
- * y una invitación a consultar: no se inventan nombres, precios ni técnicas.
- * El PDF, si existe, queda como opción secundaria.
+ * Todo se renderiza en línea —nada escondido detrás de un clic— para que se
+ * lea completa, se pueda buscar con el Ctrl+F del navegador y la recorran los
+ * lectores de pantalla. El rail de categorías son anclas reales, así que
+ * funciona incluso sin JavaScript; el buscador y los filtros sólo achican la
+ * misma lista.
  */
+
+const norm = (s: string) =>
+  s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
 export function Carta() {
-  const seccion = useRef<HTMLElement>(null);
-  const yaMedido = useRef(false);
+  const { t, pick, idioma } = useIdioma();
+  const [consulta, setConsulta] = useState("");
+  const [etiquetas, setEtiquetas] = useState<Set<Tag>>(new Set());
+  const [activa, setActiva] = useState<string>(MENU[0]?.id ?? "");
+  const buscador = useRef<HTMLInputElement>(null);
+  const cuerpo = useRef<HTMLDivElement>(null);
+  const medido = useRef(false);
 
+  const filtrando = consulta.trim().length > 0 || etiquetas.size > 0;
+  const q = norm(consulta.trim());
+
+  /* --- ¿Qué platos sobreviven a los filtros? ---------------------------- */
+  const visible = useMemo(() => {
+    const pasa = (p: Plato) => {
+      const nombre = pick(p.n, p.nEn);
+      const coincide = !q || norm(nombre).includes(q);
+      const tags = etiquetas.size === 0 || [...etiquetas].every((tg) => p.t.includes(tg));
+      return coincide && tags;
+    };
+    const porCategoria = new Map<string, number>();
+    let total = 0;
+    for (const cat of MENU) {
+      let n = 0;
+      for (const it of cat.items ?? []) if (pasa(it)) n++;
+      for (const g of cat.groups ?? []) for (const it of g.items) if (pasa(it)) n++;
+      porCategoria.set(cat.id, n);
+      total += n;
+    }
+    return { pasa, porCategoria, total };
+  }, [q, etiquetas, pick]);
+
+  /* --- Atajo "/" para saltar al buscador -------------------------------- */
   useEffect(() => {
-    const el = seccion.current;
-    if (!el) return;
+    const alTeclado = (e: KeyboardEvent) => {
+      const activo = document.activeElement;
+      if (e.key !== "/" || activo === buscador.current) return;
+      if (activo && ["INPUT", "TEXTAREA"].includes(activo.tagName)) return;
+      e.preventDefault();
+      document.getElementById("carta")?.scrollIntoView({ block: "start" });
+      buscador.current?.focus();
+    };
+    document.addEventListener("keydown", alTeclado);
+    return () => document.removeEventListener("keydown", alTeclado);
+  }, []);
 
-    const observador = new IntersectionObserver(
-      ([entrada]) => {
-        if (entrada.isIntersecting && !yaMedido.current) {
-          yaMedido.current = true;
+  /* --- Scrollspy: marca la categoría que se está mirando ----------------- */
+  useEffect(() => {
+    const secciones = MENU.map((c) => document.getElementById(`carta-${c.id}`)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (secciones.length === 0) return;
+
+    const io = new IntersectionObserver(
+      (entradas) => {
+        const dentro = entradas.filter((e) => e.isIntersecting);
+        if (dentro.length > 0) setActiva(dentro[0].target.id.replace("carta-", ""));
+      },
+      { rootMargin: "-140px 0px -70% 0px" },
+    );
+    secciones.forEach((s) => io.observe(s));
+    return () => io.disconnect();
+  }, [idioma, filtrando]);
+
+  /* --- Medición una sola vez -------------------------------------------- */
+  useEffect(() => {
+    const el = cuerpo.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !medido.current) {
+          medido.current = true;
           medir("menu_visto");
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.2 },
     );
-    observador.observe(el);
-    return () => observador.disconnect();
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
-  const hayPlatos = categorias.some((c) => c.platos.length > 0);
+  const alternarEtiqueta = (tag: Tag) => {
+    setEtiquetas((prev) => {
+      const siguiente = new Set(prev);
+      if (siguiente.has(tag)) siguiente.delete(tag);
+      else siguiente.add(tag);
+      return siguiente;
+    });
+  };
+
+  const limpiar = () => {
+    setEtiquetas(new Set());
+    setConsulta("");
+    buscador.current?.focus();
+  };
+
+  const resultado = !filtrando
+    ? ""
+    : visible.total === 0
+      ? t("results_empty")
+      : visible.total === 1
+        ? t("results_found_one")
+        : t("results_found_many", { n: visible.total });
 
   return (
-    <section
-      ref={seccion}
-      id="carta"
-      className="seccion relative bg-chocolate/35"
-      aria-labelledby="carta-titulo"
-    >
-      <div className="marco">
-        <div className="mx-auto max-w-2xl text-center">
-          <Revelar como="p" className="tipo-indice mb-6">
-            La carta
-          </Revelar>
-          <Revelar
-            como="h2"
-            retraso={80}
-            id="carta-titulo"
-            className="tipo-titulo text-[clamp(2rem,1.2rem+3.2vw,3.9rem)]"
-          >
-            Lo que se cocina <span className="tipo-enfasis">acá.</span>
-          </Revelar>
+    <section className="section section-light" id="carta">
+      <div className="wrap">
+        <div className="menu-head reveal">
+          <div>
+            <div className="eyebrow">{t("menu_eyebrow")}</div>
+            <h2 className="menu-title">{t("menu_title")}</h2>
+          </div>
+          <p className="menu-note">{t("menu_note")}</p>
         </div>
 
-        {/* Formatos de servicio: sólo si el restaurante los confirmó */}
-        {formatosServicio.verificado && (
-          <Revelar className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
-            {formatosServicio.items.map((f) => (
-              <div key={f.id} className="border border-[var(--borde-tenue)] p-6">
-                <h3 className="font-serif text-xl font-light text-marfil">{f.nombre}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-marfil-tenue">{f.descripcion}</p>
-              </div>
-            ))}
-          </Revelar>
+        {!cartaVerificada && (
+          <p className="aviso reveal" role="note">
+            <b>{t("menu_pending_label")}</b>
+            <span>{t("menu_pending_text")}</span>
+          </p>
         )}
 
-        <div className="mx-auto mt-16 max-w-3xl">
-          {hayPlatos ? (
-            <div className="space-y-16">
-              {categorias
-                .filter((c) => c.platos.length > 0)
-                .map((categoria, i) => (
-                  <Revelar key={categoria.id} retraso={i * 60}>
-                    <h3 className="font-serif text-[clamp(1.5rem,1.2rem+1vw,2.1rem)] font-light text-oro">
-                      {categoria.nombre}
-                    </h3>
-                    {categoria.descripcion && (
-                      <p className="mt-2 text-sm text-marfil-tenue">{categoria.descripcion}</p>
-                    )}
+        <div className="menu-tools reveal">
+          <div className="menu-search">
+            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" />
+            </svg>
+            <label htmlFor="buscador-carta" className="visually-hidden">
+              {t("menu_search_label")}
+            </label>
+            <input
+              id="buscador-carta"
+              ref={buscador}
+              type="search"
+              value={consulta}
+              onChange={(e) => setConsulta(e.target.value)}
+              placeholder={t("menu_search_placeholder")}
+              autoComplete="off"
+            />
+            <span className="kbd" aria-hidden>
+              /
+            </span>
+          </div>
 
-                    <ul className="mt-7 space-y-6">
-                      {categoria.platos.map((plato) => (
-                        <li
-                          key={plato.nombre}
-                          className="border-b border-[var(--borde-tenue)] pb-6 last:border-0"
-                        >
-                          <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
-                            <h4 className="font-serif text-lg font-normal text-marfil">
-                              {plato.nombre}
-                            </h4>
-                            {typeof plato.precio === "number" && (
-                              <span className="font-sans text-sm tabular-nums text-oro">
-                                {pesos.format(plato.precio)}
-                              </span>
-                            )}
-                          </div>
-                          {plato.descripcion && (
-                            <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-marfil-tenue">
-                              {plato.descripcion}
-                            </p>
-                          )}
-                          {plato.notas && plato.notas.length > 0 && (
-                            <p className="mt-2 font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-marfil/60">
-                              {plato.notas.join(" · ")}
-                            </p>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </Revelar>
-                ))}
-            </div>
-          ) : (
-            <Revelar className="text-center">
-              <Separador className="mx-auto max-w-xs" />
-              <p className="tipo-bajada mx-auto mt-10 max-w-md">{avisoMenu}</p>
-              <div className="mt-9 flex justify-center">
-                <ContactoDirecto
-                  mensaje="Hola, quisiera consultar por la propuesta gastronómica de La Pasión de Rosas."
-                  origen="carta"
-                >
-                  Consultá la propuesta del día
-                </ContactoDirecto>
-              </div>
-            </Revelar>
-          )}
-
-          {cartaPdf && (
-            <Revelar className="mt-14 text-center">
-              <a
-                href={cartaPdf}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-[0.75rem] uppercase tracking-[0.16em] text-oro underline decoration-oro/40 underline-offset-[6px] transition-colors hover:text-marfil"
+          <div className="menu-filters" role="group" aria-label={t("menu_filters_aria")}>
+            {TAGS.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                className="filter-chip"
+                aria-pressed={etiquetas.has(tag)}
+                onClick={() => alternarEtiqueta(tag)}
               >
-                Descargar la carta en PDF
+                {t(`tag_${tag}`)}
+              </button>
+            ))}
+            {filtrando && (
+              <button type="button" className="filter-chip filter-clear" onClick={limpiar}>
+                {t("menu_clear")}
+              </button>
+            )}
+          </div>
+
+          <p className="menu-results" aria-live="polite">
+            {resultado}
+          </p>
+        </div>
+
+        <nav className="cat-rail" aria-label={t("menu_catrail_aria")}>
+          {MENU.map((cat) => {
+            const apagada = filtrando && (visible.porCategoria.get(cat.id) ?? 0) === 0;
+            return (
+              <a
+                key={cat.id}
+                href={`#carta-${cat.id}`}
+                aria-current={activa === cat.id ? "true" : undefined}
+                className={apagada ? "is-dimmed" : undefined}
+              >
+                {pick(cat.label, cat.labelEn)}
               </a>
-            </Revelar>
-          )}
+            );
+          })}
+        </nav>
+
+        <div className="menu-body" ref={cuerpo}>
+          {MENU.map((cat) => (
+            <SeccionCategoria
+              key={cat.id}
+              cat={cat}
+              filtrando={filtrando}
+              pasa={visible.pasa}
+              consulta={q}
+            />
+          ))}
+          {filtrando && visible.total === 0 && <p className="menu-empty">{t("results_empty")}</p>}
         </div>
       </div>
     </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
+function SeccionCategoria({
+  cat,
+  filtrando,
+  pasa,
+  consulta,
+}: {
+  cat: Categoria;
+  filtrando: boolean;
+  pasa: (p: Plato) => boolean;
+  consulta: string;
+}) {
+  const { t, pick } = useIdioma();
+
+  // El menú cerrado no se filtra plato por plato: se oculta mientras se busca.
+  if (cat.type === "set") {
+    if (filtrando) return null;
+    return (
+      <section className="cat-section" id={`carta-${cat.id}`}>
+        <h3 className="cat-head">{pick(cat.label, cat.labelEn)}</h3>
+        <div className="menu-set">
+          <div>
+            <h3>{t("menu_set_subtitle")}</h3>
+            <div className="set-note">{pick(cat.note ?? "", cat.noteEn)}</div>
+            <div className="tag-cluster">
+              <span>{t("tag_Brasas")}</span>
+              <span>{t("tag_Compartir")}</span>
+            </div>
+          </div>
+          <div>
+            <div className="set-price">{cat.price}</div>
+            <ul>
+              {(pick(cat.options ?? [], cat.optionsEn) ?? []).map((o) => (
+                <li key={o}>{o}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const sueltos = (cat.items ?? []).filter(pasa);
+  const grupos = (cat.groups ?? [])
+    .map((g) => ({ ...g, items: g.items.filter(pasa) }))
+    .filter((g) => g.items.length > 0);
+
+  if (filtrando && sueltos.length === 0 && grupos.length === 0) return null;
+
+  return (
+    <section className="cat-section" id={`carta-${cat.id}`}>
+      <h3 className="cat-head">{pick(cat.label, cat.labelEn)}</h3>
+      <div className="cat-items">
+        {sueltos.map((it) => (
+          <Fila key={it.n} plato={it} consulta={consulta} />
+        ))}
+        {grupos.map((g) => (
+          <Grupo key={g.title} titulo={pick(g.title, g.titleEn)} items={g.items} consulta={consulta} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Grupo({
+  titulo,
+  items,
+  consulta,
+}: {
+  titulo: string;
+  items: Plato[];
+  consulta: string;
+}) {
+  return (
+    <>
+      <div className="group-title">{titulo}</div>
+      {items.map((it) => (
+        <Fila key={it.n} plato={it} consulta={consulta} />
+      ))}
+    </>
+  );
+}
+
+function Fila({ plato, consulta }: { plato: Plato; consulta: string }) {
+  const { t, pick } = useIdioma();
+  const nombre = pick(plato.n, plato.nEn);
+
+  return (
+    <div className="item-row">
+      <div className="item-main">
+        <div className="item-name">
+          <Resaltado texto={nombre} consulta={consulta} />
+        </div>
+        {plato.t.length > 0 && (
+          <div className="item-tags">
+            {plato.t.map((tag) => (
+              <span key={tag}>{t(`tag_${tag}`)}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      {plato.p && <div className="item-price">$ {plato.p}</div>}
+    </div>
+  );
+}
+
+/** Marca la parte del nombre que coincide con la búsqueda, sin perder acentos. */
+function Resaltado({ texto, consulta }: { texto: string; consulta: string }) {
+  if (!consulta) return <>{texto}</>;
+  const i = norm(texto).indexOf(consulta);
+  if (i === -1) return <>{texto}</>;
+  return (
+    <>
+      {texto.slice(0, i)}
+      <mark>{texto.slice(i, i + consulta.length)}</mark>
+      {texto.slice(i + consulta.length)}
+    </>
   );
 }
