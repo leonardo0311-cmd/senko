@@ -199,3 +199,25 @@ npm run build && npm start
 
 Funciona en cualquier hosting con Node. En Vercel no necesita configuración
 extra.
+
+### Exportación estática (hosting sin Node)
+
+```bash
+STATIC_EXPORT=1 npm run build   # genera /out
+```
+
+Sirve `/out` desde cualquier hosting estático. Dos diferencias con el modo
+servidor:
+
+- **Las imágenes no se optimizan.** Subí las fotos ya comprimidas en AVIF o
+  WebP y en varios tamaños.
+- **Las cabeceras de seguridad hay que configurarlas en el hosting**, porque
+  las sirve Next (ver `next.config.ts`): `X-Content-Type-Options`,
+  `Referrer-Policy`, `X-Frame-Options` y `Permissions-Policy`.
+
+`ASSET_PREFIX` cambia la ruta de los archivos estáticos, por si el sitio va a
+vivir en un subdirectorio:
+
+```bash
+STATIC_EXPORT=1 ASSET_PREFIX="./estaticos" npm run build
+```

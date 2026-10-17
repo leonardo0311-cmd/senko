@@ -3,6 +3,9 @@ import { marca, seo } from "@content/site";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Se genera en tiempo de compilación (necesario para la exportación estática).
+export const dynamic = "force-static";
 export const alt = `${marca.nombre} — ${marca.ciudad}, ${marca.provincia}`;
 
 /**
