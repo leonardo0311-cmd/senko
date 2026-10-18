@@ -207,7 +207,7 @@ Qué hace y por qué:
   2 MB de base64) por una hoja de Google Fonts.
 - **Reemplaza React por JavaScript plano** para el revelado al scrollear, la
   cabecera, el menú móvil, el cursor, el buscador y los filtros de la carta, el
-  scrollspy del rail, el visor de la galería, la carta lacrada de bienvenida y
+  scrollspy del rail, el visor de la galería, la carta lacrada de bienvenida (que corre sola, sin botón) y
   las chispas sobre las fotos del fuego.
 
 Lo que React hace en un `useEffect` hay que sembrarlo a mano acá. Si agregás

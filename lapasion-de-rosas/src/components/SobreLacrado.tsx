@@ -1,25 +1,45 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useIdioma } from "@/lib/idioma";
 
 const CLAVE = "lpr-sobre-visto";
+/** Cuánto se queda el sobre cerrado antes de abrirse solo. */
+const ESPERA = 900;
+/** Lo que tarda la apertura completa, hasta que se levanta el telón. */
+const DURACION = 1800;
+/** Sin movimiento no hay apertura que mirar: el telón pasa rápido. */
+const ESPERA_QUIETA = 700;
+const DURACION_QUIETA = 500;
+
+function sinMovimiento(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 /**
  * La carta lacrada.
  *
  * Telón de bienvenida en la primera visita: un sobre cerrado con lacre que se
- * abre y da paso al sitio.
+ * abre solo y da paso al sitio. No hay nada que tocar; un clic o una tecla
+ * cualquiera lo saltean.
+ *
+ * Es decoración, no un diálogo: va con `aria-hidden` y no retiene el foco.
  *
  * El marcado se renderiza siempre, pero nace oculto por CSS y sólo aparece si
  * el JavaScript decide mostrarlo. Así no parpadea para quien ya entró, y sin
  * JavaScript no hay telón: el sitio queda accesible igual.
  */
 export function SobreLacrado() {
-  const { t } = useIdioma();
   const [estado, setEstado] = useState<"oculto" | "visible" | "abriendo">("oculto");
-  const boton = useRef<HTMLButtonElement>(null);
-  const temporizador = useRef<number | undefined>(undefined);
+  const abierto = useRef(false);
+  const relojes = useRef<number[]>([]);
+
+  const abrir = useCallback(() => {
+    if (abierto.current) return;
+    abierto.current = true;
+    setEstado("abriendo");
+    const fin = sinMovimiento() ? DURACION_QUIETA : DURACION;
+    relojes.current.push(window.setTimeout(() => setEstado("oculto"), fin));
+  }, []);
 
   useEffect(() => {
     let visto = false;
@@ -29,22 +49,18 @@ export function SobreLacrado() {
     } catch {
       visto = false;
     }
-    if (!visto) setEstado("visible");
-  }, []);
+    if (visto) return;
 
-  const abrir = useCallback(() => {
-    setEstado((previo) => {
-      if (previo !== "visible") return previo;
-      try {
-        localStorage.setItem(CLAVE, "1");
-      } catch {
-        /* sin almacenamiento el telón vuelve a aparecer: no es grave */
-      }
-      const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      temporizador.current = window.setTimeout(() => setEstado("oculto"), quieto ? 0 : 1500);
-      return "abriendo";
-    });
-  }, []);
+    try {
+      localStorage.setItem(CLAVE, "1");
+    } catch {
+      /* sin almacenamiento el telón vuelve a aparecer: no es grave */
+    }
+
+    setEstado("visible");
+    // La carta se abre sola: no hay nada que tocar.
+    relojes.current.push(window.setTimeout(abrir, sinMovimiento() ? ESPERA_QUIETA : ESPERA));
+  }, [abrir]);
 
   /* Mientras el telón está puesto, el sitio de atrás no se desplaza. */
   useEffect(() => {
@@ -56,47 +72,35 @@ export function SobreLacrado() {
     };
   }, [estado]);
 
+  /* Cualquier tecla o clic se la saltea. */
   useEffect(() => {
     if (estado !== "visible") return;
-    boton.current?.focus();
-    const alTeclado = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        abrir();
-      } else if (e.key === "Tab") {
-        // Un solo destino posible: el foco no se escapa al sitio de atrás.
-        e.preventDefault();
-        boton.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", alTeclado);
-    return () => document.removeEventListener("keydown", alTeclado);
+    document.addEventListener("keydown", abrir);
+    return () => document.removeEventListener("keydown", abrir);
   }, [estado, abrir]);
 
-  useEffect(() => () => window.clearTimeout(temporizador.current), []);
+  useEffect(() => {
+    const lista = relojes.current;
+    return () => lista.forEach(window.clearTimeout);
+  }, []);
 
   return (
     <div
       className={`sobre-capa${estado === "visible" ? " visible" : ""}${
         estado === "abriendo" ? " visible abriendo" : ""
       }`}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("sobre_aria")}
+      onClick={abrir}
+      aria-hidden
     >
       <div className="sobre">
         <div className="sobre-papel">
-          <span className="sobre-solapa" aria-hidden />
-          <span className="sobre-pliegue sobre-pliegue-izq" aria-hidden />
-          <span className="sobre-pliegue sobre-pliegue-der" aria-hidden />
+          {/* El fondo del sobre, que recién se ve cuando la solapa se levanta. */}
+          <span className="sobre-interior" />
+          <span className="sobre-solapa" />
+          <span className="sobre-pliegue sobre-pliegue-izq" />
+          <span className="sobre-pliegue sobre-pliegue-der" />
           <Lacre />
         </div>
-
-        <p className="sobre-pie">{t("sobre_pie")}</p>
-
-        <button type="button" className="btn btn-fill sobre-abrir" ref={boton} onClick={abrir}>
-          {t("sobre_abrir")}
-        </button>
       </div>
     </div>
   );

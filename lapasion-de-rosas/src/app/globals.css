@@ -1928,7 +1928,6 @@ picture {
 .sobre {
   display: grid;
   justify-items: center;
-  gap: 30px;
   width: min(100%, 560px);
   animation: sobre-entra var(--t3) var(--ease) both;
 }
@@ -1944,6 +1943,17 @@ picture {
     0 40px 90px -30px rgba(0, 0, 0, 0.85);
   transform-style: preserve-3d;
 }
+/* El fondo del sobre: mismo triángulo que la solapa, más oscuro. Queda
+   tapado hasta que la solapa se levanta, y ahí da la sensación de hueco. */
+.sobre-interior {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 62%;
+  background: linear-gradient(176deg, #b9ac93 0%, #d2c7b1 72%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  box-shadow: 0 -10px 24px rgba(60, 48, 32, 0.3) inset;
+}
+
 /* La solapa trasera: el triángulo que baja desde el borde superior. */
 .sobre-solapa {
   position: absolute;
@@ -1990,42 +2000,28 @@ picture {
   letter-spacing: 0;
 }
 
-.sobre-pie {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(1rem, 2.2vw, 1.3rem);
-  color: var(--parchment);
-  text-align: center;
-}
-.sobre-abrir {
-  justify-self: center;
-}
 
 /* --- la apertura --------------------------------------------- */
 /* El lacre se parte y cae, la solapa se abre y el sobre se va hacia
    el lector; recién entonces se levanta el telón. */
 .sobre-capa.abriendo {
-  animation: sobre-telon 1.5s var(--ease) forwards;
+  animation: sobre-telon 1.7s var(--ease) forwards;
   pointer-events: none;
 }
 .sobre-capa.abriendo .sobre-lacre {
-  animation: lacre-cae 0.9s var(--ease) forwards;
+  animation: lacre-cae 0.75s var(--ease) forwards;
 }
 .sobre-capa.abriendo .sobre-solapa {
-  animation: solapa-abre 1.1s 0.22s var(--ease) forwards;
+  animation: solapa-abre 0.95s 0.25s var(--ease) forwards;
 }
 .sobre-capa.abriendo .sobre-papel {
-  animation: sobre-acerca 1.3s 0.2s var(--ease) forwards;
-}
-.sobre-capa.abriendo .sobre-pie,
-.sobre-capa.abriendo .sobre-abrir {
-  animation: sobre-apaga 0.4s var(--ease) forwards;
+  animation: sobre-acerca 1.05s 0.25s var(--ease) forwards;
 }
 
 @keyframes sobre-entra {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.985);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
@@ -2059,13 +2055,8 @@ picture {
     transform: perspective(1200px) translateZ(360px) translateY(26px);
   }
 }
-@keyframes sobre-apaga {
-  to {
-    opacity: 0;
-  }
-}
 @keyframes sobre-telon {
-  80% {
+  60% {
     opacity: 1;
   }
   to {
@@ -2075,18 +2066,15 @@ picture {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Sin movimiento: el telón se levanta y ya. */
+  /* Nada se mueve: el sobre aparece quieto y el telón se funde. */
   .sobre,
-  .sobre-capa.abriendo,
   .sobre-capa.abriendo .sobre-lacre,
   .sobre-capa.abriendo .sobre-solapa,
-  .sobre-capa.abriendo .sobre-papel,
-  .sobre-capa.abriendo .sobre-pie,
-  .sobre-capa.abriendo .sobre-abrir {
+  .sobre-capa.abriendo .sobre-papel {
     animation: none;
   }
   .sobre-capa.abriendo {
-    display: none;
+    animation: sobre-telon 0.45s linear forwards;
   }
 }
 

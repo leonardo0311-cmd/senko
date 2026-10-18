@@ -136,10 +136,6 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_contact:
       "Todavía no está publicado el canal oficial de reservas. Escribinos por Instagram mientras tanto.",
 
-    sobre_aria: "Bienvenida a La Pasión de Rosas",
-    sobre_pie: "Una mesa que se reserva con tiempo.",
-    sobre_abrir: "Abrir la carta",
-
     prensa_eyebrow: "Prensa",
     prensa_title: "Lo que se dijo de la casa.",
     prensa_note: "Notas publicadas por medios. Los enlaces van al sitio de cada medio.",
@@ -274,10 +270,6 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_label: "To confirm",
     pending_contact:
       "The official booking channel is not published yet. Write to us on Instagram in the meantime.",
-
-    sobre_aria: "Welcome to La Pasión de Rosas",
-    sobre_pie: "A table you book ahead.",
-    sobre_abrir: "Open the letter",
 
     prensa_eyebrow: "Press",
     prensa_title: "What has been written.",

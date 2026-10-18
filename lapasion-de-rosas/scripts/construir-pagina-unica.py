@@ -174,6 +174,65 @@ JS = r'''
   })();
 
   /* ---- La carta lacrada de bienvenida ------------------------------------
+     El telón nace oculto; sólo aparece en la primera visita y se abre solo.
+     Un clic o una tecla cualquiera lo saltean.                             */
+  (function sobre() {
+    var capa = document.querySelector('.sobre-capa');
+    if (!capa) return;
+    var CLAVE = 'lpr-sobre-visto';
+
+    var visto = false;
+    try { visto = localStorage.getItem(CLAVE) === '1'; } catch (e) { visto = false; }
+    if (visto) return;
+    try { localStorage.setItem(CLAVE, '1'); } catch (e) { /* sin almacenamiento */ }
+
+    var quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var espera = quieto ? 700 : 900;
+    var duracion = quieto ? 500 : 1800;
+
+    var scrollPrevio = cuerpo.style.overflow;
+    capa.classList.add('visible');
+    cuerpo.style.overflow = 'hidden';
+
+    var abierto = false;
+    function abrir() {
+      if (abierto) return;
+      abierto = true;
+      capa.classList.add('abriendo');
+      setTimeout(function () {
+        capa.classList.remove('visible', 'abriendo');
+        cuerpo.style.overflow = scrollPrevio;
+        removeEventListener('keydown', abrir);
+      }, duracion);
+    }
+
+    setTimeout(abrir, espera);
+    capa.addEventListener('click', abrir);
+    addEventListener('keydown', abrir);
+  })();
+
+  /* ---- Chispas sobre el asado -------------------------------------------
+     Las crea React en el sitio Next; acá hay que sembrarlas a mano.        */
+  (function brasas() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var total = matchMedia('(max-width: 760px)').matches ? 12 : 26;
+    document.querySelectorAll('.embers').forEach(function (caja) {
+      for (var i = 0; i < total; i++) {
+        var e = document.createElement('div');
+        e.className = 'ember-particle';
+        var tam = 2 + Math.random() * 5;
+        e.style.width = tam + 'px';
+        e.style.height = tam + 'px';
+        e.style.left = Math.random() * 100 + '%';
+        e.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+        e.style.animationDuration = (6 + Math.random() * 7) + 's';
+        e.style.animationDelay = (Math.random() * 9) + 's';
+        caja.appendChild(e);
+      }
+    });
+  })();
+
+  /* ---- La carta lacrada de bienvenida ------------------------------------
      El telón nace oculto; sólo aparece si es la primera visita.            */
   (function sobre() {
     var capa = document.querySelector('.sobre-capa');
