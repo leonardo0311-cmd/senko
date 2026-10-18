@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { navegacion } from "@content/site";
+import { Logotipo } from "./ui/Logotipo";
 import { useIdioma } from "@/lib/idioma";
 import { medir } from "@/lib/analitica";
 
@@ -36,8 +37,8 @@ export function Header() {
 
   return (
     <header className={`site-header${solido ? " solid" : ""}`}>
-      <a href="#inicio" className="brand-word" aria-label="La Pasión de Rosas">
-        La Pasión <em>de Rosas</em>
+      <a href="#inicio" className="brand" aria-label="La Pasión de Rosas">
+        <Logotipo alto={72} />
       </a>
 
       <div className="header-right">

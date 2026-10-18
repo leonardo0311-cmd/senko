@@ -6,16 +6,16 @@
    ============================================================ */
 
 @theme {
-  --color-ink: #0a0806;
-  --color-ink-2: #100d0a;
-  --color-coal: #16120e;
-  --color-coal-2: #1d1812;
+  --color-ink: #120d09;
+  --color-ink-2: #191209;
+  --color-coal: #20170d;
+  --color-coal-2: #291e13;
   --color-bone: #f4efe6;
   --color-parchment: #ded5c6;
   --color-parchment-2: #cdc2af;
   --color-stone: #a79d8d;
-  --color-stone-dim: #8b8274;
-  --color-champ: #b7a27b;
+  --color-stone-dim: #91887a;
+  --color-champ: #c0a27e;
   --color-ember: #c8481f;
   --color-ember-bright: #ff8347;
   --color-ember-dim: #8a3418;
@@ -25,21 +25,23 @@
 }
 
 :root {
-  /* Un solo lienzo oscuro, con elevaciones en vez de secciones claras. */
-  --ink: #0a0806;
-  --ink-2: #100d0a;
-  --coal: #16120e;
-  --coal-2: #1d1812;
+  /* Un solo lienzo oscuro, tomado del fondo del logotipo: marrón cálido,
+     con elevaciones en vez de secciones claras. */
+  --ink: #120d09;
+  --ink-2: #191209;
+  --coal: #20170d;
+  --coal-2: #291e13;
   --bone: #f4efe6;
   --parchment: #ded5c6;
   --parchment-2: #cdc2af;
   --stone: #a79d8d;
-  --stone-dim: #8b8274;
-  --stone-deep: #8b8274;
+  --stone-dim: #91887a;
+  --stone-deep: #91887a;
 
-  /* El champán ordena: numeración, antetítulos y filetes.
+  /* El champán es el dorado del propio logotipo. Ordena la página:
+     numeración, antetítulos y filetes.
      La brasa queda reservada para la acción principal y los avisos. */
-  --champ: #b7a27b;
+  --champ: #c0a27e;
   --ember: #c8481f;
   --ember-bright: #ff8347;
   --ember-dim: #8a3418;
@@ -76,7 +78,15 @@ html {
 body {
   counter-reset: seccion;
   margin: 0;
+  /* Como el fondo del logotipo: más cálido arriba, apagándose hacia los bordes. */
   background: var(--ink);
+  background-image: radial-gradient(
+    ellipse 120% 80% at 50% 0%,
+    rgba(64, 46, 26, 0.5) 0%,
+    rgba(32, 23, 13, 0.25) 42%,
+    transparent 72%
+  );
+  background-attachment: fixed;
   color: var(--bone);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
@@ -283,11 +293,42 @@ body.cur-link .cur-dot {
   border-bottom: 1px solid transparent;
 }
 .site-header.solid {
-  background: rgba(10, 8, 6, 0.92);
+  background: rgba(18, 13, 9, 0.93);
   backdrop-filter: blur(14px);
   padding-block: 14px;
   border-color: var(--line-dark);
 }
+/* El logotipo oficial. Se usa tal cual: no se recolorea ni se redibuja. */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.brand-logo {
+  display: block;
+  width: auto;
+  /* Por debajo de unos 70px el nombre dentro del marco deja de leerse. */
+  height: 72px;
+  transition: height var(--t1) var(--ease);
+}
+.site-header.solid .brand-logo {
+  height: 54px;
+}
+.site-footer .brand-logo {
+  height: 104px;
+}
+@media (max-width: 760px) {
+  .brand-logo {
+    height: 56px;
+  }
+  .site-header.solid .brand-logo {
+    height: 46px;
+  }
+  .site-footer .brand-logo {
+    height: 84px;
+  }
+}
+
 .brand-word {
   font-family: var(--serif);
   font-weight: 400;
@@ -466,17 +507,17 @@ body.cur-link .cur-dot {
   inset: 0;
   background: linear-gradient(
       180deg,
-      rgba(9, 6, 4, 0.55) 0%,
-      rgba(9, 6, 4, 0.28) 32%,
-      rgba(9, 6, 4, 0.5) 64%,
-      rgba(9, 6, 4, 0.94) 100%
+      rgba(12, 9, 6, 0.55) 0%,
+      rgba(12, 9, 6, 0.28) 32%,
+      rgba(12, 9, 6, 0.5) 64%,
+      rgba(12, 9, 6, 0.94) 100%
     ),
     linear-gradient(
       90deg,
-      rgba(9, 6, 4, 0.55) 0%,
-      rgba(9, 6, 4, 0.05) 40%,
-      rgba(9, 6, 4, 0.05) 60%,
-      rgba(9, 6, 4, 0.55) 100%
+      rgba(12, 9, 6, 0.55) 0%,
+      rgba(12, 9, 6, 0.05) 40%,
+      rgba(12, 9, 6, 0.05) 60%,
+      rgba(12, 9, 6, 0.55) 100%
     );
 }
 @keyframes kenburns {
@@ -804,12 +845,12 @@ picture {
   background: radial-gradient(ellipse at 30% 65%, rgba(255, 131, 71, 0.22), transparent 50%),
     linear-gradient(
       90deg,
-      rgba(9, 6, 4, 0.88) 0%,
-      rgba(9, 6, 4, 0.55) 42%,
-      rgba(9, 6, 4, 0.2) 70%,
-      rgba(9, 6, 4, 0.55) 100%
+      rgba(12, 9, 6, 0.88) 0%,
+      rgba(12, 9, 6, 0.55) 42%,
+      rgba(12, 9, 6, 0.2) 70%,
+      rgba(12, 9, 6, 0.55) 100%
     ),
-    linear-gradient(0deg, rgba(9, 6, 4, 0.85) 0%, rgba(9, 6, 4, 0.25) 45%, rgba(9, 6, 4, 0.55) 100%);
+    linear-gradient(0deg, rgba(12, 9, 6, 0.85) 0%, rgba(12, 9, 6, 0.25) 45%, rgba(12, 9, 6, 0.55) 100%);
 }
 .embers {
   position: absolute;
@@ -1299,7 +1340,7 @@ picture {
 .spec-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(9, 6, 4, 0.92) 0%, rgba(9, 6, 4, 0.15) 55%, transparent 75%);
+  background: linear-gradient(0deg, rgba(12, 9, 6, 0.92) 0%, rgba(12, 9, 6, 0.15) 55%, transparent 75%);
 }
 .spec-text {
   position: relative;
@@ -1382,7 +1423,7 @@ picture {
 .g-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(9, 6, 4, 0.75), transparent 55%);
+  background: linear-gradient(0deg, rgba(12, 9, 6, 0.75), transparent 55%);
   opacity: 0;
   transition: opacity 0.4s;
 }
@@ -1451,7 +1492,7 @@ picture {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(9, 6, 4, 0.96);
+  background: rgba(12, 9, 6, 0.96);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1664,7 +1705,7 @@ picture {
 .reservas-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(9, 6, 4, 0.55), rgba(9, 6, 4, 0.82) 60%, rgba(9, 6, 4, 0.95));
+  background: linear-gradient(180deg, rgba(12, 9, 6, 0.55), rgba(12, 9, 6, 0.82) 60%, rgba(12, 9, 6, 0.95));
 }
 .reservas-inner {
   position: relative;
@@ -1729,14 +1770,14 @@ picture {
   justify-content: center;
   font-size: 1.6rem;
   color: var(--bone);
-  background: rgba(9, 6, 4, 0);
+  background: rgba(12, 9, 6, 0);
   opacity: 0;
   transition: 0.35s;
   z-index: 3;
 }
 .ig-tile:hover::after {
   opacity: 1;
-  background: rgba(9, 6, 4, 0.42);
+  background: rgba(12, 9, 6, 0.42);
 }
 @media (max-width: 760px) {
   .ig-grid {

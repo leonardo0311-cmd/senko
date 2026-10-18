@@ -72,7 +72,16 @@ def _picture(m):
     return re.sub(r'src="/fotos/[\w-]+\.webp"', lambda _: f'src="{_datauri(nombre)}"', img, count=1)
 cuerpo = re.sub(r'<picture>.*?</picture>', _picture, cuerpo, flags=re.S)
 
-restantes = re.findall(r'(?:src|srcSet|href)="/(?:fotos|estaticos|_next)/[^"]*"', cuerpo)
+# El logotipo no pasa por <picture>: va como <img> suelto.
+logos = [0]
+def _logo(m):
+    logos[0] += 1
+    f = OUT / 'marca' / m.group(1)
+    b64 = base64.b64encode(f.read_bytes()).decode()
+    return f'src="data:image/webp;base64,{b64}"'
+cuerpo = re.sub(r'src="/marca/([\w-]+\.webp)"', _logo, cuerpo)
+
+restantes = re.findall(r'(?:src|srcSet|href)="/(?:fotos|marca|estaticos|_next)/[^"]*"', cuerpo)
 if restantes:
     sys.exit(f'quedaron rutas externas: {restantes[:5]}')
 
@@ -494,4 +503,5 @@ DESTINO.write_text(
 kb = DESTINO.stat().st_size / 1024
 print(f'reglas @font-face reemplazadas por Google Fonts: {fuentes}')
 print(f'imagenes embebidas: {imagenes}')
+print(f'logotipos embebidos: {logos[0]}')
 print(f'salida: {DESTINO}  ({kb:.0f} KB)')

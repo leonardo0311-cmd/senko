@@ -22,7 +22,7 @@ o un horario equivocado y que alguien viaje a Ezeiza un día que está cerrado.
 | 4 | **Horarios** | `contacto.horarios` | Se muestra "Días y horarios a confirmar · escribinos". |
 | 5 | **Instagram** | `redes.instagram` | La sección del feed **no se renderiza** hasta confirmarlo. |
 | 6 | **Fotos** | `content/medios.ts` | ⚠️ Las 9 imágenes del sitio son **de referencia, generadas con IA**: no son fotos de La Pasión de Rosas ni de sus platos. Llevan `generada: true`. **Reemplazalas antes de publicar.** Falta la fachada, que sigue como composición provisional. |
-| 7 | **Logotipo** | `marca.logo` | Se compone el nombre tipográficamente. No se redibujó ningún logo. |
+| 7 | ~~Logotipo~~ | `marca.logo` | ✅ **Resuelto.** El restaurante lo entregó y está en la cabecera y el pie. El maestro es `public/marca/logo-original.png`; `logo.webp` es el mismo con el fondo recortado. No se redibujó nada. |
 | 8 | Teléfono y correo | `contacto.telefono`, `contacto.email` | No aparecen en el pie. |
 | 9 | Google Maps | `contacto.mapaUrl` | El enlace "Ver en mapa" no aparece. |
 | 10 | **Prensa** | `content/site.ts` → `PRENSA` | ⚠️ Tres enlaces encontrados en una búsqueda web, con un aviso naranja visible. No se pudieron abrir para verificar su contenido. Poné `prensaVerificada = true` cuando los revises. |

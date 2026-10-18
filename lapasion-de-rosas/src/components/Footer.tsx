@@ -1,6 +1,7 @@
 "use client";
 
 import { contacto, marca, navegacion, redes, siVerificado } from "@content/site";
+import { Logotipo } from "./ui/Logotipo";
 import { useIdioma } from "@/lib/idioma";
 
 export function Footer() {
@@ -16,8 +17,8 @@ export function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <a href="#inicio" className="brand-word" aria-label={marca.nombre}>
-              La Pasión <em>de Rosas</em>
+            <a href="#inicio" className="brand" aria-label={marca.nombre}>
+              <Logotipo alto={104} />
             </a>
             <p className="footer-tag">{t("footer_tag")}</p>
             {ig && (

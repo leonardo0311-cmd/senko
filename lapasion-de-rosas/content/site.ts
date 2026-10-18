@@ -38,8 +38,18 @@ export const marca = {
   ciudad: "Ezeiza",
   provincia: "Provincia de Buenos Aires",
   pais: "Argentina",
-  /** Logotipo oficial. Mientras sea null se compone el nombre tipográficamente. */
-  logo: null as string | null,
+  /**
+   * Logotipo oficial, tal como lo entregó el restaurante. El archivo de
+   * `public/marca/logo-original.png` es el maestro; `logo.webp` es el mismo
+   * con el fondo recortado para poder apoyarlo sobre cualquier superficie.
+   * No se redibujó nada. Si vuelve a null, el sitio compone el nombre
+   * tipográficamente, como antes de tenerlo.
+   */
+  logo: {
+    src: "/marca/logo.webp",
+    ancho: 814,
+    alto: 512,
+  } as { src: string; ancho: number; alto: number } | null,
 } as const;
 
 export const contacto = {

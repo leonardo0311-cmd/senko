@@ -199,8 +199,8 @@ Qué hace y por qué:
   propios, porque el servicio que la hospeda envuelve la página en su propio
   esqueleto. Un documento completo quedaba anidado dentro de otro y React
   fallaba al hidratar (error #418), con parte de las fotos sin pintar.
-- **Embebe las fotos** en WebP como `data:` URI, así no dependen de ninguna
-  ruta relativa.
+- **Embebe las fotos y el logotipo** en WebP como `data:` URI, así no dependen
+  de ninguna ruta relativa.
 - **Declara las variables de fuente en `:root`.** Next las pone como clase en
   `<html>`, etiqueta que en ese contexto no nos pertenece.
 - **Cambia los 67 `@font-face`** (que repetían los mismos 13 woff2 y sumaban
@@ -216,3 +216,18 @@ una interacción al sitio Next, agregala también en este script o en la página
 
 Lo que esta versión no trae: el selector de idioma (necesita el diccionario
 completo) y la analítica. El sitio Next conserva las dos cosas.
+
+## El logotipo
+
+`public/marca/logo-original.png` es el archivo tal como lo entregó el
+restaurante: no se toca. `logo.webp` es el mismo con el fondo recortado
+—usando la luminancia como canal alfa, porque la marca es clara sobre fondo
+oscuro— para poder apoyarlo sobre cualquier superficie. No se redibujó ni se
+recoloreó nada.
+
+La paleta del sitio sale de ese archivo: el marrón del fondo (`--ink`,
+`#120d09`, la mediana de sus píxeles oscuros) y el dorado de la marca
+(`--champ`, `#c0a27e`).
+
+`marca.logo` en `content/site.ts` manda. Si vuelve a `null`, el componente
+`ui/Logotipo` compone el nombre tipográficamente, como antes de tenerlo.
