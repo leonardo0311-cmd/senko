@@ -6,45 +6,59 @@
    ============================================================ */
 
 @theme {
-  --color-ink: #0d0a08;
-  --color-ink-2: #131009;
-  --color-coal: #1c1610;
-  --color-coal-2: #261e16;
-  --color-bone: #f4ecdc;
-  --color-parchment: #eee4cf;
-  --color-parchment-2: #e6dac0;
-  --color-stone: #9a8e78;
-  --color-stone-dim: #6f6656;
+  --color-ink: #0a0806;
+  --color-ink-2: #100d0a;
+  --color-coal: #16120e;
+  --color-coal-2: #1d1812;
+  --color-bone: #f4efe6;
+  --color-parchment: #ded5c6;
+  --color-parchment-2: #cdc2af;
+  --color-stone: #a79d8d;
+  --color-stone-dim: #8b8274;
+  --color-champ: #b7a27b;
   --color-ember: #c8481f;
   --color-ember-bright: #ff8347;
   --color-ember-dim: #8a3418;
 
-  --font-serif: var(--fuente-serif), Georgia, "Times New Roman", serif;
+  --font-serif: var(--fuente-serif), "Times New Roman", Georgia, serif;
   --font-sans: var(--fuente-sans), -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 
 :root {
-  --ink: #0d0a08;
-  --ink-2: #131009;
-  --coal: #1c1610;
-  --coal-2: #261e16;
-  --bone: #f4ecdc;
-  --parchment: #eee4cf;
-  --parchment-2: #e6dac0;
-  --stone: #9a8e78;
-  --stone-dim: #6f6656;
-  /* Variante más oscura para texto chico sobre el fondo hueso. */
-  --stone-deep: #5f5748;
+  /* Un solo lienzo oscuro, con elevaciones en vez de secciones claras. */
+  --ink: #0a0806;
+  --ink-2: #100d0a;
+  --coal: #16120e;
+  --coal-2: #1d1812;
+  --bone: #f4efe6;
+  --parchment: #ded5c6;
+  --parchment-2: #cdc2af;
+  --stone: #a79d8d;
+  --stone-dim: #8b8274;
+  --stone-deep: #8b8274;
+
+  /* El champán ordena: numeración, antetítulos y filetes.
+     La brasa queda reservada para la acción principal y los avisos. */
+  --champ: #b7a27b;
   --ember: #c8481f;
   --ember-bright: #ff8347;
   --ember-dim: #8a3418;
-  --line-dark: rgba(244, 236, 220, 0.15);
-  --line-dark-2: rgba(244, 236, 220, 0.08);
-  --line-light: rgba(13, 10, 8, 0.14);
-  --line-light-2: rgba(13, 10, 8, 0.08);
+
+  --line-dark: rgba(244, 239, 230, 0.12);
+  --line-dark-2: rgba(244, 239, 230, 0.06);
+  --line-light: rgba(244, 239, 230, 0.12);
+  --line-light-2: rgba(244, 239, 230, 0.06);
+
   --serif: var(--font-serif);
   --sans: var(--font-sans);
-  --ease: cubic-bezier(0.22, 0.68, 0, 1);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t1: 0.8s;
+  --t2: 1s;
+  --t3: 1.2s;
+  --gutter: clamp(16px, 4vw, 64px);
+
   background: var(--ink);
   color-scheme: dark;
 }
@@ -60,6 +74,7 @@ html {
 }
 
 body {
+  counter-reset: seccion;
   margin: 0;
   background: var(--ink);
   color: var(--bone);
@@ -93,7 +108,8 @@ h3,
 h4 {
   margin: 0;
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
@@ -138,7 +154,7 @@ ul {
   color: var(--ink);
   padding: 14px 20px;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.04em;
   transition: top 0.25s var(--ease);
 }
@@ -154,27 +170,39 @@ ul {
 
 .eyebrow {
   font-family: var(--sans);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--ember-bright);
+  color: var(--stone);
   display: flex;
   align-items: center;
-  gap: 0.6em;
+  gap: 0.9em;
+  /* Numeración editorial: la lleva el antetítulo, así la serie queda
+     corrida (01, 02, 03…) aunque alguna sección no tenga antetítulo. */
+  counter-increment: seccion;
 }
 .eyebrow::before {
+  content: counter(seccion, decimal-leading-zero);
+  color: var(--champ);
+  letter-spacing: 0.1em;
+  order: -2;
+}
+/* El antetítulo de la tarjeta de especialidad es una etiqueta, no una
+   sección: no entra en la serie ni lleva número. */
+.spec-eyebrow {
+  counter-increment: none;
+}
+.spec-eyebrow::before {
+  display: none;
+}
+.eyebrow::after {
   content: "";
-  width: 22px;
+  width: 40px;
   height: 1px;
-  background: var(--ember-bright);
+  background: var(--line-dark);
   display: inline-block;
-}
-.section-light .eyebrow {
-  color: var(--ember);
-}
-.section-light .eyebrow::before {
-  background: var(--ember);
+  order: -1;
 }
 
 /* ---------- cursor ---------- */
@@ -210,7 +238,7 @@ ul {
   font-family: var(--sans);
   font-size: 0.62rem;
   letter-spacing: 0.16em;
-  font-weight: 700;
+  font-weight: 500;
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -255,14 +283,14 @@ body.cur-link .cur-dot {
   border-bottom: 1px solid transparent;
 }
 .site-header.solid {
-  background: rgba(13, 10, 8, 0.92);
+  background: rgba(10, 8, 6, 0.92);
   backdrop-filter: blur(14px);
   padding-block: 14px;
   border-color: var(--line-dark);
 }
 .brand-word {
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1.2rem;
   letter-spacing: 0.02em;
   line-height: 1;
@@ -270,7 +298,7 @@ body.cur-link .cur-dot {
 }
 .brand-word em {
   font-style: italic;
-  color: var(--ember-bright);
+  color: var(--champ);
 }
 .site-header.solid .brand-word {
   font-size: 1.05rem;
@@ -284,7 +312,7 @@ body.cur-link .cur-dot {
   font-size: 0.76rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--parchment);
   position: relative;
   padding-bottom: 4px;
@@ -296,7 +324,7 @@ body.cur-link .cur-dot {
   bottom: 0;
   width: 0;
   height: 1px;
-  background: var(--ember-bright);
+  background: var(--champ);
   transition: width 0.35s var(--ease);
 }
 .main-nav a:hover::after,
@@ -309,7 +337,7 @@ body.cur-link .cur-dot {
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
@@ -329,12 +357,12 @@ body.cur-link .cur-dot {
   gap: 8px;
   padding: 6px 12px 6px 6px;
   border: 1px solid var(--line-dark);
-  background: rgba(244, 236, 220, 0.04);
+  background: rgba(244, 239, 230, 0.04);
   transition: 0.3s var(--ease);
   flex: none;
 }
 .lang-toggle:hover {
-  background: rgba(244, 236, 220, 0.12);
+  background: rgba(244, 239, 230, 0.12);
   border-color: var(--stone);
 }
 .lang-flag {
@@ -348,7 +376,7 @@ body.cur-link .cur-dot {
 .lang-toggle span {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
-  font-weight: 800;
+  font-weight: 500;
   color: var(--bone);
 }
 .nav-toggle {
@@ -466,27 +494,27 @@ body.cur-link .cur-dot {
   width: 100%;
 }
 .hero-eyebrow {
-  color: var(--ember-bright);
+  color: var(--champ);
   font-size: 0.76rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 18px;
 }
 .hero h1 {
-  font-size: clamp(2.9rem, 9.4vw, 8rem);
+  font-size: clamp(3.4rem, 10.4vw, 9.6rem);
   line-height: 0.86;
   letter-spacing: -0.01em;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--bone);
 }
 .hero h1 em {
   font-style: italic;
-  color: var(--ember-bright);
+  color: var(--parchment);
 }
 .hero-sub {
   font-family: var(--sans);
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.36em;
   text-transform: uppercase;
   font-size: clamp(0.8rem, 1.6vw, 1.3rem);
@@ -516,7 +544,7 @@ body.cur-link .cur-dot {
   font-size: 0.76rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   border: 1px solid var(--bone);
   transition: transform 0.35s var(--ease), background 0.3s, color 0.3s, border-color 0.3s;
 }
@@ -550,7 +578,7 @@ body.cur-link .cur-dot {
   font-size: 0.68rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   writing-mode: vertical-rl;
 }
 .scroll-cue .line {
@@ -567,7 +595,7 @@ body.cur-link .cur-dot {
   left: 0;
   width: 100%;
   height: 52px;
-  background: var(--ember-bright);
+  background: var(--champ);
   animation: cue 2.6s ease-in-out infinite;
 }
 @keyframes cue {
@@ -584,11 +612,11 @@ body.cur-link .cur-dot {
 
 /* ---------- marquee ---------- */
 .marquee {
-  background: var(--ember);
-  color: var(--ink);
+  background: var(--coal);
+  color: var(--parchment);
   overflow: hidden;
   position: relative;
-  border-block: 1px solid var(--ember-dim);
+  border-block: 1px solid var(--line-dark-2);
 }
 .marquee-track {
   display: flex;
@@ -600,7 +628,7 @@ body.cur-link .cur-dot {
 }
 .marquee span {
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: 400;
   font-style: italic;
   font-size: clamp(1.1rem, 2.4vw, 1.7rem);
   padding: 16px clamp(18px, 2vw, 30px);
@@ -610,7 +638,7 @@ body.cur-link .cur-dot {
 .marquee span b {
   font-family: var(--sans);
   font-style: normal;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.06em;
   margin-right: 0.5em;
 }
@@ -632,29 +660,36 @@ body.cur-link .cur-dot {
 @media (prefers-reduced-motion: no-preference) {
   .js-reveal-ready .reveal {
     opacity: 0.001;
-    transform: translateY(38px);
-    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    transform: translateY(24px);
+    transition: opacity var(--t3) var(--ease), transform var(--t3) var(--ease);
   }
   .js-reveal-ready .reveal.in {
     opacity: 1;
     transform: none;
   }
+  /* La foto se descubre con una máscara que sube, no con un fundido.
+     El clip va en la imagen interior: puesto en el nodo observado le
+     colapsa la caja y el IntersectionObserver no dispara nunca. */
   .js-reveal-ready .reveal-img .ph {
-    transform: scale(1.14);
-    transition: transform 1.3s var(--ease);
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.18);
+    transition: clip-path 1.4s var(--ease), transform 2.4s var(--ease);
   }
   .js-reveal-ready .reveal-img.in .ph {
-    transform: scale(1);
+    clip-path: inset(0 0 0 0);
+    transform: scale(1.04);
   }
 }
 
 /* ---------- secciones ---------- */
 .section {
-  padding: clamp(80px, 12vw, 168px) 0;
+  padding: clamp(104px, 14vw, 208px) 0;
 }
+/* Ya no hay secciones claras: el sitio es un solo lienzo oscuro y la
+   alternancia se hace con una elevación apenas perceptible. */
 .section-light {
-  background: var(--bone);
-  color: var(--ink);
+  background: var(--ink-2);
+  color: var(--bone);
 }
 .section-dark {
   background: var(--ink);
@@ -666,14 +701,14 @@ body.cur-link .cur-dot {
   align-items: center;
 }
 .about-title {
-  font-size: clamp(2.6rem, 6.4vw, 5.6rem);
+  font-size: clamp(3rem, 7.2vw, 6.6rem);
   line-height: 0.98;
   letter-spacing: -0.01em;
   margin-top: 16px;
 }
 .about-title em {
   font-style: italic;
-  color: var(--ember);
+  color: var(--parchment);
 }
 .about-text {
   margin-top: 30px;
@@ -689,7 +724,7 @@ body.cur-link .cur-dot {
   flex-wrap: wrap;
 }
 .about-meta div {
-  border-top: 1px solid var(--line-light);
+  border-top: 1px solid var(--line-dark);
   padding-top: 12px;
   min-width: 120px;
 }
@@ -697,7 +732,7 @@ body.cur-link .cur-dot {
   display: block;
   font-family: var(--serif);
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 .about-meta span {
   font-size: 0.7rem;
@@ -738,8 +773,8 @@ picture {
   position: absolute;
   left: -18px;
   bottom: 34px;
-  background: var(--ink);
-  color: var(--bone);
+  background: var(--bone);
+  color: var(--ink);
   padding: 16px 22px;
   font-family: var(--serif);
   font-style: italic;
@@ -811,11 +846,8 @@ picture {
   z-index: 2;
   padding-block: 60px;
 }
-.fuego .eyebrow {
-  color: var(--ember-bright);
-}
 .fuego-title {
-  font-size: clamp(2.8rem, 7.4vw, 6.4rem);
+  font-size: clamp(3.2rem, 8.2vw, 7.4rem);
   line-height: 0.96;
   margin-top: 18px;
   max-width: 14ch;
@@ -848,7 +880,7 @@ picture {
   flex-wrap: wrap;
 }
 .menu-title {
-  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-size: clamp(3rem, 6.8vw, 6rem);
   line-height: 0.96;
   margin-top: 14px;
 }
@@ -858,15 +890,28 @@ picture {
   color: var(--stone-dim);
   line-height: 1.6;
 }
+/* Dos columnas: el rail y los filtros quedan al costado y la carta se lee
+   sola, como una carta impresa. */
+.menu-layout {
+  margin-top: clamp(48px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: minmax(0, 258px) 1fr;
+  gap: clamp(36px, 5vw, 92px);
+  align-items: start;
+}
+.menu-aside {
+  position: sticky;
+  top: 112px;
+  display: grid;
+  gap: 40px;
+}
 .menu-tools {
-  margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 .menu-search {
   position: relative;
-  max-width: 480px;
 }
 .menu-search svg {
   position: absolute;
@@ -883,9 +928,9 @@ picture {
   padding: 15px 46px 15px 44px;
   font-family: var(--sans);
   font-size: 0.94rem;
-  color: var(--ink);
-  background: #fff;
-  border: 1px solid var(--line-light);
+  color: var(--bone);
+  background: rgba(244, 239, 230, 0.04);
+  border: 1px solid var(--line-dark);
   appearance: none;
 }
 .menu-search input::placeholder {
@@ -897,9 +942,9 @@ picture {
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.66rem;
-  font-weight: 700;
-  color: var(--stone-dim);
-  border: 1px solid var(--line-light);
+  font-weight: 500;
+  color: var(--stone);
+  border: 1px solid var(--line-dark);
   padding: 3px 7px;
   pointer-events: none;
   font-family: var(--sans);
@@ -919,22 +964,23 @@ picture {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 700;
-  border: 1px solid var(--line-light);
-  color: var(--stone-dim);
+  font-weight: 500;
+  border: 1px solid var(--line-dark);
+  color: var(--stone);
   background: transparent;
   transition: 0.25s var(--ease);
 }
 .filter-chip:hover {
-  border-color: var(--ink);
+  border-color: var(--bone);
+  color: var(--bone);
 }
 .filter-chip[aria-pressed="true"] {
-  background: var(--ember);
-  border-color: var(--ember);
-  color: #fff;
+  background: var(--champ);
+  border-color: var(--champ);
+  color: var(--ink);
 }
 .filter-chip.filter-clear {
-  color: var(--ember);
+  color: var(--stone);
   border-color: transparent;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -947,76 +993,93 @@ picture {
   min-height: 1.2em;
 }
 .menu-results b {
-  color: var(--ink);
-  font-weight: 700;
+  color: var(--bone);
+  font-weight: 500;
 }
 .cat-rail {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 14px 2px;
-  margin-top: 8px;
+  counter-reset: categoria;
+  display: grid;
+  gap: 2px;
   scrollbar-width: none;
-  border-bottom: 1px solid var(--line-light);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: var(--bone);
 }
 .cat-rail::-webkit-scrollbar {
   display: none;
 }
 .cat-rail a {
-  flex: none;
-  padding: 11px 20px;
+  counter-increment: categoria;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
   font-size: 0.72rem;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
+  color: var(--stone);
+  transition: color var(--t1) var(--ease), padding-left var(--t1) var(--ease);
+  scroll-margin-top: 110px;
+}
+.cat-rail a::before {
+  content: counter(categoria, decimal-leading-zero);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
   color: var(--stone-dim);
-  border: 1px solid var(--line-light);
-  white-space: nowrap;
-  transition: 0.3s var(--ease);
-  scroll-margin-top: 90px;
+  width: 20px;
+  flex: none;
+}
+/* El filete se despliega sólo en la categoría que se está mirando. */
+.cat-rail a::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--champ);
+  opacity: 0.6;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t1) var(--ease);
 }
 .cat-rail a[aria-current="true"],
 .cat-rail a:hover {
-  background: var(--ink);
   color: var(--bone);
-  border-color: var(--ink);
+}
+.cat-rail a[aria-current="true"] {
+  padding-left: 10px;
+}
+.cat-rail a[aria-current="true"]::after {
+  transform: scaleX(1);
 }
 .cat-rail a.is-dimmed {
   opacity: 0.35;
 }
 .menu-body {
-  margin-top: 8px;
+  border-left: 1px solid var(--line-dark-2);
+  padding-left: clamp(24px, 3.4vw, 64px);
 }
 .cat-section {
   scroll-margin-top: 130px;
-  padding-top: 44px;
+  padding-top: clamp(56px, 7vw, 104px);
 }
 .cat-section:first-child {
   padding-top: 0;
 }
 .cat-head {
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-  padding-bottom: 18px;
-  border-bottom: 2px solid var(--ink);
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  line-height: 0.98;
+  padding-bottom: 26px;
 }
 .cat-items {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 56px;
-  margin-top: 8px;
+  grid-template-columns: 1fr;
 }
 .menu-set {
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 40px;
-  background: var(--ink);
+  background: var(--coal);
   color: var(--bone);
-  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid var(--line-dark-2);
+  padding: clamp(32px, 4.4vw, 56px);
   margin-bottom: 8px;
 }
 .menu-set h3 {
@@ -1025,7 +1088,7 @@ picture {
 .menu-set .set-price {
   font-family: var(--serif);
   font-size: 2.2rem;
-  color: var(--ember-bright);
+  color: var(--champ);
   font-variant-numeric: tabular-nums;
 }
 .menu-set .set-note {
@@ -1049,28 +1112,31 @@ picture {
   content: "—";
   position: absolute;
   left: 0;
-  color: var(--ember-bright);
+  color: var(--champ);
 }
 .group-title {
   grid-column: 1/-1;
   font-family: var(--serif);
   font-style: italic;
-  font-size: 1.15rem;
-  color: var(--ember);
-  margin: 26px 0 4px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line-light);
+  font-size: 1.2rem;
+  color: var(--champ);
+  margin: 30px 0 4px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-dark-2);
 }
 .group-title:first-child {
   border-top: 0;
   margin-top: 0;
 }
 .item-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line-light-2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 28px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line-dark-2);
+}
+.item-row:last-child {
+  border-bottom: 1px solid var(--line-dark-2);
 }
 .item-row[hidden] {
   display: none;
@@ -1081,13 +1147,14 @@ picture {
 }
 .item-name {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: 1.06rem;
-  letter-spacing: 0.01em;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
 }
 .item-name mark {
-  background: rgba(200, 72, 31, 0.22);
-  color: var(--ink);
+  background: rgba(183, 162, 123, 0.26);
+  color: var(--bone);
   padding: 0 2px;
 }
 .item-tags {
@@ -1100,7 +1167,7 @@ picture {
   font-size: 0.6rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--stone-dim);
   border: 1px solid var(--line-light);
   padding: 3px 7px;
@@ -1113,12 +1180,14 @@ picture {
   border-color: var(--line-dark);
 }
 .item-price {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 1.05rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  color: var(--parchment);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  padding-top: 2px;
+  padding-top: 8px;
 }
 .menu-empty {
   grid-column: 1/-1;
@@ -1129,10 +1198,45 @@ picture {
   font-style: italic;
   font-size: 1.1rem;
 }
-@media (max-width: 760px) {
-  .cat-items {
-    grid-template-columns: 1fr;
+@media (max-width: 700px) {
+  /* En el teléfono el indicador vertical se cruza con los botones del hero. */
+  .scroll-cue {
+    display: none;
   }
+}
+@media (max-width: 980px) {
+  /* En pantallas angostas el rail vuelve a ser una tira horizontal. */
+  .menu-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .menu-aside {
+    position: static;
+    gap: 22px;
+  }
+  .cat-rail {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-dark-2);
+  }
+  .cat-rail a {
+    flex: none;
+    padding: 4px 0;
+  }
+  .cat-rail a::after {
+    display: none;
+  }
+  .cat-rail a[aria-current="true"] {
+    padding-left: 0;
+  }
+  .menu-body {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+@media (max-width: 760px) {
   .menu-set {
     grid-template-columns: 1fr;
   }
@@ -1148,12 +1252,12 @@ picture {
   padding: 14px 16px;
   font-size: 0.86rem;
   line-height: 1.55;
-  color: var(--stone-deep);
+  color: var(--parchment);
   margin-top: 28px;
 }
 .aviso b {
   color: var(--ember);
-  font-weight: 800;
+  font-weight: 500;
   text-transform: uppercase;
   font-size: 0.68rem;
   letter-spacing: 0.14em;
@@ -1197,11 +1301,8 @@ picture {
   z-index: 2;
   padding: 56px clamp(20px, 4.4vw, 72px);
 }
-.spec-eyebrow {
-  color: var(--ember-bright);
-}
 .spec-name {
-  font-size: clamp(2.4rem, 6vw, 5.2rem);
+  font-size: clamp(2.8rem, 6.8vw, 6rem);
   line-height: 0.95;
   color: var(--bone);
   margin-top: 14px;
@@ -1215,7 +1316,7 @@ picture {
 .spec-price {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 2.4rem);
-  color: var(--ember-bright);
+  color: var(--champ);
   margin-top: 16px;
   font-variant-numeric: tabular-nums;
 }
@@ -1236,7 +1337,7 @@ picture {
   color: var(--bone);
 }
 .spec-mini .item-price {
-  color: var(--ember-bright);
+  color: var(--parchment);
   font-size: 1.2rem;
 }
 .spec-grid {
@@ -1291,7 +1392,7 @@ picture {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--bone);
   opacity: 0;
   transform: translateY(8px);
@@ -1358,7 +1459,7 @@ picture {
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   border: 1px solid var(--line-dark);
   padding: 10px 18px;
 }
@@ -1387,7 +1488,7 @@ picture {
   align-items: start;
 }
 .opts-title {
-  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  font-size: clamp(2.6rem, 5.6vw, 4.2rem);
   line-height: 1.02;
   margin-top: 14px;
 }
@@ -1417,7 +1518,7 @@ picture {
 .opt-num {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--ember-bright);
+  color: var(--champ);
   font-size: 1.2rem;
 }
 .opt-name {
@@ -1437,10 +1538,10 @@ picture {
   margin-top: 10px;
   font-family: var(--sans);
   font-size: 0.66rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ember-bright);
+  color: var(--bone);
   border-bottom: 1px solid rgba(255, 131, 71, 0.4);
   padding-bottom: 3px;
   transition: color 0.3s, border-color 0.3s;
@@ -1454,16 +1555,16 @@ picture {
 .loc-list {
   margin-top: 52px;
   display: grid;
-  gap: 2px;
-  background: var(--line-light);
+  gap: 1px;
+  background: var(--line-dark-2);
 }
 .loc-row {
   display: grid;
   grid-template-columns: 0.55fr 1fr auto;
   gap: 28px;
   align-items: center;
-  background: var(--bone);
-  padding: 26px clamp(0px, 1vw, 10px);
+  background: var(--ink-2);
+  padding: 30px clamp(0px, 1vw, 10px);
 }
 .loc-photo {
   width: 100%;
@@ -1480,7 +1581,7 @@ picture {
 .loc-num {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--ember);
+  color: var(--champ);
   font-size: 0.95rem;
 }
 .loc-name {
@@ -1503,7 +1604,7 @@ picture {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   border-bottom: 1px solid var(--line-light);
   padding-bottom: 9px;
   display: flex;
@@ -1511,20 +1612,21 @@ picture {
   gap: 10px;
 }
 .loc-actions a:hover {
-  color: var(--ember);
+  color: var(--bone);
 }
 .loc-actions .btn {
   margin-top: 4px;
   padding: 12px 18px;
   font-size: 0.68rem;
-  border-color: var(--ink);
+  border-color: var(--line-dark);
 }
 .loc-actions .btn-line {
-  color: var(--ink);
+  color: var(--bone);
 }
 .loc-actions .btn-line:hover {
-  background: var(--ink);
-  color: var(--bone);
+  background: var(--bone);
+  color: var(--ink);
+  border-color: var(--bone);
 }
 @media (max-width: 860px) {
   .loc-row {
@@ -1565,7 +1667,7 @@ picture {
   text-align: left;
 }
 .res-title {
-  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-size: clamp(3.4rem, 10vw, 8.6rem);
   line-height: 0.9;
   color: var(--bone);
 }
@@ -1591,7 +1693,7 @@ picture {
   gap: 20px;
 }
 .ig-title {
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-size: clamp(2.5rem, 5.6vw, 4.4rem);
   margin-top: 12px;
 }
 .ig-grid {
@@ -1672,7 +1774,7 @@ picture {
   justify-content: center;
   transition: 0.3s;
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.06em;
 }
 .footer-social a:hover {
@@ -1685,7 +1787,7 @@ picture {
   text-transform: uppercase;
   color: var(--stone);
   font-family: var(--sans);
-  font-weight: 700;
+  font-weight: 400;
 }
 .footer-col ul {
   margin-top: 18px;
@@ -1701,7 +1803,7 @@ picture {
   line-height: 1.5;
 }
 .footer-col a:hover {
-  color: var(--ember-bright);
+  color: var(--bone);
 }
 .footer-bottom {
   margin-top: 64px;
@@ -1745,7 +1847,7 @@ picture {
     font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: 500;
     color: #fff;
   }
   .section {
@@ -1773,10 +1875,10 @@ picture {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 700;
-  border: 1px solid var(--line-light);
+  font-weight: 500;
+  border: 1px solid var(--line-dark);
   padding: 7px 12px;
-  color: var(--stone-dim);
+  color: var(--stone);
 }
 .menu-set .tag-cluster span {
   border-color: var(--line-dark);

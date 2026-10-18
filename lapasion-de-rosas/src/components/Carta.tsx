@@ -123,7 +123,7 @@ export function Carta() {
         : t("results_found_many", { n: visible.total });
 
   return (
-    <section className="section section-light" id="carta">
+    <section className="section" id="carta">
       <div className="wrap">
         <div className="menu-head reveal">
           <div>
@@ -140,80 +140,86 @@ export function Carta() {
           </p>
         )}
 
-        <div className="menu-tools reveal">
-          <div className="menu-search">
-            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" aria-hidden>
-              <circle cx="11" cy="11" r="7" />
-              <path d="M21 21l-4.3-4.3" />
-            </svg>
-            <label htmlFor="buscador-carta" className="visually-hidden">
-              {t("menu_search_label")}
-            </label>
-            <input
-              id="buscador-carta"
-              ref={buscador}
-              type="search"
-              value={consulta}
-              onChange={(e) => setConsulta(e.target.value)}
-              placeholder={t("menu_search_placeholder")}
-              autoComplete="off"
-            />
-            <span className="kbd" aria-hidden>
-              /
-            </span>
-          </div>
+        {/* Dos columnas: a la izquierda el rail y los filtros; a la derecha,
+            la carta sola, para que se lea como una carta y no como una app. */}
+        <div className="menu-layout">
+          <aside className="menu-aside">
+            <nav className="cat-rail" aria-label={t("menu_catrail_aria")}>
+              {MENU.map((cat) => {
+                const apagada = filtrando && (visible.porCategoria.get(cat.id) ?? 0) === 0;
+                return (
+                  <a
+                    key={cat.id}
+                    href={`#carta-${cat.id}`}
+                    aria-current={activa === cat.id ? "true" : undefined}
+                    className={apagada ? "is-dimmed" : undefined}
+                  >
+                    {pick(cat.label, cat.labelEn)}
+                  </a>
+                );
+              })}
+            </nav>
 
-          <div className="menu-filters" role="group" aria-label={t("menu_filters_aria")}>
-            {TAGS.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                className="filter-chip"
-                aria-pressed={etiquetas.has(tag)}
-                onClick={() => alternarEtiqueta(tag)}
-              >
-                {t(`tag_${tag}`)}
-              </button>
-            ))}
-            {filtrando && (
-              <button type="button" className="filter-chip filter-clear" onClick={limpiar}>
-                {t("menu_clear")}
-              </button>
-            )}
-          </div>
+            <div className="menu-tools">
+              <div className="menu-search">
+                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M21 21l-4.3-4.3" />
+                </svg>
+                <label htmlFor="buscador-carta" className="visually-hidden">
+                  {t("menu_search_label")}
+                </label>
+                <input
+                  id="buscador-carta"
+                  ref={buscador}
+                  type="search"
+                  value={consulta}
+                  onChange={(e) => setConsulta(e.target.value)}
+                  placeholder={t("menu_search_placeholder")}
+                  autoComplete="off"
+                />
+                <span className="kbd" aria-hidden>
+                  /
+                </span>
+              </div>
 
-          <p className="menu-results" aria-live="polite">
-            {resultado}
-          </p>
-        </div>
+              <div className="menu-filters" role="group" aria-label={t("menu_filters_aria")}>
+                {TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className="filter-chip"
+                    aria-pressed={etiquetas.has(tag)}
+                    onClick={() => alternarEtiqueta(tag)}
+                  >
+                    {t(`tag_${tag}`)}
+                  </button>
+                ))}
+                {filtrando && (
+                  <button type="button" className="filter-chip filter-clear" onClick={limpiar}>
+                    {t("menu_clear")}
+                  </button>
+                )}
+              </div>
 
-        <nav className="cat-rail" aria-label={t("menu_catrail_aria")}>
-          {MENU.map((cat) => {
-            const apagada = filtrando && (visible.porCategoria.get(cat.id) ?? 0) === 0;
-            return (
-              <a
+              <p className="menu-results" aria-live="polite">
+                {resultado}
+              </p>
+            </div>
+          </aside>
+
+          <div className="menu-body" ref={cuerpo}>
+            {MENU.map((cat) => (
+              <SeccionCategoria
                 key={cat.id}
-                href={`#carta-${cat.id}`}
-                aria-current={activa === cat.id ? "true" : undefined}
-                className={apagada ? "is-dimmed" : undefined}
-              >
-                {pick(cat.label, cat.labelEn)}
-              </a>
-            );
-          })}
-        </nav>
-
-        <div className="menu-body" ref={cuerpo}>
-          {MENU.map((cat) => (
-            <SeccionCategoria
-              key={cat.id}
-              cat={cat}
-              filtrando={filtrando}
-              pasa={visible.pasa}
-              consulta={q}
-            />
-          ))}
-          {filtrando && visible.total === 0 && <p className="menu-empty">{t("results_empty")}</p>}
+                cat={cat}
+                filtrando={filtrando}
+                pasa={visible.pasa}
+                consulta={q}
+              />
+            ))}
+            {filtrando && visible.total === 0 && <p className="menu-empty">{t("results_empty")}</p>}
+          </div>
         </div>
       </div>
     </section>

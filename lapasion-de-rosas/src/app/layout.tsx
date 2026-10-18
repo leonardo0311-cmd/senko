@@ -1,22 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Instrument_Serif, Inter_Tight } from "next/font/google";
 import { marca, seo, siteUrl } from "@content/site";
 import { tituloDocumento } from "@content/i18n";
 import { ProveedorIdioma } from "@/lib/idioma";
 import { DatosEstructurados } from "@/components/DatosEstructurados";
 import "./globals.css";
 
-const serif = Fraunces({
+// Instrument Serif solo existe en regular y cursiva: de ahí el trazo fino.
+const serif = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400"],
   style: ["normal", "italic"],
   display: "swap",
   variable: "--fuente-serif",
 });
 
-const sans = Inter({
+const sans = Inter_Tight({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500"],
   display: "swap",
   variable: "--fuente-sans",
 });

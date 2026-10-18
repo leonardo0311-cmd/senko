@@ -43,14 +43,14 @@ css = re.sub(r'@font-face\{[^}]*\}', '', css)
 # Las variables de fuente viajaban en la clase del <html>, etiqueta que en un
 # artifact pertenece al esqueleto del servicio. Las declaramos nosotros.
 css = (
-    ':root{--fuente-serif:"Fraunces";--fuente-sans:"Inter"}\n' + css
+    ':root{--fuente-serif:"Instrument Serif";--fuente-sans:"Inter Tight"}\n' + css
 )
 ENLACE_FUENTES = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2'
-    '?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700'
-    '&family=Inter:wght@400..800&display=swap">\n'
+    '?family=Instrument+Serif:ital@0;1'
+    '&family=Inter+Tight:wght@300;400;500&display=swap">\n'
 )
 
 # ---- imagenes embebidas ----------------------------------------------------
@@ -102,7 +102,7 @@ JS = r'''
 
   /* Cabecera solida al bajar */
   var cab = document.querySelector('.site-header');
-  function alScrollear() { if (cab) cab.classList.toggle('solido', scrollY > 24); }
+  function alScrollear() { if (cab) cab.classList.toggle('solid', scrollY > 24); }
   addEventListener('scroll', alScrollear, { passive: true });
   alScrollear();
 
