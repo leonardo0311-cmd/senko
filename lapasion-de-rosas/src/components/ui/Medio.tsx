@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { medios, type ClaveMedio, type TonoMedio } from "@content/medios";
 import { useIdioma } from "@/lib/idioma";
 
@@ -70,15 +69,23 @@ export function Medio({
   const alt = pick(m.alt, m.altEn);
 
   if (m.src) {
+    // <picture> con AVIF primero y WebP como respaldo: sin el respaldo, un
+    // navegador sin soporte AVIF no muestra absolutamente nada.
     return (
-      <Image
-        src={m.src}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={prioridad}
-        className={`ph object-cover ${className}`}
-      />
+      <picture>
+        <source srcSet={`/fotos/${m.src}.avif`} type="image/avif" />
+        <img
+          src={`/fotos/${m.src}.webp`}
+          alt={alt}
+          width={m.ancho}
+          height={m.alto}
+          loading={prioridad ? "eager" : "lazy"}
+          fetchPriority={prioridad ? "high" : undefined}
+          decoding="async"
+          sizes={sizes}
+          className={`ph ${className}`}
+        />
+      </picture>
     );
   }
 

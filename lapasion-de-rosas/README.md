@@ -43,11 +43,22 @@ Todo el contenido vive en `/content`. No hace falta tocar ningún componente.
 
 ### Cargar una foto
 
-1. Guardala en `public/fotos/` (preferentemente `.avif` o `.webp`).
-2. En `content/medios.ts`, escribí la ruta en `src`:
+**Guardá siempre dos versiones**: `nombre.avif` y `nombre.webp`. El sitio
+sirve AVIF a quien lo soporta y WebP al resto. Sin el `.webp`, los navegadores
+sin AVIF (Safari anterior a 16, iOS 15, webviews embebidos) no muestran
+**nada**: el `<img>` queda vacío y la sección se ve negra.
+
+```bash
+# desde un original en alta
+magick foto.jpg -resize 1920x -quality 82 public/fotos/nombre.webp
+magick foto.jpg -resize 1920x -quality 60 public/fotos/nombre.avif
+```
+
+1. Guardá las dos en `public/fotos/`.
+2. En `content/medios.ts`, escribí el **nombre base sin extensión** en `src`:
 
 ```ts
-hero: { src: "/fotos/costillar.avif", ancho: 1920, alto: 1080, generada: false, … }
+hero: { src: "costillar", ancho: 1920, alto: 1080, generada: false, … }
 ```
 
 `ancho` y `alto` son los del archivo: reservan el espacio y evitan saltos de

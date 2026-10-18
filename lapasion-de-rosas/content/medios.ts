@@ -15,8 +15,11 @@
  * Cada entrada lleva `generada: true` mientras siga siendo de referencia.
  *
  * PARA CARGAR UNA FOTO REAL
- * 1. Guardá el archivo en /public/fotos/ (preferentemente .avif o .webp).
- * 2. Cambiá `src` por la ruta nueva y poné `generada: false`.
+ * 1. Guardá DOS versiones en /public/fotos/: `nombre.avif` y `nombre.webp`.
+ *    El sitio sirve AVIF a quien lo soporte y WebP al resto. Sin el .webp,
+ *    los navegadores sin AVIF (Safari viejo, iOS 15, webviews embebidos) no
+ *    muestran nada.
+ * 2. Escribí el nombre base en `src` (sin extensión) y poné `generada: false`.
  * 3. Revisá que `alt` y `altEn` describan lo que se ve.
  *
  * Si `src` es `null`, el sitio dibuja una composición provisional hecha con
@@ -26,7 +29,10 @@
 export type TonoMedio = "fuego" | "brasa" | "carbon" | "humo";
 
 export type Medio = {
-  /** Ruta dentro de /public. `null` = todavía no hay imagen. */
+  /**
+   * Nombre base del archivo dentro de /public/fotos/, SIN extensión.
+   * Tiene que existir en .avif y en .webp. `null` = todavía no hay imagen.
+   */
   src: string | null;
   /** Ancho y alto reales del archivo, para reservar el espacio sin saltos. */
   ancho?: number;
@@ -43,7 +49,7 @@ export type Medio = {
 
 export const medios = {
   hero: {
-    src: "/fotos/hero.avif",
+    src: "hero",
     ancho: 1920,
     alto: 1080,
     generada: true,
@@ -54,7 +60,7 @@ export const medios = {
       "Costillar entero sobre la parrilla, brasas vivas debajo y humo. Plano general bajo, luz sólo de la brasa.",
   },
   nosotros: {
-    src: "/fotos/nosotros.avif",
+    src: "nosotros",
     ancho: 802,
     alto: 1002,
     generada: true,
@@ -64,7 +70,7 @@ export const medios = {
     encuadre: "Vertical. Mesa servida en primer plano, el salón desenfocado detrás.",
   },
   fuego: {
-    src: "/fotos/fuego.avif",
+    src: "fuego",
     ancho: 1920,
     alto: 1080,
     generada: true,
@@ -74,7 +80,7 @@ export const medios = {
     encuadre: "Horizontal. Brasas reales, sin llama abierta. Fondo que cae a negro.",
   },
   especialidad: {
-    src: "/fotos/especialidad.avif",
+    src: "especialidad",
     ancho: 1140,
     alto: 641,
     generada: true,
@@ -84,7 +90,7 @@ export const medios = {
     encuadre: "Plano cerrado del costillar: textura, corteza y temperatura.",
   },
   salon: {
-    src: "/fotos/salon.avif",
+    src: "salon",
     ancho: 2048,
     alto: 900,
     generada: true,
@@ -94,7 +100,7 @@ export const medios = {
     encuadre: "Panorámica del salón preparado, antes de abrir.",
   },
   parrilla: {
-    src: "/fotos/parrilla.avif",
+    src: "parrilla",
     ancho: 1500,
     alto: 844,
     generada: true,
@@ -104,7 +110,7 @@ export const medios = {
     encuadre: "La parrilla trabajando: humo, brasa y las manos del asador.",
   },
   detalle: {
-    src: "/fotos/detalle.avif",
+    src: "detalle",
     ancho: 650,
     alto: 650,
     generada: true,
@@ -114,7 +120,7 @@ export const medios = {
     encuadre: "Macro: sal gruesa, un cuchillo gastado o el pan recién servido.",
   },
   vino: {
-    src: "/fotos/vino.avif",
+    src: "vino",
     ancho: 420,
     alto: 525,
     generada: true,
@@ -124,7 +130,7 @@ export const medios = {
     encuadre: "Copa de vino a contraluz, para que el color se lea profundo.",
   },
   reservas: {
-    src: "/fotos/reservas.avif",
+    src: "reservas",
     ancho: 1920,
     alto: 1080,
     generada: true,

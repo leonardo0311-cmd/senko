@@ -20,7 +20,7 @@ export function Especialidades() {
 
         <div className="spec-grid" style={{ marginTop: 56 }}>
           <div className="spec-block reveal reveal-img" data-cursor="view">
-            <Medio clave="especialidad" sizes="(min-width:900px) 60vw, 100vw" compacto />
+            <Medio clave="especialidad" prioridad sizes="(min-width:900px) 60vw, 100vw" compacto />
             <div className="spec-scrim" />
             <div className="spec-text">
               <div className="eyebrow spec-eyebrow">{t("spec_block_eyebrow")}</div>

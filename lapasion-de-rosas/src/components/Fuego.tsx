@@ -49,7 +49,7 @@ export function Fuego() {
   return (
     <section className="fuego">
       <div className="fuego-media">
-        <Medio clave="fuego" sizes="100vw" className="h-full w-full" compacto />
+        <Medio clave="fuego" prioridad sizes="100vw" className="h-full w-full" compacto />
       </div>
       <div className="fuego-scrim" />
       <Brasas />

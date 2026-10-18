@@ -39,9 +39,17 @@ export function ActivarRevelado() {
     // La carta se re-renderiza al cambiar de idioma: volvemos a mirar.
     const timer = window.setInterval(marcar, 1200);
 
+    // Red de seguridad: si el observer no llega a disparar —un visor embebido,
+    // un scroll que se maneja distinto— el contenido no puede quedar atrapado
+    // en opacidad cero. Pasados unos segundos, se muestra todo.
+    const red = window.setTimeout(() => {
+      document.querySelectorAll(".reveal:not(.in)").forEach((el) => el.classList.add("in"));
+    }, 4000);
+
     return () => {
       io.disconnect();
       window.clearInterval(timer);
+      window.clearTimeout(red);
       document.documentElement.classList.remove("js-reveal-ready");
     };
   }, []);

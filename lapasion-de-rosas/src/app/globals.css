@@ -716,6 +716,18 @@ body.cur-link .cur-dot {
   height: 100%;
   display: block;
 }
+
+/* Las fotos reales llenan su contenedor, que siempre está posicionado. */
+img.ph {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+
+/* <picture> no debe introducir una caja propia entre el contenedor y la foto. */
+picture {
+  display: contents;
+}
 .about-media {
   position: relative;
 }
