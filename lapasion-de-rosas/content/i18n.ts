@@ -19,6 +19,7 @@ export const I18N: Record<Idioma, Diccionario> = {
     nav_menu: "La carta",
     nav_locations: "Dónde estamos",
     nav_about: "Nosotros",
+    nav_press: "Prensa",
     nav_reservations: "Reservas",
     nav_contact: "Contacto",
     nav_toggle_aria: "Abrir menú",
@@ -134,6 +135,18 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_label: "A confirmar",
     pending_contact:
       "Todavía no está publicado el canal oficial de reservas. Escribinos por Instagram mientras tanto.",
+
+    sobre_aria: "Bienvenida a La Pasión de Rosas",
+    sobre_pie: "Una mesa que se reserva con tiempo.",
+    sobre_abrir: "Abrir la carta",
+
+    prensa_eyebrow: "Prensa",
+    prensa_title: "Lo que se dijo de la casa.",
+    prensa_note: "Notas publicadas por medios. Los enlaces van al sitio de cada medio.",
+    prensa_pending_label: "Pendiente",
+    prensa_pending_text:
+      "Enlaces encontrados en una búsqueda, todavía sin verificar uno por uno. Revisalos antes de publicar el sitio.",
+    prensa_leer: "Leer la nota",
   },
 
   en: {
@@ -144,6 +157,7 @@ export const I18N: Record<Idioma, Diccionario> = {
     nav_menu: "Menu",
     nav_locations: "Find us",
     nav_about: "About",
+    nav_press: "Press",
     nav_reservations: "Reservations",
     nav_contact: "Contact",
     nav_toggle_aria: "Open menu",
@@ -260,6 +274,18 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_label: "To confirm",
     pending_contact:
       "The official booking channel is not published yet. Write to us on Instagram in the meantime.",
+
+    sobre_aria: "Welcome to La Pasión de Rosas",
+    sobre_pie: "A table you book ahead.",
+    sobre_abrir: "Open the letter",
+
+    prensa_eyebrow: "Press",
+    prensa_title: "What has been written.",
+    prensa_note: "Articles published by the press. Links go to each outlet's own site.",
+    prensa_pending_label: "Pending",
+    prensa_pending_text:
+      "Links found through a search and not yet checked one by one. Review them before the site goes live.",
+    prensa_leer: "Read the article",
   },
 };
 

@@ -3,6 +3,7 @@
 import { videoPortada } from "@content/medios";
 import { useIdioma } from "@/lib/idioma";
 import { Medio } from "./ui/Medio";
+import { Brasas } from "./ui/Brasas";
 import { medir } from "@/lib/analitica";
 
 export function Hero() {
@@ -31,6 +32,7 @@ export function Hero() {
         </div>
       </div>
       <div className="hero-scrim" />
+      <Brasas className="embers-hero" />
 
       <div className="hero-inner">
         <div className="hero-eyebrow">{t("hero_eyebrow")}</div>

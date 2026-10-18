@@ -1,4 +1,5 @@
 import { SaltoContenido } from "@/components/SaltoContenido";
+import { SobreLacrado } from "@/components/SobreLacrado";
 import { Cursor } from "@/components/ui/Cursor";
 import { ActivarRevelado } from "@/components/ui/Revelar";
 import { Header } from "@/components/Header";
@@ -11,6 +12,7 @@ import { Carta } from "@/components/Carta";
 import { Especialidades } from "@/components/Especialidades";
 import { Galeria } from "@/components/Galeria";
 import { Ocasiones } from "@/components/Ocasiones";
+import { Prensa } from "@/components/Prensa";
 import { Lugar } from "@/components/Lugar";
 import { Reservas } from "@/components/Reservas";
 import { Instagram } from "@/components/Instagram";
@@ -19,6 +21,7 @@ import { Footer } from "@/components/Footer";
 export default function Pagina() {
   return (
     <>
+      <SobreLacrado />
       <SaltoContenido />
       <Cursor />
       <ActivarRevelado />
@@ -35,6 +38,7 @@ export default function Pagina() {
         <Especialidades />
         <Galeria />
         <Ocasiones />
+        <Prensa />
         <Lugar />
         <Reservas />
         <Instagram />

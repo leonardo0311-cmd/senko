@@ -20,7 +20,8 @@ export type EventoSitio =
   | "como_llegar_click"
   | "instagram_click"
   | "menu_visto"
-  | "ocasion_seleccionada";
+  | "ocasion_seleccionada"
+  | "prensa_click";
 
 type Metadatos = Record<string, string | number | boolean>;
 

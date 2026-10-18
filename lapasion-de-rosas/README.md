@@ -207,7 +207,12 @@ Qué hace y por qué:
   2 MB de base64) por una hoja de Google Fonts.
 - **Reemplaza React por JavaScript plano** para el revelado al scrollear, la
   cabecera, el menú móvil, el cursor, el buscador y los filtros de la carta, el
-  scrollspy del rail y el visor de la galería.
+  scrollspy del rail, el visor de la galería, la carta lacrada de bienvenida y
+  las chispas sobre las fotos del fuego.
+
+Lo que React hace en un `useEffect` hay que sembrarlo a mano acá. Si agregás
+una interacción al sitio Next, agregala también en este script o en la página
+única no va a existir.
 
 Lo que esta versión no trae: el selector de idioma (necesita el diccionario
 completo) y la analítica. El sitio Next conserva las dos cosas.

@@ -78,6 +78,7 @@ export const navegacion = [
   { id: "carta", clave: "nav_menu" },
   { id: "lugar", clave: "nav_locations" },
   { id: "nosotros", clave: "nav_about" },
+  { id: "prensa", clave: "nav_press" },
   { id: "reservas", clave: "nav_reservations" },
   { id: "contacto", clave: "nav_contact" },
 ] as const;
@@ -120,3 +121,42 @@ function resolverSiteUrl(): string {
 }
 
 export const siteUrl = resolverSiteUrl();
+
+/* --------------------------------------------------------------------------
+ * PRENSA
+ *
+ * Notas publicadas sobre la casa. Los enlaces salieron de una búsqueda web;
+ * no se pudieron abrir una por una para verificar su contenido, así que
+ * `prensaVerificada` queda en false y el sitio muestra el aviso naranja.
+ * Al confirmarlas, poner la bandera en true.
+ * ------------------------------------------------------------------------ */
+
+export const prensaVerificada = false;
+
+export type Nota = {
+  /** Nombre del medio, tal como se firma. */
+  medio: string;
+  /** Titular de la nota. */
+  titulo: string;
+  /** Enlace a la nota en el sitio del medio. */
+  url: string;
+};
+
+export const PRENSA: readonly Nota[] = [
+  {
+    medio: "Ámbito",
+    titulo:
+      "Joya oculta: una parrilla secreta con una propuesta única que es furor entre amantes de la carne",
+    url: "https://www.ambito.com/lifestyle/joya-oculta-una-parrilla-secreta-una-propuesta-unica-que-es-furor-amantes-la-carne-n5770221",
+  },
+  {
+    medio: "Informe Operadores de Mercado",
+    titulo: "La Pasión de Rosas",
+    url: "https://www.informeoperadores.com.ar/2022/01/31/la-pasion-de-rosas/",
+  },
+  {
+    medio: "Tripadvisor",
+    titulo: "La Pasión de Rosas, Ezeiza · opiniones y reservas",
+    url: "https://www.tripadvisor.com.ar/Restaurant_Review-g2008837-d12080015-Reviews-La_Pasion_de_Rosas-Ezeiza_Province_of_Buenos_Aires_Central_Argentina.html",
+  },
+] as const;

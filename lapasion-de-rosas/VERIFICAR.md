@@ -25,6 +25,28 @@ o un horario equivocado y que alguien viaje a Ezeiza un día que está cerrado.
 | 7 | **Logotipo** | `marca.logo` | Se compone el nombre tipográficamente. No se redibujó ningún logo. |
 | 8 | Teléfono y correo | `contacto.telefono`, `contacto.email` | No aparecen en el pie. |
 | 9 | Google Maps | `contacto.mapaUrl` | El enlace "Ver en mapa" no aparece. |
+| 10 | **Prensa** | `content/site.ts` → `PRENSA` | ⚠️ Tres enlaces encontrados en una búsqueda web, con un aviso naranja visible. No se pudieron abrir para verificar su contenido. Poné `prensaVerificada = true` cuando los revises. |
+
+## Datos que aparecieron en una búsqueda, sin confirmar
+
+Una búsqueda web devolvió los datos de abajo. **No están cargados en el
+sitio**: se anotan acá para que el restaurante los confirme o los corrija.
+Ninguno viene del restaurante, así que ninguno se publica todavía.
+
+| Dato | Lo que dice la búsqueda | Fuente |
+|---|---|---|
+| Dirección | Jose A. Berutti 287, Ezeiza | Tripadvisor |
+| Teléfono | +54 9 11 4189-0473 | Tripadvisor |
+| Dueño | César Leaños, atiende personalmente | Informe Operadores de Mercado |
+| Formato | A puertas cerradas, sólo con reserva previa | Informe Operadores de Mercado |
+| Especialidad | Costillar asado a leña, unas cinco horas | Tripadvisor |
+| Nombre anterior | La Otilia | Tripadvisor |
+
+Dos advertencias sobre esta tabla. Los datos salen de fichas de terceros, que
+suelen quedar viejas: un teléfono o una dirección de Tripadvisor puede tener
+años. Y las páginas no se pudieron abrir desde este entorno para leerlas
+enteras, así que lo de arriba es lo que devolvió el buscador, no lo que dice
+cada nota.
 
 ## Cómo confirmar un dato
 
