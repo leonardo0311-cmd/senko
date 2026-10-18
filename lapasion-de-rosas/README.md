@@ -182,3 +182,32 @@ npm run build && npm start
 Para hosting sin Node: `STATIC_EXPORT=1 npm run build` genera `/out`. En ese
 modo las imágenes no se optimizan y las cabeceras de seguridad hay que
 configurarlas en el hosting (están en `next.config.ts`).
+
+### Vista previa en una sola página
+
+`scripts/construir-pagina-unica.py` arma el sitio entero en un único `.html`
+autocontenido, pensado para compartirlo sin servidor:
+
+```bash
+STATIC_EXPORT=1 ASSET_PREFIX=./estaticos npm run build
+python3 scripts/construir-pagina-unica.py pagina-unica.html
+```
+
+Qué hace y por qué:
+
+- **Saca el documento externo.** No emite `doctype`/`html`/`head`/`body`
+  propios, porque el servicio que la hospeda envuelve la página en su propio
+  esqueleto. Un documento completo quedaba anidado dentro de otro y React
+  fallaba al hidratar (error #418), con parte de las fotos sin pintar.
+- **Embebe las fotos** en WebP como `data:` URI, así no dependen de ninguna
+  ruta relativa.
+- **Declara las variables de fuente en `:root`.** Next las pone como clase en
+  `<html>`, etiqueta que en ese contexto no nos pertenece.
+- **Cambia los 67 `@font-face`** (que repetían los mismos 13 woff2 y sumaban
+  2 MB de base64) por una hoja de Google Fonts.
+- **Reemplaza React por JavaScript plano** para el revelado al scrollear, la
+  cabecera, el menú móvil, el cursor, el buscador y los filtros de la carta, el
+  scrollspy del rail y el visor de la galería.
+
+Lo que esta versión no trae: el selector de idioma (necesita el diccionario
+completo) y la analítica. El sitio Next conserva las dos cosas.
