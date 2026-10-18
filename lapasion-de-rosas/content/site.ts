@@ -96,5 +96,27 @@ export const seo = {
   ],
 } as const;
 
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://lapasionderosas.com.ar";
+/**
+ * URL base del sitio, usada para el canonical, el sitemap y la vista previa al
+ * compartir el enlace.
+ *
+ * 1. `NEXT_PUBLIC_SITE_URL` si está definida (el dominio real, en producción).
+ * 2. El dominio del propio deploy en Vercel, para que una vista previa no
+ *    apunte a un dominio que todavía no existe.
+ * 3. El dominio definitivo, como último recurso.
+ */
+function resolverSiteUrl(): string {
+  const explicita = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicita) return explicita.replace(/\/$/, "");
+
+  const vercel =
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.NEXT_PUBLIC_VERCEL_URL ??
+    process.env.VERCEL_URL;
+  if (vercel) return `https://${vercel.replace(/^https?:\/\//, "").replace(/\/$/, "")}`;
+
+  return "https://lapasionderosas.com.ar";
+}
+
+export const siteUrl = resolverSiteUrl();

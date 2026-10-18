@@ -140,6 +140,28 @@ Nunca se envían datos personales.
 
 ## 6. Despliegue
 
+### Vercel (plan gratuito)
+
+El proyecto vive en un subdirectorio y en una rama que **no** es la rama por
+defecto del repo, así que al importarlo hay que tocar dos cosas:
+
+1. vercel.com → **Add New… → Project** → importá `leonardo0311-cmd/senko`.
+2. **Root Directory**: `lapasion-de-rosas` ← sin esto el build no encuentra nada.
+3. Framework: *Next.js* (se detecta solo). No cambies build ni install command.
+4. **Deploy**. Luego, en **Settings → Git → Production Branch**, poné
+   `claude/affectionate-bardeen-mcb0cw` y volvé a desplegar.
+   La rama por defecto del repo no contiene este proyecto.
+
+No hace falta configurar ninguna variable de entorno: sin
+`NEXT_PUBLIC_SITE_URL`, el sitio toma el dominio del propio deploy de Vercel
+para el canonical, el sitemap y la vista previa al compartir. Cuando tengas el
+dominio definitivo, definí `NEXT_PUBLIC_SITE_URL` y listo.
+
+Verificado: `npm ci` + `npm run build` desde un clon limpio de la rama, en
+Node 22, que es lo que corre Vercel.
+
+### Otros hostings
+
 Definí `NEXT_PUBLIC_SITE_URL` con el dominio real (ver `.env.example`).
 
 ```bash
