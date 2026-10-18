@@ -225,9 +225,21 @@ restaurante: no se toca. `logo.webp` es el mismo con el fondo recortado
 oscuro— para poder apoyarlo sobre cualquier superficie. No se redibujó ni se
 recoloreó nada.
 
-La paleta del sitio sale de ese archivo: el marrón del fondo (`--ink`,
-`#120d09`, la mediana de sus píxeles oscuros) y el dorado de la marca
-(`--champ`, `#c0a27e`).
+La paleta entera del sitio sale de ese archivo, que tiene exactamente tres
+familias de color y ningún naranja:
+
+| Token | Valor | De dónde sale |
+|---|---|---|
+| `--ink` … `--coal-2` | `#120d09` … `#291e13` | El marrón del fondo del logo, del percentil 50 al 95 de sus píxeles oscuros |
+| `--bone` | `#fcfcfc` | El blanco del texto del logo |
+| `--parchment`, `--stone`, `--stone-dim` | `#d2d1d0`, `#9a9896`, `#8c8987` | Mezclas de ese blanco con ese marrón, al 18%, 42% y 48% |
+| `--champ-dim`, `--champ`, `--champ-bright` | `#a99574`, `#c0a27e`, `#cbaa87` | El dorado de la marca, en sus valores oscuro, dominante y claro |
+
+El dorado es el único acento: la acción principal, la numeración de secciones,
+los filetes, los avisos y las chispas del fuego. Los grises intermedios no se
+eligieron a ojo; son mezclas de dos colores del propio logotipo, y cada uno
+está elegido por el valor más bajo que todavía pasa 4.5:1 sobre la superficie
+más clara donde puede aparecer.
 
 `marca.logo` en `content/site.ts` manda. Si vuelve a `null`, el componente
 `ui/Logotipo` compone el nombre tipográficamente, como antes de tenerlo.

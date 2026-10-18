@@ -14,7 +14,6 @@ export function BarraMovil() {
       <a
         href={wa ?? "#reservas"}
         {...(wa ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        style={{ color: "#fff" }}
         onClick={() => medir(wa ? "whatsapp_click" : "reserva_click", { origen: "barra_movil" })}
       >
         {t("mobile_book")}
