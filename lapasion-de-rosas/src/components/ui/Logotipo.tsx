@@ -1,4 +1,5 @@
 import { marca } from "@content/site";
+import { publico } from "@/lib/rutas";
 
 /**
  * El logotipo de la casa.
@@ -11,7 +12,7 @@ export function Logotipo({ alto, className = "" }: { alto: number; className?: s
     const ancho = Math.round((marca.logo.ancho * alto) / marca.logo.alto);
     return (
       <img
-        src={marca.logo.src}
+        src={publico(marca.logo.src)}
         alt={marca.nombre}
         width={ancho}
         height={alto}

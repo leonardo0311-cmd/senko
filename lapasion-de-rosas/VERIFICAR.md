@@ -18,13 +18,13 @@ o un horario equivocado y que alguien viaje a Ezeiza un día que está cerrado.
 |---|---|---|---|
 | 1 | **La carta** | `content/menu.ts` | ⚠️ Hay platos y precios **de ejemplo** con un aviso naranja visible. Poné `cartaVerificada = true` sólo cuando los reemplaces por los reales. **No publiques el sitio así.** |
 | 2 | **WhatsApp** | `contacto.whatsapp` | Sin número no hay botón de reserva: el sitio cae a Instagram, y si tampoco está, muestra un aviso. |
-| 3 | **Dirección** | `contacto.direccion` | Se muestra "Ezeiza, Provincia de Buenos Aires · dirección exacta al confirmar la reserva". |
+| 3 | ~~Dirección~~ | `contacto.direccion` | ✅ **Resuelta.** Berutti 287, esquina Illia · Ezeiza (1804). Confirmada por el restaurante. |
 | 4 | **Horarios** | `contacto.horarios` | Se muestra "Días y horarios a confirmar · escribinos". |
 | 5 | **Instagram** | `redes.instagram` | La sección del feed **no se renderiza** hasta confirmarlo. |
 | 6 | **Fotos** | `content/medios.ts` | ⚠️ Las 9 imágenes del sitio son **de referencia, generadas con IA**: no son fotos de La Pasión de Rosas ni de sus platos. Llevan `generada: true`. **Reemplazalas antes de publicar.** Falta la fachada, que sigue como composición provisional. |
 | 7 | ~~Logotipo~~ | `marca.logo` | ✅ **Resuelto.** El restaurante lo entregó y está en la cabecera y el pie. El maestro es `public/marca/logo-original.png`; `logo.webp` es el mismo con el fondo recortado. No se redibujó nada. |
 | 8 | Teléfono y correo | `contacto.telefono`, `contacto.email` | No aparecen en el pie. |
-| 9 | Google Maps | `contacto.mapaUrl` | El enlace "Ver en mapa" no aparece. |
+| 9 | Google Maps | `contacto.mapaUrl` | ⚠️ Es una **búsqueda** armada con la dirección confirmada, no el enlace de la ficha del local. Si el restaurante pasa el enlace de su ficha de Google, reemplazarlo. |
 | 10 | **Prensa** | `content/site.ts` → `PRENSA` | ⚠️ Tres enlaces encontrados en una búsqueda web, con un aviso naranja visible. No se pudieron abrir para verificar su contenido. Poné `prensaVerificada = true` cuando los revises. |
 
 ## Datos que aparecieron en una búsqueda, sin confirmar
@@ -35,7 +35,6 @@ Ninguno viene del restaurante, así que ninguno se publica todavía.
 
 | Dato | Lo que dice la búsqueda | Fuente |
 |---|---|---|
-| Dirección | Jose A. Berutti 287, Ezeiza | Tripadvisor |
 | Teléfono | +54 9 11 4189-0473 | Tripadvisor |
 | Dueño | César Leaños, atiende personalmente | Informe Operadores de Mercado |
 | Formato | A puertas cerradas, sólo con reserva previa | Informe Operadores de Mercado |

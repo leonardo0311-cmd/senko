@@ -1,0 +1,59 @@
+1:"$Sreact.fragment"
+2:"./_next/static/chunks/3e7fi_x1nncny.js"
+3:I[89902,["$2"],"ProveedorIdioma"]
+4:"./_next/static/chunks/0umf92h1sb77c.js"
+5:I[39756,["$4"],"default"]
+6:I[37457,["$4"],"default"]
+a:"./_next/static/chunks/1i020690tafpp.js"
+b:I[22256,["$2","$a"],"SobreLacrado"]
+c:I[1287,["$2","$a"],"SaltoContenido"]
+d:I[11292,["$2","$a"],"Cursor"]
+e:I[86665,["$2","$a"],"ActivarRevelado"]
+f:I[2971,["$2","$a"],"Header"]
+10:I[67884,["$2","$a"],"BarraMovil"]
+11:I[32177,["$2","$a"],"Hero"]
+12:I[86301,["$2","$a"],"Marquesina"]
+13:I[96878,["$2","$a"],"Nosotros"]
+14:I[60971,["$2","$a"],"Fuego"]
+15:I[21753,["$2","$a"],"Carta"]
+16:I[43011,["$2","$a"],"Especialidades"]
+17:I[34960,["$2","$a"],"Galeria"]
+18:I[18428,["$2","$a"],"Ocasiones"]
+19:I[66308,["$2","$a"],"Prensa"]
+1a:I[29117,["$2","$a"],"Lugar"]
+1b:I[15793,["$2","$a"],"Reservas"]
+1c:I[73229,["$2","$a"],"Instagram"]
+1d:I[13642,["$2","$a"],"Footer"]
+1e:I[97367,["$4"],"OutletBoundary"]
+1f:"$Sreact.suspense"
+22:"ViewportBoundary"
+23:I[97367,["$4"],"$22"]
+24:"MetadataBoundary"
+25:I[97367,["$4"],"$24"]
+:HL["./_next/static/chunks/0y92q9ot1uql_.css","style"]
+8:X
+9:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[[["$","$Lb",null,{}],["$","$Lc",null,{}],["$","$Ld",null,{}],["$","$Le",null,{}],["$","$Lf",null,{}],["$","$L10",null,{}],["$","main",null,{"children":[["$","$L11",null,{}],["$","$L12",null,{}],["$","$L13",null,{}],["$","$L14",null,{}],["$","$L15",null,{}],["$","$L16",null,{}],["$","$L17",null,{}],["$","$L18",null,{}],["$","$L19",null,{}],["$","$L1a",null,{}],["$","$L1b",null,{}],["$","$L1c",null,{}]]}],["$","$L1d",null,{}]],[["$","script","script-0",{"src":"./_next/static/chunks/1i020690tafpp.js","async":true}]],["$","$L1e",null,{"children":["$","$1f",null,{"name":"Next.MetadataOutlet","children":"$@20"}]}]]}],"p":"$@21","v":null,"s":"$8"}}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"./_next/static/chunks/0y92q9ot1uql_.css","precedence":"next"}],["$","script","script-0",{"src":"./_next/static/chunks/3e7fi_x1nncny.js","async":true}]],["$","html",null,{"lang":"es-AR","className":"Y6AqGa_variable yl4cmq_variable","children":["$","body",null,{"children":[["$","$L3",null,{"children":["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]]}]}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Restaurant\",\"name\":\"La Pasión de Rosas\",\"description\":\"Parrilla en Ezeiza, Provincia de Buenos Aires. Costillar a las brasas, con reserva previa. Se cocina para pocos.\",\"url\":\"https://leonardo0311-cmd.github.io/senko\",\"servesCuisine\":\"Argentina\",\"acceptsReservations\":\"True\",\"address\":{\"@type\":\"PostalAddress\",\"addressLocality\":\"Ezeiza\",\"addressRegion\":\"Provincia de Buenos Aires\",\"addressCountry\":\"AR\",\"streetAddress\":\"Berutti 287, esquina Illia · Ezeiza (1804), Provincia de Buenos Aires\"},\"hasMap\":\"https://www.google.com/maps/search/?api=1&query=Berutti%20287%2C%20Ezeiza%2C%20Buenos%20Aires%2C%20Argentina\"}"}}]]}]}]]}],"p":"$@7","v":null,"s":"$8"},"c":"$Q9"},"h":{"r":["$","$1","h",{"children":[null,["$","$L23",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0d0a08"}],["$","meta","3",{"name":"color-scheme","content":"dark"}]]}],["$","$L25",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$1f",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"La Pasión de Rosas · Parrilla en Ezeiza, Buenos Aires"}],["$","meta","1",{"name":"description","content":"Parrilla en Ezeiza, Provincia de Buenos Aires. Costillar a las brasas, con reserva previa. Se cocina para pocos."}],["$","meta","2",{"name":"keywords","content":"parrilla en Ezeiza,restaurante en Ezeiza,costillar asado Ezeiza,cena especial Ezeiza,restaurante para celebraciones Buenos Aires"}],["$","meta","3",{"name":"robots","content":"index, follow"}],["$","link","4",{"rel":"canonical","href":"https://leonardo0311-cmd.github.io/senko/"}],["$","meta","5",{"property":"og:title","content":"La Pasión de Rosas · Parrilla en Ezeiza, Buenos Aires"}],["$","meta","6",{"property":"og:description","content":"Parrilla en Ezeiza, Provincia de Buenos Aires. Costillar a las brasas, con reserva previa. Se cocina para pocos."}],["$","meta","7",{"property":"og:url","content":"https://leonardo0311-cmd.github.io/senko"}],["$","meta","8",{"property":"og:site_name","content":"La Pasión de Rosas"}],["$","meta","9",{"property":"og:locale","content":"es_AR"}],["$","meta","10",{"property":"og:image","content":"https://leonardo0311-cmd.github.io/senko/opengraph-image?793f6fe56993b3a5"}],["$","meta","11",{"property":"og:image:type","content":"image/png"}],["$","meta","12",{"property":"og:image:width","content":"1200"}],["$","meta","13",{"property":"og:image:height","content":"630"}],"$L26","$L27","$L28","$L29","$L2a","$L2b","$L2c","$L2d","$L2e","$L2f","$L30","$L31","$L32"]}]}],null]}],"$L33"]}],"p":"$@34","v":null,"s":"$8"}},"a":"$@35","u":"$@36","b":"UuQJlv9bI_nASACI3FnEL"}
+37:I[27201,["$4"],"IconMark"]
+20:null
+26:["$","meta","14",{"property":"og:image:alt","content":"La Pasión de Rosas — Ezeiza, Provincia de Buenos Aires"}]
+27:["$","meta","15",{"property":"og:locale:alternate","content":"en_US"}]
+28:["$","meta","16",{"property":"og:type","content":"website"}]
+29:["$","meta","17",{"name":"twitter:card","content":"summary_large_image"}]
+2a:["$","meta","18",{"name":"twitter:title","content":"La Pasión de Rosas · Parrilla en Ezeiza, Buenos Aires"}]
+2b:["$","meta","19",{"name":"twitter:description","content":"Parrilla en Ezeiza, Provincia de Buenos Aires. Costillar a las brasas, con reserva previa. Se cocina para pocos."}]
+2c:["$","meta","20",{"name":"twitter:image","content":"https://leonardo0311-cmd.github.io/senko/opengraph-image?793f6fe56993b3a5"}]
+2d:["$","meta","21",{"name":"twitter:image:alt","content":"La Pasión de Rosas — Ezeiza, Provincia de Buenos Aires"}]
+2e:["$","meta","22",{"name":"twitter:image:type","content":"image/png"}]
+2f:["$","meta","23",{"name":"twitter:image:width","content":"1200"}]
+30:["$","meta","24",{"name":"twitter:image:height","content":"630"}]
+31:["$","link","25",{"rel":"icon","href":"/icon?e87b1ff59a49a59a","type":"image/png","sizes":"32x32"}]
+32:["$","$L37","26",{}]
+33:["$","meta",null,{"name":"next-size-adjust","content":""}]
+8:300
+36:true
+8:C
+35:0
+7:"$undefined"
+34:"$undefined"
+21:"$undefined"

@@ -61,11 +61,21 @@ export const contacto = {
   telefono: dato("", false, "PENDIENTE."),
   email: dato("", false, "PENDIENTE."),
   direccion: dato(
-    "",
-    false,
-    "PENDIENTE. Fuentes públicas en conflicto (Berutti 287 vs. A. U. Illia 710).",
+    "Berutti 287, esquina Illia · Ezeiza (1804), Provincia de Buenos Aires",
+    true,
+    "Confirmada por el restaurante.",
   ),
-  mapaUrl: dato("", false, "PENDIENTE. Pegar el enlace oficial de Google Maps."),
+  /**
+   * Búsqueda en Google Maps armada con la dirección confirmada: no es el
+   * enlace oficial del local. Si el restaurante pasa el enlace de su ficha,
+   * reemplazarlo acá.
+   */
+  mapaUrl: dato(
+    "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent("Berutti 287, Ezeiza, Buenos Aires, Argentina"),
+    true,
+    "Armado con la dirección confirmada. Reemplazar por el enlace oficial de la ficha.",
+  ),
   horarios: dato<string[]>([], false, "PENDIENTE. Fuentes públicas en conflicto."),
 } as const;
 

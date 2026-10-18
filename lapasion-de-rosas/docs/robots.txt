@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://leonardo0311-cmd.github.io/senko/sitemap.xml

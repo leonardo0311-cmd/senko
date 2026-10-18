@@ -243,3 +243,39 @@ más clara donde puede aparecer.
 
 `marca.logo` en `content/site.ts` manda. Si vuelve a `null`, el componente
 `ui/Logotipo` compone el nombre tipográficamente, como antes de tenerlo.
+
+## Publicar gratis en GitHub Pages
+
+Vercel quedó bloqueado: el conector lee pero no escribe sobre el scope de la
+cuenta, así que crear el proyecto desde acá devuelve 403. La alternativa sin
+costo es GitHub Pages, que sirve el sitio desde el propio repositorio.
+
+```bash
+bash scripts/construir-pages.sh   # deja todo en docs/
+git add docs && git commit && git push
+```
+
+Después, una sola vez, en **Settings → Pages** del repositorio:
+
+- **Source:** Deploy from a branch
+- **Branch:** `claude/affectionate-bardeen-mcb0cw` · carpeta `/docs`
+
+Queda en `https://leonardo0311-cmd.github.io/senko/`.
+
+Tres detalles hacen que funcione en un subdirectorio, y los tres están en el
+script:
+
+1. `assetPrefix` y `NEXT_PUBLIC_BASE_PATH` en `.`, para que las rutas sean
+   relativas a la página y no a la raíz del dominio.
+2. Un archivo `.nojekyll`. Sin él, Pages pasa el sitio por Jekyll, que ignora
+   las carpetas que empiezan con guión bajo: `_next` desaparece entero y no
+   queda ni CSS ni JavaScript.
+3. El `<link>` del favicon, que Next emite en ruta absoluta **dos veces**: en
+   el HTML y, escapado, dentro del payload con el que React hidrata. Arreglar
+   sólo el primero no alcanza: React vuelve a pedir la ruta absoluta.
+
+Verificado sirviendo `docs/` bajo `/senko/`: 12/12 imágenes, el logotipo, los
+revelados, la intro y la dirección, sin una sola respuesta con error.
+
+Para mover el sitio a un dominio propio, construir con
+`NEXT_PUBLIC_SITE_URL=https://eldominio.com` y sin `NEXT_PUBLIC_BASE_PATH`.

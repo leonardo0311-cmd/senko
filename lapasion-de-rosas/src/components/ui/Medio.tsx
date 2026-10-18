@@ -2,6 +2,7 @@
 
 import { medios, type ClaveMedio, type TonoMedio } from "@content/medios";
 import { useIdioma } from "@/lib/idioma";
+import { publico } from "@/lib/rutas";
 
 /**
  * Muestra una fotografía del restaurante.
@@ -73,9 +74,9 @@ export function Medio({
     // navegador sin soporte AVIF no muestra absolutamente nada.
     return (
       <picture>
-        <source srcSet={`/fotos/${m.src}.avif`} type="image/avif" />
+        <source srcSet={publico(`/fotos/${m.src}.avif`)} type="image/avif" />
         <img
-          src={`/fotos/${m.src}.webp`}
+          src={publico(`/fotos/${m.src}.webp`)}
           alt={alt}
           width={m.ancho}
           height={m.alto}
