@@ -209,11 +209,14 @@ JS = r'''
 
     var quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
     var espera = quieto ? 700 : 900;
-    var duracion = quieto ? 500 : 1800;
+    var duracion = quieto ? 500 : 2000;
 
     var scrollPrevio = cuerpo.style.overflow;
     capa.classList.add('visible');
     cuerpo.style.overflow = 'hidden';
+    /* Tapado no se ve, pero el sitio de atrás sigue animando y le come
+       cuadros a la apertura: la clase pausa esas animaciones. */
+    cuerpo.classList.add('sobre-puesto');
 
     var abierto = false;
     function abrir() {
@@ -223,6 +226,7 @@ JS = r'''
       setTimeout(function () {
         capa.classList.remove('visible', 'abriendo');
         cuerpo.style.overflow = scrollPrevio;
+        cuerpo.classList.remove('sobre-puesto');
         removeEventListener('keydown', abrir);
       }, duracion);
     }

@@ -6,7 +6,7 @@ const CLAVE = "lpr-sobre-visto";
 /** Cuánto se queda el sobre cerrado antes de abrirse solo. */
 const ESPERA = 900;
 /** Lo que tarda la apertura completa, hasta que se levanta el telón. */
-const DURACION = 1800;
+const DURACION = 2000;
 /** Sin movimiento no hay apertura que mirar: el telón pasa rápido. */
 const ESPERA_QUIETA = 700;
 const DURACION_QUIETA = 500;
@@ -62,13 +62,19 @@ export function SobreLacrado() {
     relojes.current.push(window.setTimeout(abrir, sinMovimiento() ? ESPERA_QUIETA : ESPERA));
   }, [abrir]);
 
-  /* Mientras el telón está puesto, el sitio de atrás no se desplaza. */
+  /*
+   * Mientras el telón está puesto, el sitio de atrás no se desplaza. Y, sobre
+   * todo, no anima: tapado no se ve, pero el navegador lo sigue pintando y le
+   * come cuadros a la apertura. La clase pausa esas animaciones.
+   */
   useEffect(() => {
     if (estado === "oculto") return;
     const previo = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("sobre-puesto");
     return () => {
       document.body.style.overflow = previo;
+      document.body.classList.remove("sobre-puesto");
     };
   }, [estado]);
 
@@ -97,8 +103,6 @@ export function SobreLacrado() {
           {/* El fondo del sobre, que recién se ve cuando la solapa se levanta. */}
           <span className="sobre-interior" />
           <span className="sobre-solapa" />
-          <span className="sobre-pliegue sobre-pliegue-izq" />
-          <span className="sobre-pliegue sobre-pliegue-der" />
           <Lacre />
         </div>
       </div>
