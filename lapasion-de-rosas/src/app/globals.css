@@ -2278,3 +2278,42 @@ body.sobre-puesto .marquee-track {
 .mapa-abrir:hover {
   color: var(--bone);
 }
+
+/* La ficha que reemplaza al mapa cuando el marco no carga. */
+.mapa-ficha {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  height: clamp(280px, 42vh, 460px);
+  padding: 0 clamp(20px, 5vw, 56px);
+  text-align: center;
+  background: var(--ink-2);
+}
+.mapa-ficha-dir {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.2;
+  color: var(--bone);
+  max-width: 24ch;
+}
+.mapa-ficha-coord {
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--champ);
+  font-variant-numeric: tabular-nums;
+}
+.mapa-ficha-nota {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--stone);
+  max-width: 48ch;
+}
+/* Mientras se comprueba si hay mapa, el bloque conserva su altura en vez de
+   colapsar y volver a crecer. */
+.mapa-probando::before {
+  content: "";
+  display: block;
+  height: clamp(280px, 42vh, 460px);
+  background: var(--ink-2);
+}

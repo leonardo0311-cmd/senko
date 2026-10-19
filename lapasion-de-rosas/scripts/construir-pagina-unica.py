@@ -174,15 +174,28 @@ JS = r'''
   }
 
   /* ---- El mapa, a pedido ------------------------------------------------
-     React lo cambia por un <iframe> al tocarlo; aca hay que hacerlo a mano.
-     La URL viaja en el propio marcado.                                     */
+     Antes de incrustarlo se comprueba que Google sea alcanzable. Un marco
+     bloqueado igual dispara 'load' —carga la pagina de error del navegador—,
+     asi que ese evento no sirve para saber si hay mapa. Si no se alcanza, se
+     muestra la ficha con la direccion.                                      */
   (function mapa() {
     var caja = document.querySelector('.mapa');
     if (!caja) return;
     var boton = caja.querySelector('.mapa-pedir');
+    var ficha = caja.querySelector('.mapa-ficha');
     var src = caja.getAttribute('data-mapa-src');
     if (!boton || !src) return;
-    boton.addEventListener('click', function () {
+    var espera = parseInt(caja.getAttribute('data-mapa-espera') || '5000', 10);
+
+    function fallar() {
+      caja.className = caja.className.replace(/mapa-(boton|probando|marco)/g, '') + ' mapa-falla';
+      var m = caja.querySelector('.mapa-marco');
+      if (m) m.remove();
+      boton.hidden = true;
+      if (ficha) ficha.hidden = false;
+    }
+
+    function incrustar() {
       var marco = document.createElement('iframe');
       marco.className = 'mapa-marco';
       marco.src = src;
@@ -190,7 +203,26 @@ JS = r'''
       marco.loading = 'lazy';
       marco.referrerPolicy = 'no-referrer-when-downgrade';
       marco.allowFullscreen = true;
-      boton.replaceWith(marco);
+
+      var reloj = setTimeout(fallar, espera);
+      marco.addEventListener('load', function () { clearTimeout(reloj); });
+      /* Si la politica de la pagina prohibe el marco, el navegador avisa. */
+      document.addEventListener('securitypolicyviolation', function (e) {
+        if (e.blockedURI && e.blockedURI.indexOf('google') !== -1) {
+          clearTimeout(reloj);
+          fallar();
+        }
+      });
+
+      caja.className = caja.className.replace('mapa-boton', '') + ' mapa-marco-puesto';
+      boton.hidden = true;
+      caja.insertBefore(marco, boton);
+    }
+
+    boton.addEventListener('click', function () {
+      boton.disabled = true;
+      caja.className = caja.className.replace('mapa-boton', '') + ' mapa-probando';
+      fetch(src, { mode: 'no-cors', cache: 'no-store' }).then(incrustar, fallar);
     });
   })();
 

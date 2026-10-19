@@ -141,6 +141,8 @@ export const I18N: Record<Idioma, Diccionario> = {
     mapa_ver: "Ver el mapa",
     mapa_aviso: "Se carga desde Google Maps al tocarlo.",
     mapa_abrir: "Abrir en Google Maps",
+    mapa_falla:
+      "El mapa de Google no se pudo cargar acá: puede estar bloqueado en esta vista o en tu red. El enlace de abajo lo abre igual.",
     media_generada_label: "Imágenes de referencia",
     media_generada_text:
       "Las fotos de esta página son imágenes de referencia, generadas para mostrar la estética. No son fotografías del local ni de sus platos.",
@@ -283,6 +285,8 @@ export const I18N: Record<Idioma, Diccionario> = {
     mapa_ver: "Show the map",
     mapa_aviso: "Loads from Google Maps when you tap it.",
     mapa_abrir: "Open in Google Maps",
+    mapa_falla:
+      "Google\u2019s map could not load here: it may be blocked in this view or on your network. The link below opens it anyway.",
     media_generada_label: "Reference images",
     media_generada_text:
       "The photographs on this page are reference images, generated to show the look. They are not photographs of the restaurant or its dishes.",
