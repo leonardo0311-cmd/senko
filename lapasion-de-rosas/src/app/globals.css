@@ -2217,8 +2217,7 @@ body.sobre-puesto .marquee-track {
   border: 1px solid var(--line-dark-2);
   background: var(--ink-2);
 }
-.mapa-marco,
-.mapa-pedir {
+.mapa-marco {
   display: block;
   width: 100%;
   height: clamp(280px, 42vh, 460px);
@@ -2229,37 +2228,10 @@ body.sobre-puesto .marquee-track {
      tono de la página; es estático, así que no cuesta nada por cuadro. */
   filter: invert(92%) hue-rotate(180deg) saturate(0.72) brightness(0.92);
 }
-.mapa-pedir {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 12px;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, rgba(192, 162, 126, 0.09), transparent 70%),
-    var(--ink-2);
-  color: var(--bone);
-  cursor: pointer;
-  transition: background var(--t1) var(--ease);
-}
-.mapa-pedir:hover {
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, rgba(192, 162, 126, 0.16), transparent 70%),
-    var(--ink-2);
-}
 .mapa-aguja {
   width: 30px;
   height: 30px;
   color: var(--champ);
-}
-.mapa-pedir-titulo {
-  font-family: var(--serif);
-  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
-  letter-spacing: -0.01em;
-}
-.mapa-pedir-nota {
-  font-size: 0.74rem;
-  letter-spacing: 0.1em;
-  color: var(--stone);
 }
 .mapa-abrir {
   display: inline-flex;
@@ -2308,12 +2280,4 @@ body.sobre-puesto .marquee-track {
   line-height: 1.55;
   color: var(--stone);
   max-width: 48ch;
-}
-/* Mientras se comprueba si hay mapa, el bloque conserva su altura en vez de
-   colapsar y volver a crecer. */
-.mapa-probando::before {
-  content: "";
-  display: block;
-  height: clamp(280px, 42vh, 460px);
-  background: var(--ink-2);
 }

@@ -138,8 +138,6 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_contact:
       "Todavía no está publicado el canal oficial de reservas. En cuanto esté, aparece acá.",
     mapa_titulo: "Mapa de La Pasión de Rosas en Berutti 287, Ezeiza",
-    mapa_ver: "Ver el mapa",
-    mapa_aviso: "Se carga desde Google Maps al tocarlo.",
     mapa_abrir: "Abrir en Google Maps",
     mapa_falla:
       "El mapa de Google no se pudo cargar acá: puede estar bloqueado en esta vista o en tu red. El enlace de abajo lo abre igual.",
@@ -282,8 +280,6 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_contact:
       "The official booking channel is not published yet. It will appear here as soon as it is.",
     mapa_titulo: "Map of La Pasión de Rosas at Berutti 287, Ezeiza",
-    mapa_ver: "Show the map",
-    mapa_aviso: "Loads from Google Maps when you tap it.",
     mapa_abrir: "Open in Google Maps",
     mapa_falla:
       "Google\u2019s map could not load here: it may be blocked in this view or on your network. The link below opens it anyway.",

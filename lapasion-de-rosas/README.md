@@ -301,3 +301,28 @@ veces. Si el cuello fuera el trabajo de la página, seis veces más lento tendr�
 que doler. No duele, así que lo que queda es el navegador sin pantalla de este
 entorno, no el sitio. Para saber cómo va en un equipo real hay que mirarlo en
 un equipo real.
+
+## El mapa y la vista previa
+
+El mapa se muestra directo, sin tocar nada: el `<iframe>` viene en el HTML
+servido, con `loading="lazy"` para que el navegador no lo traiga hasta que la
+sección está por entrar en pantalla.
+
+**En la vista previa del artifact nunca se va a ver.** Su política de seguridad
+admite solo los archivos del propio artifact, Google Fonts y algunos CDN de
+scripts; cualquier marco de otro sitio queda bloqueado por el navegador de
+quien mira. Lo avisa el propio servicio al publicar. Eso no es un error del
+sitio: en `docs/` —o en cualquier dominio propio— es una página normal y el
+marco carga.
+
+Por eso hay una ficha de respaldo con la dirección, las coordenadas y el
+enlace. Se muestra cuando el marco no puede cargar, y se detecta así:
+
+- Una petición `no-cors` al abrir la página. Si la red lo bloquea, rechaza, y
+  se sabe antes de que nadie llegue a la sección.
+- Un escucha de `securitypolicyviolation`, para cuando la red deja pasar la
+  petición pero la política prohíbe el marco.
+
+Lo que **no** sirve para detectarlo es esperar el evento `load` del marco: un
+marco bloqueado lo dispara igual, porque carga la página de error del
+navegador. Por eso el primer intento dejaba un rectángulo vacío.

@@ -173,57 +173,36 @@ JS = r'''
     });
   }
 
-  /* ---- El mapa, a pedido ------------------------------------------------
-     Antes de incrustarlo se comprueba que Google sea alcanzable. Un marco
-     bloqueado igual dispara 'load' —carga la pagina de error del navegador—,
-     asi que ese evento no sirve para saber si hay mapa. Si no se alcanza, se
-     muestra la ficha con la direccion.                                      */
+  /* ---- El mapa -----------------------------------------------------------
+     Se muestra directo: el marco ya viene en el marcado, con loading=lazy.
+     Esto solo se ocupa del respaldo. Un marco bloqueado igual dispara 'load'
+     —carga la pagina de error del navegador—, asi que ese evento no sirve
+     para saber si hay mapa: se comprueba que Google sea alcanzable apenas
+     abre la pagina, y si no lo es se muestra la ficha con la direccion.     */
   (function mapa() {
     var caja = document.querySelector('.mapa');
     if (!caja) return;
-    var boton = caja.querySelector('.mapa-pedir');
     var ficha = caja.querySelector('.mapa-ficha');
     var src = caja.getAttribute('data-mapa-src');
-    if (!boton || !src) return;
-    var espera = parseInt(caja.getAttribute('data-mapa-espera') || '5000', 10);
+    if (!ficha || !src) return;
 
+    var fallado = false;
     function fallar() {
-      caja.className = caja.className.replace(/mapa-(boton|probando|marco)/g, '') + ' mapa-falla';
-      var m = caja.querySelector('.mapa-marco');
-      if (m) m.remove();
-      boton.hidden = true;
-      if (ficha) ficha.hidden = false;
+      if (fallado) return;
+      fallado = true;
+      caja.classList.add('mapa-falla');
+      var marco = caja.querySelector('.mapa-marco');
+      if (marco) marco.remove();
+      ficha.hidden = false;
     }
 
-    function incrustar() {
-      var marco = document.createElement('iframe');
-      marco.className = 'mapa-marco';
-      marco.src = src;
-      marco.title = caja.getAttribute('data-mapa-titulo') || 'Mapa';
-      marco.loading = 'lazy';
-      marco.referrerPolicy = 'no-referrer-when-downgrade';
-      marco.allowFullscreen = true;
-
-      var reloj = setTimeout(fallar, espera);
-      marco.addEventListener('load', function () { clearTimeout(reloj); });
-      /* Si la politica de la pagina prohibe el marco, el navegador avisa. */
-      document.addEventListener('securitypolicyviolation', function (e) {
-        if (e.blockedURI && e.blockedURI.indexOf('google') !== -1) {
-          clearTimeout(reloj);
-          fallar();
-        }
-      });
-
-      caja.className = caja.className.replace('mapa-boton', '') + ' mapa-marco-puesto';
-      boton.hidden = true;
-      caja.insertBefore(marco, boton);
-    }
-
-    boton.addEventListener('click', function () {
-      boton.disabled = true;
-      caja.className = caja.className.replace('mapa-boton', '') + ' mapa-probando';
-      fetch(src, { mode: 'no-cors', cache: 'no-store' }).then(incrustar, fallar);
+    /* Si la politica de la pagina lo prohibe, el navegador avisa. */
+    document.addEventListener('securitypolicyviolation', function (e) {
+      if (e.blockedURI && e.blockedURI.indexOf('google') !== -1) fallar();
     });
+
+    /* Si la red lo bloquea, la peticion rechaza. */
+    fetch(src, { mode: 'no-cors', cache: 'no-store' }).catch(fallar);
   })();
 
   /* ---- Chispas sobre el asado -------------------------------------------

@@ -1,109 +1,71 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { contacto, marca, siVerificado } from "@content/site";
 import { useIdioma } from "@/lib/idioma";
 import { medir } from "@/lib/analitica";
 
-/** Respaldo: si el marco no dio señales en este tiempo, se da por perdido. */
-const ESPERA_CARGA = 5000;
-
-type Estado = "boton" | "probando" | "marco" | "falla";
-
 /**
  * El mapa del local.
  *
- * Dos cosas que parecen rodeos y no lo son.
+ * Se muestra directo: no hay nada que tocar ni que esperar.
  *
- * No se carga solo. Un mapa incrustado de Google trae scripts y cookies de
- * terceros en cuanto se abre la página, y es de lo más pesado que puede llevar
- * una portada.
+ * El marco va con `loading="lazy"`, así que el navegador no lo trae hasta que
+ * la sección está por entrar en pantalla: el mapa aparece puesto, pero no le
+ * cuesta nada a la portada.
  *
- * Y antes de incrustarlo se comprueba que Google sea alcanzable. Un marco
- * bloqueado —por la política de seguridad de la página que lo contiene, por la
- * red, por un bloqueador— **igual dispara `load`**, porque carga la página de
- * error del navegador: esperar ese evento no sirve para saber si hay mapa, y
- * lo que queda es un rectángulo vacío. Si no es alcanzable se muestra la ficha
- * con la dirección, que es lo que esa persona necesita de todos modos.
+ * Y hay una ficha de respaldo, porque el marco puede no cargar nunca: la
+ * política de seguridad de la página que lo contiene puede prohibirlo, o la
+ * red puede bloquearlo. Un marco bloqueado **igual dispara `load`** —carga la
+ * página de error del navegador—, así que ese evento no sirve para saberlo. Lo
+ * que se hace es comprobar que Google sea alcanzable apenas abre la página, no
+ * al llegar a la sección: cuando alguien baja hasta acá, ya está decidido.
  */
 export function Mapa() {
   const { t, idioma } = useIdioma();
-  const [estado, setEstado] = useState<Estado>("boton");
-  const reloj = useRef<number | undefined>(undefined);
+  const [falla, setFalla] = useState(false);
 
   const mapa = siVerificado(contacto.mapaUrl);
   const coord = siVerificado(contacto.coordenadas);
   const direccion = siVerificado(contacto.direccion);
 
-  useEffect(() => () => window.clearTimeout(reloj.current), []);
+  const incrustado = coord
+    ? `https://maps.google.com/maps?q=${coord.lat},${coord.lng}&z=17&hl=${idioma}&output=embed`
+    : null;
 
-  /* Si la política de la página prohíbe el marco, el navegador lo avisa. */
+  /* Si la red lo bloquea, la petición rechaza y se sabe antes de llegar. */
   useEffect(() => {
-    if (estado !== "marco") return;
+    if (!incrustado) return;
+    let vivo = true;
+    fetch(incrustado, { mode: "no-cors", cache: "no-store" }).catch(() => {
+      if (vivo) setFalla(true);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, [incrustado]);
+
+  /* Si la política de la página lo prohíbe, el navegador lo avisa. */
+  useEffect(() => {
     const alViolar = (e: SecurityPolicyViolationEvent) => {
-      if (e.blockedURI.includes("google")) setEstado("falla");
+      if (e.blockedURI.includes("google")) setFalla(true);
     };
     document.addEventListener("securitypolicyviolation", alViolar);
     return () => document.removeEventListener("securitypolicyviolation", alViolar);
-  }, [estado]);
-
-  const incrustado =
-    coord &&
-    `https://maps.google.com/maps?q=${coord.lat},${coord.lng}` +
-      `&z=17&hl=${idioma}&output=embed`;
-
-  const pedir = useCallback(async () => {
-    if (!incrustado) return;
-    setEstado("probando");
-    medir("mapa_visto", { origen: "lugar" });
-
-    let alcanzable = true;
-    try {
-      // `no-cors` devuelve una respuesta opaca: no se puede leer, pero si la
-      // red o la política la bloquean, rechaza. Es todo lo que hace falta.
-      await fetch(incrustado, { mode: "no-cors", cache: "no-store" });
-    } catch {
-      alcanzable = false;
-    }
-
-    if (!alcanzable) {
-      setEstado("falla");
-      return;
-    }
-    setEstado("marco");
-    reloj.current = window.setTimeout(
-      () => setEstado((previo) => (previo === "marco" ? "falla" : previo)),
-      ESPERA_CARGA,
-    );
-  }, [incrustado]);
+  }, []);
 
   // Sin ficha confirmada no hay mapa: nunca se apunta a un lugar supuesto.
   if (!mapa || !coord || !incrustado) return null;
 
   return (
     <div
-      className={`mapa reveal mapa-${estado}`}
+      className={`mapa reveal${falla ? " mapa-falla" : ""}`}
       data-mapa-src={incrustado}
       data-mapa-titulo={t("mapa_titulo")}
-      data-mapa-espera={ESPERA_CARGA}
     >
-      {estado !== "marco" && (
-        <button
-          type="button"
-          className="mapa-pedir"
-          onClick={pedir}
-          hidden={estado !== "boton"}
-          disabled={estado !== "boton"}
-        >
-          <Aguja />
-          <span className="mapa-pedir-titulo">{t("mapa_ver")}</span>
-          <span className="mapa-pedir-nota">{t("mapa_aviso")}</span>
-        </button>
-      )}
-
       {/* La ficha se renderiza siempre y nace oculta: así la versión sin React
-          (la página única) la tiene a mano para mostrarla cuando haga falta. */}
-      <div className="mapa-ficha" hidden={estado !== "falla"}>
+          (la página única) la tiene a mano para mostrarla si hace falta. */}
+      <div className="mapa-ficha" hidden={!falla}>
         <Aguja />
         <p className="mapa-ficha-dir">{direccion}</p>
         <p className="mapa-ficha-coord">
@@ -112,7 +74,7 @@ export function Mapa() {
         <p className="mapa-ficha-nota">{t("mapa_falla")}</p>
       </div>
 
-      {estado === "marco" && (
+      {!falla && (
         <iframe
           className="mapa-marco"
           src={incrustado}
@@ -120,7 +82,6 @@ export function Mapa() {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
-          onLoad={() => window.clearTimeout(reloj.current)}
         />
       )}
 
