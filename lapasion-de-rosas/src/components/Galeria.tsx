@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GALERIA } from "@content/galeria";
+import { hayMediosGenerados } from "@content/medios";
 import { useIdioma } from "@/lib/idioma";
 import { Medio } from "./ui/Medio";
 
@@ -27,6 +28,13 @@ export function Galeria() {
           <div className="eyebrow">{t("gal_eyebrow")}</div>
           <h2 className="menu-title" dangerouslySetInnerHTML={{ __html: t("gal_title") }} />
         </div>
+
+        {hayMediosGenerados && (
+          <p className="aviso reveal" role="note">
+            <b>{t("media_generada_label")}</b>
+            <span>{t("media_generada_text")}</span>
+          </p>
+        )}
 
         <div className="gallery reveal">
           {GALERIA.map((g, i) => {

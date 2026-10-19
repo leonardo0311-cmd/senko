@@ -12,10 +12,3 @@ export function enlaceWhatsapp(mensaje: string): string | null {
   if (limpio.length < 8) return null;
   return `https://wa.me/${limpio}?text=${encodeURIComponent(mensaje)}`;
 }
-
-/** Enlace de reserva: WhatsApp si está confirmado, si no el perfil de Instagram. */
-export function enlaceReserva(mensaje: string): { href: string; externo: boolean } | null {
-  const wa = enlaceWhatsapp(mensaje);
-  if (wa) return { href: wa, externo: true };
-  return null;
-}

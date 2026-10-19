@@ -7,7 +7,7 @@ import { contacto, marca, redes, seo, siVerificado, siteUrl } from "@content/sit
  * uno que afirme datos incorrectos.
  */
 export function DatosEstructurados() {
-  const direccion = siVerificado(contacto.direccion);
+  const partes = siVerificado(contacto.direccionPartes);
   const telefono = siVerificado(contacto.telefono) ?? siVerificado(contacto.whatsapp);
   const horarios = siVerificado(contacto.horarios);
   const instagram = siVerificado(redes.instagram);
@@ -26,7 +26,7 @@ export function DatosEstructurados() {
       addressLocality: marca.ciudad,
       addressRegion: marca.provincia,
       addressCountry: "AR",
-      ...(direccion ? { streetAddress: direccion } : {}),
+      ...(partes ? { streetAddress: partes.calle, postalCode: partes.codigoPostal } : {}),
     },
   };
 

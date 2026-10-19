@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
+  /**
+   * El año del pie. Calcularlo en el componente lo evaluaría dos veces —al
+   * prerenderizar y al hidratar— y en Año Nuevo darían distinto. Acá queda
+   * inlineado como literal en el build: los dos lados ven lo mismo, y se
+   * actualiza al reconstruir.
+   */
+  env: { ANIO_BUILD: String(new Date().getFullYear()) },
+
   ...(esExportacion
     ? {
         output: "export" as const,

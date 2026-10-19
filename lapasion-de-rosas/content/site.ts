@@ -70,6 +70,16 @@ export const contacto = {
    * enlace oficial del local. Si el restaurante pasa el enlace de su ficha,
    * reemplazarlo acá.
    */
+  /**
+   * La misma dirección, en partes, para los datos estructurados. La cadena de
+   * arriba es para leer; ésta es para que Google la entienda, con el código
+   * postal donde corresponde y sin repetir localidad ni provincia.
+   */
+  direccionPartes: dato(
+    { calle: "Berutti 287, esquina Illia", codigoPostal: "1804" },
+    true,
+    "Confirmada por el restaurante.",
+  ),
   mapaUrl: dato(
     "https://www.google.com/maps/search/?api=1&query=" +
       encodeURIComponent("Berutti 287, Ezeiza, Buenos Aires, Argentina"),

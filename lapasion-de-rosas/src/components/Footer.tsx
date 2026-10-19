@@ -10,7 +10,8 @@ export function Footer() {
   const telefono = siVerificado(contacto.telefono);
   const email = siVerificado(contacto.email);
   const direccion = siVerificado(contacto.direccion);
-  const anio = new Date().getFullYear();
+  // Viene inlineado del build: ver `env` en next.config.ts.
+  const anio = process.env.ANIO_BUILD ?? "";
 
   return (
     <footer className="site-footer" id="contacto">

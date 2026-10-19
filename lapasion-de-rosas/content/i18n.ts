@@ -133,8 +133,13 @@ export const I18N: Record<Idioma, Diccionario> = {
     media_pending: "Imagen provisional",
 
     pending_label: "A confirmar",
+    /* Este aviso sale justo cuando no hay NINGÚN canal confirmado, así que no
+       puede mandar a escribir a ninguna parte. */
     pending_contact:
-      "Todavía no está publicado el canal oficial de reservas. Escribinos por Instagram mientras tanto.",
+      "Todavía no está publicado el canal oficial de reservas. En cuanto esté, aparece acá.",
+    media_generada_label: "Imágenes de referencia",
+    media_generada_text:
+      "Las fotos de esta página son imágenes de referencia, generadas para mostrar la estética. No son fotografías del local ni de sus platos.",
 
     prensa_eyebrow: "Prensa",
     prensa_title: "Lo que se dijo de la casa.",
@@ -269,7 +274,10 @@ export const I18N: Record<Idioma, Diccionario> = {
 
     pending_label: "To confirm",
     pending_contact:
-      "The official booking channel is not published yet. Write to us on Instagram in the meantime.",
+      "The official booking channel is not published yet. It will appear here as soon as it is.",
+    media_generada_label: "Reference images",
+    media_generada_text:
+      "The photographs on this page are reference images, generated to show the look. They are not photographs of the restaurant or its dishes.",
 
     prensa_eyebrow: "Press",
     prensa_title: "What has been written.",

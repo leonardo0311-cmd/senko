@@ -26,6 +26,9 @@ export function Especialidades() {
               <div className="eyebrow spec-eyebrow">{t("spec_block_eyebrow")}</div>
               <h3 className="spec-name">{pick(principal.n, principal.nEn)}</h3>
               <p className="spec-desc">{t("spec_desc")}</p>
+              {/* La carta sí muestra los precios de ejemplo, pero con el aviso
+                  naranja justo encima. Acá no hay aviso que los enmarque, así
+                  que hasta que estén confirmados no se muestran. */}
               {cartaVerificada && <div className="spec-price">$ {principal.p}</div>}
             </div>
           </div>

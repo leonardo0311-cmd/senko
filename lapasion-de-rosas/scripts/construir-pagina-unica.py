@@ -67,9 +67,15 @@ def _picture(m):
     global imagenes
     bloque = m.group(0)
     img = re.search(r'<img\b[^>]*>', bloque).group(0)
-    nombre = re.search(r'src="/fotos/([\w-]+)\.webp"', img).group(1)
+    # El prefijo depende de cómo se construyó: NEXT_PUBLIC_BASE_PATH lo deja
+    # como "./fotos". Sin aceptar las dos formas, esto reventaba con un
+    # AttributeError seco en vez de decir qué pasó.
+    m = re.search(r'src="\.?/fotos/([\w-]+)\.webp"', img)
+    if not m:
+        sys.exit(f'no se encontró la ruta de la foto en: {img[:120]}')
+    nombre = m.group(1)
     imagenes += 1
-    return re.sub(r'src="/fotos/[\w-]+\.webp"', lambda _: f'src="{_datauri(nombre)}"', img, count=1)
+    return re.sub(r'src="\.?/fotos/[\w-]+\.webp"', lambda _: f'src="{_datauri(nombre)}"', img, count=1)
 cuerpo = re.sub(r'<picture>.*?</picture>', _picture, cuerpo, flags=re.S)
 
 # El logotipo no pasa por <picture>: va como <img> suelto.
@@ -79,9 +85,9 @@ def _logo(m):
     f = OUT / 'marca' / m.group(1)
     b64 = base64.b64encode(f.read_bytes()).decode()
     return f'src="data:image/webp;base64,{b64}"'
-cuerpo = re.sub(r'src="/marca/([\w-]+\.webp)"', _logo, cuerpo)
+cuerpo = re.sub(r'src="\.?/marca/([\w-]+\.webp)"', _logo, cuerpo)
 
-restantes = re.findall(r'(?:src|srcSet|href)="/(?:fotos|marca|estaticos|_next)/[^"]*"', cuerpo)
+restantes = re.findall(r'(?:src|srcSet|href)="\.?/(?:fotos|marca)/[^"]*"', cuerpo)
 if restantes:
     sys.exit(f'quedaron rutas externas: {restantes[:5]}')
 
@@ -115,13 +121,18 @@ JS = r'''
   addEventListener('scroll', alScrollear, { passive: true });
   alScrollear();
 
-  /* Menu movil */
+  /* Menu movil.
+     React le pone la clase 'open' al propio <nav>, que es la que lo trae a
+     pantalla; sin eso el panel se quedaba fuera por mas que el boton
+     cambiara de estado. */
   var boton = document.querySelector('.nav-toggle');
+  var panel = document.querySelector('.main-nav');
   function cerrar() {
     if (!boton) return;
     boton.setAttribute('aria-expanded', 'false');
     boton.setAttribute('aria-label', 'Abrir menu');
     cuerpo.classList.remove('menu-open');
+    if (panel) panel.classList.remove('open');
   }
   if (boton) {
     boton.addEventListener('click', function () {
@@ -129,6 +140,7 @@ JS = r'''
       boton.setAttribute('aria-expanded', String(abierto));
       boton.setAttribute('aria-label', abierto ? 'Cerrar menu' : 'Abrir menu');
       cuerpo.classList.toggle('menu-open', abierto);
+      if (panel) panel.classList.toggle('open', abierto);
     });
     document.querySelectorAll('.main-nav a').forEach(function (a) { a.addEventListener('click', cerrar); });
     addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(); });
@@ -218,66 +230,6 @@ JS = r'''
     setTimeout(abrir, espera);
     capa.addEventListener('click', abrir);
     addEventListener('keydown', abrir);
-  })();
-
-  /* ---- Chispas sobre el asado -------------------------------------------
-     Las crea React en el sitio Next; acá hay que sembrarlas a mano.        */
-  (function brasas() {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var total = matchMedia('(max-width: 760px)').matches ? 12 : 26;
-    document.querySelectorAll('.embers').forEach(function (caja) {
-      for (var i = 0; i < total; i++) {
-        var e = document.createElement('div');
-        e.className = 'ember-particle';
-        var tam = 2 + Math.random() * 5;
-        e.style.width = tam + 'px';
-        e.style.height = tam + 'px';
-        e.style.left = Math.random() * 100 + '%';
-        e.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
-        e.style.animationDuration = (6 + Math.random() * 7) + 's';
-        e.style.animationDelay = (Math.random() * 9) + 's';
-        caja.appendChild(e);
-      }
-    });
-  })();
-
-  /* ---- La carta lacrada de bienvenida ------------------------------------
-     El telón nace oculto; sólo aparece si es la primera visita.            */
-  (function sobre() {
-    var capa = document.querySelector('.sobre-capa');
-    if (!capa) return;
-    var boton = capa.querySelector('.sobre-abrir');
-    var CLAVE = 'lpr-sobre-visto';
-
-    var visto = false;
-    try { visto = localStorage.getItem(CLAVE) === '1'; } catch (e) { visto = false; }
-    if (visto) return;
-
-    var scrollPrevio = cuerpo.style.overflow;
-    capa.classList.add('visible');
-    cuerpo.style.overflow = 'hidden';
-    if (boton) boton.focus();
-
-    var abierto = false;
-    function abrir() {
-      if (abierto) return;
-      abierto = true;
-      try { localStorage.setItem(CLAVE, '1'); } catch (e) { /* sin almacenamiento */ }
-      var quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      capa.classList.add('abriendo');
-      setTimeout(function () {
-        capa.classList.remove('visible', 'abriendo');
-        cuerpo.style.overflow = scrollPrevio;
-      }, quieto ? 0 : 1500);
-    }
-
-    if (boton) boton.addEventListener('click', abrir);
-    addEventListener('keydown', function (e) {
-      if (abierto) return;
-      if (e.key === 'Escape') { e.preventDefault(); abrir(); }
-      /* Un solo destino posible: el foco no se escapa al sitio de atrás. */
-      else if (e.key === 'Tab') { e.preventDefault(); if (boton) boton.focus(); }
-    });
   })();
 
   /* ---- La carta: buscador, filtros y scrollspy ---------------------------

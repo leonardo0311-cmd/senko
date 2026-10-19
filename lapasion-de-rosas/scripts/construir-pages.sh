@@ -33,6 +33,29 @@ for f in pathlib.Path('docs').rglob('*.html'):
 print(f'favicon relativizado en {n} archivo(s)')
 PY
 
+# Next emite el favicon y la imagen de compartir SIN extension. Pages decide el
+# Content-Type por la extension, asi que sin ella los sirve como
+# application/octet-stream: el favicon no aparece y la vista previa del enlace
+# se queda sin imagen. Se les pone .png y se reescriben las referencias.
+python3 - <<'PYEOF'
+import pathlib
+docs = pathlib.Path('docs')
+renombrados = []
+for nombre in ('icon', 'opengraph-image'):
+    f = docs / nombre
+    if f.is_file():
+        f.rename(docs / (nombre + '.png'))
+        renombrados.append(nombre)
+if renombrados:
+    for h in docs.rglob('*.html'):
+        t = o = h.read_text(encoding='utf-8')
+        for nombre in renombrados:
+            t = t.replace(nombre + '?', nombre + '.png?')
+        if t != o:
+            h.write_text(t, encoding='utf-8')
+print('con extension .png: ' + (', '.join(renombrados) or 'nada que renombrar'))
+PYEOF
+
 echo
 echo "docs/ listo para GitHub Pages ($(du -sh docs | cut -f1))"
 echo "rutas absolutas que quedan en el HTML:"

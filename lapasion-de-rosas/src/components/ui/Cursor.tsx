@@ -15,6 +15,9 @@ export function Cursor() {
 
   useEffect(() => {
     if (!window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+    // Un cursor que persigue al puntero es movimiento: con la preferencia
+    // puesta, no se dibuja.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const d = dot.current;
     const r = ring.current;
     if (!d || !r) return;
@@ -38,15 +41,27 @@ export function Cursor() {
         document.body.classList.add("has-cursor");
       }
       d.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      arrancar();
     };
 
+    // El bucle corre sólo mientras el anillo tiene algo que alcanzar: dejarlo
+    // reencolándose para siempre despierta la GPU en una página quieta.
+    let animando = false;
     const loop = () => {
       rx += (mx - rx) * 0.16;
       ry += (my - ry) * 0.16;
       r.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      if (Math.abs(mx - rx) > 0.1 || Math.abs(my - ry) > 0.1) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        animando = false;
+      }
+    };
+    const arrancar = () => {
+      if (animando) return;
+      animando = true;
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
 
     const sobre = (e: MouseEvent) => {
       const destino = e.target as Element | null;

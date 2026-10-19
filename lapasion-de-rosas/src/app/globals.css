@@ -447,11 +447,21 @@ body.cur-link .cur-dot {
     gap: 28px;
     padding: 40px 36px;
     transform: translateX(100%);
-    transition: transform 0.5s var(--ease);
+    /* Cerrado no alcanza con correrlo fuera de pantalla: sin visibility los
+       ocho enlaces siguen siendo tabulables y los lee el lector de pantalla.
+       El retardo deja que termine de salir antes de ocultarse. */
+    visibility: hidden;
+    transition:
+      transform 0.5s var(--ease),
+      visibility 0s linear 0.5s;
     border-left: 1px solid var(--line-dark);
   }
   .main-nav.open {
     transform: translateX(0);
+    visibility: visible;
+    transition:
+      transform 0.5s var(--ease),
+      visibility 0s linear 0s;
   }
   .main-nav a {
     font-size: 1rem;
