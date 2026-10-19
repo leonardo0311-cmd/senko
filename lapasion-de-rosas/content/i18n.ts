@@ -137,6 +137,10 @@ export const I18N: Record<Idioma, Diccionario> = {
        puede mandar a escribir a ninguna parte. */
     pending_contact:
       "Todavía no está publicado el canal oficial de reservas. En cuanto esté, aparece acá.",
+    mapa_titulo: "Mapa de La Pasión de Rosas en Berutti 287, Ezeiza",
+    mapa_ver: "Ver el mapa",
+    mapa_aviso: "Se carga desde Google Maps al tocarlo.",
+    mapa_abrir: "Abrir en Google Maps",
     media_generada_label: "Imágenes de referencia",
     media_generada_text:
       "Las fotos de esta página son imágenes de referencia, generadas para mostrar la estética. No son fotografías del local ni de sus platos.",
@@ -275,6 +279,10 @@ export const I18N: Record<Idioma, Diccionario> = {
     pending_label: "To confirm",
     pending_contact:
       "The official booking channel is not published yet. It will appear here as soon as it is.",
+    mapa_titulo: "Map of La Pasión de Rosas at Berutti 287, Ezeiza",
+    mapa_ver: "Show the map",
+    mapa_aviso: "Loads from Google Maps when you tap it.",
+    mapa_abrir: "Open in Google Maps",
     media_generada_label: "Reference images",
     media_generada_text:
       "The photographs on this page are reference images, generated to show the look. They are not photographs of the restaurant or its dishes.",

@@ -4,6 +4,7 @@ import { contacto, siVerificado } from "@content/site";
 import { useIdioma } from "@/lib/idioma";
 import { enlaceWhatsapp } from "@/lib/whatsapp";
 import { Medio } from "./ui/Medio";
+import { Mapa } from "./Mapa";
 import { medir } from "@/lib/analitica";
 
 /**
@@ -79,6 +80,8 @@ export function Lugar() {
             </div>
           </div>
         </div>
+
+        <Mapa />
       </div>
     </section>
   );

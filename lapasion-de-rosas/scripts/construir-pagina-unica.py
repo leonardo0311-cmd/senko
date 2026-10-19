@@ -173,6 +173,27 @@ JS = r'''
     });
   }
 
+  /* ---- El mapa, a pedido ------------------------------------------------
+     React lo cambia por un <iframe> al tocarlo; aca hay que hacerlo a mano.
+     La URL viaja en el propio marcado.                                     */
+  (function mapa() {
+    var caja = document.querySelector('.mapa');
+    if (!caja) return;
+    var boton = caja.querySelector('.mapa-pedir');
+    var src = caja.getAttribute('data-mapa-src');
+    if (!boton || !src) return;
+    boton.addEventListener('click', function () {
+      var marco = document.createElement('iframe');
+      marco.className = 'mapa-marco';
+      marco.src = src;
+      marco.title = caja.getAttribute('data-mapa-titulo') || 'Mapa';
+      marco.loading = 'lazy';
+      marco.referrerPolicy = 'no-referrer-when-downgrade';
+      marco.allowFullscreen = true;
+      boton.replaceWith(marco);
+    });
+  })();
+
   /* ---- Chispas sobre el asado -------------------------------------------
      Las crea React en el sitio Next; acá hay que sembrarlas a mano.        */
   (function brasas() {

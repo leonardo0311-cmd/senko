@@ -66,11 +66,6 @@ export const contacto = {
     "Confirmada por el restaurante.",
   ),
   /**
-   * Búsqueda en Google Maps armada con la dirección confirmada: no es el
-   * enlace oficial del local. Si el restaurante pasa el enlace de su ficha,
-   * reemplazarlo acá.
-   */
-  /**
    * La misma dirección, en partes, para los datos estructurados. La cadena de
    * arriba es para leer; ésta es para que Google la entienda, con el código
    * postal donde corresponde y sin repetir localidad ni provincia.
@@ -80,11 +75,23 @@ export const contacto = {
     true,
     "Confirmada por el restaurante.",
   ),
+  /**
+   * La ficha del local en Google Maps, tal como la pasó el restaurante. Se le
+   * quitaron los parámetros de sesión (`entry`, `g_ep`), que no identifican al
+   * lugar y caducan.
+   */
   mapaUrl: dato(
-    "https://www.google.com/maps/search/?api=1&query=" +
-      encodeURIComponent("Berutti 287, Ezeiza, Buenos Aires, Argentina"),
+    "https://www.google.com/maps/place/La+Pasion+de+Rosas/@-34.8551235,-58.5279744,18.39z/" +
+      "data=!4m6!3m5!1s0x95bcd7556bd2570d:0xab92f121d40de06e!8m2!3d-34.8552319!4d-58.5285924" +
+      "!16s%2Fg%2F11g1gncsm6",
     true,
-    "Armado con la dirección confirmada. Reemplazar por el enlace oficial de la ficha.",
+    "Ficha oficial pasada por el restaurante.",
+  ),
+  /** Las coordenadas de esa misma ficha, para centrar el mapa incrustado. */
+  coordenadas: dato(
+    { lat: -34.8552319, lng: -58.5285924 },
+    true,
+    "De la ficha oficial de Google Maps.",
   ),
   horarios: dato<string[]>([], false, "PENDIENTE. Fuentes públicas en conflicto."),
 } as const;

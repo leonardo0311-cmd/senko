@@ -21,7 +21,8 @@ export type EventoSitio =
   | "instagram_click"
   | "menu_visto"
   | "ocasion_seleccionada"
-  | "prensa_click";
+  | "prensa_click"
+  | "mapa_visto";
 
 type Metadatos = Record<string, string | number | boolean>;
 
