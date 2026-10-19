@@ -279,3 +279,25 @@ revelados, la intro y la dirección, sin una sola respuesta con error.
 
 Para mover el sitio a un dominio propio, construir con
 `NEXT_PUBLIC_SITE_URL=https://eldominio.com` y sin `NEXT_PUBLIC_BASE_PATH`.
+
+## Medir la fluidez de la intro
+
+`fps-estable.mjs` del scratchpad graba los intervalos entre cuadros durante la
+ventana de la apertura y repite la corrida siete veces. Una sola corrida varía
+±5 fps en este entorno: no alcanza para decidir nada.
+
+Sobre la ventana de la apertura, con la CPU estrangulada cuatro veces:
+
+| | fps (mediana) | cuadros largos |
+|---|---|---|
+| Antes de la reescritura | 27 | 73% |
+| Ahora | 43 | 29% |
+
+El dato que importa es el segundo: los cuadros que tardan más de 32 ms pasaron
+de ser casi tres de cada cuatro a menos de uno de cada tres.
+
+Ojo con el techo: el número es idéntico estrangulando la CPU una, cuatro o seis
+veces. Si el cuello fuera el trabajo de la página, seis veces más lento tendría
+que doler. No duele, así que lo que queda es el navegador sin pantalla de este
+entorno, no el sitio. Para saber cómo va en un equipo real hay que mirarlo en
+un equipo real.
