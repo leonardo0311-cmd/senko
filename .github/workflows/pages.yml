@@ -1,0 +1,66 @@
+# Publica el sitio de La Pasión de Rosas en GitHub Pages.
+#
+# El paso "Configurar Pages" lleva `enablement: true`: si el repositorio todavía
+# no tiene Pages activado, lo activa él mismo por la API y lo deja en modo
+# "GitHub Actions". Así no hace falta entrar a Settings a mano.
+name: Publicar en GitHub Pages
+
+on:
+  push:
+    branches: [claude/affectionate-bardeen-mcb0cw]
+    paths:
+      - "lapasion-de-rosas/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un despliegue a la vez, y sin cancelar el que está en curso.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lapasion-de-rosas
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: lapasion-de-rosas/package-lock.json
+
+      - run: npm ci
+
+      - name: Configurar Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Construir el sitio estático
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: bash scripts/construir-pages.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: lapasion-de-rosas/docs
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.desplegar.outputs.page_url }}
+    steps:
+      - id: desplegar
+        uses: actions/deploy-pages@v4
