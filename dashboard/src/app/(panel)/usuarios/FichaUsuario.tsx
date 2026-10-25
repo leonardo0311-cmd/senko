@@ -6,28 +6,46 @@ import {
   accionCambiarPassword,
   accionEditarUsuario,
   accionEliminarUsuario,
+  accionGuardarHorarios,
 } from "./acciones";
 import { Aviso, Boton, Campo, Chip, estiloBoton } from "@/components/ui";
-import type { Servicio, Usuario } from "@/lib/types";
+import type { Horario, Servicio, Usuario } from "@/lib/types";
 
 const PALETA = ["#6366f1", "#ec4899", "#14b8a6", "#f59e0b", "#8b5cf6", "#06b6d4", "#ef4444", "#84cc16"];
+
+// Lunes primero, como se lee una agenda; el valor sigue siendo 0 = domingo.
+const DIAS: Array<{ valor: number; nombre: string }> = [
+  { valor: 1, nombre: "Lunes" },
+  { valor: 2, nombre: "Martes" },
+  { valor: 3, nombre: "Miércoles" },
+  { valor: 4, nombre: "Jueves" },
+  { valor: 5, nombre: "Viernes" },
+  { valor: 6, nombre: "Sábado" },
+  { valor: 0, nombre: "Domingo" },
+];
 
 export default function FichaUsuario({
   usuario,
   servicios,
   serviciosAsignados,
+  horarios,
   turnosProximos,
   esUltimoDueno,
 }: {
   usuario: Usuario;
   servicios: Servicio[];
   serviciosAsignados: string[];
+  horarios: Horario[];
   turnosProximos: number;
   esUltimoDueno: boolean;
 }) {
   const [editar, accionEditar, editando] = useActionState(accionEditarUsuario, null);
   const [clave, accionClave, cambiandoClave] = useActionState(accionCambiarPassword, null);
+  const [agenda, accionAgenda, guardandoAgenda] = useActionState(accionGuardarHorarios, null);
   const [abierto, setAbierto] = useState(false);
+
+  const porDia = new Map(horarios.map((h) => [h.diaSemana, h]));
+  const diasWork = horarios.length;
 
   return (
     <li className="px-4 py-3">
@@ -48,6 +66,9 @@ export default function FichaUsuario({
               )}
               {!usuario.activo && <Chip tono="grave">desactivado</Chip>}
             </p>
+            {usuario.ocupacion && (
+              <p className="truncate text-xs font-medium text-tinta-2">{usuario.ocupacion}</p>
+            )}
             <p className="tabular truncate text-xs text-tinta-3">
               {usuario.email}
               {usuario.telefono ? ` · ${usuario.telefono}` : ""}
@@ -56,6 +77,8 @@ export default function FichaUsuario({
               {turnosProximos > 0
                 ? `${turnosProximos} ${turnosProximos === 1 ? "turno" : "turnos"} de acá en adelante`
                 : "Sin turnos próximos"}
+              {usuario.rol === "profesional" &&
+                ` · ${diasWork === 0 ? "sin horarios cargados" : `${diasWork} ${diasWork === 1 ? "día" : "días"} por semana`}`}
             </p>
           </div>
         </div>
@@ -98,6 +121,9 @@ export default function FichaUsuario({
 
             <Campo etiqueta="Nombre">
               <input name="nombre" defaultValue={usuario.nombre} required />
+            </Campo>
+            <Campo etiqueta="Ocupación" ayuda="Peluquera, colorista, manicura…">
+              <input name="ocupacion" defaultValue={usuario.ocupacion ?? ""} maxLength={60} />
             </Campo>
             <Campo etiqueta="Email">
               <input name="email" type="email" defaultValue={usuario.email} required />
@@ -164,6 +190,60 @@ export default function FichaUsuario({
           </form>
 
           <div className="space-y-4">
+            {usuario.rol === "profesional" && (
+              <form action={accionAgenda} className="space-y-3">
+                <input type="hidden" name="usuarioId" value={usuario.id} />
+                {agenda?.error && <Aviso>{agenda.error}</Aviso>}
+                {agenda?.ok && <Aviso tono="ok">{agenda.ok}</Aviso>}
+
+                <Campo
+                  etiqueta="Días y horarios de trabajo"
+                  ayuda="El bot solo ofrece turnos dentro de estas franjas."
+                >
+                  <div className="space-y-1.5 pt-1">
+                    {DIAS.map(({ valor, nombre }) => {
+                      const h = porDia.get(valor);
+                      return (
+                        <div key={valor} className="flex flex-wrap items-center gap-2">
+                          <label
+                            className="flex w-28 cursor-pointer items-center gap-2 text-sm font-normal normal-case tracking-normal text-tinta-2"
+                            style={{ marginBottom: 0 }}
+                          >
+                            <input
+                              type="checkbox"
+                              name={`activo_${valor}`}
+                              defaultChecked={Boolean(h)}
+                              className="size-4"
+                            />
+                            {nombre}
+                          </label>
+                          <input
+                            type="time"
+                            name={`desde_${valor}`}
+                            defaultValue={h?.desde ?? "09:00"}
+                            className="w-28"
+                            aria-label={`${nombre}: desde`}
+                          />
+                          <span className="text-xs text-tinta-3">a</span>
+                          <input
+                            type="time"
+                            name={`hasta_${valor}`}
+                            defaultValue={h?.hasta ?? "18:00"}
+                            className="w-28"
+                            aria-label={`${nombre}: hasta`}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Campo>
+
+                <button type="submit" disabled={guardandoAgenda} className={estiloBoton()}>
+                  {guardandoAgenda ? "Guardando…" : "Guardar horarios"}
+                </button>
+              </form>
+            )}
+
             <form action={accionClave} className="space-y-3">
               <input type="hidden" name="usuarioId" value={usuario.id} />
               {clave?.error && <Aviso>{clave.error}</Aviso>}

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { plata, porcentaje } from "@/lib/dinero";
-import { fechaLarga, hora } from "@/lib/fechas";
+import { fechaLarga, fechaYHora, hora } from "@/lib/fechas";
 import { calcularSena } from "@/lib/precios";
+import { comentariosDeTurno } from "@/lib/repo/avisos";
 import { pagosDeTurno } from "@/lib/repo/pagos";
 import { obtenerServicio } from "@/lib/repo/servicios";
 import { tarifario } from "@/lib/precios";
@@ -9,6 +10,7 @@ import type { MetodoPago, TurnoDetalle, Usuario } from "@/lib/types";
 import { Boton, Chip, Panel, estiloBoton } from "@/components/ui";
 import { EstadoPagoChip, EstadoTurnoChip, OrigenChip, TipoPagoChip } from "@/components/estados";
 import { COLOR_METODO, ETIQUETA_METODO } from "@/components/graficos";
+import FormularioComentario from "./FormularioComentario";
 import FormularioPago from "./FormularioPago";
 import { accionCambiarEstado, accionEliminarTurno, accionSenaSugerida } from "./acciones";
 
@@ -23,8 +25,10 @@ export default function PanelTurno({
   usuario: Usuario;
   hrefCerrar: string;
 }) {
+  const esDueno = usuario.rol === "dueno";
   const servicio = obtenerServicio(turno.servicioId);
   const pagos = pagosDeTurno(turno.id);
+  const comentarios = comentariosDeTurno(turno.id);
   const restante = turno.precioBase - turno.pagado;
   const senaEsperada = servicio ? calcularSena(servicio) : 0;
   const faltaSena = Math.max(senaEsperada - turno.pagado, 0);
@@ -105,7 +109,7 @@ export default function PanelTurno({
             </p>
           )}
 
-          {faltaSena > 0 && turno.estado !== "cancelado" && (
+          {esDueno && faltaSena > 0 && turno.estado !== "cancelado" && (
             <div className="rounded-lg border border-aviso/30 bg-aviso-fondo px-3 py-2">
               <p className="text-xs font-semibold text-aviso">
                 Falta seña por {plata(faltaSena)} (a precio general)
@@ -134,6 +138,7 @@ export default function PanelTurno({
             </div>
           )}
 
+          {esDueno ? (
           <div className="flex flex-wrap gap-1.5 border-t border-borde pt-3">
             {(["confirmado", "completado", "ausente", "cancelado"] as const)
               .filter((e) => e !== turno.estado)
@@ -153,18 +158,23 @@ export default function PanelTurno({
                   </Boton>
                 </form>
               ))}
-            {usuario.rol === "dueno" && (
-              <form action={accionEliminarTurno}>
-                <input type="hidden" name="turnoId" value={turno.id} />
-                <Boton variante="fantasma" title="Borrar el turno del todo">
-                  Borrar
-                </Boton>
-              </form>
-            )}
+            <form action={accionEliminarTurno}>
+              <input type="hidden" name="turnoId" value={turno.id} />
+              <Boton variante="fantasma" title="Borrar el turno del todo">
+                Borrar
+              </Boton>
+            </form>
           </div>
+          ) : (
+            <p className="border-t border-borde pt-3 text-xs leading-relaxed text-tinta-3">
+              Podés ver el turno, comentarlo y avisar demoras. Confirmar, cobrar y cancelar lo hace
+              el dueño.
+            </p>
+          )}
         </div>
       </Panel>
 
+      {esDueno && (
       <Panel
         titulo="Precio según cómo pague"
         descripcion="Es la misma tabla que informa el bot por WhatsApp."
@@ -188,7 +198,9 @@ export default function PanelTurno({
           ))}
         </ul>
       </Panel>
+      )}
 
+      {esDueno && (
       <Panel titulo="Registrar un pago">
         <FormularioPago
           turnoId={turno.id}
@@ -197,8 +209,34 @@ export default function PanelTurno({
           senaSugerida={faltaSena}
         />
       </Panel>
+      )}
 
-      {pagos.length > 0 && (
+      <Panel
+        titulo={`Comentarios${comentarios.length ? ` (${comentarios.length})` : ""}`}
+        descripcion="Lo que pasó con este turno, en orden."
+        sinPadding
+      >
+        {comentarios.length > 0 && (
+          <ul className="max-h-[260px] divide-y divide-borde overflow-y-auto">
+            {comentarios.map((c) => (
+              <li key={c.id} className="px-4 py-2.5">
+                <p className="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-tinta-1">
+                  {c.tipo === "demora" && <Chip tono="aviso">◷ {c.minutos} min</Chip>}
+                  {c.tipo === "ausencia" && <Chip tono="grave">✕ no vino</Chip>}
+                  {c.autorNombre}
+                </p>
+                <p className="mt-0.5 text-sm leading-relaxed text-tinta-2">{c.texto}</p>
+                <p className="tabular mt-0.5 text-[0.7rem] text-tinta-3">{fechaYHora(c.creadoEn)}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="border-t border-borde p-4 first:border-t-0">
+          <FormularioComentario turnoId={turno.id} esDueno={esDueno} />
+        </div>
+      </Panel>
+
+      {esDueno && pagos.length > 0 && (
         <Panel titulo="Pagos de este turno" sinPadding>
           <ul className="divide-y divide-borde">
             {pagos.map((p) => (

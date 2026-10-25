@@ -72,20 +72,20 @@ for (const [clave, valor] of AJUSTES) {
 
 // ------------------------------------------------------------------- usuarios
 const USUARIOS = [
-  { id: id("usr", 1), nombre: "Leonardo (dueño)", email: "dueno@senko.app", rol: "dueno", color: "#6366f1", tel: "+5491122334455" },
-  { id: id("usr", 2), nombre: "Camila Ruiz", email: "camila@senko.app", rol: "profesional", color: "#ec4899", tel: "+5491133445566" },
-  { id: id("usr", 3), nombre: "Nicolás Vera", email: "nicolas@senko.app", rol: "profesional", color: "#14b8a6", tel: "+5491144556677" },
-  { id: id("usr", 4), nombre: "Sofía Peralta", email: "sofia@senko.app", rol: "profesional", color: "#f59e0b", tel: "+5491155667788" },
+  { id: id("usr", 1), nombre: "Leonardo (dueño)", email: "dueno@senko.app", rol: "dueno", ocupacion: "Dueño del estudio", color: "#6366f1", tel: "+5491122334455" },
+  { id: id("usr", 2), nombre: "Camila Ruiz", email: "camila@senko.app", rol: "profesional", ocupacion: "Colorista", color: "#ec4899", tel: "+5491133445566" },
+  { id: id("usr", 3), nombre: "Nicolás Vera", email: "nicolas@senko.app", rol: "profesional", ocupacion: "Peluquero", color: "#14b8a6", tel: "+5491144556677" },
+  { id: id("usr", 4), nombre: "Sofía Peralta", email: "sofia@senko.app", rol: "profesional", ocupacion: "Manicura", color: "#f59e0b", tel: "+5491155667788" },
 ] as const;
 
 for (const u of USUARIOS) {
   conexion
     .prepare(
-      `INSERT INTO usuarios (id, nombre, email, password_hash, rol, telefono, color, activo, creado_en)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)
+      `INSERT INTO usuarios (id, nombre, email, password_hash, rol, ocupacion, telefono, color, activo, creado_en)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
        ON CONFLICT(id) DO NOTHING`,
     )
-    .run(u.id, u.nombre, u.email, hashearPassword("senko1234"), u.rol, u.tel, u.color, iso(ahora));
+    .run(u.id, u.nombre, u.email, hashearPassword("senko1234"), u.rol, u.ocupacion, u.tel, u.color, iso(ahora));
 }
 
 // ------------------------------------------------------------------ servicios
@@ -122,16 +122,24 @@ for (const [prof, servicios] of ASIGNACIONES) {
   }
 }
 
-// Horarios: lunes a viernes 9 a 18, sabado 9 a 13
+// Cada profesional con su propia semana laboral.
+const HORARIOS: Record<string, Array<[number, string, string]>> = {
+  [USUARIOS[1].id]: [
+    [1, "09:00", "18:00"], [2, "09:00", "18:00"], [3, "09:00", "18:00"],
+    [4, "09:00", "18:00"], [5, "09:00", "18:00"], [6, "09:00", "13:00"],
+  ],
+  [USUARIOS[2].id]: [
+    [2, "10:00", "19:00"], [3, "10:00", "19:00"], [4, "10:00", "19:00"],
+    [5, "10:00", "19:00"], [6, "09:00", "14:00"],
+  ],
+  [USUARIOS[3].id]: [
+    [1, "11:00", "20:00"], [3, "11:00", "20:00"], [5, "11:00", "20:00"],
+    [6, "10:00", "15:00"],
+  ],
+};
+
 for (const [prof] of ASIGNACIONES) {
-  const tramos: Array<[number, string, string]> = [
-    [1, "09:00", "18:00"],
-    [2, "09:00", "18:00"],
-    [3, "09:00", "18:00"],
-    [4, "09:00", "18:00"],
-    [5, "09:00", "18:00"],
-    [6, "09:00", "13:00"],
-  ];
+  const tramos = HORARIOS[prof] ?? [];
   for (const [dia, desde, hasta] of tramos) {
     conexion
       .prepare(
@@ -322,6 +330,79 @@ const cargar = conexion.transaction(() => {
 
 cargar();
 
+// ------------------------------------------------- comentarios y avisos
+// Un par de ejemplos para que el dueño vea cómo le llegan los avisos.
+
+const insertarComentario = conexion.prepare(
+  `INSERT INTO comentarios (id, turno_id, autor_id, texto, tipo, minutos, creado_en)
+   VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO NOTHING`,
+);
+const insertarNotif = conexion.prepare(
+  `INSERT INTO notificaciones (id, destinatario_id, autor_id, tipo, titulo, cuerpo, turno_id, leida, avisada, creado_en)
+   VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?) ON CONFLICT(id) DO NOTHING`,
+);
+
+/** Primer turno de hoy de un profesional, para colgarle los ejemplos. */
+function turnoDeHoy(profesionalId: string): { id: string; cliente: string; inicio: string } | null {
+  const inicioDia = diaRelativo(0, 0);
+  const finDia = diaRelativo(1, 0);
+  const f = conexion
+    .prepare(
+      `SELECT t.id, t.inicio, c.nombre AS cliente
+         FROM turnos t JOIN clientes c ON c.id = t.cliente_id
+        WHERE t.profesional_id = ? AND t.inicio >= ? AND t.inicio < ?
+        ORDER BY t.inicio LIMIT 1`,
+    )
+    .get(profesionalId, iso(inicioDia), iso(finDia)) as
+    | { id: string; inicio: string; cliente: string }
+    | undefined;
+  return f ? { id: f.id, cliente: f.cliente, inicio: f.inicio } : null;
+}
+
+const horaDe = (iso: string) =>
+  new Date(iso).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+
+const EJEMPLOS: Array<{
+  prof: (typeof USUARIOS)[number];
+  tipo: "demora" | "nota";
+  texto: string;
+  minutos: number | null;
+  leida: boolean;
+}> = [
+  { prof: USUARIOS[1], tipo: "demora", texto: "Se retrasa 20 min. Avisó por WhatsApp que está en camino.", minutos: 20, leida: false },
+  { prof: USUARIOS[2], tipo: "nota", texto: "Pidió cambiar a un tono más claro. Puede llevar media hora más.", minutos: null, leida: false },
+  { prof: USUARIOS[3], tipo: "nota", texto: "Trajo su propio esmalte.", minutos: null, leida: true },
+];
+
+let nEjemplo = 0;
+for (const ej of EJEMPLOS) {
+  const turno = turnoDeHoy(ej.prof.id);
+  if (!turno) continue;
+  nEjemplo += 1;
+
+  const cuando = iso(new Date(new Date(turno.inicio).getTime() - 30 * 60_000));
+
+  insertarComentario.run(
+    id("cmt", nEjemplo), turno.id, ej.prof.id, ej.texto, ej.tipo, ej.minutos, cuando,
+  );
+
+  insertarNotif.run(
+    id("ntf", nEjemplo),
+    USUARIOS[0].id,
+    ej.prof.id,
+    ej.tipo === "demora" ? "demora" : "comentario",
+    ej.tipo === "demora"
+      ? `${turno.cliente} se retrasa ${ej.minutos} min`
+      : `${ej.prof.nombre} comentó un turno`,
+    ej.tipo === "demora"
+      ? `Turno de las ${horaDe(turno.inicio)} con ${ej.prof.nombre}.`
+      : `${turno.cliente} · ${horaDe(turno.inicio)} — ${ej.texto}`,
+    turno.id,
+    ej.leida ? 1 : 0,
+    cuando,
+  );
+}
+
 const conteo = (tabla: string) =>
   (conexion.prepare(`SELECT COUNT(*) AS n FROM ${tabla}`).get() as { n: number }).n;
 
@@ -331,6 +412,8 @@ console.log(`  clientes  ${conteo("clientes")}`);
 console.log(`  servicios ${conteo("servicios")}`);
 console.log(`  turnos    ${conteo("turnos")}`);
 console.log(`  pagos     ${conteo("pagos")}`);
+console.log(`  comentarios ${conteo("comentarios")}`);
+console.log(`  avisos      ${conteo("notificaciones")}`);
 console.log("");
 console.log("Entrar con:");
 console.log("  dueño        dueno@senko.app   / senko1234");

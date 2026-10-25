@@ -237,6 +237,60 @@ existe, para que un reintento del bot no la cuente dos veces).
 
 ---
 
+## `GET /api/bot/notificaciones`
+
+Avisos que el panel generó y todavía no salieron por WhatsApp: demoras que cargó
+un profesional, ausencias y comentarios. El bot los lee y se los manda al dueño.
+
+| Parámetro | Qué hace |
+|---|---|
+| `limite` | Cuántos traer (1 a 200, por defecto 50). |
+| `marcar` | `false` los devuelve **sin** consumirlos. Por defecto los marca como enviados. |
+
+```bash
+curl -H "x-senko-bot-key: $KEY" "$BASE/api/bot/notificaciones?limite=20"
+```
+
+```jsonc
+{
+  "ok": true,
+  "marcadas": true,
+  "avisos": [
+    {
+      "id": "ntf_...",
+      "tipo": "demora",                       // demora | ausencia | comentario | sena
+      "titulo": "Valentina Sosa se retrasa 30 min",
+      "cuerpo": "Coloración completa de las 10:00 con Camila Ruiz. Está en el subte.",
+      "creado_en": "2026-10-25T18:36:00.000Z",
+      "autor": "Camila Ruiz",
+      "turno": { "id": "trn_...", "inicio": "...", "cliente": "Valentina Sosa" },
+      "destinatario": { "id": "usr_...", "nombre": "Leonardo", "telefono": "+5491122334455" }
+    }
+  ]
+}
+```
+
+`titulo` y `cuerpo` ya vienen redactados para mandarlos tal cual por WhatsApp, y
+`destinatario.telefono` es a quién mandárselos.
+
+**Cada aviso se entrega una sola vez.** Al leerlos quedan marcados, así que una
+segunda llamada no los repite. Si preferís confirmarlos recién cuando WhatsApp
+acepta el mensaje, leelos con `marcar=false` y después confirmá:
+
+## `POST /api/bot/notificaciones`
+
+```jsonc
+{ "ids": ["ntf_...", "ntf_..."] }
+```
+
+```jsonc
+{ "ok": true, "marcadas": 2 }
+```
+
+Conviene consultarlo cada pocos minutos; no hay webhook.
+
+---
+
 ## Forma de un turno
 
 La devuelven todos los endpoints de turnos:

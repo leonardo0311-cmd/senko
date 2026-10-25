@@ -2,7 +2,7 @@ import Link from "next/link";
 import { exigirSesion } from "@/lib/auth";
 import { plata } from "@/lib/dinero";
 import { addDays, format, paraInputLocal, startOfWeek } from "@/lib/fechas";
-import { listarMetodosPago } from "@/lib/repo/config";
+import { horariosDeProfesional, listarMetodosPago } from "@/lib/repo/config";
 import { listarServicios } from "@/lib/repo/servicios";
 import { listarProfesionales } from "@/lib/repo/usuarios";
 import { listarTurnos, obtenerTurno } from "@/lib/repo/turnos";
@@ -13,6 +13,8 @@ import Grilla from "./Grilla";
 import PanelTurno from "./PanelTurno";
 
 export const metadata = { title: "Calendario · Senko" };
+
+const NOMBRE_DIA = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 export default async function PaginaCalendario({
   searchParams,
@@ -32,6 +34,7 @@ export default async function PaginaCalendario({
   const profesionales = listarProfesionales();
   const servicios = listarServicios(true);
   const metodos = listarMetodosPago();
+  const misHorarios = esDueno ? [] : horariosDeProfesional(usuario.id);
 
   // Un profesional ve unicamente su propia agenda; el dueño ve todo y puede filtrar.
   const filtroProf = esDueno ? (params.prof || null) : usuario.id;
@@ -187,22 +190,52 @@ export default async function PaginaCalendario({
             />
           ) : (
             <>
-              <Panel titulo="Cargar un turno a mano">
-                {servicios.length === 0 ? (
-                  <p className="text-sm text-tinta-3">
-                    Primero cargá servicios en Configuración.
-                  </p>
-                ) : (
-                  <FormularioTurno
-                    profesionales={profesionales}
-                    servicios={servicios}
-                    esDueno={esDueno}
-                    fechaSugerida={paraInputLocal(
-                      addDays(lunes, 0).toISOString(),
-                    ).replace(/T.*/, "T10:00")}
-                  />
-                )}
-              </Panel>
+              {esDueno ? (
+                <Panel titulo="Cargar un turno a mano">
+                  {servicios.length === 0 ? (
+                    <p className="text-sm text-tinta-3">
+                      Primero cargá servicios en Configuración.
+                    </p>
+                  ) : (
+                    <FormularioTurno
+                      profesionales={profesionales}
+                      servicios={servicios}
+                      esDueno={esDueno}
+                      fechaSugerida={paraInputLocal(
+                        addDays(lunes, 0).toISOString(),
+                      ).replace(/T.*/, "T10:00")}
+                    />
+                  )}
+                </Panel>
+              ) : (
+                <Panel
+                  titulo="Tus días y horarios"
+                  descripcion="Los define el dueño. El bot solo ofrece turnos dentro de estas franjas."
+                >
+                  {misHorarios.length === 0 ? (
+                    <p className="text-sm leading-relaxed text-tinta-3">
+                      Todavía no tenés horarios cargados. Pedile al dueño que te los asigne desde
+                      Usuarios.
+                    </p>
+                  ) : (
+                    <ul className="space-y-1.5 text-sm">
+                      {misHorarios.map((h) => (
+                        <li key={h.id} className="flex items-baseline justify-between gap-3">
+                          <span className="text-tinta-2">{NOMBRE_DIA[h.diaSemana]}</span>
+                          <span className="tabular font-medium text-tinta-1">
+                            {h.desde} – {h.hasta}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {usuario.ocupacion && (
+                    <p className="mt-3 border-t border-borde pt-3 text-xs text-tinta-3">
+                      Tu ocupación: <strong className="text-tinta-2">{usuario.ocupacion}</strong>
+                    </p>
+                  )}
+                </Panel>
+              )}
 
               <Panel titulo="Cómo leer la grilla">
                 <ul className="space-y-2 text-xs leading-relaxed text-tinta-2">
@@ -222,7 +255,15 @@ export default async function PaginaCalendario({
                     cliente no vino.
                   </li>
                   <li>
-                    Tocá cualquier turno para ver el detalle, cobrar la seña o cambiarle el estado.
+                    <strong className="text-tinta-1">✎</strong> con un número: el turno tiene
+                    comentarios. <strong className="text-tinta-1">+15′</strong>: avisaron que el
+                    cliente se retrasa.
+                  </li>
+                  <li>
+                    Tocá cualquier turno para ver el detalle{esDueno
+                      ? ", cobrar la seña o cambiarle el estado"
+                      : ", comentarlo o avisar una demora"}
+                    .
                   </li>
                 </ul>
               </Panel>

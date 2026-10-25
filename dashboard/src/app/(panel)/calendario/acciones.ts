@@ -2,10 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { exigirSesion } from "@/lib/auth";
+import { exigirDueno, exigirSesion } from "@/lib/auth";
 import { aCentavos } from "@/lib/dinero";
+import { fechaYHora, hora } from "@/lib/fechas";
 import { calcularSena } from "@/lib/precios";
 import { obtenerOCrearCliente } from "@/lib/repo/clientes";
+import { avisarADuenos, crearComentario } from "@/lib/repo/avisos";
 import { obtenerAjuste } from "@/lib/repo/config";
 import { registrarPago } from "@/lib/repo/pagos";
 import { obtenerServicio } from "@/lib/repo/servicios";
@@ -41,13 +43,12 @@ const esquemaNuevo = z.object({
 });
 
 export async function accionCrearTurno(_previo: unknown, datos: FormData): Promise<Resultado> {
-  const usuario = await exigirSesion();
+  await exigirDueno();
 
   const parseado = esquemaNuevo.safeParse({
     clienteNombre: datos.get("clienteNombre") ?? "",
     clienteTelefono: datos.get("clienteTelefono") ?? "",
-    profesionalId:
-      usuario.rol === "dueno" ? (datos.get("profesionalId") ?? "") : usuario.id,
+    profesionalId: datos.get("profesionalId") ?? "",
     servicioId: datos.get("servicioId") ?? "",
     inicio: datos.get("inicio") ?? "",
     estado: (datos.get("estado") as string) || "confirmado",
@@ -58,8 +59,7 @@ export async function accionCrearTurno(_previo: unknown, datos: FormData): Promi
   }
   const d = parseado.data;
 
-  // Un profesional solo puede cargarse turnos a si mismo.
-  const profesionalId = usuario.rol === "dueno" ? d.profesionalId : usuario.id;
+  const profesionalId = d.profesionalId;
 
   const servicio = obtenerServicio(d.servicioId);
   if (!servicio) return { error: "Ese servicio no existe." };
@@ -99,18 +99,14 @@ export async function accionCrearTurno(_previo: unknown, datos: FormData): Promi
 }
 
 export async function accionEditarTurno(_previo: unknown, datos: FormData): Promise<Resultado> {
-  const usuario = await exigirSesion();
+  await exigirDueno();
   const turnoId = String(datos.get("turnoId") ?? "");
   const turno = obtenerTurno(turnoId);
   if (!turno) return { error: "Ese turno no existe." };
-  if (usuario.rol !== "dueno" && turno.profesionalId !== usuario.id) {
-    return { error: "Solo podés editar tus propios turnos." };
-  }
 
   const inicioTexto = String(datos.get("inicio") ?? "");
   const servicioId = String(datos.get("servicioId") ?? turno.servicioId);
-  const profesionalId =
-    usuario.rol === "dueno" ? String(datos.get("profesionalId") ?? turno.profesionalId) : turno.profesionalId;
+  const profesionalId = String(datos.get("profesionalId") ?? turno.profesionalId);
 
   const servicio = obtenerServicio(servicioId);
   if (!servicio) return { error: "Ese servicio no existe." };
@@ -136,12 +132,11 @@ export async function accionEditarTurno(_previo: unknown, datos: FormData): Prom
 }
 
 export async function accionCambiarEstado(datos: FormData): Promise<void> {
-  const usuario = await exigirSesion();
+  await exigirDueno();
   const turnoId = String(datos.get("turnoId") ?? "");
   const estado = String(datos.get("estado") ?? "") as EstadoTurno;
   const turno = obtenerTurno(turnoId);
   if (!turno) return;
-  if (usuario.rol !== "dueno" && turno.profesionalId !== usuario.id) return;
   if (!["pendiente", "confirmado", "completado", "cancelado", "ausente"].includes(estado)) return;
 
   cambiarEstadoTurno(turnoId, estado);
@@ -149,8 +144,7 @@ export async function accionCambiarEstado(datos: FormData): Promise<void> {
 }
 
 export async function accionEliminarTurno(datos: FormData): Promise<void> {
-  const usuario = await exigirSesion();
-  if (usuario.rol !== "dueno") return;
+  await exigirDueno();
   eliminarTurno(String(datos.get("turnoId") ?? ""));
   refrescar();
 }
@@ -169,7 +163,7 @@ const esquemaPago = z.object({
  * GENERAL; el recargo o descuento del metodo lo calcula el motor de precios.
  */
 export async function accionRegistrarPago(_previo: unknown, datos: FormData): Promise<Resultado> {
-  const usuario = await exigirSesion();
+  await exigirDueno();
 
   const parseado = esquemaPago.safeParse({
     turnoId: datos.get("turnoId") ?? "",
@@ -186,9 +180,6 @@ export async function accionRegistrarPago(_previo: unknown, datos: FormData): Pr
 
   const turno = obtenerTurno(d.turnoId);
   if (!turno) return { error: "Ese turno no existe." };
-  if (usuario.rol !== "dueno" && turno.profesionalId !== usuario.id) {
-    return { error: "Solo podés registrar pagos de tus propios turnos." };
-  }
 
   const montoBase = aCentavos(d.monto);
   if (montoBase <= 0) return { error: "El monto tiene que ser mayor a cero." };
@@ -219,13 +210,12 @@ export async function accionRegistrarPago(_previo: unknown, datos: FormData): Pr
 
 /** Atajo: registra la seña completa que corresponde al servicio del turno. */
 export async function accionSenaSugerida(datos: FormData): Promise<void> {
-  const usuario = await exigirSesion();
+  await exigirDueno();
   const turnoId = String(datos.get("turnoId") ?? "");
   const metodo = String(datos.get("metodo") ?? "transferencia") as MetodoPagoClave;
 
   const turno = obtenerTurno(turnoId);
   if (!turno) return;
-  if (usuario.rol !== "dueno" && turno.profesionalId !== usuario.id) return;
 
   const servicio = obtenerServicio(turno.servicioId);
   if (!servicio) return;
@@ -245,4 +235,141 @@ export async function accionSenaSugerida(datos: FormData): Promise<void> {
     alias: metodo === "transferencia" ? obtenerAjuste("transferencia_alias") : null,
   });
   refrescar();
+}
+
+// ------------------------------------------------- comentarios y avisos
+
+const esquemaComentario = z.object({
+  turnoId: z.string().trim().min(1),
+  texto: z.string().trim().min(2, "Escribí el comentario.").max(600, "El comentario es muy largo."),
+});
+
+/** Puede comentar el dueño, y el profesional en sus propios turnos. */
+async function permisoSobreTurno(turnoId: string) {
+  const usuario = await exigirSesion();
+  const turno = obtenerTurno(turnoId);
+  if (!turno) return { error: "Ese turno no existe." } as const;
+  if (usuario.rol !== "dueno" && turno.profesionalId !== usuario.id) {
+    return { error: "Solo podés comentar tus propios turnos." } as const;
+  }
+  return { usuario, turno } as const;
+}
+
+export async function accionComentar(_previo: unknown, datos: FormData): Promise<Resultado> {
+  const parseado = esquemaComentario.safeParse({
+    turnoId: datos.get("turnoId") ?? "",
+    texto: datos.get("texto") ?? "",
+  });
+  if (!parseado.success) {
+    return { error: parseado.error.issues[0]?.message ?? "Revisá el comentario." };
+  }
+
+  const permiso = await permisoSobreTurno(parseado.data.turnoId);
+  if ("error" in permiso) return permiso;
+  const { usuario, turno } = permiso;
+
+  crearComentario({
+    turnoId: turno.id,
+    autorId: usuario.id,
+    texto: parseado.data.texto,
+    tipo: "nota",
+  });
+
+  // El dueño no se avisa a sí mismo.
+  if (usuario.rol !== "dueno") {
+    avisarADuenos({
+      autorId: usuario.id,
+      tipo: "comentario",
+      titulo: `${usuario.nombre} comentó un turno`,
+      cuerpo: `${turno.clienteNombre} · ${fechaYHora(turno.inicio)} — ${parseado.data.texto}`,
+      turnoId: turno.id,
+    });
+  }
+
+  refrescar();
+  revalidatePath("/notificaciones");
+  return { ok: "Comentario agregado." };
+}
+
+const esquemaDemora = z.object({
+  turnoId: z.string().trim().min(1),
+  minutos: z.coerce.number().int().min(5, "Mínimo 5 minutos.").max(480, "Máximo 8 horas."),
+  nota: z.string().trim().max(400).optional(),
+});
+
+/**
+ * El profesional avisa que el cliente se retrasa. Queda como comentario en el
+ * turno y le entra al dueño como notificación.
+ */
+export async function accionAvisarDemora(_previo: unknown, datos: FormData): Promise<Resultado> {
+  const parseado = esquemaDemora.safeParse({
+    turnoId: datos.get("turnoId") ?? "",
+    minutos: datos.get("minutos") ?? "",
+    nota: datos.get("nota") ?? "",
+  });
+  if (!parseado.success) {
+    return { error: parseado.error.issues[0]?.message ?? "Revisá los datos de la demora." };
+  }
+
+  const permiso = await permisoSobreTurno(parseado.data.turnoId);
+  if ("error" in permiso) return permiso;
+  const { usuario, turno } = permiso;
+
+  const { minutos, nota } = parseado.data;
+  const texto = nota
+    ? `Se retrasa ${minutos} min. ${nota}`
+    : `Se retrasa ${minutos} min.`;
+
+  crearComentario({
+    turnoId: turno.id,
+    autorId: usuario.id,
+    texto,
+    tipo: "demora",
+    minutos,
+  });
+
+  avisarADuenos({
+    autorId: usuario.id,
+    tipo: "demora",
+    titulo: `${turno.clienteNombre} se retrasa ${minutos} min`,
+    cuerpo: `${turno.servicioNombre} de las ${hora(turno.inicio)} con ${turno.profesionalNombre}.${
+      nota ? ` ${nota}` : ""
+    }`,
+    turnoId: turno.id,
+  });
+
+  refrescar();
+  revalidatePath("/notificaciones");
+  return { ok: `Aviso enviado: el cliente se retrasa ${minutos} minutos.` };
+}
+
+/** El profesional avisa que el cliente no apareció. */
+export async function accionAvisarAusencia(_previo: unknown, datos: FormData): Promise<Resultado> {
+  const turnoId = String(datos.get("turnoId") ?? "");
+  const nota = String(datos.get("nota") ?? "").trim().slice(0, 400);
+
+  const permiso = await permisoSobreTurno(turnoId);
+  if ("error" in permiso) return permiso;
+  const { usuario, turno } = permiso;
+
+  crearComentario({
+    turnoId: turno.id,
+    autorId: usuario.id,
+    texto: nota ? `El cliente no vino. ${nota}` : "El cliente no vino.",
+    tipo: "ausencia",
+  });
+
+  avisarADuenos({
+    autorId: usuario.id,
+    tipo: "ausencia",
+    titulo: `${turno.clienteNombre} no vino`,
+    cuerpo: `${turno.servicioNombre} de las ${hora(turno.inicio)} con ${turno.profesionalNombre}.${
+      nota ? ` ${nota}` : ""
+    } El turno sigue como estaba: cambiá el estado vos si corresponde.`,
+    turnoId: turno.id,
+  });
+
+  refrescar();
+  revalidatePath("/notificaciones");
+  return { ok: "Aviso enviado al dueño." };
 }

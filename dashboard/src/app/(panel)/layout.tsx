@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { exigirSesion } from "@/lib/auth";
+import { contarSinLeer } from "@/lib/repo/avisos";
 import { obtenerAjuste } from "@/lib/repo/config";
 import Nav, { type ItemNav } from "@/components/Nav";
 import TemaToggle from "@/components/TemaToggle";
@@ -10,6 +12,7 @@ const ITEMS_DUENO: ItemNav[] = [
   { href: "/clientes", etiqueta: "Clientes y gastos", icono: "◎" },
   { href: "/senas", etiqueta: "Señas", icono: "◈" },
   { href: "/pagos", etiqueta: "Pagos", icono: "≡" },
+  { href: "/notificaciones", etiqueta: "Avisos", icono: "◔" },
   { href: "/usuarios", etiqueta: "Usuarios", icono: "◍" },
   { href: "/configuracion", etiqueta: "Configuración", icono: "⚙" },
 ];
@@ -17,12 +20,18 @@ const ITEMS_DUENO: ItemNav[] = [
 const ITEMS_PROFESIONAL: ItemNav[] = [
   { href: "/calendario", etiqueta: "Mi calendario", icono: "▦" },
   { href: "/senas", etiqueta: "Señas", icono: "◈" },
+  { href: "/notificaciones", etiqueta: "Avisos", icono: "◔" },
 ];
 
 export default async function LayoutPanel({ children }: { children: React.ReactNode }) {
   const usuario = await exigirSesion();
   const negocio = obtenerAjuste("negocio_nombre");
-  const items = usuario.rol === "dueno" ? ITEMS_DUENO : ITEMS_PROFESIONAL;
+  const sinLeer = contarSinLeer(usuario.id);
+  const items = (usuario.rol === "dueno" ? ITEMS_DUENO : ITEMS_PROFESIONAL).map((item) =>
+    item.href === "/notificaciones" && sinLeer > 0
+      ? { ...item, insignia: sinLeer > 99 ? "99+" : String(sinLeer) }
+      : item,
+  );
 
   return (
     <div className="min-h-dvh lg:flex">

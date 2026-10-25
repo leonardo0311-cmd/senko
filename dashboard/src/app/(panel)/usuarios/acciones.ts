@@ -13,6 +13,7 @@ import {
   obtenerUsuario,
   obtenerUsuarioPorEmail,
 } from "@/lib/repo/usuarios";
+import { definirHorarios } from "@/lib/repo/config";
 import { db } from "@/lib/db";
 
 type Resultado = { error?: string; ok?: string };
@@ -27,6 +28,7 @@ const esquemaNuevo = z.object({
   nombre: z.string().trim().min(2, "Poné el nombre del profesional."),
   email: z.string().trim().toLowerCase().email("El email no es válido."),
   password: z.string().min(8, "La contraseña tiene que tener 8 caracteres o más."),
+  ocupacion: z.string().trim().max(60, "La ocupación es muy larga.").optional(),
   telefono: z.string().trim().optional(),
   rol: z.enum(["dueno", "profesional"]),
 });
@@ -38,6 +40,7 @@ export async function accionCrearUsuario(_previo: unknown, datos: FormData): Pro
     nombre: datos.get("nombre") ?? "",
     email: datos.get("email") ?? "",
     password: datos.get("password") ?? "",
+    ocupacion: datos.get("ocupacion") ?? "",
     telefono: datos.get("telefono") ?? "",
     rol: (datos.get("rol") as string) || "profesional",
   });
@@ -55,6 +58,7 @@ export async function accionCrearUsuario(_previo: unknown, datos: FormData): Pro
     email: d.email,
     password: d.password,
     rol: d.rol,
+    ocupacion: d.ocupacion || null,
     telefono: d.telefono || null,
   });
 
@@ -63,7 +67,13 @@ export async function accionCrearUsuario(_previo: unknown, datos: FormData): Pro
     .prepare<[], { id: string }>(`SELECT id FROM servicios WHERE activo = 1`)
     .all()
     .map((f) => f.id);
-  if (d.rol === "profesional") definirServiciosDeProfesional(usuario.id, servicios);
+  if (d.rol === "profesional") {
+    definirServiciosDeProfesional(usuario.id, servicios);
+    definirHorarios(
+      usuario.id,
+      [1, 2, 3, 4, 5].map((dia) => ({ diaSemana: dia, desde: "09:00", hasta: "18:00" })),
+    );
+  }
 
   refrescar();
   return { ok: `${usuario.nombre} ya puede entrar con ${usuario.email}.` };
@@ -90,6 +100,7 @@ export async function accionEditarUsuario(_previo: unknown, datos: FormData): Pr
     actualizarUsuario(id, {
       nombre,
       email,
+      ocupacion: String(datos.get("ocupacion") ?? ""),
       telefono: String(datos.get("telefono") ?? ""),
       color: String(datos.get("color") ?? usuario.color),
     });
@@ -148,3 +159,45 @@ export async function accionEliminarUsuario(datos: FormData): Promise<void> {
   }
   refrescar();
 }
+
+const HORA = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+/**
+ * Días y horarios de trabajo de un profesional. Es lo que cruza el bot con los
+ * turnos tomados para saber qué horarios puede ofrecer.
+ */
+export async function accionGuardarHorarios(_previo: unknown, datos: FormData): Promise<Resultado> {
+  await exigirDueno();
+
+  const id = String(datos.get("usuarioId") ?? "");
+  const usuario = obtenerUsuario(id);
+  if (!usuario) return { error: "Ese usuario no existe." };
+  if (usuario.rol !== "profesional") return { error: "Los horarios son de los profesionales." };
+
+  const tramos: Array<{ diaSemana: number; desde: string; hasta: string }> = [];
+
+  for (let dia = 0; dia <= 6; dia += 1) {
+    if (datos.get(`activo_${dia}`) !== "on") continue;
+    const desde = String(datos.get(`desde_${dia}`) ?? "").trim();
+    const hasta = String(datos.get(`hasta_${dia}`) ?? "").trim();
+
+    if (!HORA.test(desde) || !HORA.test(hasta)) {
+      return { error: `Revisá las horas de ${NOMBRE_DIA[dia]}: tienen que ser HH:MM.` };
+    }
+    if (hasta <= desde) {
+      return { error: `En ${NOMBRE_DIA[dia]}, la hora de cierre tiene que ser posterior a la de apertura.` };
+    }
+    tramos.push({ diaSemana: dia, desde, hasta });
+  }
+
+  definirHorarios(id, tramos);
+  refrescar();
+
+  return {
+    ok: tramos.length
+      ? `Horarios guardados: ${tramos.length} ${tramos.length === 1 ? "día" : "días"} por semana.`
+      : "Se quitaron todos los horarios: el bot no va a ofrecer turnos con esta persona.",
+  };
+}
+
+const NOMBRE_DIA = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];

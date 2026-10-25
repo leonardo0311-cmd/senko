@@ -9,6 +9,7 @@ type Fila = {
   email: string;
   password_hash: string;
   rol: Rol;
+  ocupacion: string | null;
   telefono: string | null;
   color: string;
   activo: number;
@@ -20,6 +21,7 @@ const aUsuario = (f: Fila): Usuario => ({
   nombre: f.nombre,
   email: f.email,
   rol: f.rol,
+  ocupacion: f.ocupacion,
   telefono: f.telefono,
   color: f.color,
   activo: bool(f.activo),
@@ -61,14 +63,15 @@ export function crearUsuario(datos: {
   email: string;
   password: string;
   rol: Rol;
+  ocupacion?: string | null;
   telefono?: string | null;
   color?: string;
 }): Usuario {
   const id = nuevoId("usr");
   db()
     .prepare(
-      `INSERT INTO usuarios (id, nombre, email, password_hash, rol, telefono, color, activo, creado_en)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)`,
+      `INSERT INTO usuarios (id, nombre, email, password_hash, rol, ocupacion, telefono, color, activo, creado_en)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
     )
     .run(
       id,
@@ -76,6 +79,7 @@ export function crearUsuario(datos: {
       datos.email.trim().toLowerCase(),
       hashearPassword(datos.password),
       datos.rol,
+      datos.ocupacion?.trim() || null,
       datos.telefono?.trim() || null,
       datos.color ?? colorSiguiente(),
       ahora(),
@@ -85,17 +89,26 @@ export function crearUsuario(datos: {
 
 export function actualizarUsuario(
   id: string,
-  datos: { nombre?: string; email?: string; telefono?: string | null; color?: string; activo?: boolean },
+  datos: {
+    nombre?: string;
+    email?: string;
+    ocupacion?: string | null;
+    telefono?: string | null;
+    color?: string;
+    activo?: boolean;
+  },
 ): void {
   const actual = obtenerUsuario(id);
   if (!actual) throw new Error("Usuario inexistente");
   db()
     .prepare(
-      `UPDATE usuarios SET nombre = ?, email = ?, telefono = ?, color = ?, activo = ? WHERE id = ?`,
+      `UPDATE usuarios SET nombre = ?, email = ?, ocupacion = ?, telefono = ?, color = ?, activo = ?
+       WHERE id = ?`,
     )
     .run(
       datos.nombre?.trim() ?? actual.nombre,
       (datos.email ?? actual.email).trim().toLowerCase(),
+      datos.ocupacion !== undefined ? datos.ocupacion?.trim() || null : actual.ocupacion,
       datos.telefono !== undefined ? datos.telefono?.trim() || null : actual.telefono,
       datos.color ?? actual.color,
       int(datos.activo ?? actual.activo),

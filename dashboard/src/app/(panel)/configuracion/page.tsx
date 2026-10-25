@@ -199,6 +199,7 @@ export default async function PaginaConfiguracion({
                   ["POST", "/api/bot/turnos", "Crear el turno cuando el cliente elige horario."],
                   ["PATCH", "/api/bot/turnos/:id", "Mover, confirmar o cancelar un turno."],
                   ["POST", "/api/bot/senas", "Registrar la seña que informó el cliente."],
+                  ["GET", "/api/bot/notificaciones", "Avisos sin mandar, para reenviar por WhatsApp."],
                 ].map(([verbo, ruta, uso]) => (
                   <tr key={ruta + verbo} className="border-b border-borde last:border-0">
                     <td className="px-2 py-2">

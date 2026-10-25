@@ -1,5 +1,6 @@
 import { exigirDueno } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { horariosDeProfesional } from "@/lib/repo/config";
 import { listarServicios } from "@/lib/repo/servicios";
 import { contarDuenosActivos, listarUsuarios, serviciosDeProfesional } from "@/lib/repo/usuarios";
 import Encabezado from "@/components/Encabezado";
@@ -63,6 +64,7 @@ export default async function PaginaUsuarios() {
                 usuario={u}
                 servicios={servicios}
                 serviciosAsignados={u.rol === "profesional" ? serviciosDeProfesional(u.id) : []}
+                horarios={u.rol === "profesional" ? horariosDeProfesional(u.id) : []}
                 turnosProximos={turnosPorProfesional.get(u.id) ?? 0}
                 esUltimoDueno={u.rol === "dueno" && duenosActivos <= 1}
               />
@@ -87,9 +89,9 @@ export default async function PaginaUsuarios() {
               <div>
                 <dt className="font-semibold text-tinta-1">Profesional</dt>
                 <dd className="text-tinta-2">
-                  Solo su calendario y las señas de sus turnos. Puede confirmar, cobrar y marcar
-                  ausencias en sus propios turnos. No ve la facturación del negocio ni la de sus
-                  compañeros.
+                  Solo su calendario, con sus turnos y nada más. Puede ver, comentar y avisarte si
+                  un cliente se retrasa o no vino. No cobra, no cambia estados, y no ve la
+                  facturación del negocio ni la agenda de sus compañeros.
                 </dd>
               </div>
             </dl>

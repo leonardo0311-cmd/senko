@@ -116,21 +116,49 @@ la seña o el saldo, marcar hecho, no vino o cancelar.
 
 ### Usuarios
 
-El dueño da de alta profesionales con su email y contraseña, les asigna color en
-el calendario y qué servicios atiende cada uno, les cambia la contraseña y los
-activa o desactiva.
+El dueño da de alta profesionales con:
+
+- **Email y contraseña** para entrar al panel.
+- **Ocupación** (colorista, peluquero, manicura…), que es texto libre.
+- **Color** con el que se los ve en el calendario.
+- **Servicios que atiende** cada uno: el bot solo le ofrece esos a los clientes.
+- **Días y horarios de trabajo**, uno por día de la semana. Es lo que cruza el bot
+  con los turnos ya tomados para saber qué horarios puede ofrecer.
+
+Cada profesional ve **solo su propia agenda**: ni la de sus compañeros ni la
+facturación del negocio.
 
 | | Dueño | Profesional |
 |---|---|---|
 | Resumen y facturación del negocio | sí | no |
-| Calendario completo | sí | solo el suyo |
-| Clientes y gastos | sí | no |
-| Señas | todas | solo las de sus turnos |
-| Pagos | sí | no |
+| Calendario | completo, con filtro por profesional | solo el suyo |
+| Crear, mover y cancelar turnos | sí | no |
+| Cobrar y acreditar señas | sí | no |
+| Comentar un turno | sí | **sí, en los suyos** |
+| Avisar demora o ausencia | — | **sí** |
+| Clientes y gastos · Pagos | sí | no |
 | Usuarios y Configuración | sí | no |
+| Avisos | todos | los suyos |
+
+El profesional es **solo lectura** sobre sus turnos: ve, comenta y avisa. La plata
+y los estados los maneja el dueño.
 
 Un profesional desactivado **no se borra**: conserva su historial de cobros pero
 pierde el acceso. Lo mismo con los servicios que ya tienen turnos.
+
+### Avisos
+
+Cuando un cliente se retrasa, el profesional lo marca desde el turno —con los
+minutos y una nota opcional— y al dueño le entra un aviso en el panel: la
+campanita del menú lleva el contador y la pantalla **Avisos** muestra la bandeja.
+Lo mismo si el cliente no vino, o si el profesional deja un comentario.
+
+En el calendario, un turno con comentarios muestra `✎3`, y uno con demora
+avisada muestra `+30′`, así se ve sin abrirlo.
+
+Los avisos quedan dentro del panel. Para que además lleguen al WhatsApp del
+dueño, el bot los lee de `GET /api/bot/notificaciones` y los marca como
+enviados.
 
 ---
 
@@ -149,6 +177,8 @@ cada request y respuesta, está en **[`docs/API-BOT.md`](docs/API-BOT.md)**.
 | `PATCH` | `/api/bot/turnos/:id` | Mover, confirmar o cancelar. |
 | `DELETE` | `/api/bot/turnos/:id` | Cancelar (no borra, para no perder el historial). |
 | `POST` | `/api/bot/senas` | Registrar la seña que informó el cliente. |
+| `GET` | `/api/bot/notificaciones` | Avisos sin mandar (demoras, ausencias, comentarios) para reenviar por WhatsApp. |
+| `POST` | `/api/bot/notificaciones` | Confirmar qué avisos ya se enviaron. |
 
 La API se encarga de que el bot **nunca tenga que hacer cuentas de plata**:
 manda montos a precio general y el servidor devuelve el recargo o descuento ya
@@ -189,3 +219,7 @@ consulta SQL.
 - **El servidor siempre recalcula** los ajustes aunque el cliente o el bot manden
   un total, así que no hay forma de cobrar un precio que no salga de la
   configuración.
+- **Avisar una ausencia no cambia el estado del turno.** El profesional informa;
+  decidir si se cancela o se cobra es del dueño.
+- **Los avisos se entregan una sola vez al bot**: al leerlos quedan marcados, así
+  no se repiten en la próxima consulta.

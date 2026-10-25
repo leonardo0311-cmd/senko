@@ -28,6 +28,13 @@ export default function FormularioUsuario() {
             <input name="nombre" required placeholder="Nombre y apellido" />
           </Campo>
 
+          <Campo
+            etiqueta="Ocupación"
+            ayuda="Qué hace: peluquera, colorista, manicura, masajista…"
+          >
+            <input name="ocupacion" maxLength={60} placeholder="Colorista" />
+          </Campo>
+
           <Campo etiqueta="Email" ayuda="Con este email entra al panel.">
             <input name="email" type="email" required placeholder="nombre@negocio.com" />
           </Campo>
@@ -45,7 +52,7 @@ export default function FormularioUsuario() {
 
           <Campo
             etiqueta="Rol"
-            ayuda="El profesional ve solo su calendario y sus señas. El dueño ve todo."
+            ayuda="El profesional ve su calendario, comenta y avisa demoras. El dueño ve y maneja todo."
           >
             <select name="rol" defaultValue="profesional">
               <option value="profesional">Profesional</option>

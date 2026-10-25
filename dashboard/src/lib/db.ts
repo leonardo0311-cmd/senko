@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   email         TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
   rol           TEXT NOT NULL CHECK (rol IN ('dueno', 'profesional')),
+  ocupacion     TEXT,
   telefono      TEXT,
   color         TEXT NOT NULL DEFAULT '#6366f1',
   activo        INTEGER NOT NULL DEFAULT 1,
@@ -121,6 +122,32 @@ CREATE TABLE IF NOT EXISTS pagos (
   creado_en    TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS comentarios (
+  id        TEXT PRIMARY KEY,
+  turno_id  TEXT NOT NULL REFERENCES turnos(id) ON DELETE CASCADE,
+  autor_id  TEXT REFERENCES usuarios(id) ON DELETE SET NULL,
+  texto     TEXT NOT NULL,
+  tipo      TEXT NOT NULL DEFAULT 'nota' CHECK (tipo IN ('nota', 'demora', 'ausencia')),
+  minutos   INTEGER,
+  creado_en TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS notificaciones (
+  id              TEXT PRIMARY KEY,
+  destinatario_id TEXT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+  autor_id        TEXT REFERENCES usuarios(id) ON DELETE SET NULL,
+  tipo            TEXT NOT NULL CHECK (tipo IN ('demora', 'ausencia', 'comentario', 'sena')),
+  titulo          TEXT NOT NULL,
+  cuerpo          TEXT NOT NULL,
+  turno_id        TEXT REFERENCES turnos(id) ON DELETE CASCADE,
+  leida           INTEGER NOT NULL DEFAULT 0,
+  avisada         INTEGER NOT NULL DEFAULT 0,
+  creado_en       TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_comentarios_turno    ON comentarios(turno_id, creado_en);
+CREATE INDEX IF NOT EXISTS idx_notif_destinatario   ON notificaciones(destinatario_id, leida, creado_en);
+CREATE INDEX IF NOT EXISTS idx_notif_avisada        ON notificaciones(avisada, creado_en);
 CREATE INDEX IF NOT EXISTS idx_turnos_inicio       ON turnos(inicio);
 CREATE INDEX IF NOT EXISTS idx_turnos_profesional  ON turnos(profesional_id, inicio);
 CREATE INDEX IF NOT EXISTS idx_turnos_cliente      ON turnos(cliente_id);
@@ -131,4 +158,25 @@ CREATE INDEX IF NOT EXISTS idx_pagos_metodo_estado ON pagos(metodo, estado);
 
 function migrar(conexion: Database.Database) {
   conexion.exec(ESQUEMA);
+  agregarColumnas(conexion);
+}
+
+/**
+ * Columnas sumadas después de la primera versión. `CREATE TABLE IF NOT EXISTS`
+ * no toca una tabla que ya existe, así que las bases viejas se completan acá.
+ */
+const COLUMNAS_NUEVAS: Array<{ tabla: string; columna: string; definicion: string }> = [
+  { tabla: "usuarios", columna: "ocupacion", definicion: "TEXT" },
+];
+
+function agregarColumnas(conexion: Database.Database) {
+  for (const { tabla, columna, definicion } of COLUMNAS_NUEVAS) {
+    const existe = conexion
+      .prepare<[], { name: string }>(`PRAGMA table_info(${tabla})`)
+      .all()
+      .some((f) => f.name === columna);
+    if (!existe) {
+      conexion.exec(`ALTER TABLE ${tabla} ADD COLUMN ${columna} ${definicion}`);
+    }
+  }
 }

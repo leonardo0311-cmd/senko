@@ -29,6 +29,8 @@ export type Usuario = {
   nombre: string;
   email: string;
   rol: Rol;
+  /** Qué hace: peluquera, colorista, manicura… Es texto libre. */
+  ocupacion: string | null;
   telefono: string | null;
   color: string;
   activo: boolean;
@@ -102,6 +104,10 @@ export type TurnoDetalle = Turno & {
   /** Seña esperada segun la regla del servicio, en centavos. */
   senaEsperada: number;
   senaCubierta: boolean;
+  /** Cuantos comentarios tiene cargados. */
+  comentarios: number;
+  /** Minutos de la ultima demora avisada, si hay alguna. */
+  demoraMin: number | null;
 };
 
 export type Pago = {
@@ -149,4 +155,40 @@ export type ResumenCliente = {
   turnos: number;
   turnosCancelados: number;
   ultimoTurno: string | null;
+};
+
+// ------------------------------------------------- comentarios y avisos
+
+export type TipoComentario = "nota" | "demora" | "ausencia";
+
+export type Comentario = {
+  id: string;
+  turnoId: string;
+  autorId: string | null;
+  autorNombre: string;
+  texto: string;
+  tipo: TipoComentario;
+  /** Minutos de demora, solo cuando `tipo` es "demora". */
+  minutos: number | null;
+  creadoEn: string;
+};
+
+export type TipoNotificacion = "demora" | "ausencia" | "comentario" | "sena";
+
+export type Notificacion = {
+  id: string;
+  destinatarioId: string;
+  autorId: string | null;
+  autorNombre: string | null;
+  tipo: TipoNotificacion;
+  titulo: string;
+  cuerpo: string;
+  turnoId: string | null;
+  /** Datos del turno al que apunta, para no tener que ir a buscarlo. */
+  turnoInicio: string | null;
+  clienteNombre: string | null;
+  leida: boolean;
+  /** Ya se la pasamos al bot para que la mande por WhatsApp. */
+  avisada: boolean;
+  creadoEn: string;
 };

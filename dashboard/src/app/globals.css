@@ -173,6 +173,14 @@ input[type="checkbox"] {
   accent-color: var(--acento);
 }
 
+/* Los campos de hora no ocupan toda la fila: van de a pares (desde / hasta).
+   Las reglas de arriba no están en capa, así que le ganarían a una utilidad
+   de Tailwind; por eso el ancho se fija acá. */
+input[type="time"] {
+  width: 7rem;
+  min-width: 7rem;
+}
+
 label {
   display: block;
   font-size: 0.75rem;

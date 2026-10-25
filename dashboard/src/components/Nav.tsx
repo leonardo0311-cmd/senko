@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export type ItemNav = { href: string; etiqueta: string; icono: string };
+export type ItemNav = { href: string; etiqueta: string; icono: string; insignia?: string };
 
 export default function Nav({ items }: { items: ItemNav[] }) {
   const ruta = usePathname();
@@ -46,7 +46,12 @@ export default function Nav({ items }: { items: ItemNav[] }) {
             <span aria-hidden className="w-4 text-center text-base leading-none">
               {item.icono}
             </span>
-            {item.etiqueta}
+            <span className="min-w-0 flex-1 truncate">{item.etiqueta}</span>
+            {item.insignia && (
+              <span className="tabular shrink-0 rounded-full bg-grave px-1.5 text-[0.65rem] font-bold leading-4 text-white">
+                {item.insignia}
+              </span>
+            )}
           </Link>
         ))}
       </nav>

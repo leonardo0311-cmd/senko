@@ -206,6 +206,23 @@ export default function Grilla({
                             className="inline-block size-1.5 shrink-0 rounded-full bg-aviso"
                           />
                         )}
+                        {t.demoraMin !== null && (
+                          <span
+                            title={`El cliente avisó que se retrasa ${t.demoraMin} min`}
+                            className="tabular shrink-0 rounded bg-aviso-fondo px-1 text-[0.6rem] font-bold text-aviso"
+                          >
+                            +{t.demoraMin}′
+                          </span>
+                        )}
+                        {t.comentarios > 0 && (
+                          <span
+                            aria-hidden
+                            title={`${t.comentarios} comentario${t.comentarios === 1 ? "" : "s"}`}
+                            className="ml-auto shrink-0 text-[0.6rem] text-tinta-3"
+                          >
+                            ✎{t.comentarios}
+                          </span>
+                        )}
                       </span>
                       <span
                         className={`block truncate font-medium text-tinta-1 ${

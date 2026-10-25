@@ -28,6 +28,8 @@ type FilaDetalle = Fila & {
   sena_tipo: "porcentaje" | "fijo";
   sena_valor: number;
   pagado: number | null;
+  comentarios: number | null;
+  demora_min: number | null;
 };
 
 /** Estados que ocupan lugar en la agenda. Cancelado y ausente liberan el horario. */
@@ -66,6 +68,8 @@ function aDetalle(f: FilaDetalle): TurnoDetalle {
     pagado,
     senaEsperada,
     senaCubierta: senaEsperada === 0 || pagado >= senaEsperada,
+    comentarios: f.comentarios ?? 0,
+    demoraMin: f.demora_min,
   };
 }
 
@@ -80,7 +84,11 @@ const SELECT_DETALLE = `
          s.sena_valor,
          (SELECT COALESCE(SUM(p.monto_base), 0)
             FROM pagos p
-           WHERE p.turno_id = t.id AND p.estado = 'confirmado') AS pagado
+           WHERE p.turno_id = t.id AND p.estado = 'confirmado') AS pagado,
+         (SELECT COUNT(*) FROM comentarios cm WHERE cm.turno_id = t.id) AS comentarios,
+         (SELECT cm.minutos FROM comentarios cm
+           WHERE cm.turno_id = t.id AND cm.tipo = 'demora'
+           ORDER BY cm.creado_en DESC LIMIT 1) AS demora_min
     FROM turnos t
     JOIN clientes  c ON c.id = t.cliente_id
     JOIN usuarios  u ON u.id = t.profesional_id
