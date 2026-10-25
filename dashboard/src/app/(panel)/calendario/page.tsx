@@ -75,7 +75,7 @@ export default async function PaginaCalendario({
         descripcion={
           esDueno
             ? "Misma agenda que usa el bot de WhatsApp. Cada profesional ve solo sus turnos cuando entra con su usuario."
-            : "Tus turnos. Los reserva el bot por WhatsApp y vos los confirmás o cobrás desde acá."
+            : "Tus turnos. Los reserva el bot por WhatsApp. Podés verlos, comentarlos y avisarle al dueño si un cliente se retrasa."
         }
       >
         <div className="flex items-center gap-1 rounded-lg border border-borde bg-superficie-1 p-1">
