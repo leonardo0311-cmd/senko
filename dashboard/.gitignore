@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Base de datos local (se regenera con npm run db:seed)
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+.env
+.env.local
+.DS_Store

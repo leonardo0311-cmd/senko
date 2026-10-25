@@ -1,0 +1,32 @@
+{
+  "name": "senko-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dashboard de gestion para el bot de turnos de Senko Intelligence",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:reset": "rm -f data/senko.db data/senko.db-wal data/senko.db-shm && tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "date-fns": "^4.1.0",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.18.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "tailwindcss": "^4.1.13",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

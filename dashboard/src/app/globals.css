@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/*
+  Tokens de color. Los 4 colores de metodo de pago vienen de una paleta
+  categorica validada para daltonismo (deutan/tritan) y contraste, en los dos
+  modos. El orden importa: amarillo y naranja nunca quedan pegados en la barra
+  apilada. Ademas de color, cada metodo siempre lleva su valor escrito al lado
+  (relief), asi la identidad nunca depende solo del color.
+*/
+
+:root {
+  color-scheme: light;
+
+  --superficie-0: #f7f7f5;
+  --superficie-1: #fcfcfb;
+  --superficie-2: #f1f1ee;
+  --borde: #e2e2dd;
+  --borde-fuerte: #cfcfc8;
+
+  --tinta-1: #0b0b0b;
+  --tinta-2: #52514e;
+  --tinta-3: #7a7974;
+
+  --acento: #2a78d6;
+  --acento-suave: #e8f0fc;
+
+  /* metodos de pago (paleta categorica validada) */
+  --m-efectivo: #1baf7a;
+  --m-transferencia: #eb6834;
+  --m-debito: #2a78d6;
+  --m-credito: #eda100;
+
+  /* estados */
+  --ok: #1baf7a;
+  --ok-fondo: #e6f6ef;
+  --aviso: #eda100;
+  --aviso-fondo: #fdf3dd;
+  --grave: #e34948;
+  --grave-fondo: #fceaea;
+  --neutro-fondo: #efefec;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --superficie-0: #121211;
+    --superficie-1: #1a1a19;
+    --superficie-2: #232322;
+    --borde: #2f2f2d;
+    --borde-fuerte: #42423f;
+
+    --tinta-1: #f0efec;
+    --tinta-2: #c3c2b7;
+    --tinta-3: #8e8d85;
+
+    --acento: #3987e5;
+    --acento-suave: #16243a;
+
+    --m-efectivo: #199e70;
+    --m-transferencia: #d95926;
+    --m-debito: #3987e5;
+    --m-credito: #c98500;
+
+    --ok: #199e70;
+    --ok-fondo: #12271e;
+    --aviso: #c98500;
+    --aviso-fondo: #2a2008;
+    --grave: #e66767;
+    --grave-fondo: #2e1716;
+    --neutro-fondo: #262624;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --superficie-0: #121211;
+  --superficie-1: #1a1a19;
+  --superficie-2: #232322;
+  --borde: #2f2f2d;
+  --borde-fuerte: #42423f;
+
+  --tinta-1: #f0efec;
+  --tinta-2: #c3c2b7;
+  --tinta-3: #8e8d85;
+
+  --acento: #3987e5;
+  --acento-suave: #16243a;
+
+  --m-efectivo: #199e70;
+  --m-transferencia: #d95926;
+  --m-debito: #3987e5;
+  --m-credito: #c98500;
+
+  --ok: #199e70;
+  --ok-fondo: #12271e;
+  --aviso: #c98500;
+  --aviso-fondo: #2a2008;
+  --grave: #e66767;
+  --grave-fondo: #2e1716;
+  --neutro-fondo: #262624;
+}
+
+@theme inline {
+  --color-superficie-0: var(--superficie-0);
+  --color-superficie-1: var(--superficie-1);
+  --color-superficie-2: var(--superficie-2);
+  --color-borde: var(--borde);
+  --color-borde-fuerte: var(--borde-fuerte);
+  --color-tinta-1: var(--tinta-1);
+  --color-tinta-2: var(--tinta-2);
+  --color-tinta-3: var(--tinta-3);
+  --color-acento: var(--acento);
+  --color-acento-suave: var(--acento-suave);
+  --color-ok: var(--ok);
+  --color-ok-fondo: var(--ok-fondo);
+  --color-aviso: var(--aviso);
+  --color-aviso-fondo: var(--aviso-fondo);
+  --color-grave: var(--grave);
+  --color-grave-fondo: var(--grave-fondo);
+  --color-neutro-fondo: var(--neutro-fondo);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  border-color: var(--borde);
+}
+
+html {
+  background: var(--superficie-0);
+}
+
+body {
+  background: var(--superficie-0);
+  color: var(--tinta-1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numeros alineados en columna, como en una planilla */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+input,
+select,
+textarea {
+  background: var(--superficie-1);
+  color: var(--tinta-1);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--acento);
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tinta-2);
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+::selection {
+  background: var(--acento);
+  color: #fff;
+}
