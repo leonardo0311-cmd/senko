@@ -165,8 +165,13 @@ enviados.
 ## Conectarlo con el bot
 
 El bot de WhatsApp llama a `/api/bot/*` con la cabecera
-`x-senko-bot-key: <SENKO_BOT_API_KEY>`. La referencia completa, con ejemplos de
-cada request y respuesta, está en **[`docs/API-BOT.md`](docs/API-BOT.md)**.
+`x-senko-bot-key: <SENKO_BOT_API_KEY>`.
+
+- **[`docs/ENTREGA-SOCIO.md`](docs/ENTREGA-SOCIO.md)** — para pasarle a quien
+  desarrolla el bot: cómo levantarlo, cómo se enganchan las dos partes, qué no
+  hace el panel y qué falta decidir entre los dos.
+- **[`docs/API-BOT.md`](docs/API-BOT.md)** — la referencia de la API, con el JSON
+  de cada request y cada respuesta.
 
 | | Endpoint | Para qué |
 |---|---|---|
