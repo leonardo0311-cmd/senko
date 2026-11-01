@@ -13,9 +13,9 @@ export type ContentKind = "entrevista" | "en-vivo" | "foto";
 export type ContentItem = {
   id: string;
   kind: ContentKind;
-  /** Nombre del artista o banda. */
-  artist: string;
-  /** Título corto opcional, ej: "Antes del show en Niceto". */
+  /** Nombre del artista o banda. Si todavía no está confirmado, se deja vacío y se muestra el título. */
+  artist?: string;
+  /** Título corto, ej: "Antes del show en Niceto". Obligatorio si no hay artista. */
   title?: string;
   /** Fecha legible, ej: "Octubre 2026". */
   date?: string;
@@ -24,6 +24,8 @@ export type ContentItem = {
   alt: string;
   video?: string;
   url?: string;
+  /** Video o foto vertical (celular, 9:16). */
+  vertical?: boolean;
 };
 
 export const contentKinds: Record<ContentKind, { label: string; plural: string; text: string }> = {
@@ -44,4 +46,28 @@ export const contentKinds: Record<ContentKind, { label: string; plural: string; 
   },
 };
 
-export const contentItems: ContentItem[] = [];
+export const contentItems: ContentItem[] = [
+  {
+    // Pendiente: nombre del artista (el usuario lo tiene que confirmar).
+    id: "maly-entrevista-show",
+    kind: "entrevista",
+    title: "Entrevista y show en Maly Bar",
+    image: "/content/maly-entrevista-show.webp",
+    video: "/content/maly-entrevista-show.mp4",
+    alt: "Dos artistas entrevistados antes de su show en Maly Bar",
+    vertical: true,
+  },
+  {
+    // Pendiente: nombre del artista (el usuario lo tiene que confirmar).
+    id: "maly-en-vivo",
+    kind: "en-vivo",
+    title: "Show en vivo en Maly Bar",
+    image: "/content/maly-en-vivo.webp",
+    video: "/content/maly-en-vivo.mp4",
+    alt: "Artista cantando en el escenario de Maly Bar entre humo y luces cálidas",
+    vertical: true,
+  },
+];
+
+/** Nombre que se muestra en la tarjeta: el artista o, si falta, el título. */
+export const contentHeading = (i: ContentItem) => i.artist ?? i.title ?? contentKinds[i.kind].label;

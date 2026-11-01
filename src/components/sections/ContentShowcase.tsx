@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { ArrowUpRight, Camera, Mic, Play, Video } from "lucide-react";
-import { contentItems, contentKinds, type ContentItem, type ContentKind } from "../../data/content";
+import { contentHeading, contentItems, contentKinds, type ContentItem, type ContentKind } from "../../data/content";
 import { contact } from "../../data/site";
 import MaskText, { titleLines } from "../ui/MaskText";
 import SectionLabel from "../ui/SectionLabel";
@@ -119,9 +119,11 @@ export default function ContentShowcase({ limit, showHeader = true, asPage = fal
 
 function ContentCard({ item, onOpen }: { item: ContentItem; onOpen: (i: ContentItem) => void }) {
   const isVideo = item.kind !== "foto";
+  const heading = contentHeading(item);
+  const details = (item.artist ? [item.title, item.date] : [item.date]).filter(Boolean).join(" · ");
   const inner = (
     <>
-      <div className={cn("relative overflow-hidden rounded-2xl bg-surface", item.kind === "foto" ? "aspect-[4/5]" : "aspect-video")}>
+      <div className={cn("relative overflow-hidden rounded-2xl bg-surface", item.kind === "foto" || item.vertical ? "aspect-[4/5]" : "aspect-video")}>
         <img src={item.image} alt={item.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
         {isVideo && (
           <span className="absolute inset-0 flex items-center justify-center bg-ink/20 transition-colors group-hover:bg-ink/35">
@@ -133,22 +135,22 @@ function ContentCard({ item, onOpen }: { item: ContentItem; onOpen: (i: ContentI
         <span className="label absolute left-3 top-3 rounded-full bg-ink/60 px-3 py-1.5 text-paper">{contentKinds[item.kind].label}</span>
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
-        <span className="font-semibold">{item.artist}</span>
+        <span className="font-semibold">{heading}</span>
         {item.url && <ArrowUpRight size={16} className="shrink-0 text-fg/60" aria-hidden="true" />}
       </div>
-      {(item.title || item.date) && <p className="text-sm text-muted">{[item.title, item.date].filter(Boolean).join(" · ")}</p>}
+      {details && <p className="text-sm text-muted">{details}</p>}
     </>
   );
 
   if (item.url) {
     return (
-      <a href={item.url} target="_blank" rel="noreferrer" className="group block" aria-label={`${contentKinds[item.kind].label}: ${item.artist} (se abre en otra pestaña)`}>
+      <a href={item.url} target="_blank" rel="noreferrer" className="group block" aria-label={`${contentKinds[item.kind].label}: ${heading} (se abre en otra pestaña)`}>
         {inner}
       </a>
     );
   }
   return (
-    <button type="button" onClick={() => onOpen(item)} className="group block w-full text-left" aria-label={`Ver ${contentKinds[item.kind].label.toLowerCase()}: ${item.artist}`}>
+    <button type="button" onClick={() => onOpen(item)} className="group block w-full text-left" aria-label={`Ver ${contentKinds[item.kind].label.toLowerCase()}: ${heading}`}>
       {inner}
     </button>
   );

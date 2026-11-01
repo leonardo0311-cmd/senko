@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import type { ContentItem } from "../../data/content";
+import { contentHeading, type ContentItem } from "../../data/content";
 
 /** Visor a pantalla completa para fotos y videos propios. Esc o un clic afuera lo cierran. */
 export default function Lightbox({ item, onClose }: { item: ContentItem | null; onClose: () => void }) {
@@ -25,7 +25,7 @@ export default function Lightbox({ item, onClose }: { item: ContentItem | null; 
         <motion.div
           role="dialog"
           aria-modal="true"
-          aria-label={item.title ?? item.artist}
+          aria-label={contentHeading(item)}
           className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/92 p-4 sm:p-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -49,13 +49,20 @@ export default function Lightbox({ item, onClose }: { item: ContentItem | null; 
             onClick={(e) => e.stopPropagation()}
           >
             {item.video ? (
-              <video src={item.video} poster={item.image} controls autoPlay playsInline className="max-h-[78vh] w-full rounded-xl bg-ink" />
+              <video
+                src={item.video}
+                poster={item.image}
+                controls
+                autoPlay
+                playsInline
+                className={item.vertical ? "aspect-[9/16] h-[78vh] max-w-full rounded-xl bg-ink object-contain" : "max-h-[78vh] w-full rounded-xl bg-ink"}
+              />
             ) : (
               <img src={item.image} alt={item.alt} className="max-h-[78vh] w-auto rounded-xl object-contain" />
             )}
             <figcaption className="mt-4 text-center text-paper">
-              <span className="font-semibold">{item.artist}</span>
-              {item.title && <span className="text-paper/70"> · {item.title}</span>}
+              <span className="font-semibold">{contentHeading(item)}</span>
+              {item.artist && item.title && <span className="text-paper/70"> · {item.title}</span>}
             </figcaption>
           </motion.figure>
         </motion.div>
