@@ -4,10 +4,11 @@ import { cn } from "../../lib/utils";
 
 /** Portada del proyecto: usa la primera imagen real, o una portada tipográfica con la identidad. */
 export default function ProjectCover({ project, className }: { project: Project; className?: string }) {
-  const img = project.media.find((m) => m.type === "image");
+  const first = project.media[0];
+  const src = first?.type === "video" ? first.poster : first?.src;
   const area = areaById(project.area);
-  if (img) {
-    return <img src={img.src} alt={img.alt} loading="lazy" className={cn("h-full w-full object-cover", className)} />;
+  if (first && src) {
+    return <img src={src} alt={first.alt} loading="lazy" className={cn("h-full w-full object-cover", className)} />;
   }
   return (
     <div className={cn("relative flex h-full w-full flex-col justify-between overflow-hidden bg-graphite p-6", className)}>

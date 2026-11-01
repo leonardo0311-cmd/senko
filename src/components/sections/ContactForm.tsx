@@ -4,7 +4,7 @@ import { Check, Copy } from "lucide-react";
 import { contact } from "../../data/site";
 import type { AreaId } from "../../data/areas";
 import { whatsappUrl } from "../../lib/utils";
-import { InstagramIcon } from "../ui/icons";
+import { InstagramIcon, WhatsAppIcon } from "../ui/icons";
 
 export const roles = [
   "Artista",
@@ -33,13 +33,14 @@ const presets: Record<AreaId, { role: string; type: string }> = {
   marca: { role: roles[5], type: projectTypes[4] },
 };
 
-type Status = "idle" | "sending" | "sent" | "error" | "manual";
+type Status = "idle" | "sending" | "sent" | "error" | "manual" | "whatsapp";
 
 export default function ContactForm() {
   const [params] = useSearchParams();
   const preset = presets[params.get("tipo") as AreaId] as { role: string; type: string } | undefined;
   const [status, setStatus] = useState<Status>("idle");
   const [manualText, setManualText] = useState("");
+  const [waLink, setWaLink] = useState("");
   const [copied, setCopied] = useState(false);
 
   const defaults = useMemo(() => ({ role: preset?.role ?? "", type: preset?.type ?? "" }), [preset]);
@@ -83,7 +84,11 @@ export default function ContactForm() {
 
     // Sin endpoint configurado: no se simula un envío. Se abre un canal real con el mensaje armado.
     if (contact.whatsapp) {
-      window.open(whatsappUrl(contact.whatsapp, text), "_blank", "noopener");
+      const url = whatsappUrl(contact.whatsapp, text);
+      setWaLink(url);
+      setStatus("whatsapp");
+      // Si el navegador bloquea la ventana nueva, queda el botón del aviso para abrirlo a mano.
+      window.open(url, "_blank", "noopener");
       return;
     }
     if (contact.email) {
@@ -180,9 +185,23 @@ export default function ContactForm() {
           disabled={status === "sending"}
           className="inline-flex min-h-12 items-center justify-center rounded-full bg-signal px-7 font-semibold text-ink transition-colors hover:bg-paper disabled:opacity-60"
         >
-          {status === "sending" ? "Enviando…" : "Enviar consulta"}
+          {status === "sending" ? "Enviando…" : !contact.endpoint && contact.whatsapp ? "Enviar por WhatsApp" : "Enviar consulta"}
         </button>
       </div>
+
+      {status === "whatsapp" && (
+        <div role="status" className="rounded-2xl border border-[#25d366]/40 bg-[#25d366]/[0.06] p-6">
+          <p className="font-semibold">Abrimos WhatsApp con tu mensaje listo. Sólo falta que lo envíes desde ahí.</p>
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#25d366] px-5 text-sm font-semibold text-ink"
+          >
+            <WhatsAppIcon size={16} /> ¿No se abrió? Abrir WhatsApp
+          </a>
+        </div>
+      )}
 
       {(status === "manual" || status === "error") && (
         <div role="alert" className="rounded-2xl border hairline bg-graphite p-6">

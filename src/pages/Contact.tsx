@@ -46,6 +46,7 @@ export default function Contact() {
                     <WhatsAppIcon size={20} /> Escribinos por WhatsApp
                   </a>
                 )}
+                {contact.whatsapp && <p className="-mt-1 pl-5 text-sm text-ash">{contact.whatsappDisplay}</p>}
                 <a
                   href={contact.instagram}
                   target="_blank"

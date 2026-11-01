@@ -58,10 +58,10 @@ export default function Footer() {
       </div>
 
       <div className="container-x mt-20 select-none" aria-hidden="true">
-        <Logo size="xl" className="text-paper/[0.06]" dotClassName="text-signal/30" />
+        <Logo size="xl" className="text-paper/[0.06]" />
       </div>
 
-      <div className="container-x flex flex-col gap-2 border-t hairline py-6 text-sm text-ash-dark sm:flex-row sm:justify-between">
+      <div className={`container-x flex flex-col gap-2 border-t hairline pt-6 text-sm text-ash-dark sm:flex-row sm:justify-between ${contact.whatsapp ? "pb-24" : "pb-6"}`}>
         <span>© {new Date().getFullYear()} {brand.name.toUpperCase()} — {brand.tagline}</span>
         <span>{brand.city}</span>
       </div>

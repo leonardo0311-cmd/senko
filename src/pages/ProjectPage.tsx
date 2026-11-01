@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 import { publishedProjects } from "../data/projects";
 import { areaById } from "../data/areas";
 import ProjectCover from "../components/ui/ProjectCover";
@@ -17,8 +18,10 @@ export default function ProjectPage() {
     title: project ? `${project.title} — ${project.kind} | RINDE` : "Proyecto no encontrado | RINDE",
     description: project?.short,
   });
+  const reduceMotion = useReducedMotion();
   if (!project) return <NotFound />;
   const area = areaById(project.area);
+  const [hero, ...gallery] = project.media;
 
   return (
     <>
@@ -35,8 +38,23 @@ export default function ProjectPage() {
       </section>
 
       <div className="container-x">
-        <div className="aspect-[16/9] overflow-hidden rounded-2xl">
-          <ProjectCover project={project} />
+        <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-graphite">
+          {hero?.type === "video" ? (
+            <video
+              src={hero.src}
+              poster={hero.poster}
+              aria-label={hero.alt}
+              autoPlay={!reduceMotion}
+              muted
+              loop
+              playsInline
+              controls
+              preload="metadata"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <ProjectCover project={project} />
+          )}
         </div>
       </div>
 
@@ -75,10 +93,10 @@ export default function ProjectPage() {
         </div>
       </section>
 
-      {project.media.length > 1 && (
+      {gallery.length > 0 && (
         <section className="pb-20">
-          <div className="container-x grid gap-4 md:grid-cols-2">
-            {project.media.slice(1).map((m) =>
+          <div className="container-x grid items-start gap-4 md:grid-cols-2">
+            {gallery.map((m) =>
               m.type === "video" ? (
                 <video key={m.src} src={m.src} poster={m.poster} controls playsInline preload="none" className="w-full rounded-2xl" aria-label={m.alt} />
               ) : (

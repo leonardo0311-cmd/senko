@@ -24,7 +24,8 @@ Todo el texto vive en `src/data/`. No hace falta tocar componentes para cambiar 
 
 ### Datos pendientes
 
-Los valores en `null` no se muestran (no se inventan): `contact.whatsapp`, `contact.email`, `brand.logoSrc`, `hero.video`.
+Los valores en `null` no se muestran (no se inventan): `contact.whatsapp`, `contact.email`, `hero.video`.
+El logo está vectorizado en `src/data/logo.ts` (y en `public/brand/rinde-logo.svg`); toma el color del texto donde se use.
 Al cargar el número de WhatsApp aparecen el botón flotante y el acceso en Contacto.
 
 ### Formulario

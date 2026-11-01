@@ -13,8 +13,6 @@ export const brand = {
   /** Descriptor de especialidad, para Artist Marketing y redes. */
   specialty: "Artist Marketing & Entertainment",
   signature: "Construimos marcas. Potenciamos artistas. Conectamos experiencias con audiencias.",
-  /** Logo original: poné la ruta (ej: "/brand/rinde-logo.svg") para usar el archivo real. */
-  logoSrc: null as string | null,
   city: "Argentina",
   since: "2024",
 } as const;
@@ -22,8 +20,10 @@ export const brand = {
 export const contact = {
   /** Email comercial. Null = todavía no fue provisto. */
   email: null as string | null,
-  /** Teléfono internacional sin signos (ej: "5491100000000"). El botón de WhatsApp sólo aparece si existe. */
-  whatsapp: null as string | null,
+  /** Teléfono internacional sin signos. El botón de WhatsApp sólo aparece si existe. Provisorio: número indicado el 01/11/2026. */
+  whatsapp: "5491128801462" as string | null,
+  /** Cómo se muestra el número en la web. */
+  whatsappDisplay: "+54 9 11 2880-1462",
   /** Endpoint real del formulario (ej: Formspree). Mientras sea null, no se simula un envío exitoso. */
   endpoint: (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) || null,
   instagram: "https://www.instagram.com/somos.rinde/",

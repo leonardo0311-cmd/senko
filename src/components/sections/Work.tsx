@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { publishedProjects } from "../../data/projects";
 import { areaById } from "../../data/areas";
 import MaskText, { titleLines } from "../ui/MaskText";
@@ -43,6 +44,24 @@ export default function Work({ limit = 4, showHeader = true }: { limit?: number;
                 </Link>
               </Reveal>
             ))}
+            {items.length % 2 === 1 && (
+              <Reveal delay={items.length * 0.06} className="hidden md:block">
+                <Link
+                  to="/contacto"
+                  className="group flex aspect-[4/3] flex-col justify-between rounded-2xl border border-dashed border-paper/20 p-8 transition-colors hover:border-signal"
+                >
+                  <span className="label text-ash-dark">Próximo caso</span>
+                  <span>
+                    <span className="display block text-[clamp(2rem,3.4vw,3rem)]">
+                      Tu proyecto puede <span className="accent text-signal-soft">ser el siguiente.</span>
+                    </span>
+                    <span className="mt-6 inline-flex items-center gap-2 font-semibold text-paper/85 group-hover:text-signal">
+                      Contanos en qué estás <ArrowUpRight size={18} />
+                    </span>
+                  </span>
+                </Link>
+              </Reveal>
+            )}
           </div>
         ) : (
           <div className="mt-14 grid gap-10 lg:grid-cols-12">
