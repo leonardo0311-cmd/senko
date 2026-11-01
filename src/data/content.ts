@@ -48,6 +48,16 @@ export const contentKinds: Record<ContentKind, { label: string; plural: string; 
 
 export const contentItems: ContentItem[] = [
   {
+    id: "el-polaco-maly",
+    kind: "en-vivo",
+    artist: "El Polaco",
+    title: "Resumen de la noche en Maly Bar",
+    image: "/content/el-polaco-maly.webp",
+    video: "/content/el-polaco-maly.mp4",
+    alt: "El Polaco cantando con el brazo en alto en el escenario de Maly Bar",
+    vertical: true,
+  },
+  {
     // Pendiente: nombre del artista (el usuario lo tiene que confirmar).
     id: "maly-entrevista-show",
     kind: "entrevista",
