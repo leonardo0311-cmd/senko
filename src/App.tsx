@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, MemoryRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -23,9 +23,12 @@ function LegacyProject() {
   return <Navigate to={`/proyectos/${slug}`} replace />;
 }
 
+// Para vistas previas embebidas (sin control de la URL) se puede compilar con VITE_MEMORY_ROUTER=1.
+const Router = import.meta.env.VITE_MEMORY_ROUTER ? MemoryRouter : BrowserRouter;
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <MotionConfig reducedMotion="user">
         <ScrollManager />
         <Grain />
@@ -59,6 +62,6 @@ export default function App() {
         <Footer />
         <WhatsAppFloat />
       </MotionConfig>
-    </BrowserRouter>
+    </Router>
   );
 }
