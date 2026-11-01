@@ -12,7 +12,7 @@ export default function Areas() {
       <div className="container-x">
         <SectionLabel>Áreas</SectionLabel>
         <MaskText lines={titleLines("Especialistas en", "entretenimiento.")} className="mt-8 text-[clamp(2.6rem,6.5vw,5.8rem)]" />
-        <p className="mt-6 max-w-2xl text-lg text-paper/75">
+        <p className="mt-6 max-w-2xl text-lg text-fg/75">
           Artist Marketing es nuestra especialidad. Desde ahí trabajamos también con los espacios, los eventos y las marcas que hacen
           al entretenimiento.
         </p>
@@ -22,18 +22,18 @@ export default function Areas() {
             <Reveal key={a.id} delay={i * 0.08}>
               <Link
                 to={a.path}
-                className="group flex h-full flex-col gap-10 rounded-2xl border hairline bg-graphite p-7 transition-colors duration-300 hover:border-paper/30 hover:bg-graphite-2"
+                className="group flex h-full flex-col gap-10 rounded-2xl border hairline bg-surface p-7 transition-colors duration-300 hover:border-fg/30 hover:bg-surface-2"
               >
                 <div className="flex items-start justify-between">
-                  <span className="label text-ash-dark">{a.index}</span>
-                  <ArrowUpRight className="text-ash transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal" aria-hidden="true" />
+                  <span className="label text-subtle">{a.index}</span>
+                  <ArrowUpRight className="text-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand" aria-hidden="true" />
                 </div>
                 <div className="flex flex-1 flex-col">
                   <h3 className="display text-[2.4rem]">{a.name}</h3>
-                  <p className="mt-1 text-sm text-ash">{a.audience}</p>
+                  <p className="mt-1 text-sm text-muted">{a.audience}</p>
                   <p className="mt-6 text-lg font-semibold leading-snug">{a.card.title}</p>
-                  <p className="mt-2 leading-relaxed text-paper/70">{a.card.text}</p>
-                  <p className="mt-auto pt-6 text-[0.95rem] font-semibold text-signal">{a.selector.cta}</p>
+                  <p className="mt-2 leading-relaxed text-fg/70">{a.card.text}</p>
+                  <p className="mt-auto pt-6 text-[0.95rem] font-semibold text-brand">{a.selector.cta}</p>
                 </div>
               </Link>
             </Reveal>

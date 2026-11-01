@@ -23,7 +23,7 @@ export default function Contact() {
       <div className="container-x">
         <SectionLabel>Contacto</SectionLabel>
         <MaskText as="h1" onMount lines={titleLines("Trabajemos", "juntos.")} className="mt-8 text-[clamp(3rem,10vw,9rem)]" />
-        <p className="mt-6 max-w-xl text-lg text-paper/75">
+        <p className="mt-6 max-w-xl text-lg text-fg/75">
           Contanos en qué estás. Puede ser un lanzamiento, una fecha, un espacio o una idea que todavía no tiene forma.
         </p>
 
@@ -34,7 +34,7 @@ export default function Contact() {
 
           <aside className="space-y-10 lg:col-span-4 lg:col-start-9">
             <div>
-              <p className="label text-ash">¿Preferís hablar directo?</p>
+              <p className="label text-muted">¿Preferís hablar directo?</p>
               <div className="mt-4 flex flex-col gap-3">
                 {contact.whatsapp && (
                   <a
@@ -46,17 +46,17 @@ export default function Contact() {
                     <WhatsAppIcon size={20} /> Escribinos por WhatsApp
                   </a>
                 )}
-                {contact.whatsapp && <p className="-mt-1 pl-5 text-sm text-ash">{contact.whatsappDisplay}</p>}
+                {contact.whatsapp && <p className="-mt-1 pl-5 text-sm text-muted">{contact.whatsappDisplay}</p>}
                 <a
                   href={contact.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-paper/25 px-5 font-semibold hover:border-paper"
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-fg/25 px-5 font-semibold hover:border-fg"
                 >
                   <InstagramIcon size={20} /> {contact.instagramHandle}
                 </a>
                 {contact.email && (
-                  <a href={`mailto:${contact.email}`} className="text-paper/85 underline underline-offset-4 hover:text-signal">
+                  <a href={`mailto:${contact.email}`} className="text-fg/85 underline underline-offset-4 hover:text-brand">
                     {contact.email}
                   </a>
                 )}
@@ -64,14 +64,14 @@ export default function Contact() {
             </div>
 
             <div>
-              <p className="label text-ash">Qué pasa después</p>
+              <p className="label text-muted">Qué pasa después</p>
               <ol className="mt-4">
                 {next.map((n, i) => (
                   <li key={n.name} className="flex gap-4 border-b hairline py-4">
-                    <span className="label pt-1 text-signal">0{i + 1}</span>
+                    <span className="label pt-1 text-brand">0{i + 1}</span>
                     <span>
                       <span className="block font-semibold">{n.name}</span>
-                      <span className="text-[0.95rem] text-ash">{n.text}</span>
+                      <span className="text-[0.95rem] text-muted">{n.text}</span>
                     </span>
                   </li>
                 ))}

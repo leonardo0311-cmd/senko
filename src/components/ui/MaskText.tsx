@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { useIntroDone } from "../../lib/intro";
 
 export type Segment = { text: string; accent?: boolean };
 
@@ -23,20 +24,21 @@ const line: Variants = {
  */
 export default function MaskText({ lines, className, as = "h2", delay = 0, onMount = false }: Props) {
   const Tag = motion[as];
+  const introDone = useIntroDone();
   const label = lines.map((l) => l.map((s) => s.text).join("")).join(" ");
   return (
     <Tag
       className={cn("display", className)}
       aria-label={label}
       initial="hidden"
-      {...(onMount ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "0px 0px -8% 0px" } })}
+      {...(onMount ? { animate: introDone ? "show" : "hidden" } : { whileInView: "show", viewport: { once: true, margin: "0px 0px -8% 0px" } })}
     >
       {lines.map((l, i) => (
         <span key={i} className="block overflow-hidden pb-[0.08em]" aria-hidden="true">
           <motion.span className="block" variants={line} custom={delay + i * 0.09}>
             {l.map((seg, j) =>
               seg.accent ? (
-                <span key={j} className="accent text-[1.08em] text-signal-soft">
+                <span key={j} className="accent text-[1.08em] text-brand-soft">
                   {seg.text}
                 </span>
               ) : (

@@ -4,7 +4,8 @@ import { cn } from "../../lib/utils";
 
 type Props = {
   className?: string;
-  size?: "sm" | "md" | "lg" | "xl";
+  /** "custom": el tamaño lo define className. */
+  size?: "sm" | "md" | "lg" | "xl" | "custom";
 };
 
 const sizes = {
@@ -12,6 +13,7 @@ const sizes = {
   md: "h-8 w-auto",
   lg: "h-[clamp(2.5rem,6vw,5rem)] w-auto",
   xl: "h-auto w-full",
+  custom: "",
 };
 
 /** Logotipo RINDE vectorizado desde el archivo original. Toma el color del texto (currentColor). */

@@ -113,9 +113,9 @@ export default function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="rounded-2xl border border-signal/40 bg-signal/[0.06] p-8">
+      <div role="status" className="rounded-2xl border border-brand/40 bg-brand/[0.06] p-8">
         <p className="display text-[2.4rem]">Recibimos tu consulta.</p>
-        <p className="mt-3 text-lg text-paper/80">
+        <p className="mt-3 text-lg text-fg/80">
           Te respondemos en {contact.responseTime} para coordinar una primera conversación.
         </p>
       </div>
@@ -179,11 +179,11 @@ export default function ContactForm() {
       </Field>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-ash">Respondemos en {contact.responseTime}.</p>
+        <p className="text-sm text-muted">Respondemos en {contact.responseTime}.</p>
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex min-h-12 items-center justify-center rounded-full bg-signal px-7 font-semibold text-ink transition-colors hover:bg-paper disabled:opacity-60"
+          className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand px-7 font-semibold text-canvas transition-colors hover:bg-fg disabled:opacity-60"
         >
           {status === "sending" ? "Enviando…" : !contact.endpoint && contact.whatsapp ? "Enviar por WhatsApp" : "Enviar consulta"}
         </button>
@@ -204,20 +204,20 @@ export default function ContactForm() {
       )}
 
       {(status === "manual" || status === "error") && (
-        <div role="alert" className="rounded-2xl border hairline bg-graphite p-6">
+        <div role="alert" className="rounded-2xl border hairline bg-surface p-6">
           <p className="font-semibold">
             {status === "error"
               ? "No pudimos enviar el formulario. Mandanos el mensaje por Instagram:"
               : "Mandanos este mensaje por Instagram y te respondemos por ahí:"}
           </p>
-          <pre className="mt-4 max-h-52 overflow-auto whitespace-pre-wrap rounded-xl bg-ink p-4 font-sans text-sm text-paper/85">
+          <pre className="mt-4 max-h-52 overflow-auto whitespace-pre-wrap rounded-xl bg-canvas p-4 font-sans text-sm text-fg/85">
             {manualText}
           </pre>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <button
               type="button"
               onClick={copy}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-paper/25 px-5 text-sm font-semibold hover:border-paper"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-fg/25 px-5 text-sm font-semibold hover:border-fg"
             >
               {copied ? <Check size={16} /> : <Copy size={16} />} {copied ? "Copiado" : "Copiar mensaje"}
             </button>
@@ -225,7 +225,7 @@ export default function ContactForm() {
               href={contact.instagram}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-paper px-5 text-sm font-semibold text-ink hover:bg-signal"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-fg px-5 text-sm font-semibold text-canvas hover:bg-brand"
             >
               <InstagramIcon size={16} /> Abrir {contact.instagramHandle}
             </a>
@@ -249,8 +249,8 @@ function Field({
 }) {
   return (
     <div className="grid gap-2">
-      <label htmlFor={htmlFor} className="text-sm font-medium text-paper/85">
-        {label} {optional && <span className="text-ash-dark">(opcional)</span>}
+      <label htmlFor={htmlFor} className="text-sm font-medium text-fg/85">
+        {label} {optional && <span className="text-subtle">(opcional)</span>}
       </label>
       {children}
     </div>

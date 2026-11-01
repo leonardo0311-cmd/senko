@@ -16,7 +16,7 @@ export default function Projects() {
         <div className="container-x">
           <SectionLabel>Proyectos</SectionLabel>
           <MaskText as="h1" onMount lines={titleLines("Trabajo real.", "Resultados verificables.")} className="mt-8 text-[clamp(2.8rem,9vw,8rem)]" />
-          <p className="mt-8 max-w-2xl text-lg text-paper/75">
+          <p className="mt-8 max-w-2xl text-lg text-fg/75">
             Campañas, producciones audiovisuales, identidades visuales, eventos y casos de marketing. Cada proyecto cuenta el desafío, la
             estrategia, lo que hicimos y, cuando hay datos, los resultados.
           </p>

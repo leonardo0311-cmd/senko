@@ -27,18 +27,18 @@ export default function ProjectPage() {
     <>
       <section className="pb-12 pt-36 sm:pt-44">
         <div className="container-x">
-          <Link to="/proyectos" className="label inline-flex items-center gap-2 text-ash hover:text-paper">
+          <Link to="/proyectos" className="label inline-flex items-center gap-2 text-muted hover:text-fg">
             <ArrowLeft size={14} /> Proyectos
           </Link>
           <h1 className="display mt-8 text-[clamp(3rem,10vw,9rem)]">{project.title}</h1>
-          <p className="mt-4 text-lg text-ash">
+          <p className="mt-4 text-lg text-muted">
             {project.kind} · {area.name} · {project.year}
           </p>
         </div>
       </section>
 
       <div className="container-x">
-        <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-graphite">
+        <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-surface">
           {hero?.type === "video" ? (
             <video
               src={hero.src}
@@ -63,11 +63,11 @@ export default function ProjectPage() {
           <div className="space-y-12 lg:col-span-7">
             <Reveal>
               <SectionLabel>Desafío</SectionLabel>
-              <p className="mt-4 text-lg leading-relaxed text-paper/85">{project.challenge}</p>
+              <p className="mt-4 text-lg leading-relaxed text-fg/85">{project.challenge}</p>
             </Reveal>
             <Reveal>
               <SectionLabel>Estrategia</SectionLabel>
-              <p className="mt-4 text-lg leading-relaxed text-paper/85">{project.strategy}</p>
+              <p className="mt-4 text-lg leading-relaxed text-fg/85">{project.strategy}</p>
             </Reveal>
           </div>
           <div className="space-y-12 lg:col-span-4 lg:col-start-9">
@@ -75,7 +75,7 @@ export default function ProjectPage() {
               <SectionLabel>Ejecución</SectionLabel>
               <ul className="mt-4">
                 {project.execution.map((e) => (
-                  <li key={e} className="border-b hairline py-3 text-paper/85">{e}</li>
+                  <li key={e} className="border-b hairline py-3 text-fg/85">{e}</li>
                 ))}
               </ul>
             </Reveal>

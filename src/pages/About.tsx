@@ -22,35 +22,35 @@ export default function About() {
           <div className="mt-12 grid gap-8 lg:grid-cols-2">
             {about.paragraphs.map((t, i) => (
               <Reveal key={i} delay={i * 0.08}>
-                <p className="text-lg leading-relaxed text-paper/80">{t}</p>
+                <p className="text-lg leading-relaxed text-fg/80">{t}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-t hairline bg-graphite py-20 sm:py-28">
+      <section className="border-t hairline bg-surface py-20 sm:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <SectionLabel>Equipo</SectionLabel>
             <h2 className="display mt-6 text-[clamp(2rem,4.5vw,3.6rem)]">{about.model.title}</h2>
-            <p className="mt-6 text-lg leading-relaxed text-paper/80">{about.model.text}</p>
+            <p className="mt-6 text-lg leading-relaxed text-fg/80">{about.model.text}</p>
           </Reveal>
           <ul className="grid gap-4 sm:grid-cols-3 lg:col-span-7">
             {team.map((m, i) => (
-              <Reveal as="li" key={m.id} delay={i * 0.06} className="flex flex-col rounded-2xl border hairline bg-ink p-5">
-                <div className="aspect-[4/5] overflow-hidden rounded-xl bg-graphite-2">
+              <Reveal as="li" key={m.id} delay={i * 0.06} className="flex flex-col rounded-2xl border hairline bg-canvas p-5">
+                <div className="aspect-[4/5] overflow-hidden rounded-xl bg-surface-2">
                   {m.photo ? (
                     <img src={m.photo} alt={`Retrato de ${m.name}`} loading="lazy" className="h-full w-full object-cover" />
                   ) : (
                     <div className="flex h-full items-end bg-[radial-gradient(80%_60%_at_50%_100%,rgb(117_29_40/0.55),transparent_70%)] p-4">
-                      <span className="display text-[4rem] leading-none text-paper/20">{m.name[0]}</span>
+                      <span className="display text-[4rem] leading-none text-fg/20">{m.name[0]}</span>
                     </div>
                   )}
                 </div>
                 <h3 className="mt-5 text-xl font-bold">{m.name}</h3>
-                <p className="label mt-1 text-signal">{m.role}</p>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ash">{m.line}</p>
+                <p className="label mt-1 text-brand">{m.role}</p>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">{m.line}</p>
               </Reveal>
             ))}
           </ul>
@@ -64,7 +64,7 @@ export default function About() {
             {about.principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.06} className="rounded-2xl border hairline p-6">
                 <h3 className="text-lg font-bold">{p.title}</h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-ash">{p.text}</p>
+                <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{p.text}</p>
               </Reveal>
             ))}
           </div>

@@ -13,9 +13,9 @@ type Props = {
 };
 
 const styles = {
-  primary: "bg-signal text-ink hover:bg-paper",
-  ghost: "border border-paper/25 text-paper hover:border-paper hover:bg-paper hover:text-ink",
-  light: "bg-paper text-ink hover:bg-signal",
+  primary: "bg-brand text-canvas hover:bg-fg",
+  ghost: "border border-fg/25 text-fg hover:border-fg hover:bg-fg hover:text-canvas",
+  light: "bg-paper text-wine hover:bg-sand",
 };
 
 export default function CTA({ to, children, variant = "primary", className, external, icon }: Props) {

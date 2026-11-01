@@ -11,14 +11,14 @@ export default function Modalities() {
           <SectionLabel>{modalities.label}</SectionLabel>
           <MaskText lines={titleLines(modalities.title, modalities.titleAccent)} className="mt-8 text-[clamp(2.4rem,5vw,4.4rem)]" />
           <Reveal>
-            <p className="mt-8 max-w-md text-lg leading-relaxed text-paper/75">{modalities.note}</p>
+            <p className="mt-8 max-w-md text-lg leading-relaxed text-fg/75">{modalities.note}</p>
           </Reveal>
         </div>
         <ul className="lg:col-span-6 lg:col-start-7">
           {modalities.items.map((m, i) => (
             <Reveal as="li" key={m.name} delay={i * 0.06} className="flex flex-col gap-1 border-b hairline py-6 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
               <h3 className="display text-[1.9rem]">{m.name}</h3>
-              <p className="text-ash sm:max-w-[22rem] sm:text-right">{m.text}</p>
+              <p className="text-muted sm:max-w-[22rem] sm:text-right">{m.text}</p>
             </Reveal>
           ))}
         </ul>

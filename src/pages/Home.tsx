@@ -5,7 +5,7 @@ import ArtistFeature from "../components/sections/ArtistFeature";
 import Areas from "../components/sections/Areas";
 import Capabilities from "../components/sections/Capabilities";
 import Process from "../components/sections/Process";
-import Work from "../components/sections/Work";
+import ContentShowcase from "../components/sections/ContentShowcase";
 import Modalities from "../components/sections/Modalities";
 import Closing from "../components/sections/Closing";
 import Marquee from "../components/ui/Marquee";
@@ -27,7 +27,7 @@ export default function Home() {
       <Areas />
       <Capabilities />
       <Process />
-      <Work />
+      <ContentShowcase limit={6} />
       <Modalities />
       <Closing />
     </>

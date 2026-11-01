@@ -46,7 +46,7 @@ export const nav: NavItem[] = [
       { label: "Entertainment Brands", to: "/marcas", hint: "Marcas y sponsors" },
     ],
   },
-  { label: "Proyectos", to: "/proyectos" },
+  { label: "Contenido", to: "/contenido" },
   { label: "Nosotros", to: "/nosotros" },
 ];
 
