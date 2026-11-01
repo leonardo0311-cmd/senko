@@ -1,4 +1,4 @@
-import { contact } from "../data/site";
+import { company, contact } from "../data/site";
 import ContactForm from "../components/sections/ContactForm";
 import MaskText, { titleLines } from "../components/ui/MaskText";
 import SectionLabel from "../components/ui/SectionLabel";
@@ -10,6 +10,14 @@ const next = [
   { name: "Te respondemos", text: `En ${contact.responseTime}, con una propuesta de día y horario.` },
   { name: "Primera conversación", text: "30 a 45 minutos para entender el proyecto, sin compromiso." },
   { name: "Propuesta a medida", text: "Diagnóstico y plan con honorarios y pauta por separado." },
+  {
+    name: "Contrato y facturación",
+    text: (
+      <>
+        Si avanzamos, el contrato y las facturas salen a nombre de {company.name} (<span className="whitespace-nowrap">CUIT {company.cuit}</span>).
+      </>
+    ),
+  },
 ];
 
 export default function Contact() {

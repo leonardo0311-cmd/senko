@@ -32,6 +32,12 @@ export const contact = {
   responseTime: "24 a 48 horas hábiles",
 } as const;
 
+/** Empresa a cuyo nombre se firman los contratos y se factura (dato del usuario, 01/11/2026). */
+export const company = {
+  name: "Senko Intelligence",
+  cuit: "30-71959078-7",
+} as const;
+
 export type NavItem = { label: string; to: string; children?: { label: string; to: string; hint: string }[] };
 
 export const nav: NavItem[] = [
