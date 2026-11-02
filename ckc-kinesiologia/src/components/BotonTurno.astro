@@ -1,0 +1,49 @@
+---
+/**
+ * Boton de contacto por WhatsApp.
+ *
+ * Toma el mensaje precargado que corresponde a la seccion y arma el enlace.
+ * Si el numero de WhatsApp todavia no esta confirmado en src/data/site.ts,
+ * el boton sigue funcionando y lleva a la pagina de contacto, donde estan los
+ * canales activos. Nunca apunta a un numero inventado.
+ */
+import Boton from './Boton.astro';
+import { enlaceWhatsApp, whatsAppActivo } from '@/lib/enlaces';
+import { MENSAJES } from '@/data/site';
+
+interface Props {
+  /** Mensaje que se precarga en la conversacion. */
+  mensaje?: string;
+  /** Texto del boton. Conviene que sea especifico de la seccion. */
+  texto?: string;
+  variante?: 'primario' | 'secundario' | 'contorno' | 'texto' | 'claro';
+  tamanio?: 'md' | 'lg';
+  ancho?: boolean;
+  class?: string;
+}
+
+const {
+  mensaje = MENSAJES.general,
+  texto = 'Solicitar un turno',
+  variante = 'primario',
+  tamanio = 'md',
+  ancho = false,
+  class: clase,
+} = Astro.props;
+
+const href = enlaceWhatsApp(mensaje);
+const activo = whatsAppActivo();
+---
+
+<Boton
+  href={href}
+  variante={variante}
+  tamanio={tamanio}
+  whatsapp={activo}
+  flecha={!activo}
+  ancho={ancho}
+  class={clase}
+  etiqueta={activo ? `${texto} por WhatsApp` : `${texto}: ver canales de contacto`}
+>
+  {texto}
+</Boton>

@@ -1,0 +1,14 @@
+{
+  "name": "CKC Kinesiología — Consultorio Kinésico Canning",
+  "short_name": "CKC Kinesiología",
+  "description": "Consultorio kinésico en Canning, Provincia de Buenos Aires.",
+  "lang": "es-AR",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fcfbf9",
+  "theme_color": "#1f6f68",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

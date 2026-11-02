@@ -1,0 +1,364 @@
+---
+/**
+ * Galeria de instalaciones, con ventana modal para ampliar cada imagen.
+ *
+ * Mientras no haya fotografias propias de CKC, cada casillero muestra la
+ * composicion grafica de la marca junto a la descripcion de la foto que
+ * corresponde en ese lugar. No se usan imagenes de otros centros ni se
+ * muestran equipos o espacios que el consultorio no tenga.
+ *
+ * PARA CARGAR LAS FOTOS REALES
+ * ----------------------------
+ * Completar el arreglo `GALERIA` en src/data/instalaciones.ts: agregar en cada
+ * entrada la imagen importada desde `src/imagenes/` y su texto alternativo.
+ * Astro las optimiza, genera formatos modernos y las carga de forma diferida.
+ */
+import Visual from './Visual.astro';
+import type { ItemGaleria } from '@/data/instalaciones';
+
+interface Props {
+  items: ItemGaleria[];
+}
+
+const { items } = Astro.props;
+const hayFotos = items.some((i) => i.imagen);
+---
+
+<div class="ckc-galeria" data-galeria>
+  {
+    items.map((item, indice) => {
+      const ampliable = Boolean(item.imagen);
+      const Contenedor = ampliable ? 'button' : 'div';
+      return (
+        <Contenedor
+          class:list={['ckc-galeria__celda', `ckc-galeria__celda--${item.tamanio ?? 'normal'}`]}
+          type={ampliable ? 'button' : undefined}
+          data-ampliar={ampliable ? String(indice) : undefined}
+          aria-label={ampliable ? `Ampliar la imagen: ${item.alt}` : undefined}
+          data-animar
+          style={`--retardo:${indice * 55}ms`}
+        >
+          <Visual
+            src={item.imagen}
+            alt={item.imagen ? item.alt : undefined}
+            proporcion={item.proporcion ?? '4/3'}
+            motivo={item.motivo}
+            tono={item.tono}
+            rotulo={item.imagen ? undefined : item.alt}
+            ancho={item.tamanio === 'ancha' ? 1000 : 560}
+          />
+          <p class="ckc-galeria__pie">
+            {item.titulo}
+            {ampliable && (
+              <span class="ckc-galeria__lupa" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" focusable="false">
+                  <circle cx="8.8" cy="8.8" r="5.4" stroke="currentColor" stroke-width="1.5" />
+                  <path d="m12.9 12.9 3.4 3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </span>
+            )}
+          </p>
+        </Contenedor>
+      );
+    })
+  }
+</div>
+
+{
+  hayFotos && (
+    <div class="ckc-visor" data-visor hidden>
+      <div class="ckc-visor__velo" data-cerrar-visor></div>
+      <div class="ckc-visor__marco" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+        <button type="button" class="ckc-visor__cerrar" data-cerrar-visor>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          <span class="ckc-visualmente-oculto">Cerrar la imagen</span>
+        </button>
+
+        <button type="button" class="ckc-visor__nav ckc-visor__nav--anterior" data-visor-anterior>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M14.5 5 8 12l6.5 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="ckc-visualmente-oculto">Imagen anterior</span>
+        </button>
+
+        <figure class="ckc-visor__figura">
+          <img data-visor-img src="" alt="" />
+          <figcaption data-visor-pie></figcaption>
+        </figure>
+
+        <button type="button" class="ckc-visor__nav ckc-visor__nav--siguiente" data-visor-siguiente>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M9.5 5 16 12l-6.5 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="ckc-visualmente-oculto">Imagen siguiente</span>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .ckc-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--ckc-esp-4);
+  }
+
+  .ckc-galeria__celda {
+    display: block;
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: var(--ckc-radio-md);
+    overflow: hidden;
+    position: relative;
+    transition: translate var(--ckc-trans), box-shadow var(--ckc-trans);
+  }
+
+  button.ckc-galeria__celda {
+    cursor: zoom-in;
+  }
+
+  button.ckc-galeria__celda:hover {
+    translate: 0 -2px;
+    box-shadow: var(--ckc-sombra-md);
+  }
+
+  .ckc-galeria__pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-3);
+    padding: var(--ckc-esp-3) var(--ckc-esp-1);
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .ckc-galeria__lupa {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--ckc-linea);
+    color: var(--ckc-primario);
+  }
+
+  .ckc-galeria__lupa svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  /* Celdas destacadas: dan ritmo a la cuadricula en pantallas grandes. */
+  @media (min-width: 52rem) {
+    .ckc-galeria {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .ckc-galeria__celda--normal {
+      grid-column: span 2;
+    }
+
+    .ckc-galeria__celda--ancha {
+      grid-column: span 4;
+    }
+
+    .ckc-galeria__celda--alta {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  /* --- Visor modal ------------------------------------------------------ */
+
+  .ckc-visor {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ckc-z-modal);
+    display: grid;
+    place-items: center;
+    padding: clamp(0.75rem, 3vw, 2rem);
+  }
+
+  .ckc-visor[hidden] {
+    display: none;
+  }
+
+  .ckc-visor__velo {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, #0a1a18 88%, transparent);
+    opacity: 0;
+    transition: opacity var(--ckc-trans);
+  }
+
+  :global([data-visor][data-abierto='true']) .ckc-visor__velo {
+    opacity: 1;
+  }
+
+  .ckc-visor__marco {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 2vw, 1rem);
+    max-width: min(68rem, 100%);
+    width: 100%;
+    opacity: 0;
+    scale: 0.97;
+    transition: opacity var(--ckc-trans), scale var(--ckc-trans);
+  }
+
+  :global([data-visor][data-abierto='true']) .ckc-visor__marco {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .ckc-visor__figura {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  .ckc-visor__figura img {
+    width: 100%;
+    max-height: min(72vh, 44rem);
+    object-fit: contain;
+    border-radius: var(--ckc-radio);
+    background: color-mix(in srgb, #ffffff 6%, transparent);
+  }
+
+  .ckc-visor__figura figcaption {
+    margin-top: var(--ckc-esp-4);
+    color: color-mix(in srgb, #ffffff 82%, transparent);
+    font-size: var(--ckc-txt-sm);
+  }
+
+  .ckc-visor__cerrar,
+  .ckc-visor__nav {
+    display: grid;
+    place-items: center;
+    width: var(--ckc-tactil-min);
+    height: var(--ckc-tactil-min);
+    flex: none;
+    border-radius: 50%;
+    background: color-mix(in srgb, #ffffff 12%, transparent);
+    color: var(--ckc-blanco);
+    transition: background-color var(--ckc-trans);
+  }
+
+  .ckc-visor__cerrar:hover,
+  .ckc-visor__nav:hover {
+    background: color-mix(in srgb, #ffffff 24%, transparent);
+  }
+
+  .ckc-visor__cerrar {
+    position: absolute;
+    top: -3.4rem;
+    right: 0;
+  }
+
+  .ckc-visor__cerrar svg,
+  .ckc-visor__nav svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  @media (max-width: 40rem) {
+    .ckc-visor__cerrar {
+      top: auto;
+      bottom: -3.6rem;
+      right: 50%;
+      translate: 50% 0;
+    }
+  }
+</style>
+
+<script>
+  // --- Visor de imagenes de la galeria -----------------------------------
+  const visor = document.querySelector<HTMLElement>('[data-visor]');
+  const galeria = document.querySelector<HTMLElement>('[data-galeria]');
+
+  if (visor && galeria) {
+    const imagen = visor.querySelector<HTMLImageElement>('[data-visor-img]')!;
+    const pie = visor.querySelector<HTMLElement>('[data-visor-pie]')!;
+    const botones = Array.from(
+      galeria.querySelectorAll<HTMLButtonElement>('[data-ampliar]'),
+    );
+
+    // Toma la imagen ya optimizada que Astro genero para cada celda.
+    const fuentes = botones.map((boton) => {
+      const img = boton.querySelector('img');
+      const texto = boton.querySelector<HTMLElement>('.ckc-galeria__pie');
+      return {
+        src: img?.currentSrc || img?.src || '',
+        alt: img?.alt ?? '',
+        titulo: texto?.textContent?.trim() ?? '',
+      };
+    });
+
+    let indiceActual = 0;
+    let ultimoFoco: HTMLElement | null = null;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const mostrar = (indice: number) => {
+      const total = fuentes.length;
+      indiceActual = (indice + total) % total;
+      const item = fuentes[indiceActual];
+      imagen.src = item.src;
+      imagen.alt = item.alt;
+      pie.textContent = item.titulo;
+    };
+
+    const abrir = (indice: number, origen: HTMLElement) => {
+      ultimoFoco = origen;
+      mostrar(indice);
+      visor.hidden = false;
+      requestAnimationFrame(() => {
+        visor.dataset.abierto = 'true';
+      });
+      document.body.dataset.scrollBloqueado = 'true';
+      visor.querySelector<HTMLButtonElement>('[data-cerrar-visor]')?.focus();
+    };
+
+    const cerrar = () => {
+      visor.dataset.abierto = 'false';
+      delete document.body.dataset.scrollBloqueado;
+      const ocultar = () => {
+        visor.hidden = true;
+        imagen.src = '';
+      };
+      if (reduce) ocultar();
+      else window.setTimeout(ocultar, 260);
+      ultimoFoco?.focus();
+    };
+
+    botones.forEach((boton, indice) => {
+      boton.addEventListener('click', () => abrir(indice, boton));
+    });
+
+    visor.querySelectorAll('[data-cerrar-visor]').forEach((b) =>
+      b.addEventListener('click', cerrar),
+    );
+    visor
+      .querySelector('[data-visor-anterior]')
+      ?.addEventListener('click', () => mostrar(indiceActual - 1));
+    visor
+      .querySelector('[data-visor-siguiente]')
+      ?.addEventListener('click', () => mostrar(indiceActual + 1));
+
+    document.addEventListener('keydown', (evento) => {
+      if (visor.hidden) return;
+      if (evento.key === 'Escape') cerrar();
+      if (evento.key === 'ArrowLeft') mostrar(indiceActual - 1);
+      if (evento.key === 'ArrowRight') mostrar(indiceActual + 1);
+    });
+  }
+</script>

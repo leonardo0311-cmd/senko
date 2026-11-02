@@ -1,0 +1,80 @@
+---
+/**
+ * Migas de pan. Ayudan a orientarse y refuerzan los enlaces internos.
+ * El esquema BreadcrumbList se emite desde la pagina que la usa.
+ */
+interface Props {
+  ruta: Array<{ texto: string; href?: string }>;
+  /** Para fondos oscuros. */
+  variante?: 'oscuro' | 'claro';
+}
+
+const { ruta, variante = 'oscuro' } = Astro.props;
+---
+
+<nav class:list={['ckc-migas', `ckc-migas--${variante}`]} aria-label="Ubicación en el sitio">
+  <ol>
+    <li>
+      <a href="/">Inicio</a>
+    </li>
+    {
+      ruta.map((item, indice) => (
+        <li>
+          <span class="ckc-migas__separador" aria-hidden="true">/</span>
+          {item.href && indice < ruta.length - 1 ? (
+            <a href={item.href}>{item.texto}</a>
+          ) : (
+            <span aria-current="page">{item.texto}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .ckc-migas ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.1rem 0.45rem;
+    list-style: none;
+    margin: 0;
+    font-size: var(--ckc-txt-xs);
+  }
+
+  .ckc-migas li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .ckc-migas a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.78;
+    padding-block: 0.2rem;
+  }
+
+  .ckc-migas a:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .ckc-migas [aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .ckc-migas__separador {
+    opacity: 0.4;
+  }
+
+  .ckc-migas--oscuro {
+    color: var(--ckc-tinta-suave);
+  }
+
+  .ckc-migas--claro {
+    color: color-mix(in srgb, #ffffff 78%, var(--ckc-primario));
+  }
+</style>

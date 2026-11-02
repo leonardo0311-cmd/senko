@@ -1,0 +1,136 @@
+---
+/**
+ * Lista de pasos numerados, con una linea que los conecta para transmitir
+ * recorrido y progresion.
+ */
+export type Paso = {
+  titulo: string;
+  parrafos: string[];
+};
+
+interface Props {
+  pasos: Paso[];
+}
+
+const { pasos } = Astro.props;
+---
+
+<ol class="ckc-pasos">
+  {
+    pasos.map((paso, indice) => (
+      <li class="ckc-pasos__item" data-animar style={`--retardo:${indice * 70}ms`}>
+        <div class="ckc-pasos__numero" aria-hidden="true">
+          <span>{String(indice + 1).padStart(2, '0')}</span>
+        </div>
+        <div class="ckc-pasos__cuerpo">
+          <h3 class="ckc-pasos__titulo">
+            <span class="ckc-visualmente-oculto">Paso {indice + 1}: </span>
+            {paso.titulo}
+          </h3>
+          {paso.parrafos.map((p) => (
+            <p set:html={p} />
+          ))}
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .ckc-pasos {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0;
+    counter-reset: paso;
+  }
+
+  .ckc-pasos__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--ckc-esp-5);
+    padding-bottom: var(--ckc-esp-7);
+  }
+
+  .ckc-pasos__item:last-child {
+    padding-bottom: 0;
+  }
+
+  /* Linea vertical que une los pasos. */
+  .ckc-pasos__item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 3.4rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      var(--ckc-linea),
+      color-mix(in srgb, var(--ckc-linea) 30%, transparent)
+    );
+  }
+
+  .ckc-pasos__numero {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--ckc-blanco);
+    border: 1px solid color-mix(in srgb, var(--ckc-primario) 22%, transparent);
+    box-shadow: var(--ckc-sombra-sm);
+  }
+
+  .ckc-pasos__numero span {
+    font-family: var(--ckc-fuente-titulo);
+    font-size: 1.05rem;
+    color: var(--ckc-primario);
+  }
+
+  .ckc-pasos__cuerpo {
+    padding-top: 0.35rem;
+    max-width: var(--ckc-ancho-texto);
+  }
+
+  .ckc-pasos__titulo {
+    font-size: var(--ckc-txt-lg);
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  .ckc-pasos__cuerpo p {
+    color: var(--ckc-tinta-media);
+    line-height: 1.7;
+  }
+
+  .ckc-pasos__cuerpo p + p {
+    margin-top: var(--ckc-esp-3);
+  }
+
+  .ckc-pasos__cuerpo :global(a) {
+    font-weight: 600;
+  }
+
+  @media (max-width: 36rem) {
+    .ckc-pasos__item {
+      gap: var(--ckc-esp-4);
+    }
+
+    .ckc-pasos__numero {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .ckc-pasos__numero span {
+      font-size: 0.95rem;
+    }
+
+    .ckc-pasos__item:not(:last-child)::before {
+      left: 1.25rem;
+      top: 2.9rem;
+    }
+  }
+</style>

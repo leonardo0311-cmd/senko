@@ -1,0 +1,230 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import AvisoPendiente from '@/components/AvisoPendiente.astro';
+import {
+  BRAND,
+  CONTACTO,
+  LEGAL,
+  ANALITICA,
+  hayFormularioReal,
+  hayEmail,
+} from '@/data/site';
+---
+
+<Base
+  titulo="Política de privacidad | CKC Kinesiología"
+  descripcion="Cómo trata CKC Kinesiología los datos personales que recibe a través de este sitio web, con qué finalidad y cuáles son tus derechos."
+  noIndexar={true}
+>
+  <PortadaPagina
+    rotulo="Información legal"
+    titulo="Política de privacidad"
+    bajada={`Última actualización: ${LEGAL.privacidadActualizada}.`}
+    ruta={[{ texto: 'Política de privacidad' }]}
+  />
+
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor ckc-contenedor--angosto">
+      <div class="ckc-prosa legal">
+        <AvisoPendiente
+          titulo="Documento a revisar antes de publicar"
+          campo="src/data/site.ts → LEGAL.responsableDatos"
+          class="legal__aviso"
+        >
+          <p>
+            Esta política describe con exactitud lo que el sitio hace hoy con los datos,
+            pero necesita que CKC confirme la razón social y el domicilio legal del
+            responsable del tratamiento. Antes de publicarla conviene una revisión legal,
+            sobre todo si en el futuro se agregan analítica, formularios con servidor o
+            sistemas de turnos en línea.
+          </p>
+        </AvisoPendiente>
+
+        <h2>Qué cubre esta política</h2>
+        <p>
+          Esta política explica qué datos personales recibe {BRAND.fullName} a través de
+          este sitio web, con qué finalidad se usan, por cuánto tiempo se conservan y qué
+          derechos tenés sobre ellos. Está redactada en el marco de la normativa argentina
+          de protección de datos personales.
+        </p>
+
+        <h2>Quién es responsable de tus datos</h2>
+        {
+          LEGAL.responsableDatos ? (
+            <p>
+              El responsable del tratamiento de los datos es{' '}
+              <strong>{LEGAL.responsableDatos.razonSocial}</strong>, con domicilio en{' '}
+              {LEGAL.responsableDatos.domicilio}.
+            </p>
+          ) : (
+            <p>
+              El responsable del tratamiento de los datos es el consultorio{' '}
+              {BRAND.fullName}, ubicado en Canning, Provincia de Buenos Aires. La razón
+              social y el domicilio legal se incorporarán a este documento una vez
+              confirmados por el consultorio.
+            </p>
+          )
+        }
+
+        <h2>Qué datos recibimos</h2>
+        <p>Este sitio puede recibir los siguientes datos, y solo si vos los aportás:</p>
+        <ul>
+          <li>
+            <strong>Datos del formulario de contacto:</strong> nombre, el medio de
+            contacto que elijas dejarnos (teléfono, WhatsApp o correo), una categoría
+            general de motivo de consulta y, si querés escribirlo, un mensaje libre.
+          </li>
+          <li>
+            <strong>Datos de los mensajes que nos envíes</strong> por WhatsApp, Instagram
+            o correo electrónico, con la información que decidas incluir en ellos.
+          </li>
+        </ul>
+
+        <h3>Qué datos no pedimos</h3>
+        <p>
+          No solicitamos información médica sensible a través de formularios generales. El
+          campo de motivo de consulta es una lista de categorías amplias y el mensaje es
+          opcional: no hace falta detallar diagnósticos, antecedentes clínicos ni
+          medicación para hacer una consulta inicial. Esa información se conversa en la
+          consulta profesional, en el marco de la relación de atención y del secreto
+          profesional.
+        </p>
+        <p>
+          Tampoco pedimos datos de tarjetas, credenciales ni documentos de identidad a
+          través de este sitio.
+        </p>
+
+        <h2>Para qué usamos tus datos</h2>
+        <p>
+          Usamos los datos que nos dejás con una única finalidad: responder tu consulta y,
+          si corresponde, coordinar un turno. No los usamos para enviarte publicidad, no
+          armamos listas de difusión y no los compartimos ni los vendemos a terceros.
+        </p>
+
+        <h2>Cómo funciona el formulario de este sitio</h2>
+        {
+          hayFormularioReal ? (
+            <p>
+              Al enviar el formulario, los datos se transmiten a un servicio de recepción
+              de mensajes y llegan al consultorio, que los usa para responderte por el
+              medio que indicaste.
+            </p>
+          ) : (
+            <p>
+              Este sitio es estático y no tiene servidor propio que almacene mensajes. El
+              formulario de contacto funciona de otra manera: valida los datos en tu
+              propio navegador y arma un mensaje ordenado que vos envías por WhatsApp. Eso
+              significa que los datos que escribís no se guardan en ninguna base de este
+              sitio, y que la conversación queda sujeta a las condiciones de la aplicación
+              de mensajería que uses.
+            </p>
+          )
+        }
+
+        <h2>Conservación de los datos</h2>
+        <p>
+          Los mensajes recibidos se conservan el tiempo necesario para dar respuesta a la
+          consulta y, cuando corresponde, para el seguimiento de la atención. Las
+          historias clínicas de los pacientes atendidos se rigen por la normativa
+          sanitaria aplicable y por el deber de secreto profesional, con independencia de
+          esta política.
+        </p>
+
+        <h2>Cookies y herramientas de medición</h2>
+        {
+          ANALITICA.ga4 ? (
+            <p>
+              Este sitio utiliza Google Analytics para obtener estadísticas agregadas de
+              uso, con la dirección IP anonimizada. Podés bloquear estas cookies desde la
+              configuración de tu navegador.
+            </p>
+          ) : (
+            <p>
+              Este sitio no utiliza cookies de seguimiento, no incorpora herramientas de
+              analítica ni perfila a sus visitantes. Si en el futuro se incorpora una
+              herramienta de medición, esta política se actualizará antes de activarla.
+            </p>
+          )
+        }
+        <p>
+          El sitio guarda en tu navegador, de forma local, únicamente la información
+          técnica necesaria para funcionar. No se transmite a terceros.
+        </p>
+
+        <h2>Servicios de terceros</h2>
+        <p>
+          Al usar los botones de contacto, se te redirige a servicios de terceros
+          (WhatsApp, Instagram o tu cliente de correo), que tienen sus propias políticas
+          de privacidad y condiciones de uso. CKC no controla el tratamiento que esas
+          plataformas hacen de tus datos.
+        </p>
+        <p>
+          Los enlaces a nuestros perfiles oficiales son{' '}
+          <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>{' '}
+          y{' '}
+          <a href={CONTACTO.facebook.url} target="_blank" rel="noopener noreferrer">
+            Facebook
+          </a>.
+        </p>
+
+        <h2>Tus derechos</h2>
+        <p>
+          Podés solicitar el acceso, la rectificación, la actualización o la supresión de
+          tus datos personales, así como oponerte a su tratamiento. Para hacerlo,
+          escribinos por cualquiera de los canales de{' '}
+          <a href="/contacto/">contacto</a>
+          {hayEmail && CONTACTO.email ? ` o al correo ${CONTACTO.email}` : ''} y lo
+          gestionamos.
+        </p>
+        <p>
+          La Agencia de Acceso a la Información Pública, en su carácter de órgano de
+          control de la normativa de protección de datos personales, tiene la atribución
+          de atender las denuncias y reclamos que se interpongan con relación al
+          incumplimiento de las normas sobre protección de datos personales.
+        </p>
+
+        <h2>Contenido sobre salud publicado en este sitio</h2>
+        <p>
+          La información sobre tratamientos, servicios y contenidos del blog tiene
+          carácter general y educativo. No constituye un diagnóstico, una indicación
+          terapéutica ni una recomendación personalizada, y no reemplaza la consulta y la
+          evaluación individual de un profesional de la salud.
+        </p>
+
+        <h2>Cambios en esta política</h2>
+        <p>
+          Si modificamos esta política, vamos a actualizar la fecha que figura al comienzo
+          de la página. Te recomendamos revisarla periódicamente.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal h2 {
+    font-size: var(--ckc-txt-lg);
+    margin-top: var(--ckc-esp-8);
+  }
+
+  .legal h3 {
+    font-size: var(--ckc-txt-base);
+    font-family: var(--ckc-fuente-texto);
+    font-weight: 650;
+    margin-top: var(--ckc-esp-6);
+  }
+
+  .legal p,
+  .legal li {
+    font-size: var(--ckc-txt-base);
+    line-height: 1.75;
+  }
+
+  /* :global porque la clase va a la raíz de <AvisoPendiente>. */
+  :global(.legal__aviso) {
+    margin-bottom: var(--ckc-esp-6);
+  }
+</style>

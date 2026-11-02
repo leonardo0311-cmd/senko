@@ -1,0 +1,26 @@
+{
+  "name": "ckc-kinesiologia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio web institucional de CKC - Consultorio Kinesico Canning",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "words": "node scripts/contar-palabras.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource/newsreader": "^5.2.5",
+    "astro": "^7.4.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,192 @@
+---
+/**
+ * Tarjeta de servicio para la portada y el listado de servicios.
+ * Incluye nombre, recurso grafico, descripcion breve, en que situaciones puede
+ * ser relevante, enlace para conocer mas y boton de consulta directa.
+ */
+import Visual from './Visual.astro';
+import BotonTurno from './BotonTurno.astro';
+import { MENSAJES } from '@/data/site';
+import type { Servicio } from '@/data/servicios';
+
+interface Props {
+  servicio: Servicio;
+  /** Retardo de la animacion de aparicion, en milisegundos. */
+  retardo?: number;
+}
+
+const { servicio, retardo = 0 } = Astro.props;
+---
+
+<article class="ckc-tarjeta-servicio" data-animar style={`--retardo:${retardo}ms`}>
+  <div class="ckc-tarjeta-servicio__visual">
+    <Visual
+      proporcion="16/9"
+      motivo={servicio.motivo}
+      tono={servicio.tono}
+      rotulo={servicio.fotoSugerida}
+      ancho={560}
+    />
+  </div>
+
+  <div class="ckc-tarjeta-servicio__cuerpo">
+    <h3 class="ckc-tarjeta-servicio__titulo">
+      <a href={`/servicios/${servicio.slug}/`}>{servicio.nombre}</a>
+    </h3>
+
+    <p class="ckc-tarjeta-servicio__resumen">{servicio.resumen}</p>
+
+    <div class="ckc-tarjeta-servicio__cuando">
+      <p class="ckc-tarjeta-servicio__cuando-titulo">Puede ser relevante si…</p>
+      <ul>
+        {servicio.cuandoResumen.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+
+    <div class="ckc-tarjeta-servicio__acciones">
+      <a class="ckc-tarjeta-servicio__mas" href={`/servicios/${servicio.slug}/`}>
+        Conocer más
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+          <path
+            d="M4 10h11M11 5.5 15.5 10 11 14.5"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      <BotonTurno
+        mensaje={MENSAJES.servicio(servicio.nombreConsulta)}
+        texto="Consultar por este servicio"
+        variante="contorno"
+      />
+    </div>
+  </div>
+</article>
+
+<style>
+  .ckc-tarjeta-servicio {
+    display: flex;
+    flex-direction: column;
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    overflow: hidden;
+    transition:
+      border-color var(--ckc-trans),
+      box-shadow var(--ckc-trans),
+      translate var(--ckc-trans);
+  }
+
+  .ckc-tarjeta-servicio:hover {
+    border-color: color-mix(in srgb, var(--ckc-primario) 30%, transparent);
+    box-shadow: var(--ckc-sombra-md);
+    translate: 0 -2px;
+  }
+
+  .ckc-tarjeta-servicio__visual :global(.ckc-visual) {
+    border-radius: 0;
+  }
+
+  .ckc-tarjeta-servicio__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ckc-esp-3);
+    padding: var(--ckc-esp-5);
+    flex: 1;
+  }
+
+  .ckc-tarjeta-servicio__titulo {
+    font-size: var(--ckc-txt-lg);
+    margin: 0;
+  }
+
+  .ckc-tarjeta-servicio__titulo a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ckc-tarjeta-servicio__titulo a:hover {
+    color: var(--ckc-primario);
+  }
+
+  .ckc-tarjeta-servicio__resumen {
+    color: var(--ckc-tinta-media);
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.65;
+  }
+
+  .ckc-tarjeta-servicio__cuando {
+    margin-top: auto;
+    padding-top: var(--ckc-esp-3);
+    border-top: 1px solid var(--ckc-linea-suave);
+  }
+
+  .ckc-tarjeta-servicio__cuando-titulo {
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ckc-tinta-suave);
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .ckc-tarjeta-servicio__cuando ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .ckc-tarjeta-servicio__cuando li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: var(--ckc-txt-sm);
+    color: var(--ckc-tinta-media);
+    line-height: 1.55;
+  }
+
+  .ckc-tarjeta-servicio__cuando li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.58em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    border: 1.3px solid var(--ckc-acento);
+    border-right-color: transparent;
+    rotate: 45deg;
+  }
+
+  .ckc-tarjeta-servicio__acciones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ckc-esp-3);
+    margin-top: var(--ckc-esp-4);
+    padding-top: var(--ckc-esp-4);
+    border-top: 1px solid var(--ckc-linea-suave);
+  }
+
+  .ckc-tarjeta-servicio__mas {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    align-self: flex-start;
+    min-height: 2.5rem;
+    font-size: var(--ckc-txt-sm);
+    font-weight: 650;
+    text-decoration: none;
+    color: var(--ckc-primario);
+  }
+
+  .ckc-tarjeta-servicio__mas svg {
+    width: 1rem;
+    height: 1rem;
+    transition: translate var(--ckc-trans);
+  }
+
+  .ckc-tarjeta-servicio__mas:hover svg {
+    translate: 3px 0;
+  }
+</style>

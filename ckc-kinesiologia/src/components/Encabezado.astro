@@ -1,0 +1,656 @@
+---
+import Logo from './Logo.astro';
+import BotonTurno from './BotonTurno.astro';
+import { NAV_DESTACADA, NAV_SECUNDARIA, NAV_PRINCIPAL } from '@/data/navegacion';
+import { esRutaActiva } from '@/lib/enlaces';
+import { MENSAJES, CONTACTO } from '@/data/site';
+
+const actual = Astro.url.pathname;
+---
+
+<header class="ckc-encabezado" data-encabezado>
+  <div class="ckc-encabezado__barra">
+    <div class="ckc-contenedor ckc-encabezado__interior">
+      <a
+        href="/"
+        class="ckc-encabezado__logo"
+        aria-label="CKC Kinesiología — ir a la página de inicio"
+      >
+        <Logo />
+      </a>
+
+      {/* --- Navegacion de escritorio --- */}
+      <nav class="ckc-nav" aria-label="Navegación principal">
+        <ul class="ckc-nav__lista">
+          {
+            NAV_DESTACADA.map((enlace) => (
+              <li>
+                <a
+                  href={enlace.href}
+                  class="ckc-nav__enlace"
+                  aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+                >
+                  {enlace.texto}
+                </a>
+              </li>
+            ))
+          }
+          <li class="ckc-nav__mas">
+            <button
+              type="button"
+              class="ckc-nav__enlace ckc-nav__boton-mas"
+              aria-expanded="false"
+              aria-controls="ckc-submenu"
+              data-mas
+            >
+              Más
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                <path
+                  d="M4 6.5 8 10.5l4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <ul class="ckc-submenu" id="ckc-submenu" data-submenu hidden>
+              {
+                NAV_SECUNDARIA.map((enlace) => (
+                  <li>
+                    <a
+                      href={enlace.href}
+                      class="ckc-submenu__enlace"
+                      aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+                    >
+                      <span class="ckc-submenu__texto">{enlace.texto}</span>
+                      {enlace.detalle && (
+                        <span class="ckc-submenu__detalle">{enlace.detalle}</span>
+                      )}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="ckc-encabezado__acciones">
+        {/* El botón va dentro de un contenedor propio del encabezado: los
+            estilos de un componente de Astro no alcanzan la raíz de otro
+            componente, así que ocultarlo por clase no funcionaría. */}
+        <span class="ckc-encabezado__cta">
+          <BotonTurno mensaje={MENSAJES.turno} texto="Solicitar turno" />
+        </span>
+
+        {/* --- Boton del menu movil --- */}
+        <button
+          type="button"
+          class="ckc-hamburguesa"
+          aria-expanded="false"
+          aria-controls="ckc-menu-movil"
+          data-abrir-menu
+        >
+          <span class="ckc-hamburguesa__lineas" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+          <span class="ckc-visualmente-oculto">Abrir el menú de navegación</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+{/* --- Menu movil --- */}
+<div class="ckc-menu-movil" id="ckc-menu-movil" data-menu-movil hidden>
+  <div class="ckc-menu-movil__velo" data-cerrar-menu></div>
+  <div class="ckc-menu-movil__panel" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <div class="ckc-menu-movil__cabecera">
+      <Logo conBajada={false} />
+      <button type="button" class="ckc-menu-movil__cerrar" data-cerrar-menu>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path
+            d="M6 6l12 12M18 6 6 18"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"></path>
+        </svg>
+        <span class="ckc-visualmente-oculto">Cerrar el menú</span>
+      </button>
+    </div>
+
+    <nav class="ckc-menu-movil__nav" aria-label="Navegación del sitio">
+      <ul>
+        {
+          NAV_PRINCIPAL.map((enlace) => (
+            <li>
+              <a
+                href={enlace.href}
+                aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+              >
+                <span class="ckc-menu-movil__texto">{enlace.texto}</span>
+                {enlace.detalle && (
+                  <span class="ckc-menu-movil__detalle">{enlace.detalle}</span>
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="ckc-menu-movil__pie">
+      <BotonTurno mensaje={MENSAJES.turno} texto="Solicitar un turno" ancho tamanio="lg" />
+      <a
+        class="ckc-menu-movil__red"
+        href={CONTACTO.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Escribinos por Instagram
+        <span>{CONTACTO.instagram.usuario}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* --- Barra fija ------------------------------------------------------- */
+
+  .ckc-encabezado {
+    position: sticky;
+    top: 0;
+    z-index: var(--ckc-z-encabezado);
+  }
+
+  .ckc-encabezado__barra {
+    background-color: color-mix(in srgb, var(--ckc-fondo) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--ckc-trans),
+      background-color var(--ckc-trans),
+      box-shadow var(--ckc-trans);
+  }
+
+  /* Al desplazarse, el encabezado se vuelve mas compacto y se separa del
+     contenido con una linea sutil. */
+  :global([data-encabezado][data-desplazado='true']) .ckc-encabezado__barra {
+    background-color: color-mix(in srgb, var(--ckc-fondo) 96%, transparent);
+    border-bottom-color: var(--ckc-linea);
+    box-shadow: var(--ckc-sombra-sm);
+  }
+
+  .ckc-encabezado__interior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-5);
+    height: var(--ckc-alto-encabezado);
+    transition: height var(--ckc-trans);
+  }
+
+  :global([data-encabezado][data-desplazado='true']) .ckc-encabezado__interior {
+    height: var(--ckc-alto-encabezado-compacto);
+  }
+
+  .ckc-encabezado__logo {
+    flex: none;
+    text-decoration: none;
+    border-radius: var(--ckc-radio-sm);
+  }
+
+  .ckc-encabezado__acciones {
+    display: flex;
+    align-items: center;
+    gap: var(--ckc-esp-3);
+    flex: none;
+  }
+
+  /* --- Navegacion de escritorio ----------------------------------------- */
+
+  .ckc-nav {
+    display: none;
+    min-width: 0;
+  }
+
+  .ckc-nav__lista {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    list-style: none;
+    margin: 0;
+  }
+
+  .ckc-nav__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: var(--ckc-radio-sm);
+    color: var(--ckc-tinta-media);
+    font-size: var(--ckc-txt-sm);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color var(--ckc-trans-rapida),
+      background-color var(--ckc-trans-rapida);
+  }
+
+  .ckc-nav__enlace:hover {
+    color: var(--ckc-primario-oscuro);
+    background-color: color-mix(in srgb, var(--ckc-primario) 7%, transparent);
+  }
+
+  .ckc-nav__enlace[aria-current='page'] {
+    color: var(--ckc-primario-oscuro);
+    font-weight: 650;
+  }
+
+  .ckc-nav__enlace[aria-current='page']::after {
+    content: '';
+    position: absolute;
+  }
+
+  .ckc-nav__lista > li {
+    position: relative;
+  }
+
+  .ckc-nav__boton-mas svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    transition: rotate var(--ckc-trans);
+  }
+
+  .ckc-nav__boton-mas[aria-expanded='true'] svg {
+    rotate: 180deg;
+  }
+
+  /* --- Submenu "Mas" ----------------------------------------------------- */
+
+  .ckc-submenu {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    width: 20rem;
+    max-width: calc(100vw - 2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    box-shadow: var(--ckc-sombra-lg);
+  }
+
+  .ckc-submenu[hidden] {
+    display: none;
+  }
+
+  .ckc-submenu__enlace {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--ckc-radio-sm);
+    text-decoration: none;
+    transition: background-color var(--ckc-trans-rapida);
+  }
+
+  .ckc-submenu__enlace:hover {
+    background-color: var(--ckc-primario-claro);
+  }
+
+  .ckc-submenu__texto {
+    display: block;
+    color: var(--ckc-primario-oscuro);
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+  }
+
+  .ckc-submenu__detalle {
+    display: block;
+    color: var(--ckc-tinta-suave);
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.45;
+    margin-top: 0.1rem;
+  }
+
+  .ckc-submenu__enlace[aria-current='page'] .ckc-submenu__texto {
+    color: var(--ckc-acento);
+  }
+
+  /* --- Boton hamburguesa ------------------------------------------------ */
+
+  .ckc-hamburguesa {
+    display: grid;
+    place-items: center;
+    width: var(--ckc-tactil-min);
+    height: var(--ckc-tactil-min);
+    border-radius: var(--ckc-radio-sm);
+    color: var(--ckc-primario-oscuro);
+    transition: background-color var(--ckc-trans-rapida);
+  }
+
+  .ckc-hamburguesa:hover {
+    background-color: color-mix(in srgb, var(--ckc-primario) 8%, transparent);
+  }
+
+  .ckc-hamburguesa__lineas {
+    display: grid;
+    gap: 5px;
+    width: 1.3rem;
+  }
+
+  .ckc-hamburguesa__lineas span {
+    display: block;
+    height: 1.6px;
+    background: currentColor;
+    border-radius: 2px;
+  }
+
+  .ckc-hamburguesa__lineas span:last-child {
+    width: 65%;
+  }
+
+  /* --- Menu movil ------------------------------------------------------- */
+
+  .ckc-menu-movil {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ckc-z-menu);
+  }
+
+  .ckc-menu-movil[hidden] {
+    display: none;
+  }
+
+  .ckc-menu-movil__velo {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, #0d1f1d 45%, transparent);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity var(--ckc-trans);
+  }
+
+  .ckc-menu-movil__panel {
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    width: min(23rem, 100%);
+    display: flex;
+    flex-direction: column;
+    background: var(--ckc-fondo);
+    box-shadow: var(--ckc-sombra-lg);
+    translate: 100% 0;
+    transition: translate var(--ckc-trans) var(--ckc-curva-suave);
+    overscroll-behavior: contain;
+  }
+
+  :global([data-menu-movil][data-abierto='true']) .ckc-menu-movil__velo {
+    opacity: 1;
+  }
+
+  :global([data-menu-movil][data-abierto='true']) .ckc-menu-movil__panel {
+    translate: 0 0;
+  }
+
+  .ckc-menu-movil__cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-4);
+    padding: var(--ckc-esp-4) var(--ckc-esp-5);
+    border-bottom: 1px solid var(--ckc-linea);
+    flex: none;
+  }
+
+  .ckc-menu-movil__cerrar {
+    display: grid;
+    place-items: center;
+    width: var(--ckc-tactil-min);
+    height: var(--ckc-tactil-min);
+    margin-right: -0.6rem;
+    border-radius: var(--ckc-radio-sm);
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .ckc-menu-movil__cerrar svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .ckc-menu-movil__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--ckc-esp-3) var(--ckc-esp-4);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ckc-menu-movil__nav ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .ckc-menu-movil__nav a {
+    display: block;
+    padding: 0.7rem 0.85rem;
+    min-height: var(--ckc-tactil-min);
+    border-radius: var(--ckc-radio);
+    text-decoration: none;
+    transition: background-color var(--ckc-trans-rapida);
+  }
+
+  .ckc-menu-movil__nav a:hover,
+  .ckc-menu-movil__nav a:active {
+    background-color: var(--ckc-primario-claro);
+  }
+
+  .ckc-menu-movil__nav a[aria-current='page'] {
+    background-color: var(--ckc-primario-claro);
+  }
+
+  .ckc-menu-movil__texto {
+    display: block;
+    color: var(--ckc-primario-oscuro);
+    font-family: var(--ckc-fuente-titulo);
+    font-size: 1.15rem;
+  }
+
+  .ckc-menu-movil__nav a[aria-current='page'] .ckc-menu-movil__texto {
+    color: var(--ckc-acento);
+  }
+
+  .ckc-menu-movil__detalle {
+    display: block;
+    color: var(--ckc-tinta-suave);
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.45;
+    margin-top: 0.05rem;
+  }
+
+  .ckc-menu-movil__pie {
+    flex: none;
+    display: grid;
+    gap: var(--ckc-esp-3);
+    padding: var(--ckc-esp-5);
+    padding-bottom: max(var(--ckc-esp-5), env(safe-area-inset-bottom));
+    border-top: 1px solid var(--ckc-linea);
+    background: var(--ckc-blanco);
+  }
+
+  .ckc-menu-movil__red {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: center;
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ckc-primario-oscuro);
+    padding: 0.5rem;
+  }
+
+  .ckc-menu-movil__red span {
+    font-weight: 400;
+    font-size: var(--ckc-txt-xs);
+    color: var(--ckc-tinta-suave);
+  }
+
+  /* --- Puntos de corte -------------------------------------------------- */
+
+  /* El menu completo aparece recien cuando hay lugar de sobra. */
+  @media (min-width: 64rem) {
+    .ckc-nav {
+      display: block;
+    }
+
+    .ckc-hamburguesa {
+      display: none;
+    }
+  }
+
+  .ckc-encabezado__cta {
+    display: contents;
+  }
+
+  /* En celulares angostos el botón del encabezado se oculta: el menú y el
+     botón flotante ya ofrecen la acción, y así no tapa la hamburguesa. */
+  @media (max-width: 30rem) {
+    .ckc-encabezado__cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // --- Encabezado compacto al desplazarse -------------------------------
+  const encabezado = document.querySelector<HTMLElement>('[data-encabezado]');
+
+  if (encabezado) {
+    const actualizar = () => {
+      encabezado.dataset.desplazado = window.scrollY > 12 ? 'true' : 'false';
+    };
+    actualizar();
+    window.addEventListener('scroll', actualizar, { passive: true });
+  }
+
+  // --- Submenu "Mas" (escritorio) ---------------------------------------
+  const botonMas = document.querySelector<HTMLButtonElement>('[data-mas]');
+  const submenu = document.querySelector<HTMLElement>('[data-submenu]');
+
+  if (botonMas && submenu) {
+    const cerrarSubmenu = () => {
+      submenu.hidden = true;
+      botonMas.setAttribute('aria-expanded', 'false');
+    };
+
+    botonMas.addEventListener('click', (evento) => {
+      evento.stopPropagation();
+      const abierto = botonMas.getAttribute('aria-expanded') === 'true';
+      submenu.hidden = abierto;
+      botonMas.setAttribute('aria-expanded', String(!abierto));
+    });
+
+    document.addEventListener('click', (evento) => {
+      if (
+        !submenu.hidden &&
+        !submenu.contains(evento.target as Node) &&
+        evento.target !== botonMas
+      ) {
+        cerrarSubmenu();
+      }
+    });
+
+    document.addEventListener('keydown', (evento) => {
+      if (evento.key === 'Escape' && !submenu.hidden) {
+        cerrarSubmenu();
+        botonMas.focus();
+      }
+    });
+  }
+
+  // --- Menu movil --------------------------------------------------------
+  const menu = document.querySelector<HTMLElement>('[data-menu-movil]');
+  const abrir = document.querySelector<HTMLButtonElement>('[data-abrir-menu]');
+  const cierres = document.querySelectorAll<HTMLElement>('[data-cerrar-menu]');
+
+  if (menu && abrir) {
+    let ultimoFoco: HTMLElement | null = null;
+
+    const seleccionables = () =>
+      Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+
+    const abrirMenu = () => {
+      ultimoFoco = document.activeElement as HTMLElement;
+      menu.hidden = false;
+      // Un cuadro de espera para que la transicion de entrada se vea.
+      requestAnimationFrame(() => {
+        menu.dataset.abierto = 'true';
+      });
+      abrir.setAttribute('aria-expanded', 'true');
+      document.body.dataset.scrollBloqueado = 'true';
+      seleccionables()[0]?.focus();
+    };
+
+    const cerrarMenu = () => {
+      menu.dataset.abierto = 'false';
+      abrir.setAttribute('aria-expanded', 'false');
+      delete document.body.dataset.scrollBloqueado;
+      const ocultar = () => {
+        menu.hidden = true;
+      };
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) ocultar();
+      else window.setTimeout(ocultar, 260);
+      ultimoFoco?.focus();
+    };
+
+    abrir.addEventListener('click', abrirMenu);
+    cierres.forEach((boton) => boton.addEventListener('click', cerrarMenu));
+
+    // Cierra al tocar un enlace, para que la navegacion se sienta inmediata.
+    menu.querySelectorAll('a[href]').forEach((enlace) => {
+      enlace.addEventListener('click', () => {
+        delete document.body.dataset.scrollBloqueado;
+      });
+    });
+
+    document.addEventListener('keydown', (evento) => {
+      if (menu.hidden) return;
+
+      if (evento.key === 'Escape') {
+        cerrarMenu();
+        return;
+      }
+
+      // Mantiene el foco dentro del menu mientras esta abierto.
+      if (evento.key === 'Tab') {
+        const items = seleccionables();
+        if (items.length === 0) return;
+        const primero = items[0];
+        const ultimo = items[items.length - 1];
+
+        if (evento.shiftKey && document.activeElement === primero) {
+          evento.preventDefault();
+          ultimo.focus();
+        } else if (!evento.shiftKey && document.activeElement === ultimo) {
+          evento.preventDefault();
+          primero.focus();
+        }
+      }
+    });
+
+    // Si la pantalla se agranda hasta mostrar el menu de escritorio, se cierra.
+    window.matchMedia('(min-width: 64rem)').addEventListener('change', (e) => {
+      if (e.matches && !menu.hidden) cerrarMenu();
+    });
+  }
+</script>

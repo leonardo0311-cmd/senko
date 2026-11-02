@@ -1,0 +1,124 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import TarjetaServicio from '@/components/TarjetaServicio.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import Boton from '@/components/Boton.astro';
+import { SERVICIOS } from '@/data/servicios';
+import { MENSAJES } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+---
+
+<Base
+  titulo="Servicios de kinesiología en Canning | CKC Kinesiología"
+  descripcion="Las cinco áreas de CKC en Canning: kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP. Conocé en qué consiste cada una."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Servicios' },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Servicios de CKC Kinesiología',
+      itemListElement: SERVICIOS.map((s, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: s.nombre,
+        url: `${SITE}/servicios/${s.slug}/`,
+      })),
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Servicios"
+    titulo="Áreas de atención del consultorio"
+    bajada="Estas son las cinco áreas con las que trabaja CKC. Cada una tiene su página, con una explicación de en qué consiste, en qué situaciones puede estar indicada, cómo es la evaluación inicial y qué puede incluir el proceso de tratamiento."
+    ruta={[{ texto: 'Servicios' }]}
+  />
+
+  {/* ===================== INTRODUCCION ===================== */}
+  <section class="ckc-seccion ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <div class="ckc-prosa intro" data-animar>
+        <p>
+          Una aclaración antes de empezar: las descripciones de estas páginas son
+          información general. Sirven para entender de qué se trata cada área y para
+          orientarte sobre si tu caso puede corresponder a alguna, pero no alcanzan para
+          saber qué necesitás vos. Eso surge siempre de una evaluación individual.
+        </p>
+        <p>
+          Si no sabés a qué área corresponde tu consulta, no te preocupes: es lo más
+          habitual. Escribinos contándonos qué te pasa y te orientamos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== LISTADO ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <h2 class="ckc-visualmente-oculto">Listado de servicios</h2>
+      <div class="ckc-grilla ckc-grilla--3">
+        {SERVICIOS.map((s, i) => <TarjetaServicio servicio={s} retardo={i * 70} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== POR MOTIVO DE CONSULTA ===================== */}
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor">
+      <div class="otra-via" data-animar>
+        <div>
+          <p class="ckc-rotulo">Otra forma de buscar</p>
+          <h2>¿Preferís buscar por lo que te pasa?</h2>
+          <p class="ckc-bajada">
+            En especialidades y tratamientos la información está organizada por motivo de
+            consulta —molestias musculoesqueléticas, lesiones de la actividad física,
+            recuperación posoperatoria, movilidad y equilibrio, suelo pélvico y reeducación
+            del movimiento—, que suele ser una forma más directa de encontrar lo que
+            buscás.
+          </p>
+        </div>
+        <Boton href="/especialidades/" variante="primario" tamanio="lg" flecha>
+          Ver por motivo de consulta
+        </Boton>
+      </div>
+    </div>
+  </section>
+
+  <BandaCta
+    titulo="¿No sabés qué servicio corresponde a tu caso?"
+    texto="Contanos tu motivo de consulta y te orientamos. Si hace falta una evaluación, coordinamos un turno."
+    mensaje={MENSAJES.general}
+    textoBoton="Consultar mi caso"
+    secundario={{ texto: 'Ver cómo trabajamos', href: '/como-trabajamos/' }}
+  />
+</Base>
+
+<style>
+  .intro p {
+    font-size: var(--ckc-txt-md);
+  }
+
+  .otra-via {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-6);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--ckc-primario-claro);
+    border-radius: var(--ckc-radio-lg);
+  }
+
+  .otra-via > div {
+    max-width: 44rem;
+  }
+
+  .otra-via h2 {
+    font-size: var(--ckc-txt-xl);
+  }
+</style>

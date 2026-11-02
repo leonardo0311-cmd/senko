@@ -1,0 +1,126 @@
+/* ===========================================================================
+   CKC KINESIOLOGIA — FICHAS DE DISEÑO (DESIGN TOKENS)
+   ---------------------------------------------------------------------------
+   PALETA PROVISIONAL.
+
+   No pudo accederse al perfil de Instagram de CKC desde el entorno de
+   desarrollo, por lo que no fue posible tomar los colores exactos de la marca.
+   Esta paleta es una propuesta provisional construida con el criterio pedido:
+   neutros, blancos y grises suaves, con dos colores de acento que transmiten
+   profesionalismo y bienestar (un verde petroleo sereno y un terracota
+   calido que aporta cercania y evita el aspecto de empresa tecnologica).
+
+   PARA ADOPTAR LA IDENTIDAD REAL DE CKC:
+   solo hay que cambiar los seis valores del bloque "MARCA" de abajo. Todo el
+   resto del sitio deriva de ellos, incluidos estados, bordes y degradados.
+   =========================================================================== */
+
+:root {
+  /* --- MARCA: cambiar estos valores por los de la identidad real --------- */
+  --ckc-primario: #1f6f68;        /* verde petroleo: color principal        */
+  --ckc-primario-oscuro: #113f3b;  /* version profunda: fondos y titulos     */
+  --ckc-primario-claro: #e6f0ee;   /* version muy clara: fondos suaves       */
+  --ckc-acento: #c0764a;           /* terracota: acentos y detalles calidos  */
+  --ckc-acento-claro: #f6ece4;     /* terracota muy claro: fondos suaves     */
+  --ckc-arena: #f0eae1;            /* neutro calido: secciones alternadas    */
+
+  /* --- NEUTROS ---------------------------------------------------------- */
+  --ckc-tinta: #16221f;            /* texto principal                        */
+  --ckc-tinta-media: #46524f;      /* texto secundario                       */
+  --ckc-tinta-suave: #6b7572;      /* texto terciario, metadatos             */
+  --ckc-linea: #e2e0da;            /* bordes                                 */
+  --ckc-linea-suave: #eeece7;      /* bordes muy suaves                      */
+  --ckc-fondo: #fcfbf9;            /* fondo general                          */
+  --ckc-blanco: #ffffff;
+
+  /* --- ESTADOS ---------------------------------------------------------- */
+  --ckc-error: #9b2c24;
+  --ckc-error-fondo: #fbeceb;
+  --ckc-exito: #1f6f68;
+  --ckc-aviso: #8a5a12;
+  --ckc-aviso-fondo: #fdf4e3;
+
+  /* --- TIPOGRAFIA ------------------------------------------------------- */
+  --ckc-fuente-titulo: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --ckc-fuente-texto: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Escala tipografica fluida. El minimo nunca baja de 16px en el cuerpo
+     para que el texto siga siendo comodo de leer en celulares y para
+     personas mayores. */
+  --ckc-txt-xs: 0.8125rem;                                  /* 13px          */
+  --ckc-txt-sm: 0.9375rem;                                  /* 15px          */
+  --ckc-txt-base: 1.0625rem;                                /* 17px          */
+  --ckc-txt-md: clamp(1.125rem, 0.4vw + 1.03rem, 1.25rem);  /* 18 → 20px     */
+  --ckc-txt-lg: clamp(1.25rem, 0.7vw + 1.1rem, 1.5rem);     /* 20 → 24px     */
+  --ckc-txt-xl: clamp(1.5rem, 1.2vw + 1.22rem, 1.875rem);   /* 24 → 30px     */
+  --ckc-txt-2xl: clamp(1.875rem, 2vw + 1.4rem, 2.5rem);     /* 30 → 40px     */
+  --ckc-txt-3xl: clamp(2.25rem, 3.4vw + 1.45rem, 3.5rem);   /* 36 → 56px     */
+  --ckc-txt-4xl: clamp(2.5rem, 4.8vw + 1.38rem, 4.25rem);   /* 40 → 68px     */
+
+  --ckc-interlineado-ajustado: 1.08;
+  --ckc-interlineado-titulo: 1.16;
+  --ckc-interlineado-texto: 1.68;
+
+  /* --- ESPACIADO -------------------------------------------------------- */
+  --ckc-esp-1: 0.25rem;
+  --ckc-esp-2: 0.5rem;
+  --ckc-esp-3: 0.75rem;
+  --ckc-esp-4: 1rem;
+  --ckc-esp-5: 1.5rem;
+  --ckc-esp-6: 2rem;
+  --ckc-esp-7: 2.5rem;
+  --ckc-esp-8: 3rem;
+  --ckc-esp-9: 4rem;
+  --ckc-esp-10: 5rem;
+
+  /* Aire vertical entre secciones: generoso, como pide la direccion de arte. */
+  --ckc-seccion-y: clamp(3.5rem, 7vw, 7.5rem);
+  --ckc-seccion-y-corta: clamp(2.5rem, 4.5vw, 4.5rem);
+
+  /* --- MEDIDAS ---------------------------------------------------------- */
+  --ckc-ancho-max: 76rem;          /* 1216px: contenedor general             */
+  --ckc-ancho-texto: 40rem;        /* 640px: ancho optimo de lectura         */
+  --ckc-ancho-angosto: 52rem;
+  --ckc-margen-lateral: clamp(1.25rem, 5vw, 3rem);
+
+  /* --- RADIOS ----------------------------------------------------------- */
+  --ckc-radio-sm: 6px;
+  --ckc-radio: 12px;
+  --ckc-radio-md: 18px;
+  --ckc-radio-lg: 28px;
+  --ckc-radio-pastilla: 999px;
+
+  /* --- SOMBRAS: suaves, nunca exageradas -------------------------------- */
+  --ckc-sombra-sm: 0 1px 2px rgba(22, 34, 31, 0.05);
+  --ckc-sombra: 0 2px 8px rgba(22, 34, 31, 0.05), 0 1px 2px rgba(22, 34, 31, 0.04);
+  --ckc-sombra-md: 0 10px 28px -12px rgba(22, 34, 31, 0.14), 0 2px 6px rgba(22, 34, 31, 0.04);
+  --ckc-sombra-lg: 0 24px 56px -24px rgba(22, 34, 31, 0.2), 0 4px 12px rgba(22, 34, 31, 0.05);
+
+  /* --- TRANSICIONES: sutiles y elegantes -------------------------------- */
+  --ckc-curva: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ckc-curva-suave: cubic-bezier(0.4, 0, 0.2, 1);
+  --ckc-trans-rapida: 160ms var(--ckc-curva);
+  --ckc-trans: 260ms var(--ckc-curva);
+  --ckc-trans-lenta: 520ms var(--ckc-curva);
+
+  /* --- CAPAS ------------------------------------------------------------ */
+  --ckc-z-base: 1;
+  --ckc-z-flotante: 40;
+  --ckc-z-encabezado: 50;
+  --ckc-z-menu: 60;
+  --ckc-z-modal: 70;
+
+  /* --- ALTURAS ---------------------------------------------------------- */
+  --ckc-alto-encabezado: 76px;
+  --ckc-alto-encabezado-compacto: 62px;
+  /* Objetivo tactil minimo: 48px, segun las pautas de accesibilidad. */
+  --ckc-tactil-min: 48px;
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --ckc-alto-encabezado: 64px;
+    --ckc-alto-encabezado-compacto: 58px;
+  }
+}

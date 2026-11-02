@@ -1,0 +1,657 @@
+---
+/**
+ * Formulario de contacto.
+ *
+ * NO SIMULA ENVIOS. Tiene dos modos, segun `FORMULARIO.endpoint` en
+ * src/data/site.ts:
+ *
+ *  1. Sin endpoint (estado actual): el formulario valida los datos y arma un
+ *     mensaje ordenado que la persona envia por WhatsApp con un solo toque.
+ *     No aparece ningun cartel de "mensaje enviado", porque no hay servidor
+ *     que lo reciba. Esto se explica de forma visible arriba del formulario.
+ *
+ *  2. Con endpoint configurado: hace un envio real por HTTP y solo entonces
+ *     muestra la confirmacion.
+ *
+ * No se piden datos medicos sensibles: el motivo de consulta es una lista de
+ * categorias generales y el mensaje es opcional.
+ *
+ * Proteccion basica contra envios automatizados: un campo trampa invisible
+ * (honeypot) y un control de tiempo minimo de llenado.
+ */
+import { FORMULARIO, CONTACTO, hayFormularioReal } from '@/data/site';
+import { enlaceWhatsApp, whatsAppActivo } from '@/lib/enlaces';
+
+const MOTIVOS = [
+  'Consultar por un turno',
+  'Kinesiología deportiva',
+  'Tratamiento o prevención de lesiones',
+  'Prevención de caídas',
+  'Suelo pélvico',
+  'MEP',
+  'Coberturas médicas o medios de pago',
+  'Otra consulta',
+];
+
+const activo = whatsAppActivo();
+---
+
+<form
+  class="ckc-formulario"
+  data-formulario
+  data-modo={hayFormularioReal ? 'servidor' : 'whatsapp'}
+  data-wa={enlaceWhatsApp('')}
+  data-wa-activo={String(activo)}
+  action={FORMULARIO.endpoint ?? undefined}
+  method={hayFormularioReal ? FORMULARIO.metodo : undefined}
+  novalidate
+>
+  {/* --- Explicacion honesta de que hace el formulario --- */}
+  <p class="ckc-formulario__modo">
+    {
+      hayFormularioReal ? (
+        <Fragment>
+          Completá el formulario y nos llega tu consulta. Te respondemos por el medio
+          de contacto que nos dejes.
+        </Fragment>
+      ) : (
+        <Fragment>
+          <strong>Cómo funciona:</strong> este formulario ordena tu consulta y la abre
+          en WhatsApp para que la envíes. Así llega directo al consultorio y no queda
+          esperando una respuesta por correo.
+        </Fragment>
+      )
+    }
+  </p>
+
+  <div class="ckc-formulario__campos">
+    {/* --- Nombre --- */}
+    <div class="ckc-campo">
+      <label for="f-nombre">
+        Nombre <span class="ckc-campo__req" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="f-nombre"
+        name="nombre"
+        autocomplete="name"
+        required
+        aria-describedby="e-nombre"
+        placeholder="Tu nombre"
+      />
+      <p class="ckc-campo__error" id="e-nombre" data-error-de="nombre" hidden></p>
+    </div>
+
+    {/* --- Medio de contacto --- */}
+    <div class="ckc-campo">
+      <label for="f-contacto">
+        Medio de contacto <span class="ckc-campo__req" aria-hidden="true">*</span>
+      </label>
+      <input
+        type="text"
+        id="f-contacto"
+        name="contacto"
+        autocomplete="tel"
+        inputmode="text"
+        required
+        aria-describedby="a-contacto e-contacto"
+        placeholder="Teléfono, WhatsApp o correo"
+      />
+      <p class="ckc-campo__ayuda" id="a-contacto">
+        Dejanos el medio por el que preferís que te respondamos.
+      </p>
+      <p class="ckc-campo__error" id="e-contacto" data-error-de="contacto" hidden></p>
+    </div>
+
+    {/* --- Motivo general --- */}
+    <div class="ckc-campo ckc-campo--completo">
+      <label for="f-motivo">
+        Motivo general de la consulta <span class="ckc-campo__req" aria-hidden="true">*</span>
+      </label>
+      <div class="ckc-campo__selector">
+        <select id="f-motivo" name="motivo" required aria-describedby="e-motivo">
+          <option value="">Elegí una opción</option>
+          {MOTIVOS.map((m) => <option value={m}>{m}</option>)}
+        </select>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path
+            d="M4 6.5 8 10.5l4-4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <p class="ckc-campo__error" id="e-motivo" data-error-de="motivo" hidden></p>
+    </div>
+
+    {/* --- Mensaje --- */}
+    <div class="ckc-campo ckc-campo--completo">
+      <label for="f-mensaje">Mensaje <span class="ckc-campo__opcional">(opcional)</span></label>
+      <textarea
+        id="f-mensaje"
+        name="mensaje"
+        rows="4"
+        maxlength="900"
+        aria-describedby="a-mensaje"
+        placeholder="Si querés, contanos brevemente en qué te podemos ayudar."></textarea>
+      <p class="ckc-campo__ayuda" id="a-mensaje">
+        No hace falta que incluyas información médica detallada: eso lo vemos en la
+        consulta.
+      </p>
+    </div>
+
+    {/* --- Campo trampa contra envios automatizados: oculto para personas --- */}
+    <div class="ckc-formulario__trampa" aria-hidden="true">
+      <label for="f-sitio">No completar este campo</label>
+      <input type="text" id="f-sitio" name="sitio_web" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {/* --- Consentimiento --- */}
+    <div class="ckc-campo ckc-campo--completo">
+      <div class="ckc-casilla">
+        <input type="checkbox" id="f-privacidad" name="privacidad" required aria-describedby="e-privacidad" />
+        <label for="f-privacidad">
+          Acepto la <a href="/politica-de-privacidad/">política de privacidad</a> y que
+          usen mis datos únicamente para responder esta consulta.
+          <span class="ckc-campo__req" aria-hidden="true">*</span>
+        </label>
+      </div>
+      <p class="ckc-campo__error" id="e-privacidad" data-error-de="privacidad" hidden></p>
+    </div>
+  </div>
+
+  {/* --- Resumen de errores, para lectores de pantalla --- */}
+  <p class="ckc-formulario__aviso ckc-formulario__aviso--error" data-aviso-error role="alert" hidden></p>
+  <p class="ckc-formulario__aviso ckc-formulario__aviso--exito" data-aviso-exito role="status" hidden></p>
+
+  <div class="ckc-formulario__acciones">
+    <button type="submit" class="ckc-formulario__enviar" data-enviar>
+      {
+        hayFormularioReal ? (
+          'Enviar la consulta'
+        ) : activo ? (
+          <Fragment>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.32 4.95L2 22l5.22-1.37a9.9 9.9 0 0 0 4.82 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04A9.88 9.88 0 0 0 12.04 2Zm0 1.67c2.21 0 4.29.86 5.85 2.43a8.23 8.23 0 0 1 2.43 5.86c0 4.58-3.72 8.3-8.29 8.3a8.26 8.26 0 0 1-4.21-1.15l-.3-.18-3.1.81.83-3.02-.19-.31a8.24 8.24 0 0 1-1.27-4.42c0-4.58 3.72-8.3 8.3-8.3Zm-3.1 4.3c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.23.9 2.42 1.02 2.59.13.16 1.75 2.72 4.24 3.7 2.07.82 2.49.65 2.94.61.45-.04 1.45-.59 1.66-1.17.2-.57.2-1.07.14-1.17-.06-.1-.23-.17-.48-.29-.25-.12-1.45-.71-1.67-.79-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.19-.54.06-.25-.12-1.05-.38-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.12.29-.31.43-.47.14-.16.19-.27.29-.45.1-.17.05-.33-.02-.45-.06-.13-.56-1.36-.77-1.86-.2-.49-.4-.42-.56-.43h-.5Z" />
+            </svg>
+            Abrir mi consulta en WhatsApp
+          </Fragment>
+        ) : (
+          'Preparar mi consulta'
+        )
+      }
+    </button>
+
+    <p class="ckc-formulario__alternativa">
+      También podés escribirnos por
+      <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">Instagram</a>.
+    </p>
+  </div>
+</form>
+
+<style>
+  .ckc-formulario {
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .ckc-formulario__modo {
+    padding: 0.85rem 1.1rem;
+    margin-bottom: var(--ckc-esp-5);
+    border-radius: var(--ckc-radio);
+    background: var(--ckc-primario-claro);
+    color: color-mix(in srgb, var(--ckc-primario-oscuro) 92%, #000);
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+  }
+
+  .ckc-formulario__campos {
+    display: grid;
+    gap: var(--ckc-esp-5);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 36rem) {
+    .ckc-formulario__campos {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ckc-campo--completo {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* --- Campos ----------------------------------------------------------- */
+
+  .ckc-campo {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .ckc-campo > label {
+    font-size: var(--ckc-txt-sm);
+    font-weight: 650;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .ckc-campo__req {
+    color: var(--ckc-acento);
+  }
+
+  .ckc-campo__opcional {
+    font-weight: 400;
+    color: var(--ckc-tinta-suave);
+  }
+
+  .ckc-campo input[type='text'],
+  .ckc-campo select,
+  .ckc-campo textarea {
+    width: 100%;
+    min-height: var(--ckc-tactil-min);
+    padding: 0.75rem 0.9rem;
+    background: var(--ckc-fondo);
+    border: 1.5px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio);
+    font-size: var(--ckc-txt-base);
+    color: var(--ckc-tinta);
+    transition: border-color var(--ckc-trans), background-color var(--ckc-trans);
+  }
+
+  .ckc-campo textarea {
+    resize: vertical;
+    min-height: 7rem;
+    line-height: 1.6;
+  }
+
+  .ckc-campo input::placeholder,
+  .ckc-campo textarea::placeholder {
+    color: var(--ckc-tinta-suave);
+    opacity: 0.75;
+  }
+
+  .ckc-campo input:hover,
+  .ckc-campo select:hover,
+  .ckc-campo textarea:hover {
+    border-color: color-mix(in srgb, var(--ckc-primario) 34%, var(--ckc-linea));
+  }
+
+  .ckc-campo input:focus,
+  .ckc-campo select:focus,
+  .ckc-campo textarea:focus {
+    background: var(--ckc-blanco);
+    border-color: var(--ckc-primario);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ckc-primario) 16%, transparent);
+  }
+
+  /* Los selectores van tipo por tipo para superar en especificidad a
+     `.ckc-campo input[type='text']`; si no, el campo de texto con error
+     conservaba el borde normal y solo cambiaba el del desplegable. */
+  .ckc-campo input[type='text'][aria-invalid='true'],
+  .ckc-campo select[aria-invalid='true'],
+  .ckc-campo textarea[aria-invalid='true'] {
+    border-color: var(--ckc-error);
+    background: var(--ckc-error-fondo);
+  }
+
+  /* --- Selector --------------------------------------------------------- */
+
+  .ckc-campo__selector {
+    position: relative;
+  }
+
+  .ckc-campo__selector select {
+    appearance: none;
+    padding-right: 2.6rem;
+    cursor: pointer;
+  }
+
+  .ckc-campo__selector svg {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    translate: 0 -50%;
+    width: 1rem;
+    height: 1rem;
+    color: var(--ckc-tinta-suave);
+    pointer-events: none;
+  }
+
+  /* --- Ayudas y errores ------------------------------------------------- */
+
+  .ckc-campo__ayuda {
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.5;
+    color: var(--ckc-tinta-suave);
+  }
+
+  .ckc-campo__error {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    color: var(--ckc-error);
+  }
+
+  .ckc-campo__error[hidden] {
+    display: none;
+  }
+
+  .ckc-campo__error::before {
+    content: '!';
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--ckc-error);
+    color: var(--ckc-blanco);
+    font-size: 0.7rem;
+  }
+
+  /* --- Casilla ---------------------------------------------------------- */
+
+  .ckc-casilla {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .ckc-casilla input {
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.22rem;
+    accent-color: var(--ckc-primario);
+    cursor: pointer;
+  }
+
+  .ckc-casilla label {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+    color: var(--ckc-tinta-media);
+    cursor: pointer;
+  }
+
+  /* --- Campo trampa: invisible para las personas ------------------------ */
+
+  .ckc-formulario__trampa {
+    position: absolute !important;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* --- Avisos ----------------------------------------------------------- */
+
+  .ckc-formulario__aviso {
+    margin-top: var(--ckc-esp-5);
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--ckc-radio);
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+  }
+
+  .ckc-formulario__aviso[hidden] {
+    display: none;
+  }
+
+  .ckc-formulario__aviso--error {
+    background: var(--ckc-error-fondo);
+    border: 1px solid color-mix(in srgb, var(--ckc-error) 24%, transparent);
+    color: var(--ckc-error);
+    font-weight: 600;
+  }
+
+  .ckc-formulario__aviso--exito {
+    background: var(--ckc-primario-claro);
+    border: 1px solid color-mix(in srgb, var(--ckc-primario) 26%, transparent);
+    color: var(--ckc-primario-oscuro);
+    font-weight: 600;
+  }
+
+  /* --- Acciones --------------------------------------------------------- */
+
+  .ckc-formulario__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ckc-esp-4);
+    margin-top: var(--ckc-esp-6);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid var(--ckc-linea-suave);
+  }
+
+  .ckc-formulario__enviar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 54px;
+    padding: 1rem 1.9rem;
+    background: var(--ckc-primario);
+    color: var(--ckc-blanco);
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: var(--ckc-txt-base);
+    font-weight: 650;
+    transition: background-color var(--ckc-trans), translate var(--ckc-trans);
+  }
+
+  .ckc-formulario__enviar:hover {
+    background: var(--ckc-primario-oscuro);
+    translate: 0 -1px;
+  }
+
+  .ckc-formulario__enviar[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+    translate: none;
+  }
+
+  .ckc-formulario__enviar svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+  }
+
+  .ckc-formulario__alternativa {
+    font-size: var(--ckc-txt-sm);
+    color: var(--ckc-tinta-media);
+  }
+
+  @media (max-width: 30rem) {
+    .ckc-formulario__enviar {
+      width: 100%;
+    }
+
+    .ckc-formulario__alternativa {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  const formulario = document.querySelector<HTMLFormElement>('[data-formulario]');
+
+  if (formulario) {
+    const avisoError = formulario.querySelector<HTMLElement>('[data-aviso-error]')!;
+    const avisoExito = formulario.querySelector<HTMLElement>('[data-aviso-exito]')!;
+    const botonEnviar = formulario.querySelector<HTMLButtonElement>('[data-enviar]')!;
+    const modo = formulario.dataset.modo;
+    const waBase = formulario.dataset.wa ?? '';
+    const waActivo = formulario.dataset.waActivo === 'true';
+
+    // Momento en que se cargo el formulario: sirve para descartar envios
+    // automatizados, que suelen completarse en menos de dos segundos.
+    const cargadoEn = Date.now();
+
+    const MENSAJES_ERROR: Record<string, string> = {
+      nombre: 'Escribí tu nombre para que sepamos cómo llamarte.',
+      contacto: 'Dejanos un teléfono, WhatsApp o correo para poder responderte.',
+      motivo: 'Elegí el motivo general de tu consulta.',
+      privacidad: 'Para continuar, necesitamos que aceptes la política de privacidad.',
+    };
+
+    const campo = (nombre: string) =>
+      formulario.elements.namedItem(nombre) as HTMLInputElement | HTMLSelectElement | null;
+
+    const mostrarError = (nombre: string, mensaje: string | null) => {
+      const elemento = campo(nombre);
+      const contenedor = formulario.querySelector<HTMLElement>(
+        `[data-error-de="${nombre}"]`,
+      );
+      if (!elemento || !contenedor) return;
+
+      if (mensaje) {
+        contenedor.textContent = mensaje;
+        contenedor.hidden = false;
+        elemento.setAttribute('aria-invalid', 'true');
+      } else {
+        contenedor.textContent = '';
+        contenedor.hidden = true;
+        elemento.removeAttribute('aria-invalid');
+      }
+    };
+
+    const validar = (): string[] => {
+      const invalidos: string[] = [];
+
+      const nombre = campo('nombre') as HTMLInputElement;
+      const contacto = campo('contacto') as HTMLInputElement;
+      const motivo = campo('motivo') as HTMLSelectElement;
+      const privacidad = campo('privacidad') as HTMLInputElement;
+
+      if (nombre.value.trim().length < 2) invalidos.push('nombre');
+      if (contacto.value.trim().length < 5) invalidos.push('contacto');
+      if (!motivo.value) invalidos.push('motivo');
+      if (!privacidad.checked) invalidos.push('privacidad');
+
+      ['nombre', 'contacto', 'motivo', 'privacidad'].forEach((n) => {
+        mostrarError(n, invalidos.includes(n) ? MENSAJES_ERROR[n] : null);
+      });
+
+      return invalidos;
+    };
+
+    // Limpia el error de cada campo en cuanto la persona lo corrige.
+    ['nombre', 'contacto', 'motivo', 'privacidad'].forEach((nombre) => {
+      const elemento = campo(nombre);
+      elemento?.addEventListener('input', () => {
+        if (elemento.getAttribute('aria-invalid') === 'true') mostrarError(nombre, null);
+      });
+      elemento?.addEventListener('change', () => {
+        if (elemento.getAttribute('aria-invalid') === 'true') mostrarError(nombre, null);
+      });
+    });
+
+    formulario.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+      avisoError.hidden = true;
+      avisoExito.hidden = true;
+
+      // Campo trampa: si viene completo, es un envio automatizado.
+      const trampa = campo('sitio_web') as HTMLInputElement;
+      if (trampa && trampa.value.trim() !== '') return;
+
+      // Control de tiempo: menos de 2 segundos es sospechoso.
+      if (Date.now() - cargadoEn < 2000) {
+        avisoError.textContent =
+          'Tomate un momento para revisar los datos y volvé a intentarlo.';
+        avisoError.hidden = false;
+        return;
+      }
+
+      const invalidos = validar();
+      if (invalidos.length > 0) {
+        avisoError.textContent =
+          invalidos.length === 1
+            ? 'Falta completar un dato para poder seguir.'
+            : `Faltan ${invalidos.length} datos para poder seguir.`;
+        avisoError.hidden = false;
+        (campo(invalidos[0]) as HTMLElement)?.focus();
+        return;
+      }
+
+      const datos = {
+        nombre: (campo('nombre') as HTMLInputElement).value.trim(),
+        contacto: (campo('contacto') as HTMLInputElement).value.trim(),
+        motivo: (campo('motivo') as HTMLSelectElement).value,
+        mensaje: (campo('mensaje') as unknown as HTMLTextAreaElement).value.trim(),
+      };
+
+      // --- Modo 1: envio real a un servidor configurado ------------------
+      if (modo === 'servidor') {
+        botonEnviar.disabled = true;
+        const textoOriginal = botonEnviar.textContent;
+        botonEnviar.textContent = 'Enviando…';
+
+        try {
+          const respuesta = await fetch(formulario.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(formulario),
+          });
+
+          if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+
+          formulario.reset();
+          avisoExito.textContent =
+            '¡Listo! Recibimos tu consulta y te vamos a responder por el medio que nos dejaste.';
+          avisoExito.hidden = false;
+          avisoExito.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } catch {
+          avisoError.innerHTML =
+            'No pudimos enviar la consulta en este momento. Probá de nuevo en unos minutos o escribinos por WhatsApp o Instagram.';
+          avisoError.hidden = false;
+        } finally {
+          botonEnviar.disabled = false;
+          botonEnviar.textContent = textoOriginal;
+        }
+        return;
+      }
+
+      // --- Modo 2: armar el mensaje y abrirlo en WhatsApp ----------------
+      const lineas = [
+        'Hola, les escribo desde la web de CKC Kinesiología.',
+        '',
+        `Nombre: ${datos.nombre}`,
+        `Motivo: ${datos.motivo}`,
+        `Medio de contacto: ${datos.contacto}`,
+      ];
+      if (datos.mensaje) lineas.push('', `Mensaje: ${datos.mensaje}`);
+
+      const texto = lineas.join('\n');
+
+      if (waActivo) {
+        // El numero esta configurado: se abre la conversacion.
+        const url = `${waBase.split('?')[0]}?text=${encodeURIComponent(texto)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+        avisoExito.textContent =
+          'Abrimos WhatsApp con tu consulta lista. Si no se abrió, revisá que el navegador no haya bloqueado la ventana.';
+        avisoExito.hidden = false;
+      } else {
+        // Todavia no hay numero confirmado: no inventamos un destino.
+        // Dejamos el mensaje listo para copiar y lo decimos con claridad.
+        try {
+          await navigator.clipboard.writeText(texto);
+          avisoExito.innerHTML =
+            'Copiamos tu consulta al portapapeles. El número de WhatsApp del consultorio todavía está pendiente de confirmación: por ahora podés pegar este mensaje en <a href="' +
+            'https://www.instagram.com/ckc.kinesiocanning/' +
+            '" target="_blank" rel="noopener noreferrer">Instagram</a>.';
+          avisoExito.hidden = false;
+        } catch {
+          avisoError.innerHTML =
+            'El número de WhatsApp del consultorio todavía está pendiente de confirmación. Podés enviarnos la consulta por <a href="https://www.instagram.com/ckc.kinesiocanning/" target="_blank" rel="noopener noreferrer">Instagram</a>.';
+          avisoError.hidden = false;
+        }
+      }
+    });
+  }
+</script>

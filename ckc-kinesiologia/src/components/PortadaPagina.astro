@@ -1,0 +1,125 @@
+---
+/**
+ * Encabezado de pagina interna: migas, titulo H1 y bajada.
+ * Mantiene la coherencia visual entre todas las secciones del sitio.
+ */
+import Migas from './Migas.astro';
+
+interface Props {
+  rotulo?: string;
+  titulo: string;
+  bajada?: string;
+  ruta: Array<{ texto: string; href?: string }>;
+  variante?: 'claro' | 'arena' | 'profundo';
+}
+
+const { rotulo, titulo, bajada, ruta, variante = 'claro' } = Astro.props;
+const esProfundo = variante === 'profundo';
+---
+
+<section class:list={['ckc-portada', `ckc-portada--${variante}`]}>
+  <div class="ckc-arco-fondo" aria-hidden="true">
+    <svg
+      width="620"
+      height="620"
+      viewBox="0 0 620 620"
+      fill="none"
+      style="right:-150px; top:-230px;"
+    >
+      <circle cx="310" cy="310" r="309" class="ckc-portada__aro" />
+      <circle cx="310" cy="310" r="232" class="ckc-portada__aro" />
+      <circle cx="310" cy="310" r="155" class="ckc-portada__aro ckc-portada__aro--acento" />
+    </svg>
+  </div>
+
+  <div class="ckc-contenedor ckc-portada__interior">
+    <Migas ruta={ruta} variante={esProfundo ? 'claro' : 'oscuro'} />
+
+    {rotulo && <p class="ckc-rotulo ckc-portada__rotulo">{rotulo}</p>}
+    <h1 class="ckc-portada__titulo">{titulo}</h1>
+    {bajada && <p class="ckc-portada__bajada">{bajada}</p>}
+
+    <slot />
+  </div>
+</section>
+
+<style>
+  .ckc-portada {
+    position: relative;
+    overflow: hidden;
+    padding-block: calc(var(--ckc-esp-8) + 1rem) var(--ckc-esp-9);
+  }
+
+  .ckc-portada--claro {
+    background-color: var(--ckc-primario-claro);
+  }
+
+  .ckc-portada--arena {
+    background-color: var(--ckc-arena);
+  }
+
+  .ckc-portada--profundo {
+    background-color: var(--ckc-primario-oscuro);
+    color: color-mix(in srgb, #ffffff 82%, var(--ckc-primario));
+  }
+
+  .ckc-portada__interior {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ckc-portada__rotulo {
+    margin-top: var(--ckc-esp-5);
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  .ckc-portada--profundo .ckc-portada__rotulo {
+    color: color-mix(in srgb, var(--ckc-acento) 62%, #ffffff);
+  }
+
+  .ckc-portada__titulo {
+    max-width: 26ch;
+    margin-top: var(--ckc-esp-4);
+  }
+
+  .ckc-portada--profundo .ckc-portada__titulo {
+    color: var(--ckc-blanco);
+  }
+
+  .ckc-portada__bajada {
+    margin-top: var(--ckc-esp-5);
+    max-width: 46rem;
+    font-size: var(--ckc-txt-md);
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-portada--profundo .ckc-portada__bajada {
+    color: color-mix(in srgb, #ffffff 78%, var(--ckc-primario));
+  }
+
+  /* --- Aros decorativos del fondo --------------------------------------- */
+
+  .ckc-portada__aro {
+    stroke: color-mix(in srgb, var(--ckc-primario-oscuro) 14%, transparent);
+    stroke-width: 1;
+  }
+
+  .ckc-portada__aro--acento {
+    stroke: color-mix(in srgb, var(--ckc-acento) 26%, transparent);
+    stroke-dasharray: 4 7;
+  }
+
+  .ckc-portada--profundo .ckc-portada__aro {
+    stroke: color-mix(in srgb, #ffffff 15%, transparent);
+  }
+
+  .ckc-portada--profundo .ckc-portada__aro--acento {
+    stroke: color-mix(in srgb, var(--ckc-acento) 48%, transparent);
+  }
+
+  @media (max-width: 48rem) {
+    .ckc-arco-fondo > svg {
+      scale: 0.72;
+    }
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+/**
+ * Aviso de dato pendiente de confirmacion.
+ *
+ * Marca de forma visible y honesta los lugares donde falta informacion que
+ * tiene que confirmar el consultorio (direccion exacta, horarios, numero de
+ * WhatsApp, credenciales profesionales, coberturas). Evita que el sitio
+ * publique datos sin verificar y le indica al cliente exactamente que
+ * completar y donde.
+ *
+ * `visible={false}` deja el aviso solo como comentario para el equipo de
+ * desarrollo, sin mostrarlo a los visitantes.
+ */
+interface Props {
+  titulo?: string;
+  /** Ruta del archivo y campo a completar. Solo se ve en desarrollo. */
+  campo?: string;
+  /** Si es `false`, no se renderiza nada visible. */
+  visible?: boolean;
+  tono?: 'aviso' | 'neutro';
+  class?: string;
+}
+
+const {
+  titulo = 'Dato pendiente de confirmación',
+  campo,
+  visible = true,
+  tono = 'aviso',
+  class: clase,
+} = Astro.props;
+
+const enDesarrollo = import.meta.env.DEV;
+---
+
+{
+  visible && (
+    <aside
+      class:list={['ckc-pendiente', `ckc-pendiente--${tono}`, clase]}
+      data-pendiente={campo}
+    >
+      <svg
+        class="ckc-pendiente__icono"
+        viewBox="0 0 20 20"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.4" />
+        <path
+          d="M10 6.1v4.6"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+        <circle cx="10" cy="13.6" r="0.95" fill="currentColor" />
+      </svg>
+      <div class="ckc-pendiente__cuerpo">
+        <p class="ckc-pendiente__titulo">{titulo}</p>
+        <div class="ckc-pendiente__texto">
+          <slot />
+        </div>
+        {enDesarrollo && campo && (
+          <p class="ckc-pendiente__campo">
+            <strong>Para el equipo de desarrollo:</strong> completar <code>{campo}</code>
+          </p>
+        )}
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  .ckc-pendiente {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1.05rem 1.25rem;
+    border-radius: var(--ckc-radio);
+    border: 1px solid;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+  }
+
+  .ckc-pendiente--aviso {
+    background-color: var(--ckc-aviso-fondo);
+    border-color: color-mix(in srgb, var(--ckc-aviso) 24%, transparent);
+    color: color-mix(in srgb, var(--ckc-aviso) 88%, #000);
+  }
+
+  .ckc-pendiente--neutro {
+    background-color: var(--ckc-blanco);
+    border-color: var(--ckc-linea);
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-pendiente__icono {
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.18rem;
+  }
+
+  .ckc-pendiente__cuerpo {
+    min-width: 0;
+  }
+
+  .ckc-pendiente__titulo {
+    font-weight: 650;
+    margin-bottom: 0.2rem;
+  }
+
+  .ckc-pendiente__texto :global(p + p) {
+    margin-top: 0.5rem;
+  }
+
+  .ckc-pendiente__texto :global(a) {
+    color: inherit;
+    font-weight: 600;
+  }
+
+  .ckc-pendiente__campo {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed color-mix(in srgb, currentColor 28%, transparent);
+    font-size: var(--ckc-txt-xs);
+    opacity: 0.9;
+  }
+
+  .ckc-pendiente__campo code {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size: 0.95em;
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+</style>

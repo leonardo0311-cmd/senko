@@ -1,0 +1,176 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import FichaProfesional from '@/components/FichaProfesional.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import AvisoPendiente from '@/components/AvisoPendiente.astro';
+import { PROFESIONALES, hayEquipoCargado } from '@/data/equipo';
+import { SERVICIOS } from '@/data/servicios';
+import { MENSAJES } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+---
+
+<Base
+  titulo="Equipo profesional | CKC Kinesiología, Canning"
+  descripcion="El equipo de kinesiólogos de CKC en Canning: formación, áreas de atención y cómo coordinar un turno. Conocé a los profesionales que te van a atender."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Equipo profesional' },
+      ],
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Equipo"
+    titulo="Los profesionales del consultorio"
+    bajada="La kinesiología es un trabajo de contacto, de conversación y de confianza. Saber quién te va a atender, qué formación tiene y en qué áreas trabaja es parte de poder elegir con tranquilidad."
+    ruta={[{ texto: 'Equipo profesional' }]}
+  />
+
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor">
+      {
+        !hayEquipoCargado && (
+          <AvisoPendiente
+            titulo="Datos del equipo pendientes de confirmación"
+            campo="src/data/equipo.ts → PROFESIONALES"
+            class="equipo__aviso"
+          >
+            <p>
+              Esta página está construida y lista, pero todavía sin los datos del equipo.
+              No publicamos nombres, títulos habilitantes, matrículas, formación académica
+              ni años de experiencia sin verificarlos: tratándose de credenciales
+              sanitarias, inventar un dato sería inaceptable y además engañaría a quien
+              está eligiendo dónde atenderse.
+            </p>
+            <p>
+              Las fichas de abajo muestran la estructura definitiva y qué información va
+              en cada lugar. En cuanto CKC aporte los datos verificados, la página queda
+              completa sin ningún otro cambio.
+            </p>
+          </AvisoPendiente>
+        )
+      }
+
+      {/* Encabezado para lectores de pantalla: mantiene la jerarquía
+          H1 → H2 → H3 sin repetir visualmente el título de la página. */}
+      <h2 class="ckc-visualmente-oculto">Fichas de los profesionales</h2>
+      <div class="equipo__grilla">
+        {PROFESIONALES.map((p, i) => <FichaProfesional profesional={p} retardo={i * 80} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== AREAS DEL EQUIPO ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <div class="areas" data-animar>
+        <div>
+          <p class="ckc-rotulo">Áreas de atención</p>
+          <h2>En qué trabaja el consultorio</h2>
+          <p class="ckc-bajada">
+            Mientras se completan las fichas individuales, estas son las cinco áreas con
+            las que trabaja CKC. Si tenés una consulta puntual sobre alguna, escribinos y
+            te contamos quién atiende ese área.
+          </p>
+        </div>
+
+        <ul class="areas__lista">
+          {
+            SERVICIOS.map((s) => (
+              <li>
+                <a href={`/servicios/${s.slug}/`}>
+                  <span class="areas__nombre">{s.nombre}</span>
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <BandaCta
+    titulo="¿Querés coordinar un turno?"
+    texto="Contanos tu motivo de consulta y lo organizamos con el profesional que corresponda."
+    mensaje={MENSAJES.equipo}
+    textoBoton="Consultar por un turno"
+    secundario={{ texto: 'Ver las instalaciones', href: '/instalaciones/' }}
+  />
+</Base>
+
+<style>
+  /* :global porque la clase va a la raíz de <AvisoPendiente>. */
+  :global(.equipo__aviso) {
+    margin-bottom: var(--ckc-esp-7);
+  }
+
+  .equipo__grilla {
+    display: grid;
+    gap: var(--ckc-esp-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  }
+
+  /* --- Areas ------------------------------------------------------------ */
+
+  .areas {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .areas {
+      grid-template-columns: 1fr 22rem;
+    }
+  }
+
+  .areas h2 {
+    font-size: var(--ckc-txt-xl);
+  }
+
+  .areas__lista {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .areas__lista a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-4);
+    min-height: var(--ckc-tactil-min);
+    padding: 0.75rem 1.1rem;
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio);
+    text-decoration: none;
+    transition: border-color var(--ckc-trans), translate var(--ckc-trans);
+  }
+
+  .areas__lista a:hover {
+    border-color: var(--ckc-primario);
+    translate: 2px 0;
+  }
+
+  .areas__nombre {
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .areas__lista svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: var(--ckc-primario);
+  }
+</style>

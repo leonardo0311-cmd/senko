@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="0.65" y2="1">
+      <stop offset="0%" stop-color="#eef4f3"/>
+      <stop offset="60%" stop-color="#e2edeb"/>
+      <stop offset="100%" stop-color="#f0eae1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#f)"/>
+  <g fill="none" stroke="#113f3b" stroke-opacity="0.16" stroke-width="1.3">
+    <circle cx="1010" cy="300" r="300"/>
+    <circle cx="1010" cy="300" r="226"/>
+    <circle cx="1010" cy="300" r="78"/>
+    <path d="M-40 600C240 600 300 250 540 250s220 260 700 150"/>
+  </g>
+  <circle cx="1010" cy="300" r="152" fill="none" stroke="#c0764a" stroke-opacity="0.4" stroke-width="1.8" stroke-dasharray="6 10"/>
+
+  <g transform="translate(88 214)">
+    <circle cx="26" cy="26" r="25" fill="none" stroke="#113f3b" stroke-opacity="0.26" stroke-width="1.8"/>
+    <path d="M26 9.5a16.5 16.5 0 0 0 0 33" fill="none" stroke="#113f3b" stroke-width="2.9" stroke-linecap="round"/>
+    <path d="M34.5 16.2a13.8 13.8 0 0 1 0 19.6" fill="none" stroke="#c0764a" stroke-width="2.9" stroke-linecap="round"/>
+  </g>
+
+  <text x="156" y="256" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#113f3b">CKC <tspan font-style="italic">Kinesiología</tspan></text>
+  <text x="88" y="330" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="3.4" fill="#113f3b" fill-opacity="0.62">CONSULTORIO KINÉSICO CANNING</text>
+  <text x="88" y="404" font-family="Georgia, 'Times New Roman', serif" font-size="56" fill="#113f3b">Recuperá tu movimiento.</text>
+  <text x="88" y="470" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-style="italic" fill="#1f6f68">Volvé a sentirte bien.</text>
+  <text x="88" y="536" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#113f3b" fill-opacity="0.66">Canning, Provincia de Buenos Aires</text>
+</svg>

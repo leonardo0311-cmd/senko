@@ -1,0 +1,309 @@
+---
+/**
+ * Panel visual del sitio.
+ *
+ * DIRECCION DE ARTE
+ * -----------------
+ * No se usaron fotografias de otros centros ni imagenes generadas que
+ * pudieran hacerse pasar por el consultorio, su equipo o sus instalaciones.
+ * Mientras no haya fotografia propia de CKC, este componente dibuja una
+ * composicion grafica original de la marca: arcos y trazos que sugieren
+ * movimiento, recorrido y recuperacion, en los colores del sitio.
+ *
+ * COMO PONER LAS FOTOS REALES
+ * ---------------------------
+ * 1. Guardar la imagen en `src/imagenes/` (asi Astro la optimiza y genera
+ *    formatos modernos y versiones para cada pantalla).
+ * 2. Pasarle a este componente `src` (la imagen importada) y `alt` con una
+ *    descripcion real de lo que se ve.
+ * Ejemplo:
+ *    ---
+ *    import recepcion from '@/imagenes/recepcion.jpg';
+ *    ---
+ *    <Visual src={recepcion} alt="Recepción del consultorio" />
+ *
+ * Con `src` presente, la composicion grafica desaparece sola y se muestra la
+ * fotografia optimizada, con carga diferida y proporcion estable.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  /** Imagen importada desde `src/imagenes/`. Si falta, se dibuja el grafico. */
+  src?: ImageMetadata;
+  /** Texto alternativo. Obligatorio cuando hay `src`. */
+  alt?: string;
+  /** Proporcion del panel. */
+  proporcion?: '16/9' | '4/3' | '3/2' | '1/1' | '4/5' | '3/4';
+  /** Variante grafica, para que no se repita la misma composicion. */
+  motivo?: 'arcos' | 'recorrido' | 'pulso' | 'campo' | 'eje' | 'horizonte';
+  /** Paleta del panel. */
+  tono?: 'primario' | 'arena' | 'acento' | 'profundo';
+  /** Etiqueta descriptiva sobre el panel (p. ej. qué foto va acá). */
+  rotulo?: string;
+  /** Carga la imagen de inmediato (solo para la imagen principal del hero). */
+  prioridad?: boolean;
+  /** Ancho sugerido para la optimizacion de la imagen. */
+  ancho?: number;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  proporcion = '4/3',
+  motivo = 'arcos',
+  tono = 'primario',
+  rotulo,
+  prioridad = false,
+  ancho = 1000,
+  class: clase,
+} = Astro.props;
+
+if (src && !alt) {
+  throw new Error(
+    'Visual.astro: cuando se pasa una imagen con `src` hay que pasar tambien `alt` con una descripcion real de la fotografia.',
+  );
+}
+---
+
+<figure
+  class:list={[
+    'ckc-visual',
+    `ckc-visual--${tono}`,
+    !src && 'ckc-visual--grafico',
+    clase,
+  ]}
+  style={`--proporcion:${proporcion}`}
+>
+  {
+    src ? (
+      <Image
+        src={src}
+        alt={alt!}
+        width={ancho}
+        densities={[1, 2]}
+        loading={prioridad ? 'eager' : 'lazy'}
+        decoding={prioridad ? 'sync' : 'async'}
+        fetchpriority={prioridad ? 'high' : 'auto'}
+        class="ckc-visual__foto"
+      />
+    ) : (
+      <div class="ckc-visual__lienzo" role="presentation">
+        <svg
+          viewBox="0 0 400 300"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <linearGradient id={`g-${motivo}-${tono}`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" class="ckc-visual__g1" />
+              <stop offset="100%" class="ckc-visual__g2" />
+            </linearGradient>
+          </defs>
+
+          <rect width="400" height="300" fill={`url(#g-${motivo}-${tono})`} />
+
+          {motivo === 'arcos' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <circle cx="300" cy="150" r="130" />
+              <circle cx="300" cy="150" r="96" />
+              <circle cx="300" cy="150" r="62" />
+              <circle cx="300" cy="150" r="28" class="ckc-visual__trazo-acento" />
+              <path d="M-10 250C70 250 120 170 180 92" class="ckc-visual__trazo-fino" />
+            </g>
+          )}
+
+          {motivo === 'recorrido' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <path d="M-20 232C86 232 118 96 206 96s104 108 224 56" />
+              <path
+                d="M-20 262C86 262 118 126 206 126s104 108 224 56"
+                class="ckc-visual__trazo-fino"
+              />
+              <path
+                d="M-20 202C86 202 118 66 206 66s104 108 224 56"
+                class="ckc-visual__trazo-fino"
+              />
+              <circle cx="206" cy="96" r="7" class="ckc-visual__punto" />
+            </g>
+          )}
+
+          {motivo === 'pulso' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <path d="M-10 160h118l24-62 30 124 26-82 28 40h184" />
+              <path d="M-10 196h400" class="ckc-visual__trazo-fino" />
+              <path d="M-10 124h400" class="ckc-visual__trazo-fino" />
+              <circle cx="172" cy="222" r="7" class="ckc-visual__punto" />
+            </g>
+          )}
+
+          {motivo === 'campo' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <circle cx="128" cy="98" r="78" />
+              <circle cx="268" cy="192" r="104" class="ckc-visual__trazo-fino" />
+              <circle cx="128" cy="98" r="36" class="ckc-visual__trazo-acento" />
+              <path d="M-10 268C112 268 150 24 410 24" class="ckc-visual__trazo-fino" />
+            </g>
+          )}
+
+          {motivo === 'eje' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <path d="M200 -10v320" class="ckc-visual__trazo-fino" />
+              <path d="M200 40c86 0 86 220 0 220" />
+              <path d="M200 40c-86 0-86 220 0 220" />
+              <circle cx="200" cy="150" r="9" class="ckc-visual__punto" />
+            </g>
+          )}
+
+          {motivo === 'horizonte' && (
+            <g class="ckc-visual__trazo" fill="none">
+              <path d="M-10 206h420" />
+              <path d="M-10 230h420" class="ckc-visual__trazo-fino" />
+              <path d="M-10 182h420" class="ckc-visual__trazo-fino" />
+              <circle cx="296" cy="112" r="56" class="ckc-visual__trazo-acento" />
+              <circle cx="296" cy="112" r="92" class="ckc-visual__trazo-fino" />
+            </g>
+          )}
+        </svg>
+
+        {rotulo && <p class="ckc-visual__rotulo">{rotulo}</p>}
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .ckc-visual {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--ckc-radio-md);
+    aspect-ratio: var(--proporcion);
+    background-color: var(--ckc-primario-claro);
+    isolation: isolate;
+  }
+
+  .ckc-visual__foto,
+  .ckc-visual__lienzo,
+  .ckc-visual__lienzo svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ckc-visual__foto {
+    object-fit: cover;
+    /* Evita que las fotos se deformen en cualquier proporcion. */
+    object-position: center;
+  }
+
+  .ckc-visual__lienzo {
+    position: relative;
+    display: block;
+  }
+
+  /* --- Trazos del motivo grafico ---------------------------------------- */
+
+  .ckc-visual__trazo circle,
+  .ckc-visual__trazo path {
+    stroke: var(--trazo);
+    stroke-width: 1.15;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .ckc-visual__trazo-fino {
+    stroke: var(--trazo) !important;
+    opacity: 0.45;
+    stroke-dasharray: 3 5;
+  }
+
+  .ckc-visual__trazo-acento {
+    stroke: var(--trazo-acento) !important;
+    stroke-width: 1.6 !important;
+  }
+
+  .ckc-visual__punto {
+    fill: var(--trazo-acento);
+    stroke: none !important;
+  }
+
+  /* --- Tonos ------------------------------------------------------------ */
+
+  .ckc-visual--primario {
+    --trazo: color-mix(in srgb, var(--ckc-primario-oscuro) 42%, transparent);
+    --trazo-acento: var(--ckc-acento);
+  }
+
+  .ckc-visual--primario .ckc-visual__g1 {
+    stop-color: #eef4f3;
+  }
+
+  .ckc-visual--primario .ckc-visual__g2 {
+    stop-color: #dbe8e6;
+  }
+
+  .ckc-visual--arena {
+    --trazo: color-mix(in srgb, #7a6450 42%, transparent);
+    --trazo-acento: var(--ckc-acento);
+  }
+
+  .ckc-visual--arena .ckc-visual__g1 {
+    stop-color: #f6f1ea;
+  }
+
+  .ckc-visual--arena .ckc-visual__g2 {
+    stop-color: #ebe1d4;
+  }
+
+  .ckc-visual--acento {
+    --trazo: color-mix(in srgb, #8a4f2c 38%, transparent);
+    --trazo-acento: var(--ckc-primario);
+  }
+
+  .ckc-visual--acento .ckc-visual__g1 {
+    stop-color: #faf0e8;
+  }
+
+  .ckc-visual--acento .ckc-visual__g2 {
+    stop-color: #f1ddcd;
+  }
+
+  .ckc-visual--profundo {
+    --trazo: color-mix(in srgb, #ffffff 42%, transparent);
+    --trazo-acento: color-mix(in srgb, var(--ckc-acento) 80%, #fff);
+  }
+
+  .ckc-visual--profundo .ckc-visual__g1 {
+    stop-color: #1b5a55;
+  }
+
+  .ckc-visual--profundo .ckc-visual__g2 {
+    stop-color: #113f3b;
+  }
+
+  /* --- Rotulo: indica que fotografia va en este espacio ----------------- */
+
+  .ckc-visual__rotulo {
+    position: absolute;
+    inset-inline: 0.9rem;
+    bottom: 0.9rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--ckc-radio-sm);
+    background: color-mix(in srgb, var(--ckc-blanco) 82%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--ckc-tinta-media);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: center;
+    border: 1px solid color-mix(in srgb, var(--ckc-tinta) 8%, transparent);
+  }
+
+  .ckc-visual--profundo .ckc-visual__rotulo {
+    background: color-mix(in srgb, #0d332f 72%, transparent);
+    color: color-mix(in srgb, #ffffff 86%, transparent);
+    border-color: color-mix(in srgb, #ffffff 16%, transparent);
+  }
+</style>

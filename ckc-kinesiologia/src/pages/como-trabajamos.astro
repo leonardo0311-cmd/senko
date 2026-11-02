@@ -1,0 +1,191 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import Pasos from '@/components/Pasos.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import AvisoPendiente from '@/components/AvisoPendiente.astro';
+import Boton from '@/components/Boton.astro';
+import { MENSAJES } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+
+const PASOS = [
+  {
+    titulo: 'Primer contacto',
+    parrafos: [
+      'Escribinos por WhatsApp o por mensaje directo en Instagram, o dejanos tus datos en el <a href="/contacto/">formulario de contacto</a>. Si querés, contanos brevemente tu motivo de consulta.',
+      'Con esa información podemos darte una orientación administrativa sobre los próximos pasos: a qué área podría corresponder tu consulta, qué conviene llevar y cómo coordinar el turno. Lo que no hacemos por mensaje es diagnosticar ni indicar un tratamiento: eso requiere una evaluación.',
+    ],
+  },
+  {
+    titulo: 'Evaluación inicial',
+    parrafos: [
+      'Es la instancia donde se entiende el caso. Empieza con una conversación sobre tu motivo de consulta: cuándo empezó, cómo evolucionó, qué lo mejora y qué lo empeora, qué antecedentes son relevantes, qué estudios tenés si los tenés y qué tratamientos probaste antes.',
+      'Hay una pregunta que suele ser la más útil: qué querés poder volver a hacer. Esa respuesta orienta todo lo que viene, porque define contra qué se mide el progreso.',
+      'Después se hace la evaluación funcional: se observan la movilidad, la fuerza y el control del movimiento de la zona y de las regiones relacionadas. Según el área, puede incluir pruebas específicas, siempre explicadas antes.',
+    ],
+  },
+  {
+    titulo: 'Planificación del tratamiento',
+    parrafos: [
+      'Cuando corresponde avanzar, se establecen objetivos y se seleccionan las intervenciones adecuadas de acuerdo con lo que mostró la evaluación.',
+      'La frecuencia, la duración y el contenido del tratamiento varían según cada situación: no hay un esquema fijo igual para todos. Esto se conversa en la consulta, con una expectativa realista y no con plazos prometidos.',
+      'También puede pasar que la conclusión sea otra: que haga falta una consulta médica o un estudio previo, o que la kinesiología no sea el abordaje indicado para tu caso. Si es así, te lo decimos en ese momento.',
+    ],
+  },
+  {
+    titulo: 'Seguimiento',
+    parrafos: [
+      'La evolución se revisa a lo largo del proceso. Lo que es adecuado en la primera semana puede dejar de serlo más adelante, y el plan tiene que acompañar ese cambio en lugar de repetirse igual sesión tras sesión.',
+      'En esas revisiones importa mucho lo que traés vos: cómo respondió tu cuerpo, qué pudiste hacer, qué te costó. Esa información es parte de la evaluación continua.',
+    ],
+  },
+  {
+    titulo: 'Continuidad y recomendaciones',
+    parrafos: [
+      'Según el caso, el proceso puede incluir pautas de movimiento, ejercicios u otras indicaciones profesionales para continuar trabajando entre sesiones. En muchas situaciones es ahí donde ocurre buena parte del progreso.',
+      'Las indicaciones se acuerdan pensando en tu rutina real. Si algo no es viable para tu día a día, decilo: una pauta que no se puede cumplir no sirve, y siempre hay alternativas.',
+      'Cuando el proceso se va cerrando, la idea es que te quedes con herramientas propias para sostener lo logrado.',
+    ],
+  },
+];
+---
+
+<Base
+  titulo="Cómo trabajamos | CKC Kinesiología, Canning"
+  descripcion="Qué esperar en CKC Kinesiología, paso a paso: primer contacto, evaluación inicial, planificación del tratamiento, seguimiento y continuidad."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Cómo trabajamos' },
+      ],
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Cómo trabajamos"
+    titulo="Qué podés esperar, paso a paso"
+    bajada="Si nunca hiciste un tratamiento kinésico, es normal no saber con qué te vas a encontrar. Acá está el recorrido habitual de una consulta en CKC, desde el primer mensaje."
+    ruta={[{ texto: 'Cómo trabajamos' }]}
+  />
+
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor proceso">
+      <div class="proceso__pasos">
+        {/* Encabezado para lectores de pantalla: mantiene la jerarquía
+            H1 → H2 → H3 sin repetir visualmente el título de la página. */}
+        <h2 class="ckc-visualmente-oculto">El proceso de atención, paso a paso</h2>
+        <Pasos pasos={PASOS} />
+      </div>
+
+      <aside class="proceso__lateral">
+        <div class="proceso__caja" data-animar>
+          <h2>Una aclaración</h2>
+          <p>
+            Este recorrido describe cómo se organiza habitualmente una consulta, pero no
+            es un protocolo idéntico para todas las personas.
+          </p>
+          <p>
+            Hay casos que requieren más tiempo de evaluación, otros en los que el
+            tratamiento empieza en la misma primera consulta y otros en los que el paso
+            siguiente es una derivación. El criterio profesional se adapta a cada
+            situación.
+          </p>
+        </div>
+
+        <div class="proceso__caja proceso__caja--clara" data-animar style="--retardo:90ms">
+          <h2>Antes de tu primera consulta</h2>
+          <p>
+            Hay varias dudas que conviene resolver antes: qué llevar, si hace falta una
+            orden médica, cómo vestirte y qué pasa si tenés que reprogramar.
+          </p>
+          <Boton href="/preguntas-frecuentes/" variante="contorno" flecha>
+            Ver preguntas frecuentes
+          </Boton>
+        </div>
+
+        <AvisoPendiente
+          titulo="Modalidad de atención a confirmar"
+          campo="Confirmar con CKC: duración de la consulta, modalidad de turnos, política de reprogramación"
+          tono="neutro"
+          visible={true}
+        >
+          <p>
+            Este recorrido se redactó con criterios generales de la práctica kinésica.
+            Conviene revisarlo con el consultorio para que refleje exactamente su
+            modalidad real de trabajo, incluida la duración de las consultas y la
+            organización de los turnos.
+          </p>
+        </AvisoPendiente>
+      </aside>
+    </div>
+  </section>
+
+  <BandaCta
+    titulo="¿Listo para dar el primer paso?"
+    texto="Contanos tu motivo de consulta y coordinamos la evaluación inicial."
+    mensaje={MENSAJES.turno}
+    textoBoton="Solicitar un turno"
+    secundario={{ texto: 'Ver las áreas de atención', href: '/servicios/' }}
+  />
+</Base>
+
+<style>
+  .proceso {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  @media (min-width: 64rem) {
+    .proceso {
+      grid-template-columns: 1fr 21rem;
+    }
+  }
+
+  .proceso__lateral {
+    display: grid;
+    gap: var(--ckc-esp-5);
+  }
+
+  @media (min-width: 64rem) {
+    .proceso__lateral {
+      position: sticky;
+      top: calc(var(--ckc-alto-encabezado) + 2rem);
+    }
+  }
+
+  .proceso__caja {
+    padding: var(--ckc-esp-5);
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+  }
+
+  .proceso__caja--clara {
+    background: var(--ckc-primario-claro);
+    border-color: transparent;
+  }
+
+  .proceso__caja h2 {
+    font-size: var(--ckc-txt-base);
+    font-family: var(--ckc-fuente-texto);
+    font-weight: 650;
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  .proceso__caja p {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.68;
+    color: var(--ckc-tinta-media);
+  }
+
+  .proceso__caja p + p {
+    margin-top: var(--ckc-esp-3);
+  }
+
+  .proceso__caja :global(.ckc-boton) {
+    margin-top: var(--ckc-esp-4);
+  }
+</style>

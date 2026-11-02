@@ -1,0 +1,175 @@
+---
+import Base from '@/layouts/Base.astro';
+import Boton from '@/components/Boton.astro';
+import BotonTurno from '@/components/BotonTurno.astro';
+import { SERVICIOS } from '@/data/servicios';
+import { MENSAJES } from '@/data/site';
+---
+
+<Base
+  titulo="Página no encontrada | CKC Kinesiología"
+  descripcion="La página que buscás no existe o cambió de dirección. Te dejamos los accesos principales del sitio de CKC Kinesiología."
+  noIndexar={true}
+  sinFlotante={true}
+>
+  <section class="error">
+    <div class="error__fondo" aria-hidden="true">
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
+        <rect width="1200" height="600" fill="#eef4f3" />
+        <g class="error__trazos">
+          <circle cx="950" cy="300" r="260" />
+          <circle cx="950" cy="300" r="186" />
+          <circle cx="950" cy="300" r="112" class="error__trazo-acento" />
+          <path d="M-40 560C240 560 300 220 540 220s220 260 700 150" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="ckc-contenedor error__interior">
+      <p class="ckc-rotulo">Error 404</p>
+      <h1>Esta página no existe</h1>
+      <p class="error__texto">
+        Puede que el enlace esté mal escrito, que la página haya cambiado de dirección o
+        que ya no esté disponible. Te dejamos los accesos principales para que encuentres
+        lo que buscabas.
+      </p>
+
+      <div class="error__acciones">
+        <Boton href="/" variante="primario" tamanio="lg" flecha>Ir al inicio</Boton>
+        <BotonTurno mensaje={MENSAJES.general} texto="Hacer una consulta" variante="contorno" tamanio="lg" />
+      </div>
+
+      <nav class="error__enlaces" aria-label="Accesos principales">
+        <div class="error__columna">
+          <h2>Áreas de atención</h2>
+          <ul>
+            {
+              SERVICIOS.map((s) => (
+                <li>
+                  <a href={`/servicios/${s.slug}/`}>{s.nombre}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="error__columna">
+          <h2>El consultorio</h2>
+          <ul>
+            <li><a href="/nosotros/">Nosotros</a></li>
+            <li><a href="/como-trabajamos/">Cómo trabajamos</a></li>
+            <li><a href="/profesionales/">Equipo profesional</a></li>
+            <li><a href="/instalaciones/">Instalaciones</a></li>
+          </ul>
+        </div>
+
+        <div class="error__columna">
+          <h2>Información</h2>
+          <ul>
+            <li><a href="/especialidades/">Especialidades y tratamientos</a></li>
+            <li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contacto/">Contacto y turnos</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .error {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+
+  .error__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .error__fondo svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .error__trazos circle,
+  .error__trazos path {
+    stroke: color-mix(in srgb, var(--ckc-primario-oscuro) 14%, transparent);
+    stroke-width: 1;
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .error__trazo-acento {
+    stroke: color-mix(in srgb, var(--ckc-acento) 30%, transparent) !important;
+    stroke-dasharray: 5 8;
+  }
+
+  .error__interior {
+    position: relative;
+    z-index: 1;
+    max-width: 62rem;
+  }
+
+  .error h1 {
+    margin-top: var(--ckc-esp-3);
+    font-size: var(--ckc-txt-3xl);
+  }
+
+  .error__texto {
+    margin-top: var(--ckc-esp-5);
+    max-width: 38rem;
+    font-size: var(--ckc-txt-md);
+    color: var(--ckc-tinta-media);
+  }
+
+  .error__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ckc-esp-4);
+    margin-top: var(--ckc-esp-7);
+  }
+
+  .error__enlaces {
+    display: grid;
+    gap: var(--ckc-esp-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    margin-top: var(--ckc-esp-9);
+    padding-top: var(--ckc-esp-6);
+    border-top: 1px solid color-mix(in srgb, var(--ckc-primario-oscuro) 12%, transparent);
+  }
+
+  .error__columna h2 {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  .error__columna ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .error__columna a {
+    display: inline-block;
+    padding: 0.4rem 0;
+    font-size: var(--ckc-txt-sm);
+    color: var(--ckc-tinta-media);
+    text-decoration: none;
+  }
+
+  .error__columna a:hover {
+    color: var(--ckc-primario);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

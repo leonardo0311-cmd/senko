@@ -1,0 +1,102 @@
+---
+/**
+ * Tipografías servidas desde el propio dominio (sin pedidos a Google Fonts):
+ * carga más rápida, sin dependencia externa y sin enviar datos de los
+ * visitantes a terceros.
+ *
+ * De Newsreader se importan solo los subconjuntos latinos, que son los que
+ * usa un sitio en español. Inter variable se distribuye en un único archivo
+ * de estilos con todos los subconjuntos, pero cada uno declara su
+ * `unicode-range`: el navegador descarga únicamente el latino.
+ */
+import '@fontsource-variable/inter';
+import '@fontsource/newsreader/latin-400.css';
+import '@fontsource/newsreader/latin-500.css';
+import '@fontsource/newsreader/latin-400-italic.css';
+import '@/styles/global.css';
+
+import Cabecera from '@/components/Cabecera.astro';
+import Encabezado from '@/components/Encabezado.astro';
+import Pie from '@/components/Pie.astro';
+import BotonFlotante from '@/components/BotonFlotante.astro';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  imagen?: string;
+  tipo?: 'website' | 'article';
+  noIndexar?: boolean;
+  esquemas?: Array<Record<string, unknown>>;
+  /** Oculta el boton flotante (por ejemplo, en la pagina de contacto). */
+  sinFlotante?: boolean;
+}
+
+const {
+  titulo,
+  descripcion,
+  imagen,
+  tipo,
+  noIndexar,
+  esquemas,
+  sinFlotante = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-AR" class="ckc-sin-js">
+  <head>
+    <Cabecera
+      titulo={titulo}
+      descripcion={descripcion}
+      imagen={imagen}
+      tipo={tipo}
+      noIndexar={noIndexar}
+      esquemas={esquemas}
+    />
+    {/* Quita la clase de "sin JavaScript" lo antes posible, para que las
+        animaciones de aparicion puedan arrancar desde su estado inicial. */}
+    <script is:inline>
+      document.documentElement.classList.remove('ckc-sin-js');
+    </script>
+  </head>
+
+  <body>
+    <a class="ckc-salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+    <Encabezado />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Pie />
+
+    {!sinFlotante && <BotonFlotante />}
+
+    <script>
+      // --- Aparicion suave de las secciones al desplazarse ---------------
+      const animables = document.querySelectorAll<HTMLElement>('[data-animar]');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (animables.length > 0) {
+        if (reduce || !('IntersectionObserver' in window)) {
+          animables.forEach((el) => (el.dataset.visible = 'true'));
+        } else {
+          const observador = new IntersectionObserver(
+            (entradas) => {
+              entradas.forEach((entrada) => {
+                if (entrada.isIntersecting) {
+                  (entrada.target as HTMLElement).dataset.visible = 'true';
+                  observador.unobserve(entrada.target);
+                }
+              });
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
+          );
+
+          animables.forEach((el) => observador.observe(el));
+        }
+      }
+    </script>
+  </body>
+</html>

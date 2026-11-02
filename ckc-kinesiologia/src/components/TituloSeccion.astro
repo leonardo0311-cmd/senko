@@ -1,0 +1,50 @@
+---
+interface Props {
+  /** Texto pequeño en versalitas sobre el titulo. */
+  rotulo?: string;
+  titulo: string;
+  /** Nivel del encabezado, para mantener la jerarquia correcta. */
+  nivel?: 'h2' | 'h3';
+  bajada?: string;
+  centrado?: boolean;
+  /** Identificador para enlazar a la seccion. */
+  id?: string;
+  class?: string;
+}
+
+const {
+  rotulo,
+  titulo,
+  nivel = 'h2',
+  bajada,
+  centrado = false,
+  id,
+  class: clase,
+} = Astro.props;
+
+const Titulo = nivel;
+---
+
+<div class:list={['ckc-titulo-seccion', centrado && 'ckc-centrado', clase]} data-animar>
+  {rotulo && <p class="ckc-rotulo">{rotulo}</p>}
+  <Titulo id={id}>{titulo}</Titulo>
+  {bajada && <p class="ckc-bajada">{bajada}</p>}
+  <slot />
+</div>
+
+<style>
+  .ckc-titulo-seccion {
+    margin-bottom: var(--ckc-esp-8);
+  }
+
+  .ckc-titulo-seccion :global(h2),
+  .ckc-titulo-seccion :global(h3) {
+    max-width: 24ch;
+  }
+
+  .ckc-titulo-seccion.ckc-centrado :global(h2),
+  .ckc-titulo-seccion.ckc-centrado :global(h3) {
+    max-width: 30ch;
+    margin-inline: auto;
+  }
+</style>

@@ -1,0 +1,364 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Migas from '@/components/Migas.astro';
+import Visual from '@/components/Visual.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import TarjetaNota from '@/components/TarjetaNota.astro';
+import { servicioPorSlug } from '@/data/servicios';
+import { MENSAJES, BRAND } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+
+export const getStaticPaths = (async () => {
+  const notas = await getCollection('blog');
+  return notas.map((nota) => ({
+    params: { slug: nota.id },
+    props: { nota },
+  }));
+}) satisfies GetStaticPaths;
+
+const { nota } = Astro.props;
+const { Content } = await render(nota);
+const d = nota.data;
+
+const fechaTexto = d.fecha.toLocaleDateString('es-AR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+/** Otras notas, para seguir leyendo. */
+const otras = (await getCollection('blog'))
+  .filter((n) => n.id !== nota.id)
+  .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime())
+  .slice(0, 2);
+
+const relacionados = d.serviciosRelacionados
+  .map((slug) => servicioPorSlug(slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+---
+
+<Base
+  titulo={d.tituloSeo ?? `${d.titulo} | CKC Kinesiología`}
+  descripcion={d.resumen}
+  tipo="article"
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE}/blog/` },
+        { '@type': 'ListItem', position: 3, name: d.titulo },
+      ],
+    },
+    {
+      '@type': 'BlogPosting',
+      headline: d.titulo,
+      description: d.resumen,
+      datePublished: d.fecha.toISOString(),
+      dateModified: (d.actualizado ?? d.fecha).toISOString(),
+      inLanguage: 'es-AR',
+      articleSection: d.categoria,
+      /* La autoría se atribuye al consultorio como organización. Conviene
+         revisarla con CKC: si las notas las firma un profesional concreto,
+         corresponde declararlo acá con su nombre verificado. */
+      author: { '@id': `${SITE}/#organizacion` },
+      publisher: { '@id': `${SITE}/#organizacion` },
+      mainEntityOfPage: `${SITE}/blog/${nota.id}/`,
+    },
+  ]}
+>
+  <article class="nota">
+    {/* ===================== ENCABEZADO ===================== */}
+    <header class="nota__portada">
+      <div class="ckc-contenedor nota__portada-interior">
+        <Migas
+          ruta={[{ texto: 'Blog', href: '/blog/' }, { texto: d.titulo }]}
+        />
+
+        <p class="nota__categoria">{d.categoria}</p>
+        <h1 class="nota__titulo">{d.titulo}</h1>
+        <p class="nota__resumen">{d.resumen}</p>
+
+        <div class="nota__meta">
+          <span>
+            Publicado el <time datetime={d.fecha.toISOString()}>{fechaTexto}</time>
+          </span>
+          <span class="nota__punto" aria-hidden="true">·</span>
+          <span>{d.lectura} min de lectura</span>
+          <span class="nota__punto" aria-hidden="true">·</span>
+          <span>{BRAND.name}</span>
+        </div>
+      </div>
+    </header>
+
+    {/* ===================== IMAGEN ===================== */}
+    <div class="ckc-contenedor nota__visual-contenedor">
+      <div class="nota__visual">
+        <Visual
+          proporcion="16/9"
+          motivo={d.motivo}
+          tono={d.tono}
+          rotulo={d.fotoSugerida}
+          ancho={1100}
+        />
+      </div>
+    </div>
+
+    {/* ===================== CUERPO ===================== */}
+    <div class="ckc-contenedor nota__cuerpo">
+      <div class="nota__contenido ckc-prosa">
+        <Content />
+      </div>
+
+      <aside class="nota__lateral">
+        {
+          relacionados.length > 0 && (
+            <div class="nota__caja">
+              <h2>Áreas relacionadas</h2>
+              <ul class="nota__relacionados">
+                {relacionados.map((s) => (
+                  <li>
+                    <a href={`/servicios/${s.slug}/`}>
+                      <span class="nota__relacionado-nombre">{s.nombre}</span>
+                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        <div class="nota__caja nota__caja--aviso">
+          <h2>Información general</h2>
+          <p>
+            Esta nota tiene fines educativos. No reemplaza la evaluación individual de un
+            profesional ni constituye una indicación para un caso particular.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    {/* ===================== SEGUIR LEYENDO ===================== */}
+    {
+      otras.length > 0 && (
+        <section class="ckc-seccion ckc-seccion--arena ckc-seccion--corta nota__seguir">
+          <div class="ckc-contenedor">
+            <h2 class="nota__seguir-titulo">Seguí leyendo</h2>
+            <div class="ckc-grilla ckc-grilla--2">
+              {otras.map((n, i) => <TarjetaNota nota={n} retardo={i * 70} />)}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  <BandaCta
+    titulo="¿Querés saber cómo se aplica a tu caso?"
+    texto="La información general ayuda a entender el panorama, pero tu situación necesita una evaluación. Escribinos y lo vemos."
+    mensaje={MENSAJES.general}
+    textoBoton="Consultar mi caso"
+    secundario={{ texto: 'Volver al blog', href: '/blog/' }}
+  />
+</Base>
+
+<style>
+  /* --- Portada ---------------------------------------------------------- */
+
+  .nota__portada {
+    background: var(--ckc-primario-claro);
+    padding-block: calc(var(--ckc-esp-8) + 1rem) var(--ckc-esp-8);
+  }
+
+  .nota__portada-interior {
+    max-width: 50rem;
+  }
+
+  .nota__categoria {
+    margin-top: var(--ckc-esp-5);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+  }
+
+  .nota__titulo {
+    margin-top: var(--ckc-esp-4);
+    font-size: var(--ckc-txt-3xl);
+    max-width: 26ch;
+  }
+
+  .nota__resumen {
+    margin-top: var(--ckc-esp-5);
+    font-size: var(--ckc-txt-md);
+    line-height: 1.6;
+    color: var(--ckc-tinta-media);
+    max-width: 44rem;
+  }
+
+  .nota__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: var(--ckc-esp-6);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, var(--ckc-primario-oscuro) 12%, transparent);
+    font-size: var(--ckc-txt-xs);
+    color: var(--ckc-tinta-suave);
+  }
+
+  .nota__punto {
+    opacity: 0.5;
+  }
+
+  /* --- Imagen ----------------------------------------------------------- */
+
+  .nota__visual-contenedor {
+    margin-top: calc(var(--ckc-esp-8) * -1);
+  }
+
+  .nota__visual {
+    max-width: 58rem;
+  }
+
+  .nota__visual :global(.ckc-visual) {
+    box-shadow: var(--ckc-sombra-md);
+  }
+
+  /* --- Cuerpo ----------------------------------------------------------- */
+
+  .nota__cuerpo {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+    padding-block: var(--ckc-seccion-y-corta);
+  }
+
+  @media (min-width: 64rem) {
+    .nota__cuerpo {
+      grid-template-columns: 1fr 19rem;
+    }
+  }
+
+  .nota__contenido {
+    max-width: var(--ckc-ancho-texto);
+  }
+
+  .nota__contenido :global(h2) {
+    font-size: var(--ckc-txt-xl);
+    margin-top: var(--ckc-esp-8);
+  }
+
+  .nota__contenido :global(h3) {
+    font-size: var(--ckc-txt-lg);
+  }
+
+  .nota__contenido :global(p) {
+    font-size: var(--ckc-txt-md);
+    line-height: 1.75;
+  }
+
+  /* El primer parrafo entra un poco mas grande: ritmo editorial. */
+  .nota__contenido :global(> p:first-child) {
+    font-size: var(--ckc-txt-lg);
+    line-height: 1.6;
+    color: var(--ckc-tinta);
+  }
+
+  .nota__contenido :global(a) {
+    font-weight: 600;
+  }
+
+  /* --- Lateral ---------------------------------------------------------- */
+
+  .nota__lateral {
+    display: grid;
+    gap: var(--ckc-esp-4);
+  }
+
+  @media (min-width: 64rem) {
+    .nota__lateral {
+      position: sticky;
+      top: calc(var(--ckc-alto-encabezado) + 2rem);
+    }
+  }
+
+  .nota__caja {
+    padding: var(--ckc-esp-5);
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+  }
+
+  .nota__caja--aviso {
+    background: var(--ckc-arena);
+    border-color: transparent;
+  }
+
+  .nota__caja h2 {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ckc-tinta-suave);
+    margin-bottom: var(--ckc-esp-4);
+  }
+
+  .nota__caja p {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.65;
+    color: var(--ckc-tinta-media);
+  }
+
+  .nota__relacionados {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .nota__relacionados a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-3);
+    min-height: 2.75rem;
+    padding: 0.6rem 0.85rem;
+    background: var(--ckc-primario-claro);
+    border-radius: var(--ckc-radio);
+    text-decoration: none;
+    transition: translate var(--ckc-trans);
+  }
+
+  .nota__relacionados a:hover {
+    translate: 2px 0;
+  }
+
+  .nota__relacionado-nombre {
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .nota__relacionados svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: var(--ckc-primario);
+  }
+
+  /* --- Seguir leyendo --------------------------------------------------- */
+
+  .nota__seguir-titulo {
+    font-size: var(--ckc-txt-xl);
+    margin-bottom: var(--ckc-esp-6);
+  }
+</style>

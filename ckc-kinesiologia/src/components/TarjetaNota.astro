@@ -1,0 +1,189 @@
+---
+import Visual from './Visual.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  nota: CollectionEntry<'blog'>;
+  retardo?: number;
+  /** Formato horizontal, para la nota destacada. */
+  destacada?: boolean;
+}
+
+const { nota, retardo = 0, destacada = false } = Astro.props;
+const d = nota.data;
+
+const fechaTexto = d.fecha.toLocaleDateString('es-AR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article
+  class:list={['ckc-nota', destacada && 'ckc-nota--destacada']}
+  data-animar
+  style={`--retardo:${retardo}ms`}
+>
+  <a class="ckc-nota__enlace" href={`/blog/${nota.id}/`}>
+    <div class="ckc-nota__visual">
+      <Visual
+        proporcion={destacada ? '16/9' : '3/2'}
+        motivo={d.motivo}
+        tono={d.tono}
+        rotulo={d.fotoSugerida}
+        ancho={destacada ? 900 : 520}
+      />
+    </div>
+
+    <div class="ckc-nota__cuerpo">
+      <p class="ckc-nota__meta">
+        <span class="ckc-nota__categoria">{d.categoria}</span>
+        <span class="ckc-nota__separador" aria-hidden="true">·</span>
+        <time datetime={d.fecha.toISOString()}>{fechaTexto}</time>
+        <span class="ckc-nota__separador" aria-hidden="true">·</span>
+        <span>{d.lectura} min de lectura</span>
+      </p>
+
+      <h3 class="ckc-nota__titulo">{d.titulo}</h3>
+      <p class="ckc-nota__resumen">{d.resumen}</p>
+
+      <span class="ckc-nota__leer">
+        Leer la nota
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+          <path
+            d="M4 10h11M11 5.5 15.5 10 11 14.5"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .ckc-nota {
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    overflow: hidden;
+    transition:
+      border-color var(--ckc-trans),
+      box-shadow var(--ckc-trans),
+      translate var(--ckc-trans);
+  }
+
+  .ckc-nota:hover {
+    border-color: color-mix(in srgb, var(--ckc-primario) 28%, transparent);
+    box-shadow: var(--ckc-sombra-md);
+    translate: 0 -2px;
+  }
+
+  .ckc-nota__enlace {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ckc-nota__visual :global(.ckc-visual) {
+    border-radius: 0;
+  }
+
+  .ckc-nota__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ckc-esp-3);
+    padding: var(--ckc-esp-5);
+    flex: 1;
+  }
+
+  .ckc-nota__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--ckc-txt-xs);
+    color: var(--ckc-tinta-suave);
+  }
+
+  .ckc-nota__categoria {
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+  }
+
+  .ckc-nota__separador {
+    opacity: 0.5;
+  }
+
+  .ckc-nota__titulo {
+    font-size: var(--ckc-txt-lg);
+    margin: 0;
+  }
+
+  .ckc-nota:hover .ckc-nota__titulo {
+    color: var(--ckc-primario);
+  }
+
+  .ckc-nota__resumen {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.65;
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-nota__leer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: var(--ckc-esp-3);
+    font-size: var(--ckc-txt-sm);
+    font-weight: 650;
+    color: var(--ckc-primario);
+  }
+
+  .ckc-nota__leer svg {
+    width: 1rem;
+    height: 1rem;
+    transition: translate var(--ckc-trans);
+  }
+
+  .ckc-nota:hover .ckc-nota__leer svg {
+    translate: 3px 0;
+  }
+
+  /* --- Nota destacada --------------------------------------------------- */
+
+  @media (min-width: 52rem) {
+    .ckc-nota--destacada .ckc-nota__enlace {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .ckc-nota--destacada .ckc-nota__visual {
+      flex: 0 0 52%;
+    }
+
+    .ckc-nota--destacada .ckc-nota__visual :global(.ckc-visual) {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .ckc-nota--destacada .ckc-nota__cuerpo {
+      justify-content: center;
+      padding: var(--ckc-esp-7);
+    }
+
+    .ckc-nota--destacada .ckc-nota__titulo {
+      font-size: var(--ckc-txt-xl);
+    }
+
+    .ckc-nota--destacada .ckc-nota__resumen {
+      font-size: var(--ckc-txt-base);
+    }
+  }
+</style>

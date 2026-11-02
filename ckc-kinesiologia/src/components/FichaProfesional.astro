@@ -1,0 +1,249 @@
+---
+/**
+ * Ficha de profesional.
+ *
+ * IMPORTANTE: no se inventaron nombres, titulos, matriculas, formacion,
+ * especialidades ni años de experiencia. Mientras el consultorio no aporte
+ * esos datos, la ficha se muestra en estado "a completar": conserva el diseño
+ * definitivo y deja claro que informacion va en cada lugar.
+ *
+ * PARA COMPLETARLA
+ * ----------------
+ * Agregar las personas al arreglo `PROFESIONALES` en src/data/equipo.ts con
+ * los datos verificados. La ficha pasa sola al estado completo.
+ */
+import Visual from './Visual.astro';
+import BotonTurno from './BotonTurno.astro';
+import { MENSAJES } from '@/data/site';
+import type { Profesional } from '@/data/equipo';
+
+interface Props {
+  profesional: Profesional;
+  retardo?: number;
+}
+
+const { profesional: p, retardo = 0 } = Astro.props;
+const completa = p.nombre !== null;
+---
+
+<article
+  class:list={['ckc-ficha', !completa && 'ckc-ficha--a-completar']}
+  data-animar
+  style={`--retardo:${retardo}ms`}
+>
+  <div class="ckc-ficha__retrato">
+    <Visual
+      src={p.foto}
+      alt={p.foto ? `Retrato de ${p.nombre}` : undefined}
+      proporcion="4/5"
+      motivo={p.motivo ?? 'eje'}
+      tono="primario"
+      rotulo={p.foto ? undefined : 'Retrato profesional a incorporar'}
+      ancho={440}
+    />
+  </div>
+
+  <div class="ckc-ficha__cuerpo">
+    <header class="ckc-ficha__encabezado">
+      <h3 class="ckc-ficha__nombre">
+        {completa ? p.nombre : <span class="ckc-ficha__vacio">Nombre y apellido</span>}
+      </h3>
+      <p class="ckc-ficha__titulo">
+        {
+          p.tituloProfesional ?? (
+            <span class="ckc-ficha__vacio">Título habilitante</span>
+          )
+        }
+      </p>
+      {
+        p.matricula ? (
+          <p class="ckc-ficha__matricula">Matrícula {p.matricula}</p>
+        ) : (
+          <p class="ckc-ficha__matricula ckc-ficha__vacio">
+            Matrícula profesional
+          </p>
+        )
+      }
+    </header>
+
+    {
+      p.presentacion ? (
+        <p class="ckc-ficha__presentacion">{p.presentacion}</p>
+      ) : (
+        <p class="ckc-ficha__presentacion ckc-ficha__vacio">
+          Breve presentación personal: cómo encara la atención, qué le interesa
+          de la kinesiología y qué puede esperar una persona en la consulta.
+        </p>
+      )
+    }
+
+    {
+      p.formacion && p.formacion.length > 0 ? (
+        <div class="ckc-ficha__bloque">
+          <h4>Formación</h4>
+          <ul>
+            {p.formacion.map((f) => (
+              <li>{f}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div class="ckc-ficha__bloque">
+          <h4>Formación</h4>
+          <p class="ckc-ficha__vacio">
+            Título de grado, posgrados y cursos verificables.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      p.areas && p.areas.length > 0 ? (
+        <div class="ckc-ficha__bloque">
+          <h4>Áreas de atención</h4>
+          <ul class="ckc-ficha__etiquetas">
+            {p.areas.map((a) => (
+              <li>{a}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div class="ckc-ficha__bloque">
+          <h4>Áreas de atención</h4>
+          <p class="ckc-ficha__vacio">
+            Las áreas del consultorio en las que atiende esta persona.
+          </p>
+        </div>
+      )
+    }
+
+    <div class="ckc-ficha__accion">
+      <BotonTurno
+        mensaje={
+          completa && p.nombre
+            ? `Hola, quisiera consultar por un turno con ${p.nombre} en CKC Kinesiología.`
+            : MENSAJES.equipo
+        }
+        texto="Consultar por un turno"
+        variante="contorno"
+      />
+    </div>
+  </div>
+</article>
+
+<style>
+  .ckc-ficha {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    overflow: hidden;
+    transition: box-shadow var(--ckc-trans), border-color var(--ckc-trans);
+  }
+
+  .ckc-ficha:hover {
+    border-color: color-mix(in srgb, var(--ckc-primario) 26%, transparent);
+    box-shadow: var(--ckc-sombra-md);
+  }
+
+  .ckc-ficha--a-completar {
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--ckc-aviso) 32%, transparent);
+    background: color-mix(in srgb, var(--ckc-aviso-fondo) 45%, var(--ckc-blanco));
+  }
+
+  .ckc-ficha__retrato :global(.ckc-visual) {
+    border-radius: 0;
+    height: 100%;
+  }
+
+  .ckc-ficha__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ckc-esp-4);
+    padding: var(--ckc-esp-5);
+  }
+
+  .ckc-ficha__nombre {
+    font-size: var(--ckc-txt-lg);
+    margin: 0;
+  }
+
+  .ckc-ficha__titulo {
+    margin-top: 0.2rem;
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    color: var(--ckc-primario);
+  }
+
+  .ckc-ficha__matricula {
+    margin-top: 0.15rem;
+    font-size: var(--ckc-txt-xs);
+    color: var(--ckc-tinta-suave);
+  }
+
+  .ckc-ficha__presentacion {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.68;
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-ficha__bloque h4 {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ckc-tinta-suave);
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .ckc-ficha__bloque ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.3rem;
+    font-size: var(--ckc-txt-sm);
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-ficha__bloque p {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+  }
+
+  .ckc-ficha__etiquetas {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0.35rem !important;
+  }
+
+  .ckc-ficha__etiquetas li {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--ckc-radio-pastilla);
+    background: var(--ckc-primario-claro);
+    color: var(--ckc-primario-oscuro);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+  }
+
+  /* Texto que indica que dato va en ese lugar, todavia sin completar. */
+  .ckc-ficha__vacio {
+    color: color-mix(in srgb, var(--ckc-aviso) 85%, #000);
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  .ckc-ficha__accion {
+    margin-top: auto;
+    padding-top: var(--ckc-esp-4);
+    border-top: 1px solid var(--ckc-linea-suave);
+  }
+
+  @media (min-width: 40rem) {
+    .ckc-ficha {
+      grid-template-columns: 13rem 1fr;
+    }
+  }
+</style>

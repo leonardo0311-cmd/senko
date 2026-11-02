@@ -1,0 +1,161 @@
+---
+/**
+ * Acordeon de preguntas frecuentes.
+ *
+ * Usa <details>/<summary>, por lo que funciona incluso sin JavaScript y es
+ * accesible con teclado y lectores de pantalla de forma nativa.
+ */
+export type Pregunta = {
+  pregunta: string;
+  /** Respuesta en parrafos. Admite HTML simple (enlaces, listas). */
+  respuesta: string[];
+  /**
+   * Nota interna: qué dato falta confirmar para dar una respuesta concreta.
+   * Nunca se publica; solo se ve al trabajar en modo desarrollo.
+   */
+  pendiente?: string;
+};
+
+interface Props {
+  preguntas: Pregunta[];
+  /** Abre la primera pregunta de entrada. */
+  primeraAbierta?: boolean;
+  class?: string;
+}
+
+const { preguntas, primeraAbierta = false, class: clase } = Astro.props;
+const enDesarrollo = import.meta.env.DEV;
+---
+
+<div class:list={['ckc-acordeon', clase]}>
+  {
+    preguntas.map((item, indice) => (
+      <details class="ckc-acordeon__item" open={primeraAbierta && indice === 0}>
+        <summary class="ckc-acordeon__pregunta">
+          <span>{item.pregunta}</span>
+          <span class="ckc-acordeon__signo" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false">
+              <path
+                d="M10 4.5v11M4.5 10h11"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div class="ckc-acordeon__respuesta">
+          {item.respuesta.map((parrafo) => (
+            <p set:html={parrafo} />
+          ))}
+          {enDesarrollo && item.pendiente && (
+            <p class="ckc-acordeon__pendiente">
+              <strong>Pendiente (nota interna, no se publica):</strong> {item.pendiente}
+            </p>
+          )}
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .ckc-acordeon {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--ckc-linea);
+  }
+
+  .ckc-acordeon__item {
+    border-bottom: 1px solid var(--ckc-linea);
+  }
+
+  .ckc-acordeon__pregunta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--ckc-esp-4);
+
+    padding: var(--ckc-esp-5) 0;
+    min-height: var(--ckc-tactil-min);
+
+    font-family: var(--ckc-fuente-titulo);
+    font-size: var(--ckc-txt-lg);
+    color: var(--ckc-primario-oscuro);
+    line-height: 1.35;
+
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--ckc-trans-rapida);
+  }
+
+  /* Oculta el triangulo que algunos navegadores agregan por defecto. */
+  .ckc-acordeon__pregunta::-webkit-details-marker {
+    display: none;
+  }
+
+  .ckc-acordeon__pregunta::marker {
+    content: '';
+  }
+
+  .ckc-acordeon__pregunta:hover {
+    color: var(--ckc-primario);
+  }
+
+  .ckc-acordeon__signo {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin-top: 0.1rem;
+    border: 1px solid var(--ckc-linea);
+    border-radius: 50%;
+    color: var(--ckc-primario);
+    transition:
+      rotate var(--ckc-trans),
+      background-color var(--ckc-trans),
+      border-color var(--ckc-trans);
+  }
+
+  .ckc-acordeon__signo svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .ckc-acordeon__item[open] .ckc-acordeon__signo {
+    rotate: 135deg;
+    background-color: var(--ckc-primario-claro);
+    border-color: transparent;
+  }
+
+  .ckc-acordeon__respuesta {
+    padding-bottom: var(--ckc-esp-5);
+    max-width: var(--ckc-ancho-texto);
+  }
+
+  .ckc-acordeon__respuesta p {
+    color: var(--ckc-tinta-media);
+    font-size: var(--ckc-txt-base);
+    line-height: 1.7;
+  }
+
+  .ckc-acordeon__respuesta p + p {
+    margin-top: var(--ckc-esp-3);
+  }
+
+  .ckc-acordeon__respuesta :global(a) {
+    font-weight: 600;
+  }
+
+  /* Solo visible en desarrollo: recuerda qué dato falta confirmar. */
+  .ckc-acordeon__pendiente {
+    margin-top: var(--ckc-esp-4) !important;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--ckc-radio-sm);
+    background: var(--ckc-aviso-fondo);
+    border: 1px dashed color-mix(in srgb, var(--ckc-aviso) 35%, transparent);
+    font-size: var(--ckc-txt-xs) !important;
+    color: color-mix(in srgb, var(--ckc-aviso) 90%, #000) !important;
+  }
+</style>

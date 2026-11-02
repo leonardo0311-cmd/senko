@@ -1,0 +1,6 @@
+# CKC Kinesiología — Consultorio Kinésico Canning
+User-agent: *
+Allow: /
+Disallow: /politica-de-privacidad/
+
+Sitemap: https://www.ckckinesiologia.com.ar/sitemap-index.xml

@@ -1,0 +1,207 @@
+---
+/**
+ * Iconografia minimalista del sitio: solo trazos, sin relleno y sin detalles
+ * innecesarios, para acompañar el contenido sin competir con el.
+ */
+export type NombreIcono =
+  | 'evaluacion'
+  | 'dialogo'
+  | 'acompanamiento'
+  | 'objetivo'
+  | 'casa'
+  | 'ubicacion'
+  | 'movimiento'
+  | 'equilibrio'
+  | 'cuerpo'
+  | 'tiempo'
+  | 'formacion'
+  | 'respeto'
+  | 'escucha'
+  | 'persona'
+  | 'calendario'
+  | 'documento';
+
+interface Props {
+  nombre: NombreIcono;
+  class?: string;
+}
+
+const { nombre, class: clase } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  class={clase}
+>
+  {/* Evaluacion: lupa sobre un trazo de movimiento */}
+  {
+    nombre === 'evaluacion' && (
+      <Fragment>
+        <circle cx="10.5" cy="10.5" r="6.2" />
+        <path d="m15.2 15.2 4.3 4.3" />
+        <path d="M7.9 11.6c1.3 0 1.7-2.6 2.9-2.6s1.4 3.4 2.6 3.4" />
+      </Fragment>
+    )
+  }
+
+  {/* Dialogo: comunicacion clara */}
+  {
+    nombre === 'dialogo' && (
+      <Fragment>
+        <path d="M4 7.6A2.6 2.6 0 0 1 6.6 5h8.3a2.6 2.6 0 0 1 2.6 2.6v4.6a2.6 2.6 0 0 1-2.6 2.6H9.4L5.6 18v-3.2A1.6 1.6 0 0 1 4 13.2V7.6Z" />
+        <path d="M8 9.3h5M8 11.6h3" />
+      </Fragment>
+    )
+  }
+
+  {/* Acompanamiento: dos trazos que avanzan juntos */}
+  {
+    nombre === 'acompanamiento' && (
+      <Fragment>
+        <path d="M3 17c3.2 0 4.4-9 8.2-9" />
+        <path d="M11.2 8c3.8 0 5 9 9.8 5.6" />
+        <circle cx="11.2" cy="8" r="1.8" />
+      </Fragment>
+    )
+  }
+
+  {/* Objetivo: diana */}
+  {
+    nombre === 'objetivo' && (
+      <Fragment>
+        <circle cx="12" cy="12" r="8.2" />
+        <circle cx="12" cy="12" r="4.4" />
+        <circle cx="12" cy="12" r="0.9" fill="currentColor" stroke="none" />
+      </Fragment>
+    )
+  }
+
+  {/* Casa: continuidad del cuidado fuera del consultorio */}
+  {
+    nombre === 'casa' && (
+      <Fragment>
+        <path d="M4 10.6 12 4.4l8 6.2V19a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 19v-8.4Z" />
+        <path d="M9.6 20.4v-5.6h4.8v5.6" />
+      </Fragment>
+    )
+  }
+
+  {/* Ubicacion */}
+  {
+    nombre === 'ubicacion' && (
+      <Fragment>
+        <path d="M12 21s6.4-5.6 6.4-10.4A6.4 6.4 0 0 0 5.6 10.6C5.6 15.4 12 21 12 21Z" />
+        <circle cx="12" cy="10.4" r="2.4" />
+      </Fragment>
+    )
+  }
+
+  {/* Movimiento: arcos de recorrido */}
+  {
+    nombre === 'movimiento' && (
+      <Fragment>
+        <path d="M5 19c0-6.6 3.1-12 7-12s7 5.4 7 12" />
+        <path d="M8.6 19c0-4.3 1.5-7.8 3.4-7.8s3.4 3.5 3.4 7.8" />
+      </Fragment>
+    )
+  }
+
+  {/* Equilibrio: balanza simple */}
+  {
+    nombre === 'equilibrio' && (
+      <Fragment>
+        <path d="M12 4.6v14.8M6 19.4h12" />
+        <path d="M4.4 10.4h15.2" />
+        <path d="M4.4 10.4 6.8 15h-4.8l2.4-4.6ZM19.6 10.4 22 15h-4.8l2.4-4.6Z" />
+      </Fragment>
+    )
+  }
+
+  {/* Cuerpo: silueta en movimiento */}
+  {
+    nombre === 'cuerpo' && (
+      <Fragment>
+        <circle cx="12" cy="5.4" r="2.2" />
+        <path d="M12 7.6v5.8M12 13.4 8.8 20M12 13.4 15.2 20" />
+        <path d="M7.6 10.2 12 9.2l4.4 1" />
+      </Fragment>
+    )
+  }
+
+  {/* Tiempo: proceso progresivo */}
+  {
+    nombre === 'tiempo' && (
+      <Fragment>
+        <circle cx="12" cy="12" r="8.2" />
+        <path d="M12 7.6V12l3.2 2" />
+      </Fragment>
+    )
+  }
+
+  {/* Formacion: libro abierto */}
+  {
+    nombre === 'formacion' && (
+      <Fragment>
+        <path d="M4 5.6h5.2c1.5 0 2.8.9 2.8 2v11c0-1.1-1.3-2-2.8-2H4v-11Z" />
+        <path d="M20 5.6h-5.2c-1.5 0-2.8.9-2.8 2v11c0-1.1 1.3-2 2.8-2H20v-11Z" />
+      </Fragment>
+    )
+  }
+
+  {/* Respeto: manos / cuidado */}
+  {
+    nombre === 'respeto' && (
+      <Fragment>
+        <path d="M12 19.4s-6.6-3.8-6.6-8.4a3.6 3.6 0 0 1 6.6-2 3.6 3.6 0 0 1 6.6 2c0 4.6-6.6 8.4-6.6 8.4Z" />
+      </Fragment>
+    )
+  }
+
+  {/* Escucha */}
+  {
+    nombre === 'escucha' && (
+      <Fragment>
+        <path d="M8.6 9.4a3.4 3.4 0 1 1 6.8 0c0 2-1.6 2.6-1.6 4.4a1.9 1.9 0 0 1-3.8.2" />
+        <path d="M11 17.6v2.2" />
+        <path d="M4.6 12a7.4 7.4 0 0 1 2.2-5.3M19.4 12a7.4 7.4 0 0 0-2.2-5.3" />
+      </Fragment>
+    )
+  }
+
+  {/* Persona */}
+  {
+    nombre === 'persona' && (
+      <Fragment>
+        <circle cx="12" cy="8.4" r="3.4" />
+        <path d="M5.4 20c0-3.3 2.9-5.4 6.6-5.4s6.6 2.1 6.6 5.4" />
+      </Fragment>
+    )
+  }
+
+  {/* Calendario */}
+  {
+    nombre === 'calendario' && (
+      <Fragment>
+        <rect x="4" y="6" width="16" height="14" rx="2" />
+        <path d="M4 10.4h16M8.6 4v3.4M15.4 4v3.4" />
+      </Fragment>
+    )
+  }
+
+  {/* Documento */}
+  {
+    nombre === 'documento' && (
+      <Fragment>
+        <path d="M6.4 3.6h7.2L18.4 8.4V20a1.4 1.4 0 0 1-1.4 1.4H6.4A1.4 1.4 0 0 1 5 20V5A1.4 1.4 0 0 1 6.4 3.6Z" />
+        <path d="M13.6 3.6v4.8h4.8M8.4 13.2h6.4M8.4 16.4h4.4" />
+      </Fragment>
+    )
+  }
+</svg>

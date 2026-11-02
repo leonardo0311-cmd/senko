@@ -1,0 +1,176 @@
+---
+/**
+ * Metaetiquetas de la pagina: titulo SEO, descripcion, canonica, Open Graph,
+ * Twitter Card y datos estructurados.
+ *
+ * Los datos estructurados solo declaran los campos CONFIRMADOS del
+ * consultorio. No se emiten direccion, telefono, horarios, reseñas,
+ * calificaciones, precios ni profesionales mientras no esten verificados en
+ * src/data/site.ts.
+ */
+import { BRAND, CONTACTO, UBICACION, HORARIOS, ANALITICA, direccionEnLinea } from '@/data/site';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Imagen propia para compartir, si la pagina tiene una. */
+  imagen?: string;
+  /** Tipo de contenido para Open Graph. */
+  tipo?: 'website' | 'article';
+  /** Evita que la pagina se indexe (por ejemplo, el error 404). */
+  noIndexar?: boolean;
+  /** Datos estructurados adicionales de la pagina. */
+  esquemas?: Array<Record<string, unknown>>;
+}
+
+const {
+  titulo,
+  descripcion,
+  imagen = BRAND.ogImage,
+  tipo = 'website',
+  noIndexar = false,
+  esquemas = [],
+} = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site).href;
+const imagenAbsoluta = new URL(imagen, Astro.site).href;
+
+/* --- Datos estructurados de la organizacion ----------------------------- */
+
+const negocio: Record<string, unknown> = {
+  '@type': ['MedicalBusiness', 'Physiotherapy'],
+  '@id': `${Astro.site}#organizacion`,
+  name: BRAND.name,
+  alternateName: BRAND.fullName,
+  description:
+    'Consultorio kinésico en Canning, Provincia de Buenos Aires. Kinesiología deportiva, tratamiento y prevención de lesiones, prevención de caídas, suelo pélvico y MEP.',
+  url: Astro.site?.href,
+  medicalSpecialty: 'PhysicalTherapy',
+  sameAs: [CONTACTO.instagram.url, CONTACTO.facebook.url],
+  areaServed: {
+    '@type': 'Place',
+    name: `${UBICACION.localidad}, ${UBICACION.provincia}, ${UBICACION.pais}`,
+  },
+};
+
+// La direccion solo se declara si esta confirmada.
+if (direccionEnLinea && UBICACION.direccion) {
+  negocio.address = {
+    '@type': 'PostalAddress',
+    streetAddress: `${UBICACION.direccion.calle} ${UBICACION.direccion.numero}${
+      UBICACION.direccion.detalle ? `, ${UBICACION.direccion.detalle}` : ''
+    }`,
+    addressLocality: UBICACION.localidad,
+    addressRegion: UBICACION.provincia,
+    postalCode: UBICACION.direccion.codigoPostal,
+    addressCountry: 'AR',
+  };
+} else {
+  negocio.address = {
+    '@type': 'PostalAddress',
+    addressLocality: UBICACION.localidad,
+    addressRegion: UBICACION.provincia,
+    addressCountry: 'AR',
+  };
+}
+
+// El telefono solo se declara si esta confirmado.
+if (CONTACTO.telefono) {
+  negocio.telephone = `+${CONTACTO.telefono.link}`;
+}
+
+// El correo solo se declara si esta confirmado.
+if (CONTACTO.email) {
+  negocio.email = CONTACTO.email;
+}
+
+// Los horarios solo se declaran si estan confirmados.
+if (HORARIOS.schemaOrg) {
+  negocio.openingHoursSpecification = HORARIOS.schemaOrg.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.dias,
+    opens: h.abre,
+    closes: h.cierra,
+  }));
+}
+
+const grafo = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    negocio,
+    {
+      '@type': 'WebSite',
+      '@id': `${Astro.site}#sitio`,
+      url: Astro.site?.href,
+      name: BRAND.name,
+      inLanguage: 'es-AR',
+      publisher: { '@id': `${Astro.site}#organizacion` },
+    },
+    ...esquemas,
+  ],
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{titulo}</title>
+<meta name="description" content={descripcion} />
+<link rel="canonical" href={canonica} />
+
+{noIndexar && <meta name="robots" content="noindex, follow" />}
+{!noIndexar && <meta name="robots" content="index, follow, max-image-preview:large" />}
+
+<meta name="author" content={BRAND.name} />
+<meta name="theme-color" content="#1f6f68" />
+<meta name="format-detection" content="telephone=no" />
+
+{/* --- Open Graph --- */}
+<meta property="og:type" content={tipo} />
+<meta property="og:site_name" content={BRAND.name} />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:title" content={titulo} />
+<meta property="og:description" content={descripcion} />
+<meta property="og:url" content={canonica} />
+<meta property="og:image" content={imagenAbsoluta} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${BRAND.name} — ${BRAND.tagline}`} />
+
+{/* --- Twitter / X --- */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={titulo} />
+<meta name="twitter:description" content={descripcion} />
+<meta name="twitter:image" content={imagenAbsoluta} />
+
+{/* --- Iconos --- */}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.webmanifest" />
+
+{/* --- Verificacion de Google Search Console (opcional) --- */}
+{
+  ANALITICA.googleSearchConsole && (
+    <meta name="google-site-verification" content={ANALITICA.googleSearchConsole} />
+  )
+}
+
+{/* --- Datos estructurados --- */}
+<script type="application/ld+json" set:html={JSON.stringify(grafo)} is:inline />
+
+{/* --- Google Analytics 4 (opcional, solo si se configura) --- */}
+{
+  ANALITICA.ga4 && (
+    <Fragment>
+      <script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${ANALITICA.ga4}`}
+        is:inline
+      />
+      <script
+        is:inline
+        set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ANALITICA.ga4}',{anonymize_ip:true});`}
+      />
+    </Fragment>
+  )
+}

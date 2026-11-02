@@ -1,0 +1,370 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import BotonTurno from '@/components/BotonTurno.astro';
+import Icono from '@/components/Icono.astro';
+import { ESPECIALIDADES } from '@/data/especialidades';
+import { servicioPorSlug } from '@/data/servicios';
+import { MENSAJES } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+---
+
+<Base
+  titulo="Especialidades y tratamientos kinésicos en Canning | CKC"
+  descripcion="Motivos de consulta que atendemos en CKC Canning: molestias musculoesqueléticas, lesiones deportivas, posoperatorio, equilibrio y suelo pélvico."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Especialidades y tratamientos' },
+      ],
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Especialidades y tratamientos"
+    titulo="Buscá por lo que te está pasando"
+    bajada="Acá la información está organizada por motivo de consulta y no por nombre de tratamiento. Si llegaste con una molestia y no sabés a qué área corresponde, este es el camino más directo."
+    ruta={[{ texto: 'Especialidades y tratamientos' }]}
+    variante="arena"
+  >
+    {/* --- Navegacion rapida entre categorias --- */}
+    <nav class="atajos" aria-label="Motivos de consulta">
+      <ul>
+        {
+          ESPECIALIDADES.map((e) => (
+            <li>
+              <a href={`#${e.id}`}>{e.titulo}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </PortadaPagina>
+
+  {/* ===================== ADVERTENCIA GENERAL ===================== */}
+  <section class="ckc-seccion ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <div class="ckc-prosa intro" data-animar>
+        <p>
+          Dos aclaraciones importantes antes de seguir. La primera: no toda molestia
+          requiere kinesiología. Hay situaciones que se resuelven solas, otras que
+          necesitan otro tipo de abordaje y otras en las que lo primero es una consulta
+          médica. Parte del trabajo de la evaluación inicial es distinguir esos casos.
+        </p>
+        <p>
+          La segunda: un tratamiento kinésico no sustituye una evaluación médica cuando
+          esta es necesaria. Si durante la evaluación surge que hace falta un estudio o la
+          intervención de otro profesional, te lo vamos a plantear antes de iniciar
+          cualquier tratamiento.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== CATEGORIAS ===================== */}
+  {
+    ESPECIALIDADES.map((e, indice) => (
+      <section
+        class:list={[
+          'ckc-seccion',
+          'ckc-seccion--corta',
+          indice % 2 === 0 ? 'ckc-seccion--blanca' : '',
+        ]}
+        id={e.id}
+      >
+        <div class="ckc-contenedor">
+          <article class="area" data-animar>
+            <header class="area__encabezado">
+              <span class="area__icono" aria-hidden="true">
+                <Icono nombre={e.icono} />
+              </span>
+              <div>
+                <p class="ckc-rotulo area__rotulo">Motivo de consulta</p>
+                <h2>{e.titulo}</h2>
+              </div>
+            </header>
+
+            <p class="area__descripcion">{e.queAborda}</p>
+
+            <div class="area__contenido">
+              <div class="area__columna">
+                <h3>Señales que pueden motivar una consulta</h3>
+                <ul class="area__senales">
+                  {e.senales.map((s) => <li>{s}</li>)}
+                </ul>
+              </div>
+
+              <dl class="area__detalles">
+                <div>
+                  <dt>Por qué importa una evaluación profesional</dt>
+                  <dd>{e.porQueEvaluar}</dd>
+                </div>
+                <div>
+                  <dt>Qué objetivos pueden plantearse</dt>
+                  <dd>{e.objetivos}</dd>
+                </div>
+                <div>
+                  <dt>Cómo se define el plan de tratamiento</dt>
+                  <dd>{e.comoSeDefine}</dd>
+                </div>
+                <div>
+                  <dt>Qué papel cumple la continuidad</dt>
+                  <dd>{e.continuidad}</dd>
+                </div>
+              </dl>
+            </div>
+
+            <footer class="area__pie">
+              <div class="area__servicios">
+                <p class="area__servicios-titulo">Servicios relacionados</p>
+                <ul>
+                  {e.servicios.map((slug) => {
+                    const servicio = servicioPorSlug(slug);
+                    return servicio ? (
+                      <li>
+                        <a href={`/servicios/${servicio.slug}/`}>{servicio.nombre}</a>
+                      </li>
+                    ) : null;
+                  })}
+                </ul>
+              </div>
+
+              <BotonTurno
+                mensaje={MENSAJES.especialidad(e.titulo.toLowerCase())}
+                texto="Consultar por este motivo"
+                variante="contorno"
+              />
+            </footer>
+          </article>
+        </div>
+      </section>
+    ))
+  }
+
+  <BandaCta
+    titulo="¿Tu caso no encaja claramente en ninguna categoría?"
+    texto="Pasa seguido. Escribinos contándonos qué te pasa y te orientamos sobre los próximos pasos."
+    mensaje={MENSAJES.general}
+    textoBoton="Contar mi caso"
+    secundario={{ texto: 'Ver los servicios en detalle', href: '/servicios/' }}
+  />
+</Base>
+
+<style>
+  /* --- Atajos de la portada --------------------------------------------- */
+
+  .atajos {
+    margin-top: var(--ckc-esp-7);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, var(--ckc-primario-oscuro) 12%, transparent);
+  }
+
+  .atajos ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 0;
+  }
+
+  .atajos a {
+    display: inline-block;
+    padding: 0.5rem 0.95rem;
+    background: color-mix(in srgb, var(--ckc-blanco) 76%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ckc-primario) 16%, transparent);
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+    text-decoration: none;
+    transition: background-color var(--ckc-trans), border-color var(--ckc-trans);
+  }
+
+  .atajos a:hover {
+    background: var(--ckc-blanco);
+    border-color: var(--ckc-primario);
+  }
+
+  .intro p {
+    font-size: var(--ckc-txt-md);
+  }
+
+  /* --- Area ------------------------------------------------------------- */
+
+  .area {
+    scroll-margin-top: calc(var(--ckc-alto-encabezado) + 2rem);
+  }
+
+  .area__encabezado {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ckc-esp-5);
+    margin-bottom: var(--ckc-esp-5);
+  }
+
+  .area__icono {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--ckc-radio);
+    background: var(--ckc-primario-claro);
+    color: var(--ckc-primario);
+  }
+
+  .area__icono :global(svg) {
+    width: 1.65rem;
+    height: 1.65rem;
+  }
+
+  .area__rotulo {
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .area__encabezado h2 {
+    font-size: var(--ckc-txt-2xl);
+    max-width: 24ch;
+  }
+
+  .area__descripcion {
+    max-width: 52rem;
+    font-size: var(--ckc-txt-md);
+    line-height: 1.68;
+    color: var(--ckc-tinta-media);
+    margin-bottom: var(--ckc-esp-7);
+  }
+
+  .area__contenido {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .area__contenido {
+      grid-template-columns: 20rem 1fr;
+    }
+  }
+
+  .area__columna h3,
+  .area__detalles dt {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  /* --- Señales ---------------------------------------------------------- */
+
+  .area__senales {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: var(--ckc-esp-3);
+    padding: var(--ckc-esp-5);
+    background: var(--ckc-arena);
+    border-radius: var(--ckc-radio-md);
+  }
+
+  .ckc-seccion:not(.ckc-seccion--blanca) .area__senales {
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+  }
+
+  .area__senales li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+    color: var(--ckc-tinta-media);
+  }
+
+  .area__senales li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1.4px solid var(--ckc-primario);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    rotate: 45deg;
+  }
+
+  /* --- Detalles --------------------------------------------------------- */
+
+  .area__detalles {
+    display: grid;
+    gap: var(--ckc-esp-5);
+    margin: 0;
+  }
+
+  @media (min-width: 46rem) {
+    .area__detalles {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--ckc-esp-6);
+    }
+  }
+
+  .area__detalles dd {
+    margin: 0;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.68;
+    color: var(--ckc-tinta-media);
+  }
+
+  /* --- Pie -------------------------------------------------------------- */
+
+  .area__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--ckc-esp-5);
+    margin-top: var(--ckc-esp-7);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid var(--ckc-linea);
+  }
+
+  .area__servicios-titulo {
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ckc-tinta-suave);
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .area__servicios ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+  }
+
+  .area__servicios a {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: var(--ckc-primario-claro);
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+    text-decoration: none;
+    transition: background-color var(--ckc-trans);
+  }
+
+  .area__servicios a:hover {
+    background: color-mix(in srgb, var(--ckc-primario) 22%, var(--ckc-primario-claro));
+  }
+</style>

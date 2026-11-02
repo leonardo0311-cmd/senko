@@ -1,0 +1,159 @@
+---
+/**
+ * Banda de llamado a la accion. Se usa al cierre de cada pagina para que la
+ * persona pueda consultar sin tener que volver al inicio.
+ *
+ * El texto es cercano y no alarmista: no promete resultados, no garantiza que
+ * el tratamiento elimine el dolor ni fija plazos de recuperacion.
+ */
+import BotonTurno from './BotonTurno.astro';
+import Boton from './Boton.astro';
+import { MENSAJES, CONTACTO } from '@/data/site';
+
+interface Props {
+  titulo?: string;
+  texto?: string;
+  /** Mensaje que se precarga en WhatsApp. */
+  mensaje?: string;
+  /** Texto del boton principal. Conviene que sea especifico de la seccion. */
+  textoBoton?: string;
+  /** Enlace secundario opcional. */
+  secundario?: { texto: string; href: string };
+  variante?: 'profundo' | 'arena';
+}
+
+const {
+  titulo = '¿Querés saber qué tratamiento puede ayudarte?',
+  texto = 'Contanos tu motivo de consulta y te orientamos sobre los próximos pasos. Si hace falta una evaluación, coordinamos un turno.',
+  mensaje = MENSAJES.general,
+  textoBoton = 'Consultar por WhatsApp',
+  secundario,
+  variante = 'profundo',
+} = Astro.props;
+
+const esProfundo = variante === 'profundo';
+---
+
+<section class:list={['ckc-banda', `ckc-banda--${variante}`]} data-animar>
+  <div class="ckc-arco-fondo" aria-hidden="true">
+    <svg width="700" height="420" viewBox="0 0 700 420" fill="none" style="left:-120px; bottom:-180px;">
+      <path d="M0 420C140 420 180 120 350 120s210 220 350 150" class="ckc-banda__trazo" />
+      <path d="M0 380C140 380 180 80 350 80s210 220 350 150" class="ckc-banda__trazo ckc-banda__trazo--fino" />
+    </svg>
+  </div>
+
+  <div class="ckc-contenedor ckc-banda__interior">
+    <div class="ckc-banda__texto">
+      <h2 class="ckc-banda__titulo">{titulo}</h2>
+      <p>{texto}</p>
+    </div>
+
+    <div class="ckc-banda__acciones">
+      <BotonTurno
+        mensaje={mensaje}
+        texto={textoBoton}
+        variante={esProfundo ? 'claro' : 'primario'}
+        tamanio="lg"
+      />
+      {
+        secundario ? (
+          <Boton
+            href={secundario.href}
+            variante={esProfundo ? 'texto' : 'contorno'}
+            class={esProfundo ? 'ckc-banda__secundario' : undefined}
+            flecha
+          >
+            {secundario.texto}
+          </Boton>
+        ) : (
+          <Boton
+            href={CONTACTO.instagram.url}
+            variante={esProfundo ? 'texto' : 'contorno'}
+            class={esProfundo ? 'ckc-banda__secundario' : undefined}
+          >
+            Escribinos por Instagram
+          </Boton>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ckc-banda {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--ckc-seccion-y-corta);
+  }
+
+  .ckc-banda--profundo {
+    background-color: var(--ckc-primario-oscuro);
+    color: color-mix(in srgb, #ffffff 80%, var(--ckc-primario));
+  }
+
+  .ckc-banda--arena {
+    background-color: var(--ckc-arena);
+    color: var(--ckc-tinta-media);
+  }
+
+  .ckc-banda__interior {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-6);
+  }
+
+  .ckc-banda__texto {
+    max-width: 38rem;
+  }
+
+  .ckc-banda__titulo {
+    font-size: var(--ckc-txt-xl);
+    margin-bottom: var(--ckc-esp-3);
+  }
+
+  .ckc-banda--profundo .ckc-banda__titulo {
+    color: var(--ckc-blanco);
+  }
+
+  .ckc-banda__texto p {
+    font-size: var(--ckc-txt-base);
+    line-height: 1.68;
+  }
+
+  .ckc-banda__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ckc-esp-4);
+    flex: none;
+  }
+
+  /* :global porque la clase se aplica a la raíz de <Boton>, otro componente. */
+  .ckc-banda :global(.ckc-banda__secundario) {
+    color: color-mix(in srgb, #ffffff 86%, transparent);
+  }
+
+  .ckc-banda__trazo {
+    stroke: color-mix(in srgb, #ffffff 13%, transparent);
+    stroke-width: 1.2;
+  }
+
+  .ckc-banda--arena .ckc-banda__trazo {
+    stroke: color-mix(in srgb, var(--ckc-primario-oscuro) 13%, transparent);
+  }
+
+  .ckc-banda__trazo--fino {
+    stroke-dasharray: 4 8;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 60rem) {
+    .ckc-banda__acciones {
+      width: 100%;
+    }
+  }
+</style>

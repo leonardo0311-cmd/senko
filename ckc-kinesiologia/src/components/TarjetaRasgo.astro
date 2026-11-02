@@ -1,0 +1,94 @@
+---
+/**
+ * Tarjeta compacta con icono, titulo y texto.
+ * Se usa para los diferenciales del consultorio y para los valores.
+ */
+import Icono from './Icono.astro';
+import type { NombreIcono } from './Icono.astro';
+
+interface Props {
+  icono: NombreIcono;
+  titulo: string;
+  texto: string;
+  retardo?: number;
+  variante?: 'blanca' | 'transparente';
+}
+
+const { icono, titulo, texto, retardo = 0, variante = 'blanca' } = Astro.props;
+---
+
+<article
+  class:list={['ckc-rasgo', `ckc-rasgo--${variante}`]}
+  data-animar
+  style={`--retardo:${retardo}ms`}
+>
+  <span class="ckc-rasgo__icono" aria-hidden="true">
+    <Icono nombre={icono} />
+  </span>
+  <h3 class="ckc-rasgo__titulo">{titulo}</h3>
+  <p class="ckc-rasgo__texto">{texto}</p>
+</article>
+
+<style>
+  .ckc-rasgo {
+    padding: var(--ckc-esp-5);
+    border-radius: var(--ckc-radio-md);
+    transition: border-color var(--ckc-trans), box-shadow var(--ckc-trans);
+  }
+
+  .ckc-rasgo--blanca {
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+  }
+
+  .ckc-rasgo--blanca:hover {
+    border-color: color-mix(in srgb, var(--ckc-primario) 26%, transparent);
+    box-shadow: var(--ckc-sombra);
+  }
+
+  .ckc-rasgo--transparente {
+    padding-inline: 0;
+    border-top: 1px solid var(--ckc-linea);
+    border-radius: 0;
+  }
+
+  .ckc-rasgo__icono {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-bottom: var(--ckc-esp-4);
+    border-radius: var(--ckc-radio);
+    background: var(--ckc-primario-claro);
+    color: var(--ckc-primario);
+  }
+
+  .ckc-rasgo__icono :global(svg) {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .ckc-rasgo--transparente .ckc-rasgo__icono {
+    background: transparent;
+    width: auto;
+    height: auto;
+    place-items: start;
+    margin-bottom: var(--ckc-esp-3);
+    color: var(--ckc-acento);
+  }
+
+  .ckc-rasgo__titulo {
+    font-size: var(--ckc-txt-base);
+    font-family: var(--ckc-fuente-texto);
+    font-weight: 650;
+    letter-spacing: -0.005em;
+    color: var(--ckc-primario-oscuro);
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .ckc-rasgo__texto {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.65;
+    color: var(--ckc-tinta-media);
+  }
+</style>

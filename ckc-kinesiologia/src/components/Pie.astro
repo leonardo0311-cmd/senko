@@ -1,0 +1,396 @@
+---
+import Logo from './Logo.astro';
+import BotonTurno from './BotonTurno.astro';
+import { NAV_PIE } from '@/data/navegacion';
+import {
+  BRAND,
+  CONTACTO,
+  UBICACION,
+  HORARIOS,
+  LEGAL,
+  MENSAJES,
+  direccionEnLinea,
+  hayHorarios,
+  hayTelefono,
+  hayEmail,
+} from '@/data/site';
+
+const anio = new Date().getFullYear();
+const anios = anio > LEGAL.anioDesde ? `${LEGAL.anioDesde}–${anio}` : `${anio}`;
+---
+
+<footer class="ckc-pie">
+  <div class="ckc-contenedor">
+    {/* --- Llamado final --- */}
+    <div class="ckc-pie__invitacion">
+      <div>
+        <h2 class="ckc-pie__titulo">¿Tenés una consulta?</h2>
+        <p class="ckc-pie__texto">
+          Contanos qué te pasa y te orientamos sobre los próximos pasos. Estamos en
+          Canning, Provincia de Buenos Aires.
+        </p>
+      </div>
+      <BotonTurno mensaje={MENSAJES.turno} texto="Solicitar un turno" variante="claro" tamanio="lg" />
+    </div>
+
+    <div class="ckc-pie__cuerpo">
+      {/* --- Columna de marca --- */}
+      <div class="ckc-pie__marca">
+        <Logo variante="claro" />
+        <p class="ckc-pie__descripcion">
+          Consultorio kinésico en Canning. Evaluamos cada caso para definir, junto a la
+          persona, un plan de tratamiento adecuado a su motivo de consulta.
+        </p>
+
+        <ul class="ckc-pie__redes">
+          <li>
+            <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path
+                  d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.96.24 2.65.5.71.28 1.31.65 1.91 1.25.6.6.97 1.2 1.25 1.91.26.69.45 1.48.5 2.65.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.96-.5 2.65-.28.71-.65 1.31-1.25 1.91-.6.6-1.2.97-1.91 1.25-.69.26-1.48.45-2.65.5-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.96-.24-2.65-.5-.71-.28-1.31-.65-1.91-1.25-.6-.6-.97-1.2-1.25-1.91-.26-.69-.45-1.48-.5-2.65C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.96.5-2.65.28-.71.65-1.31 1.25-1.91.6-.6 1.2-.97 1.91-1.25.69-.26 1.48-.45 2.65-.5C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.15 0-3.5.01-4.73.07-.95.04-1.47.2-1.81.34-.46.18-.79.39-1.13.74-.35.34-.56.67-.74 1.13-.14.34-.3.86-.34 1.81-.06 1.23-.07 1.58-.07 4.73s.01 3.5.07 4.73c.04.95.2 1.47.34 1.81.18.46.39.79.74 1.13.34.35.67.56 1.13.74.34.14.86.3 1.81.34 1.23.06 1.58.07 4.73.07s3.5-.01 4.73-.07c.95-.04 1.47-.2 1.81-.34.46-.18.79-.39 1.13-.74.35-.34.56-.67.74-1.13.14-.34.3-.86.34-1.81.06-1.23.07-1.58.07-4.73s-.01-3.5-.07-4.73c-.04-.95-.2-1.47-.34-1.81a3.05 3.05 0 0 0-.74-1.13c-.34-.35-.67-.56-1.13-.74-.34-.14-.86-.3-1.81-.34-1.23-.06-1.58-.07-4.73-.07Zm0 3.06a4.98 4.98 0 1 1 0 9.96 4.98 4.98 0 0 1 0-9.96Zm0 8.21a3.23 3.23 0 1 0 0-6.46 3.23 3.23 0 0 0 0 6.46Zm6.34-8.41a1.16 1.16 0 1 1-2.33 0 1.16 1.16 0 0 1 2.33 0Z"
+                ></path>
+              </svg>
+              <span>
+                Instagram
+                <small>{CONTACTO.instagram.usuario}</small>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={CONTACTO.facebook.url} target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path
+                  d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.45 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"
+                ></path>
+              </svg>
+              <span>
+                Facebook
+                <small>Consultorio Kinésico Canning</small>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* --- Columnas de navegacion --- */}
+      {
+        NAV_PIE.map((columna) => (
+          <nav class="ckc-pie__columna" aria-label={columna.titulo}>
+            <h3 class="ckc-pie__columna-titulo">{columna.titulo}</h3>
+            <ul>
+              {columna.enlaces.map((enlace) => (
+                <li>
+                  <a href={enlace.href}>{enlace.texto}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+
+      {/* --- Columna de contacto --- */}
+      <div class="ckc-pie__columna ckc-pie__contacto">
+        <h3 class="ckc-pie__columna-titulo">Dónde estamos</h3>
+        <ul class="ckc-pie__datos">
+          <li>
+            <span class="ckc-pie__etiqueta">Ubicación</span>
+            {
+              direccionEnLinea ? (
+                <span>{direccionEnLinea}</span>
+              ) : (
+                <span>
+                  {UBICACION.resumen}
+                  <small class="ckc-pie__nota">
+                    Dirección exacta a confirmar: consultanos y te la pasamos.
+                  </small>
+                </span>
+              )
+            }
+          </li>
+
+          <li>
+            <span class="ckc-pie__etiqueta">Horarios</span>
+            {
+              hayHorarios && HORARIOS.lista ? (
+                <span>
+                  {HORARIOS.lista.map((h) => (
+                    <span class="ckc-pie__horario">
+                      {h.dias}: {h.franjas.join(' y ')}
+                    </span>
+                  ))}
+                </span>
+              ) : (
+                <span>
+                  <small class="ckc-pie__nota">
+                    Horarios de atención a confirmar. Escribinos y te contamos la
+                    disponibilidad.
+                  </small>
+                </span>
+              )
+            }
+          </li>
+
+          {
+            hayTelefono && CONTACTO.telefono && (
+              <li>
+                <span class="ckc-pie__etiqueta">Teléfono</span>
+                <a href={`tel:+${CONTACTO.telefono.link}`}>{CONTACTO.telefono.display}</a>
+              </li>
+            )
+          }
+
+          {
+            hayEmail && CONTACTO.email && (
+              <li>
+                <span class="ckc-pie__etiqueta">Correo</span>
+                <a href={`mailto:${CONTACTO.email}`}>{CONTACTO.email}</a>
+              </li>
+            )
+          }
+
+          <li>
+            <span class="ckc-pie__etiqueta">Turnos</span>
+            <a href="/contacto/">Ver todos los canales de contacto</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {/* --- Linea legal --- */}
+    <div class="ckc-pie__legal">
+      <p>
+        © {anios} {BRAND.fullName}. Todos los derechos reservados.
+      </p>
+      <ul>
+        <li><a href="/politica-de-privacidad/">Política de privacidad</a></li>
+        <li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+        <li><a href="/contacto/">Contacto</a></li>
+      </ul>
+    </div>
+
+    <p class="ckc-pie__descargo">
+      La información de este sitio tiene carácter general y orientativo. No reemplaza la
+      consulta, el diagnóstico ni la indicación de un profesional de la salud, que siempre
+      se realizan a partir de la evaluación individual de cada persona.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .ckc-pie {
+    background-color: var(--ckc-primario-oscuro);
+    color: color-mix(in srgb, #ffffff 80%, var(--ckc-primario));
+    padding-block: var(--ckc-seccion-y-corta) var(--ckc-esp-6);
+    font-size: var(--ckc-txt-sm);
+  }
+
+  /* --- Invitacion final ------------------------------------------------- */
+
+  .ckc-pie__invitacion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-5);
+    padding-bottom: var(--ckc-esp-8);
+    margin-bottom: var(--ckc-esp-8);
+    border-bottom: 1px solid color-mix(in srgb, #ffffff 14%, transparent);
+  }
+
+  .ckc-pie__titulo {
+    color: var(--ckc-blanco);
+    font-size: var(--ckc-txt-xl);
+    margin: 0;
+  }
+
+  .ckc-pie__texto {
+    margin-top: 0.4rem;
+    max-width: 34rem;
+    color: color-mix(in srgb, #ffffff 72%, var(--ckc-primario));
+  }
+
+  /* --- Cuerpo ----------------------------------------------------------- */
+
+  .ckc-pie__cuerpo {
+    display: grid;
+    gap: var(--ckc-esp-7) var(--ckc-esp-6);
+    grid-template-columns: 1fr;
+  }
+
+  .ckc-pie__descripcion {
+    margin-top: var(--ckc-esp-4);
+    max-width: 24rem;
+    color: color-mix(in srgb, #ffffff 68%, var(--ckc-primario));
+    line-height: 1.6;
+  }
+
+  /* --- Redes ------------------------------------------------------------ */
+
+  .ckc-pie__redes {
+    list-style: none;
+    margin: var(--ckc-esp-5) 0 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .ckc-pie__redes a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: var(--ckc-tactil-min);
+    padding: 0.4rem 0;
+    color: var(--ckc-blanco);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .ckc-pie__redes a:hover {
+    color: color-mix(in srgb, var(--ckc-acento) 60%, #ffffff);
+  }
+
+  .ckc-pie__redes svg {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    opacity: 0.85;
+  }
+
+  .ckc-pie__redes small {
+    display: block;
+    font-weight: 400;
+    font-size: var(--ckc-txt-xs);
+    color: color-mix(in srgb, #ffffff 58%, var(--ckc-primario));
+  }
+
+  /* --- Columnas --------------------------------------------------------- */
+
+  .ckc-pie__columna-titulo {
+    color: var(--ckc-blanco);
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--ckc-esp-4);
+    opacity: 0.75;
+  }
+
+  .ckc-pie__columna ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .ckc-pie__columna a {
+    display: inline-block;
+    padding: 0.42rem 0;
+    color: color-mix(in srgb, #ffffff 78%, var(--ckc-primario));
+    text-decoration: none;
+    line-height: 1.5;
+  }
+
+  .ckc-pie__columna a:hover {
+    color: var(--ckc-blanco);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* --- Datos de contacto ------------------------------------------------ */
+
+  .ckc-pie__datos {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: var(--ckc-esp-4);
+  }
+
+  .ckc-pie__datos > li {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .ckc-pie__etiqueta {
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--ckc-acento) 55%, #ffffff);
+  }
+
+  .ckc-pie__horario {
+    display: block;
+  }
+
+  .ckc-pie__nota {
+    display: block;
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.5;
+    color: color-mix(in srgb, #ffffff 58%, var(--ckc-primario));
+    margin-top: 0.15rem;
+  }
+
+  /* --- Legal ------------------------------------------------------------ */
+
+  .ckc-pie__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-3) var(--ckc-esp-5);
+    margin-top: var(--ckc-esp-9);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, #ffffff 14%, transparent);
+    font-size: var(--ckc-txt-xs);
+    color: color-mix(in srgb, #ffffff 62%, var(--ckc-primario));
+  }
+
+  .ckc-pie__legal ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ckc-esp-4);
+    list-style: none;
+    margin: 0;
+  }
+
+  .ckc-pie__legal a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ckc-pie__legal a:hover {
+    color: var(--ckc-blanco);
+    text-decoration: underline;
+  }
+
+  .ckc-pie__descargo {
+    margin-top: var(--ckc-esp-5);
+    max-width: 58rem;
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.6;
+    color: color-mix(in srgb, #ffffff 48%, var(--ckc-primario));
+  }
+
+  /* --- Puntos de corte -------------------------------------------------- */
+
+  @media (min-width: 40rem) {
+    .ckc-pie__cuerpo {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ckc-pie__marca {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .ckc-pie__cuerpo {
+      grid-template-columns: 1.4fr repeat(3, 1fr) 1.2fr;
+      gap: var(--ckc-esp-6);
+    }
+
+    .ckc-pie__marca {
+      grid-column: auto;
+    }
+  }
+</style>

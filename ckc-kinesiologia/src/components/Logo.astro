@@ -1,0 +1,148 @@
+---
+/**
+ * Logotipo de CKC.
+ *
+ * IMPORTANTE: CKC ya tiene un logotipo propio, que usa en sus redes sociales.
+ * No se creo uno nuevo ni se modifico el existente. Como no fue posible
+ * acceder al archivo original, este componente muestra un logotipo
+ * TIPOGRAFICO PROVISIONAL, armado unicamente con el nombre real del
+ * consultorio y la tipografia del sitio.
+ *
+ * Para usar el logotipo real: colocar el archivo en /public/marca/ y
+ * completar `BRAND.logoSrc` en src/data/site.ts. Este componente lo detecta
+ * solo y reemplaza el provisional en todo el sitio.
+ */
+import { BRAND } from '@/data/site';
+
+interface Props {
+  /** `claro` para fondos oscuros. */
+  variante?: 'oscuro' | 'claro';
+  /** Muestra la bajada "Consultorio Kinésico Canning" al lado del nombre. */
+  conBajada?: boolean;
+  class?: string;
+}
+
+const { variante = 'oscuro', conBajada = true, class: clase } = Astro.props;
+---
+
+{
+  BRAND.logoSrc ? (
+    <img
+      src={BRAND.logoSrc}
+      alt={`${BRAND.name} — ${BRAND.tagline}`}
+      height={BRAND.logoHeight}
+      class:list={['ckc-logo-img', clase]}
+      style={`height:${BRAND.logoHeight}px`}
+      loading="eager"
+      decoding="async"
+    />
+  ) : (
+    <span
+      class:list={['ckc-logo', `ckc-logo--${variante}`, clase]}
+      data-logotipo-provisional="true"
+    >
+      <span class="ckc-logo__marca" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          {/* Monograma: tres arcos concentricos, el motivo de movimiento
+              del sitio. No reproduce ni imita el logotipo real de CKC. */}
+          <circle cx="20" cy="20" r="19" class="ckc-logo__aro" />
+          <path d="M20 7.5a12.5 12.5 0 0 0 0 25" class="ckc-logo__arco-1" />
+          <path d="M26.5 12.6a10.5 10.5 0 0 1 0 14.8" class="ckc-logo__arco-2" />
+        </svg>
+      </span>
+      <span class="ckc-logo__texto">
+        <span class="ckc-logo__nombre">
+          {BRAND.shortName}
+          <span class="ckc-logo__nombre-fino"> Kinesiología</span>
+        </span>
+        {conBajada && <span class="ckc-logo__bajada">{BRAND.tagline}</span>}
+      </span>
+    </span>
+  )
+}
+
+<style>
+  .ckc-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    line-height: 1.1;
+  }
+
+  .ckc-logo__marca {
+    flex: none;
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .ckc-logo__marca svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ckc-logo__aro {
+    stroke: color-mix(in srgb, currentColor 22%, transparent);
+    stroke-width: 1.4;
+  }
+
+  .ckc-logo__arco-1 {
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+  }
+
+  .ckc-logo__arco-2 {
+    stroke: var(--ckc-acento);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+  }
+
+  .ckc-logo__texto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.14rem;
+  }
+
+  .ckc-logo__nombre {
+    font-family: var(--ckc-fuente-titulo);
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+
+  .ckc-logo__nombre-fino {
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+
+  .ckc-logo__bajada {
+    font-family: var(--ckc-fuente-texto);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
+  .ckc-logo--oscuro {
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .ckc-logo--claro {
+    color: var(--ckc-blanco);
+  }
+
+  @media (max-width: 26rem) {
+    .ckc-logo__bajada {
+      display: none;
+    }
+
+    .ckc-logo__nombre {
+      font-size: 1.18rem;
+    }
+  }
+</style>

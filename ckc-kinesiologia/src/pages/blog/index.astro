@@ -1,0 +1,225 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import TarjetaNota from '@/components/TarjetaNota.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import { getCollection } from 'astro:content';
+import { MENSAJES, CONTACTO } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+
+const notas = (await getCollection('blog')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime(),
+);
+
+const destacada = notas[0];
+const resto = notas.slice(1);
+
+/** Categorias presentes, para mostrar de qué se habla en el blog. */
+const categorias = [...new Set(notas.map((n) => n.data.categoria))];
+
+/**
+ * Temas previstos para las próximas notas. Se muestran como texto, no como
+ * enlaces, porque todavía no existen: no queremos enlaces que no lleven a
+ * ninguna parte.
+ */
+const PROXIMOS_TEMAS = [
+  'Hábitos saludables para el cuidado del cuerpo en el día a día',
+  'La función de la kinesiología dentro de un proceso de rehabilitación',
+  'Movimiento y actividad física: por dónde empezar',
+  'Prevención de lesiones: qué se puede trabajar y qué no',
+  'Recomendaciones generales para cuidar la postura en el trabajo',
+  'Por qué los tiempos de recuperación son individuales',
+  'Equilibrio y prevención de caídas en adultos mayores',
+];
+---
+
+<Base
+  titulo="Blog de salud, movimiento y prevención | CKC Kinesiología"
+  descripcion="Notas sobre movimiento, prevención y rehabilitación escritas por CKC Kinesiología, Canning. Información general para entender mejor cómo funciona el cuerpo."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blog' },
+      ],
+    },
+    {
+      '@type': 'Blog',
+      name: 'Blog de CKC Kinesiología',
+      description:
+        'Notas sobre salud, movimiento y prevención del consultorio CKC en Canning.',
+      url: `${SITE}/blog/`,
+      publisher: { '@id': `${SITE}/#organizacion` },
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Blog"
+    titulo="Salud, movimiento y prevención"
+    bajada="Notas para entender mejor cómo funciona el cuerpo, qué esperar de un tratamiento kinésico y qué se puede hacer para cuidarse. Información general, escrita con la mayor claridad posible."
+    ruta={[{ texto: 'Blog' }]}
+    variante="arena"
+  >
+    <ul class="categorias" aria-label="Temas del blog">
+      {categorias.map((c) => <li>{c}</li>)}
+    </ul>
+  </PortadaPagina>
+
+  {/* ===================== ADVERTENCIA ===================== */}
+  <section class="ckc-seccion ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <aside class="descargo" data-animar>
+        <p>
+          <strong>Antes de leer:</strong> el contenido de estas notas es información
+          general con fines educativos. No constituye un diagnóstico ni una indicación
+          terapéutica, y no reemplaza la evaluación individual de un profesional de la
+          salud. Si tenés un síntoma que te preocupa, lo mejor es una consulta.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  {/* ===================== NOTAS ===================== */}
+  <section class="ckc-seccion ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <h2 class="ckc-visualmente-oculto">Notas publicadas</h2>
+
+      {destacada && (
+        <div class="destacada">
+          <TarjetaNota nota={destacada} destacada />
+        </div>
+      )}
+
+      {
+        resto.length > 0 && (
+          <div class="ckc-grilla ckc-grilla--3 notas">
+            {resto.map((nota, i) => <TarjetaNota nota={nota} retardo={i * 70} />)}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {/* ===================== PROXIMOS TEMAS ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <div class="proximos" data-animar>
+        <div>
+          <p class="ckc-rotulo">En preparación</p>
+          <h2>Los próximos temas</h2>
+          <p class="ckc-bajada">
+            Este es el plan de contenidos del blog. Son temas que nos consultan seguido y
+            que merecen una explicación ordenada. Si te interesa alguno en particular,
+            avisanos por <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">Instagram</a>
+            {' '}y lo priorizamos.
+          </p>
+        </div>
+
+        <ul class="proximos__lista">
+          {PROXIMOS_TEMAS.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <BandaCta
+    titulo="¿Tenés una consulta sobre algo que leíste?"
+    texto="La información general ayuda a entender, pero cada caso es distinto. Si querés saber cómo se aplica a tu situación, escribinos."
+    mensaje={MENSAJES.general}
+    textoBoton="Hacer una consulta"
+    secundario={{ texto: 'Ver las áreas de atención', href: '/servicios/' }}
+  />
+</Base>
+
+<style>
+  .categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: var(--ckc-esp-7) 0 0;
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, var(--ckc-primario-oscuro) 12%, transparent);
+  }
+
+  .categorias li {
+    padding: 0.35rem 0.85rem;
+    background: color-mix(in srgb, var(--ckc-blanco) 76%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ckc-primario) 16%, transparent);
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  /* --- Descargo --------------------------------------------------------- */
+
+  .descargo {
+    padding: var(--ckc-esp-5);
+    background: var(--ckc-primario-claro);
+    border-radius: var(--ckc-radio-md);
+    max-width: 58rem;
+  }
+
+  .descargo p {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--ckc-primario-oscuro) 90%, #000);
+  }
+
+  /* --- Notas ------------------------------------------------------------ */
+
+  .destacada {
+    margin-bottom: var(--ckc-esp-6);
+  }
+
+  /* --- Proximos temas --------------------------------------------------- */
+
+  .proximos {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .proximos {
+      grid-template-columns: 1fr 24rem;
+    }
+  }
+
+  .proximos h2 {
+    font-size: var(--ckc-txt-xl);
+  }
+
+  .proximos__lista {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: var(--ckc-esp-3);
+    counter-reset: tema;
+  }
+
+  .proximos__lista li {
+    counter-increment: tema;
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.8rem 1rem;
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio);
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.55;
+    color: var(--ckc-tinta-media);
+  }
+
+  .proximos__lista li::before {
+    content: counter(tema, decimal-leading-zero);
+    flex: none;
+    font-family: var(--ckc-fuente-titulo);
+    font-size: var(--ckc-txt-sm);
+    color: var(--ckc-acento);
+  }
+</style>

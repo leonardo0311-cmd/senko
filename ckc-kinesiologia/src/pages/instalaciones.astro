@@ -1,0 +1,153 @@
+---
+import Base from '@/layouts/Base.astro';
+import PortadaPagina from '@/components/PortadaPagina.astro';
+import Galeria from '@/components/Galeria.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import AvisoPendiente from '@/components/AvisoPendiente.astro';
+import Boton from '@/components/Boton.astro';
+import { GALERIA, hayFotosPropias } from '@/data/instalaciones';
+import { MENSAJES, UBICACION, hayDireccion, direccionEnLinea } from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
+---
+
+<Base
+  titulo="Instalaciones | CKC Kinesiología, Canning"
+  descripcion="Conocé el espacio de CKC Kinesiología en Canning: recepción, consultorios y áreas de tratamiento. Mirá dónde vas a hacer tu tratamiento antes de venir."
+  esquemas={[
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Instalaciones' },
+      ],
+    },
+  ]}
+>
+  <PortadaPagina
+    rotulo="Instalaciones"
+    titulo="El espacio donde atendemos"
+    bajada="Conocer el lugar antes de ir hace que la primera consulta sea más fácil, sobre todo si es tu primer tratamiento kinésico o si venís acompañando a alguien."
+    ruta={[{ texto: 'Instalaciones' }]}
+    variante="arena"
+  />
+
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor">
+      {
+        !hayFotosPropias && (
+          <AvisoPendiente
+            titulo="Fotografías del consultorio pendientes"
+            campo="src/data/instalaciones.ts → GALERIA"
+            class="galeria__aviso"
+          >
+            <p>
+              La galería está construida y funcionando, pero todavía sin las fotos reales.
+              No usamos imágenes de otros centros ni fotografías genéricas que puedan
+              hacerse pasar por este consultorio, y no describimos espacios ni
+              equipamiento que no se haya podido verificar.
+            </p>
+            <p>
+              Cada casillero indica qué fotografía corresponde en ese lugar. Al cargar las
+              imágenes propias, se optimizan solas, se habilita la ampliación en pantalla
+              completa y la galería queda terminada.
+            </p>
+          </AvisoPendiente>
+        )
+      }
+
+      <div class="galeria__intro ckc-prosa" data-animar>
+        <p>
+          El consultorio está en {UBICACION.resumen}. Es un espacio pensado para la
+          atención individual, con lugar para la evaluación, para el trabajo manual y para
+          el ejercicio terapéutico, que es parte de la mayoría de los tratamientos.
+        </p>
+        {
+          hayFotosPropias && (
+            <p>
+              Tocá cualquier imagen para verla en pantalla completa. Podés moverte entre
+              las fotos con las flechas del teclado.
+            </p>
+          )
+        }
+      </div>
+
+      <Galeria items={GALERIA} />
+    </div>
+  </section>
+
+  {/* ===================== COMO LLEGAR ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena ckc-seccion--corta">
+    <div class="ckc-contenedor">
+      <div class="llegar" data-animar>
+        <div>
+          <p class="ckc-rotulo">Cómo llegar</p>
+          <h2>Estamos en Canning</h2>
+          {
+            hayDireccion && direccionEnLinea ? (
+              <p class="llegar__direccion">{direccionEnLinea}</p>
+            ) : (
+              <p class="ckc-bajada">
+                La dirección exacta está pendiente de confirmación en este sitio.
+                Preferimos no publicar un dato sin verificar: escribinos y te pasamos la
+                dirección completa junto con las indicaciones para llegar.
+              </p>
+            )
+          }
+        </div>
+
+        <div class="llegar__acciones">
+          <Boton href="/contacto/" variante="primario" tamanio="lg" flecha>
+            Ver contacto y ubicación
+          </Boton>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <BandaCta
+    titulo="¿Querés conocer el consultorio?"
+    texto="Coordinamos un turno y te esperamos. Si tenés alguna necesidad particular de accesibilidad, contanos y lo organizamos."
+    mensaje={MENSAJES.turno}
+    textoBoton="Solicitar un turno"
+    secundario={{ texto: 'Conocer al equipo', href: '/profesionales/' }}
+  />
+</Base>
+
+<style>
+  /* :global porque la clase va a la raíz de <AvisoPendiente>. */
+  :global(.galeria__aviso) {
+    margin-bottom: var(--ckc-esp-7);
+  }
+
+  .galeria__intro {
+    margin-bottom: var(--ckc-esp-7);
+  }
+
+  .galeria__intro p {
+    font-size: var(--ckc-txt-md);
+  }
+
+  /* --- Como llegar ------------------------------------------------------ */
+
+  .llegar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-6);
+  }
+
+  .llegar > div:first-child {
+    max-width: 44rem;
+  }
+
+  .llegar h2 {
+    font-size: var(--ckc-txt-xl);
+  }
+
+  .llegar__direccion {
+    margin-top: var(--ckc-esp-4);
+    font-size: var(--ckc-txt-md);
+    color: var(--ckc-tinta-media);
+  }
+</style>

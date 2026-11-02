@@ -1,0 +1,523 @@
+---
+import Base from '@/layouts/Base.astro';
+import Boton from '@/components/Boton.astro';
+import BotonTurno from '@/components/BotonTurno.astro';
+import TituloSeccion from '@/components/TituloSeccion.astro';
+import TarjetaServicio from '@/components/TarjetaServicio.astro';
+import TarjetaRasgo from '@/components/TarjetaRasgo.astro';
+import FichaProfesional from '@/components/FichaProfesional.astro';
+import BandaCta from '@/components/BandaCta.astro';
+import Visual from '@/components/Visual.astro';
+import AvisoPendiente from '@/components/AvisoPendiente.astro';
+import { SERVICIOS } from '@/data/servicios';
+import { PROFESIONALES, hayEquipoCargado } from '@/data/equipo';
+import { MENSAJES, CONTACTO, UBICACION } from '@/data/site';
+import { getCollection } from 'astro:content';
+import TarjetaNota from '@/components/TarjetaNota.astro';
+
+const notas = (await getCollection('blog'))
+  .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime())
+  .slice(0, 3);
+
+const DIFERENCIALES = [
+  {
+    icono: 'evaluacion' as const,
+    titulo: 'Evaluación antes del tratamiento',
+    texto:
+      'Cada proceso empieza por entender el caso: el motivo de consulta, los antecedentes y el objetivo de la persona. Recién ahí se define el abordaje.',
+  },
+  {
+    icono: 'dialogo' as const,
+    titulo: 'Explicaciones claras',
+    texto:
+      'Te contamos qué encontramos, qué vamos a hacer y por qué, sin tecnicismos innecesarios. Entender el proceso ayuda a sostenerlo.',
+  },
+  {
+    icono: 'objetivo' as const,
+    titulo: 'Objetivos según tu caso',
+    texto:
+      'Los objetivos se definen a partir de lo que querés poder volver a hacer, no de un plan igual para todos.',
+  },
+  {
+    icono: 'acompanamiento' as const,
+    titulo: 'Acompañamiento del proceso',
+    texto:
+      'Revisamos la evolución y ajustamos el plan cuando hace falta. Un tratamiento que no se revisa deja de adaptarse a la persona.',
+  },
+  {
+    icono: 'casa' as const,
+    titulo: 'Pautas para seguir en casa',
+    texto:
+      'Según el caso, el proceso incluye indicaciones para continuar trabajando entre sesiones, pensadas para tu rutina real.',
+  },
+  {
+    icono: 'ubicacion' as const,
+    titulo: 'En Canning',
+    texto:
+      'El consultorio está en Canning, Provincia de Buenos Aires, con atención kinésica para la zona.',
+  },
+];
+---
+
+<Base
+  titulo="CKC Kinesiología | Consultorio kinésico en Canning"
+  descripcion="Consultorio kinésico en Canning: kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP. Evaluamos tu caso y definimos un plan. Consultanos."
+>
+  {/* ===================== HERO ===================== */}
+  <section class="hero">
+    <div class="hero__fondo" aria-hidden="true">
+      <svg viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" fill="none">
+        <defs>
+          <linearGradient id="hero-g" x1="0" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stop-color="#eef4f3" />
+            <stop offset="55%" stop-color="#e2edeb" />
+            <stop offset="100%" stop-color="#f0eae1" />
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="760" fill="url(#hero-g)" />
+        {/* Arcos de movimiento: el motivo grafico del sitio. */}
+        <g class="hero__trazos">
+          <circle cx="980" cy="330" r="300" />
+          <circle cx="980" cy="330" r="226" />
+          <circle cx="980" cy="330" r="152" class="hero__trazo-acento" />
+          <circle cx="980" cy="330" r="78" />
+          <path d="M-40 700C240 700 320 300 560 300s240 300 700 180" />
+          <path d="M-40 744C240 744 320 344 560 344s240 300 700 180" class="hero__trazo-punteado" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="ckc-contenedor hero__interior">
+      <div class="hero__texto">
+        <p class="ckc-rotulo">Consultorio Kinésico Canning</p>
+
+        <h1 class="hero__titulo">
+          Recuperá tu movimiento.<br />
+          <em>Volvé a sentirte bien.</em>
+        </h1>
+
+        <p class="hero__bajada">
+          Somos un consultorio kinésico en Canning. Evaluamos cada caso para entender qué
+          está pasando y, a partir de ahí, definir junto a la persona un plan de
+          tratamiento adecuado a su motivo de consulta y a sus objetivos.
+        </p>
+
+        <div class="hero__acciones">
+          <BotonTurno mensaje={MENSAJES.turno} texto="Solicitar un turno" tamanio="lg" />
+          <Boton href="#servicios" variante="contorno" tamanio="lg" flecha>
+            Conocé nuestros servicios
+          </Boton>
+        </div>
+
+        <ul class="hero__areas">
+          {
+            SERVICIOS.map((s) => (
+              <li>
+                <a href={`/servicios/${s.slug}/`}>{s.nombre}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="hero__visual">
+        <Visual
+          proporcion="4/5"
+          motivo="arcos"
+          tono="profundo"
+          rotulo="Foto a incorporar: imagen real del consultorio o de una sesión de tratamiento"
+          prioridad
+          ancho={620}
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== PRESENTACION ===================== */}
+  <section class="ckc-seccion ckc-seccion--blanca">
+    <div class="ckc-contenedor presentacion">
+      <div class="presentacion__texto" data-animar>
+        <p class="ckc-rotulo">El consultorio</p>
+        <h2>Kinesiología que empieza por entender tu caso</h2>
+
+        <div class="ckc-prosa">
+          <p>
+            CKC es un consultorio kinésico en Canning. Atendemos a personas que llegan por
+            motivos muy distintos: una lesión deportiva, una molestia que se repite, la
+            recuperación posterior a una cirugía, una consulta de suelo pélvico o la
+            preocupación por el equilibrio y el riesgo de caídas.
+          </p>
+          <p>
+            Lo que tienen en común esas consultas es el punto de partida. Antes de proponer
+            un tratamiento hace falta entender qué está pasando: desde cuándo, en qué
+            situaciones, qué se intentó antes y —sobre todo— qué quiere poder volver a
+            hacer esa persona. Esa última respuesta es la que mejor orienta el trabajo,
+            porque define contra qué se mide el progreso.
+          </p>
+          <p>
+            A partir de la evaluación se definen objetivos adecuados a cada situación. No
+            trabajamos con planes iguales para todos ni prometemos resultados: trabajamos
+            con criterios profesionales, revisamos la evolución y ajustamos el plan cuando
+            hace falta. Y si la kinesiología no es el abordaje indicado para tu caso, o si
+            conviene una consulta médica previa, te lo decimos.
+          </p>
+        </div>
+
+        <div class="presentacion__enlaces">
+          <Boton href="/nosotros/" variante="texto" flecha>Conocé cómo trabajamos</Boton>
+        </div>
+      </div>
+
+      <aside class="presentacion__datos" data-animar style="--retardo:120ms">
+        <h3>En resumen</h3>
+        <dl>
+          <div>
+            <dt>Dónde estamos</dt>
+            <dd>{UBICACION.resumen}</dd>
+          </div>
+          <div>
+            <dt>Áreas de atención</dt>
+            <dd>{SERVICIOS.length} áreas, con página propia cada una</dd>
+          </div>
+          <div>
+            <dt>Cómo empezar</dt>
+            <dd>Una consulta por WhatsApp o Instagram y coordinamos la evaluación</dd>
+          </div>
+          <div>
+            <dt>Seguinos</dt>
+            <dd>
+              <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">
+                {CONTACTO.instagram.usuario}
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  {/* ===================== SERVICIOS ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena" id="servicios">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Servicios"
+        titulo="Nuestras áreas de atención"
+        bajada="Estas son las áreas con las que trabaja el consultorio. En cada página vas a encontrar en qué consiste, en qué situaciones puede estar indicada y cómo se determina si es adecuada para tu caso."
+      />
+
+      <div class="ckc-grilla ckc-grilla--3">
+        {SERVICIOS.map((s, i) => <TarjetaServicio servicio={s} retardo={i * 70} />)}
+      </div>
+
+      <div class="servicios__pie" data-animar>
+        <p>
+          ¿No sabés a qué área corresponde tu caso? Es lo más habitual. Escribinos
+          contándonos qué te pasa y te orientamos.
+        </p>
+        <BotonTurno mensaje={MENSAJES.general} texto="Consultar mi caso" />
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== DIFERENCIALES ===================== */}
+  <section class="ckc-seccion">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Por qué CKC"
+        titulo="Cómo es atenderse acá"
+        bajada="No vamos a decirte que tenemos la mejor tecnología ni los mejores resultados. Preferimos contarte cómo trabajamos, que es lo que realmente podés esperar de una consulta."
+      />
+
+      <div class="ckc-grilla ckc-grilla--3">
+        {
+          DIFERENCIALES.map((d, i) => (
+            <TarjetaRasgo
+              icono={d.icono}
+              titulo={d.titulo}
+              texto={d.texto}
+              retardo={i * 60}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== EQUIPO ===================== */}
+  <section class="ckc-seccion ckc-seccion--blanca">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Equipo"
+        titulo="Quién te va a atender"
+        bajada="La kinesiología es un trabajo de contacto y de confianza. Saber quién te va a atender es parte de eso."
+      />
+
+      {
+        !hayEquipoCargado && (
+          <AvisoPendiente
+            titulo="Datos del equipo pendientes de confirmación"
+            campo="src/data/equipo.ts → PROFESIONALES"
+            class="equipo__aviso"
+          >
+            <p>
+              No publicamos nombres, títulos ni matrículas sin verificarlos: tratándose de
+              credenciales sanitarias, un dato inventado sería inaceptable. Las fichas de
+              abajo muestran la estructura final, lista para completar con la información
+              que aporte el consultorio.
+            </p>
+          </AvisoPendiente>
+        )
+      }
+
+      <div class="ckc-grilla ckc-grilla--2 equipo__grilla">
+        {PROFESIONALES.map((p, i) => <FichaProfesional profesional={p} retardo={i * 80} />)}
+      </div>
+
+      <div class="equipo__pie" data-animar>
+        <Boton href="/profesionales/" variante="contorno" flecha>Ver el equipo completo</Boton>
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== BLOG ===================== */}
+  <section class="ckc-seccion ckc-seccion--arena">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Blog"
+        titulo="Salud, movimiento y prevención"
+        bajada="Contenido para entender mejor cómo funciona el cuerpo y qué esperar de un tratamiento kinésico. Información general: no reemplaza una consulta profesional."
+      />
+
+      <div class="ckc-grilla ckc-grilla--3">
+        {notas.map((nota, i) => <TarjetaNota nota={nota} retardo={i * 70} />)}
+      </div>
+
+      <div class="equipo__pie" data-animar>
+        <Boton href="/blog/" variante="contorno" flecha>Ver todas las notas</Boton>
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== CIERRE ===================== */}
+  <BandaCta
+    titulo="¿Querés saber qué tratamiento puede ayudarte?"
+    texto="Estamos para orientarte. Contanos tu motivo de consulta y vemos juntos cuáles son los próximos pasos."
+    mensaje={MENSAJES.general}
+    textoBoton="Escribinos por WhatsApp"
+    secundario={{ texto: 'Ver preguntas frecuentes', href: '/preguntas-frecuentes/' }}
+  />
+</Base>
+
+<style>
+  /* ===================== HERO ===================== */
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem);
+  }
+
+  .hero__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__fondo svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__trazos circle,
+  .hero__trazos path {
+    stroke: color-mix(in srgb, var(--ckc-primario-oscuro) 15%, transparent);
+    stroke-width: 1;
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero__trazo-acento {
+    stroke: color-mix(in srgb, var(--ckc-acento) 32%, transparent) !important;
+    stroke-width: 1.4 !important;
+  }
+
+  .hero__trazo-punteado {
+    stroke-dasharray: 5 9;
+    opacity: 0.8;
+  }
+
+  .hero__interior {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .hero__titulo {
+    font-size: var(--ckc-txt-4xl);
+    margin-bottom: var(--ckc-esp-5);
+    max-width: 18ch;
+  }
+
+  .hero__titulo em {
+    color: var(--ckc-primario);
+  }
+
+  .hero__bajada {
+    font-size: var(--ckc-txt-md);
+    color: var(--ckc-tinta-media);
+    max-width: 38rem;
+    line-height: 1.65;
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ckc-esp-4);
+    margin-top: var(--ckc-esp-7);
+  }
+
+  .hero__areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: var(--ckc-esp-7) 0 0;
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, var(--ckc-primario-oscuro) 12%, transparent);
+  }
+
+  .hero__areas a {
+    display: inline-block;
+    padding: 0.4rem 0.85rem;
+    background: color-mix(in srgb, var(--ckc-blanco) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ckc-primario) 14%, transparent);
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 600;
+    color: var(--ckc-primario-oscuro);
+    text-decoration: none;
+    transition: background-color var(--ckc-trans), border-color var(--ckc-trans);
+  }
+
+  .hero__areas a:hover {
+    background: var(--ckc-blanco);
+    border-color: var(--ckc-primario);
+  }
+
+  .hero__visual {
+    position: relative;
+  }
+
+  @media (min-width: 60rem) {
+    .hero__interior {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  /* El panel visual se oculta en celulares para no empujar el contenido:
+     el mensaje principal y los botones tienen que verse de entrada. */
+  @media (max-width: 44rem) {
+    .hero__visual {
+      display: none;
+    }
+  }
+
+  /* ===================== PRESENTACION ===================== */
+
+  .presentacion {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .presentacion__texto h2 {
+    max-width: 22ch;
+    margin-bottom: var(--ckc-esp-5);
+  }
+
+  .presentacion__enlaces {
+    margin-top: var(--ckc-esp-6);
+  }
+
+  .presentacion__datos {
+    padding: var(--ckc-esp-6);
+    background: var(--ckc-primario-claro);
+    border-radius: var(--ckc-radio-md);
+  }
+
+  .presentacion__datos h3 {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ckc-primario);
+    margin-bottom: var(--ckc-esp-5);
+  }
+
+  .presentacion__datos dl {
+    display: grid;
+    gap: var(--ckc-esp-5);
+    margin: 0;
+  }
+
+  .presentacion__datos dt {
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+    margin-bottom: 0.2rem;
+  }
+
+  .presentacion__datos dd {
+    margin: 0;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+    color: var(--ckc-tinta-media);
+  }
+
+  @media (min-width: 60rem) {
+    .presentacion {
+      grid-template-columns: 1fr 19rem;
+    }
+  }
+
+  /* ===================== PIES DE SECCION ===================== */
+
+  .servicios__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-5);
+    margin-top: var(--ckc-esp-8);
+    padding: var(--ckc-esp-6);
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+  }
+
+  .servicios__pie p {
+    max-width: 42rem;
+    color: var(--ckc-tinta-media);
+    font-size: var(--ckc-txt-base);
+  }
+
+  /* :global porque la clase va a la raíz de <AvisoPendiente>. */
+  :global(.equipo__aviso) {
+    margin-bottom: var(--ckc-esp-6);
+  }
+
+  .equipo__grilla {
+    gap: var(--ckc-esp-5);
+  }
+
+  .equipo__pie {
+    margin-top: var(--ckc-esp-7);
+    display: flex;
+    justify-content: center;
+  }
+</style>
