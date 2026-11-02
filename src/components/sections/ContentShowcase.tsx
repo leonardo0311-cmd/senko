@@ -1,12 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
-import { ArrowUpRight, Camera, Mic, Play, Video } from "lucide-react";
-import { contentHeading, contentItems, contentKinds, type ContentItem, type ContentKind } from "../../data/content";
+import { Camera, Mic, Video } from "lucide-react";
+import { contentItems, contentKinds, type ContentItem, type ContentKind } from "../../data/content";
 import { contact } from "../../data/site";
 import MaskText, { titleLines } from "../ui/MaskText";
 import SectionLabel from "../ui/SectionLabel";
 import Reveal from "../ui/Reveal";
 import CTA from "../ui/CTA";
 import Lightbox from "../ui/Lightbox";
+import ContentCarousel from "../ui/ContentCarousel";
 import { InstagramIcon } from "../ui/icons";
 import { cn } from "../../lib/utils";
 
@@ -27,6 +28,8 @@ export default function ContentShowcase({ limit, showHeader = true, asPage = fal
     const list = filter === "todo" ? contentItems : contentItems.filter((i) => i.kind === filter);
     return limit ? list.slice(0, limit) : list;
   }, [filter, limit]);
+  // Con pocas piezas el carrusel ya muestra todo; los filtros aparecen cuando hay bastante material.
+  const showFilters = available.length > 1 && contentItems.length >= 8;
 
   return (
     <section id="contenido" className={cn("theme-dark relative overflow-hidden py-24 sm:py-32", asPage && "pt-36 sm:pt-44")}>
@@ -54,7 +57,7 @@ export default function ContentShowcase({ limit, showHeader = true, asPage = fal
 
         {contentItems.length > 0 ? (
           <>
-            {available.length > 1 && (
+            {showFilters && (
               <div className="mt-12 flex flex-wrap gap-2" role="group" aria-label="Filtrar contenido">
                 {(["todo", ...available] as const).map((k) => (
                   <button
@@ -70,20 +73,6 @@ export default function ContentShowcase({ limit, showHeader = true, asPage = fal
                     {k === "todo" ? "Todo" : contentKinds[k].plural}
                   </button>
                 ))}
-              </div>
-            )}
-
-            <ul className="mt-10 gap-4 sm:columns-2 lg:columns-3">
-              {items.map((item, i) => (
-                <Reveal as="li" key={item.id} delay={(i % 3) * 0.06} className="mb-8 break-inside-avoid">
-                  <ContentCard item={item} onOpen={setOpen} />
-                </Reveal>
-              ))}
-            </ul>
-
-            {limit && contentItems.length > limit && (
-              <div className="mt-12">
-                <CTA to="/contenido" variant="ghost">Ver todo el contenido</CTA>
               </div>
             )}
           </>
@@ -112,46 +101,20 @@ export default function ContentShowcase({ limit, showHeader = true, asPage = fal
           </>
         )}
       </div>
+
+      {items.length > 0 && (
+        <div className="relative mt-6">
+          <ContentCarousel key={filter} items={items} onOpen={setOpen} paused={!!open} />
+          {limit && contentItems.length > limit && (
+            <div className="container-x mt-8">
+              <CTA to="/contenido" variant="ghost">
+                Ver todo el contenido
+              </CTA>
+            </div>
+          )}
+        </div>
+      )}
       <Lightbox item={open} onClose={close} />
     </section>
-  );
-}
-
-function ContentCard({ item, onOpen }: { item: ContentItem; onOpen: (i: ContentItem) => void }) {
-  const isVideo = item.kind !== "foto";
-  const heading = contentHeading(item);
-  const details = (item.artist ? [item.title, item.date] : [item.date]).filter(Boolean).join(" · ");
-  const inner = (
-    <>
-      <div className={cn("relative overflow-hidden rounded-2xl bg-surface", item.kind === "foto" || item.vertical ? "aspect-[4/5]" : "aspect-video")}>
-        <img src={item.image} alt={item.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
-        {isVideo && (
-          <span className="absolute inset-0 flex items-center justify-center bg-ink/20 transition-colors group-hover:bg-ink/35">
-            <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper/90 text-wine">
-              <Play size={22} fill="currentColor" aria-hidden="true" />
-            </span>
-          </span>
-        )}
-        <span className="label absolute left-3 top-3 rounded-full bg-ink/60 px-3 py-1.5 text-paper">{contentKinds[item.kind].label}</span>
-      </div>
-      <div className="mt-3 flex items-baseline justify-between gap-3">
-        <span className="font-semibold">{heading}</span>
-        {item.url && <ArrowUpRight size={16} className="shrink-0 text-fg/60" aria-hidden="true" />}
-      </div>
-      {details && <p className="text-sm text-muted">{details}</p>}
-    </>
-  );
-
-  if (item.url) {
-    return (
-      <a href={item.url} target="_blank" rel="noreferrer" className="group block" aria-label={`${contentKinds[item.kind].label}: ${heading} (se abre en otra pestaña)`}>
-        {inner}
-      </a>
-    );
-  }
-  return (
-    <button type="button" onClick={() => onOpen(item)} className="group block w-full text-left" aria-label={`Ver ${contentKinds[item.kind].label.toLowerCase()}: ${heading}`}>
-      {inner}
-    </button>
   );
 }
