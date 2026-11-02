@@ -58,23 +58,23 @@ export const contentItems: ContentItem[] = [
     vertical: true,
   },
   {
-    // Pendiente: nombre del artista (el usuario lo tiene que confirmar).
     id: "maly-entrevista-show",
     kind: "entrevista",
+    artist: "La T y La M",
     title: "Entrevista y show en Maly Bar",
     image: "/content/maly-entrevista-show.webp",
     video: "/content/maly-entrevista-show.mp4",
-    alt: "Dos artistas entrevistados antes de su show en Maly Bar",
+    alt: "La T y La M entrevistados antes de su show en Maly Bar",
     vertical: true,
   },
   {
-    // Pendiente: nombre del artista (el usuario lo tiene que confirmar).
     id: "maly-en-vivo",
     kind: "en-vivo",
-    title: "Show en vivo en Maly Bar",
+    artist: "Valen Vargas",
+    title: "Resumen del show en Maly Bar",
     image: "/content/maly-en-vivo.webp",
     video: "/content/maly-en-vivo.mp4",
-    alt: "Artista cantando en el escenario de Maly Bar entre humo y luces cálidas",
+    alt: "Valen Vargas cantando en el escenario de Maly Bar entre humo y luces cálidas",
     vertical: true,
   },
 ];
