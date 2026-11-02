@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../ui/Logo";
-import { brand, company, contact } from "../../data/site";
+import { brand, contact } from "../../data/site";
 import { areas } from "../../data/areas";
 import { InstagramIcon, WhatsAppIcon } from "../ui/icons";
 import { whatsappUrl } from "../../lib/utils";
@@ -61,17 +61,8 @@ export default function Footer() {
         <Logo size="xl" className="text-fg/[0.06]" />
       </div>
 
-      <div className={`container-x flex flex-col gap-4 border-t hairline pt-6 text-sm text-subtle sm:flex-row sm:items-end sm:justify-between ${contact.whatsapp ? "pb-24" : "pb-6"}`}>
-        <div className="space-y-1.5">
-          <p>
-            © {new Date().getFullYear()} {brand.name.toUpperCase()} — {brand.tagline}
-          </p>
-          <p className="max-w-xl">
-            {brand.name.toUpperCase()} opera a través de <span className="font-semibold text-fg/85">{company.name}</span> ·{" "}
-            <span className="whitespace-nowrap">CUIT {company.cuit}</span>.
-            Los contratos y la facturación se hacen a su nombre.
-          </p>
-        </div>
+      <div className={`container-x flex flex-col gap-2 border-t hairline pt-6 text-sm text-subtle sm:flex-row sm:justify-between ${contact.whatsapp ? "pb-24" : "pb-6"}`}>
+        <span>© {new Date().getFullYear()} {brand.name.toUpperCase()} — {brand.tagline}</span>
         <span>{brand.city}</span>
       </div>
     </footer>
