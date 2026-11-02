@@ -48,6 +48,16 @@ export const contentKinds: Record<ContentKind, { label: string; plural: string; 
 
 export const contentItems: ContentItem[] = [
   {
+    id: "sasha-belen-maly",
+    kind: "en-vivo",
+    artist: "Sasha Belén",
+    title: "Resumen de la noche en Maly Bar",
+    image: "/content/sasha-belen-maly.webp",
+    video: "/content/sasha-belen-maly.mp4",
+    alt: "Sasha Belén cantando en el escenario de Maly Bar, con los logos de Sasha B y Maly sobre la imagen",
+    vertical: true,
+  },
+  {
     id: "el-polaco-maly",
     kind: "en-vivo",
     artist: "El Polaco",
