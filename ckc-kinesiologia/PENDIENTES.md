@@ -124,6 +124,74 @@ export const PROFESIONALES: Profesional[] = [
 
 ---
 
+## 3 bis. Trayectoria, clubes e instituciones
+
+Esto es lo que más convence a alguien que está eligiendo dónde atenderse, y es
+lo que el sitio tiene reservado y vacío. Todo en **`src/data/trayectoria.ts`**.
+
+### 3b.1 Año de inicio — `anioInicio`
+
+```ts
+anioInicio: 2014,
+```
+
+Se carga **el año**, no la cantidad de años: el sitio calcula la cifra solo, así
+que nunca queda desactualizada. Con esto se llena el primer número de la franja
+del inicio y el título de la sección de trayectoria en Nosotros.
+
+### 3b.2 Cifras de la franja — `CIFRAS`
+
+Faltan la cantidad de **clubes e instituciones** y la de **deportistas
+acompañados**. La de áreas de atención ya está cargada en 5.
+
+Conviene usar números que el consultorio pueda respaldar: si alguien pregunta en
+la consulta, tiene que cerrar. Mientras falten, el sitio muestra un guion y la
+etiqueta «A confirmar» en vez de inventar una cifra.
+
+### 3b.3 Clubes e instituciones — `INSTITUCIONES`
+
+```ts
+import escudo from '@/imagenes/instituciones/club-ejemplo.png';
+
+{ id: 'club-ejemplo', nombre: 'Club Ejemplo', tipo: 'Club',
+  detalle: 'Atención del plantel de primera', logo: escudo }
+```
+
+Si no hay logotipo, la ficha muestra el nombre tipografiado y queda prolija
+igual. Los escudos van en `src/imagenes/instituciones/`.
+
+> ⚠️ **Dos cuidados.** Cargar solo instituciones con las que exista un vínculo
+> real: nombrar un club con el que no se trabaja es una afirmación falsa sobre un
+> tercero. Y antes de publicar nombres o escudos, pedirle autorización a cada
+> institución: usar su marca sin permiso puede traerle un problema a CKC aunque
+> la relación sea cierta.
+
+### 3b.4 Línea de tiempo — `HITOS`
+
+Tres o cuatro momentos del consultorio (apertura, incorporación de un área, un
+vínculo importante). Aparece en Nosotros.
+
+### 3b.5 La afirmación de escala — `afirmacionDeEscala` y `respaldo`
+
+Decir «el más grande de Canning» es una **afirmación comparativa**: en publicidad
+sanitaria conviene poder respaldarla (por superficie, cantidad de profesionales,
+de áreas o de pacientes), porque un competidor puede cuestionarla.
+
+Por eso el sitio, por defecto, **no usa el superlativo**: comunica la escala con
+datos concretos —años, clubes, cinco áreas bajo el mismo techo—, que además
+convencen más que un adjetivo.
+
+Si CKC quiere afirmarlo igual, se completa:
+
+```ts
+afirmacionDeEscala: 'El centro de kinesiología más grande de Canning',
+respaldo: 'Por cantidad de áreas de atención y profesionales',
+```
+
+y esa frase pasa a encabezar la sección de trayectoria del inicio.
+
+---
+
 ## 4. Pendientes de fotografía
 
 ### 4.1 Fotos del consultorio — `src/data/instalaciones.ts`
@@ -287,6 +355,9 @@ consultorio** antes de darlo por definitivo:
 - [ ] Dirección exacta y mapa en `UBICACION`
 - [ ] Horarios en `HORARIOS`
 - [ ] Teléfono y correo, si corresponde
+- [ ] Año de inicio en `anioInicio` (los años se calculan solos)
+- [ ] Cantidad de clubes y de deportistas en `CIFRAS`
+- [ ] Clubes e instituciones en `INSTITUCIONES`, con su autorización
 - [ ] Fichas del equipo con credenciales verificadas
 - [ ] Fotografías propias del consultorio, el equipo y las instalaciones
 - [ ] Logotipo real en `BRAND.logoSrc`

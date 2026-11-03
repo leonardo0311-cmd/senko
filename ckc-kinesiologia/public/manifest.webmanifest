@@ -6,7 +6,7 @@
   "start_url": "/",
   "display": "browser",
   "background_color": "#fcfbf9",
-  "theme_color": "#1f6f68",
+  "theme_color": "#06302c",
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }

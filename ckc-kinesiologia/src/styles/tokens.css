@@ -11,18 +11,20 @@
    calido que aporta cercania y evita el aspecto de empresa tecnologica).
 
    PARA ADOPTAR LA IDENTIDAD REAL DE CKC:
-   solo hay que cambiar los seis valores del bloque "MARCA" de abajo. Todo el
+   solo hay que cambiar los valores del bloque "MARCA" de abajo. Todo el
    resto del sitio deriva de ellos, incluidos estados, bordes y degradados.
    =========================================================================== */
 
 :root {
   /* --- MARCA: cambiar estos valores por los de la identidad real --------- */
-  --ckc-primario: #1f6f68;        /* verde petroleo: color principal        */
-  --ckc-primario-oscuro: #113f3b;  /* version profunda: fondos y titulos     */
-  --ckc-primario-claro: #e6f0ee;   /* version muy clara: fondos suaves       */
-  --ckc-acento: #c0764a;           /* terracota: acentos y detalles calidos  */
-  --ckc-acento-claro: #f6ece4;     /* terracota muy claro: fondos suaves     */
-  --ckc-arena: #f0eae1;            /* neutro calido: secciones alternadas    */
+  --ckc-primario: #0f6b61;         /* verde petroleo saturado: color principal */
+  --ckc-primario-oscuro: #06302c;  /* casi negro verdoso: secciones de impacto */
+  --ckc-primario-medio: #0a4a43;   /* intermedio: degradados                 */
+  --ckc-primario-claro: #ddefec;   /* muy claro: fondos suaves               */
+  --ckc-acento: #c4441b;           /* naranja profundo: textos y detalles    */
+  --ckc-acento-vivo: #f2602c;      /* naranja vivo: cifras, barras, energia  */
+  --ckc-acento-claro: #fdeee7;     /* naranja muy claro: fondos suaves       */
+  --ckc-arena: #f1ebe3;            /* neutro calido: secciones alternadas    */
 
   /* --- NEUTROS ---------------------------------------------------------- */
   --ckc-tinta: #16221f;            /* texto principal                        */
@@ -36,7 +38,7 @@
   /* --- ESTADOS ---------------------------------------------------------- */
   --ckc-error: #9b2c24;
   --ckc-error-fondo: #fbeceb;
-  --ckc-exito: #1f6f68;
+  --ckc-exito: #0f6b61;
   --ckc-aviso: #8a5a12;
   --ckc-aviso-fondo: #fdf4e3;
 
@@ -55,8 +57,9 @@
   --ckc-txt-lg: clamp(1.25rem, 0.7vw + 1.1rem, 1.5rem);     /* 20 → 24px     */
   --ckc-txt-xl: clamp(1.5rem, 1.2vw + 1.22rem, 1.875rem);   /* 24 → 30px     */
   --ckc-txt-2xl: clamp(1.875rem, 2vw + 1.4rem, 2.5rem);     /* 30 → 40px     */
-  --ckc-txt-3xl: clamp(2.25rem, 3.4vw + 1.45rem, 3.5rem);   /* 36 → 56px     */
-  --ckc-txt-4xl: clamp(2.5rem, 4.8vw + 1.38rem, 4.25rem);   /* 40 → 68px     */
+  --ckc-txt-3xl: clamp(2.35rem, 3.8vw + 1.45rem, 3.85rem);  /* 38 → 62px     */
+  --ckc-txt-4xl: clamp(2.75rem, 6vw + 1.3rem, 5.25rem);     /* 44 → 84px     */
+  --ckc-txt-cifra: clamp(2.75rem, 5vw + 1.4rem, 4.5rem);    /* cifras grandes */
 
   --ckc-interlineado-ajustado: 1.08;
   --ckc-interlineado-titulo: 1.16;

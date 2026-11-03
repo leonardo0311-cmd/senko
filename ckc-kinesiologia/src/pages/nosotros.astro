@@ -9,6 +9,9 @@ import Boton from '@/components/Boton.astro';
 import AvisoPendiente from '@/components/AvisoPendiente.astro';
 import { MENSAJES, UBICACION, CONTACTO } from '@/data/site';
 import { hayFotosPropias } from '@/data/instalaciones';
+import FranjaCifras from '@/components/FranjaCifras.astro';
+import MuroInstituciones from '@/components/MuroInstituciones.astro';
+import { HITOS, hayHitos, aniosDeTrayectoria } from '@/data/trayectoria';
 
 const VALORES = [
   {
@@ -68,6 +71,7 @@ const VALORES = [
     titulo="Un consultorio kinésico en Canning"
     bajada="Atendemos a personas que llegan por motivos muy distintos. Lo que no cambia es el punto de partida: entender el caso antes de proponer un tratamiento."
     ruta={[{ texto: 'Nosotros' }]}
+    variante="profundo"
   />
 
   {/* ===================== PRESENTACION ===================== */}
@@ -119,6 +123,56 @@ const VALORES = [
           rotulo="Foto a incorporar: el consultorio o el equipo de CKC"
           ancho={520}
         />
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== TRAYECTORIA ===================== */}
+  <FranjaCifras variante="oscura" conAviso={false} />
+
+  <section class="ckc-seccion ckc-seccion--blanca">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Trayectoria"
+        titulo={
+          aniosDeTrayectoria
+            ? `${aniosDeTrayectoria} años atendiendo en Canning`
+            : 'Nuestro recorrido'
+        }
+        bajada="Cómo fue creciendo el consultorio y con qué instituciones trabajamos."
+      />
+
+      {
+        hayHitos ? (
+          <ol class="hitos">
+            {HITOS.map((h, i) => (
+              <li data-animar style={`--retardo:${i * 70}ms`}>
+                <span class="hitos__anio">{h.anio}</span>
+                <div>
+                  <h3>{h.titulo}</h3>
+                  <p>{h.texto}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <AvisoPendiente
+            titulo="Línea de tiempo a completar"
+            campo="src/data/trayectoria.ts → anioInicio, HITOS"
+            class="nosotros__aviso"
+          >
+            <p>
+              No inventamos una fecha de apertura ni hitos que no podamos verificar.
+              Con el año de inicio y tres o cuatro momentos importantes, esta sección
+              queda armada y los años se recalculan solos cada enero.
+            </p>
+          </AvisoPendiente>
+        )
+      }
+
+      <div class="instituciones">
+        <h3 class="instituciones__titulo">Clubes e instituciones</h3>
+        <MuroInstituciones vacios={4} />
       </div>
     </div>
   </section>
@@ -299,6 +353,65 @@ const VALORES = [
     .nosotros__visual {
       display: none;
     }
+  }
+
+
+  /* --- Trayectoria ------------------------------------------------------ */
+
+  .hitos {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: var(--ckc-esp-5);
+  }
+
+  .hitos li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--ckc-esp-5);
+    align-items: start;
+    padding-bottom: var(--ckc-esp-5);
+    border-bottom: 1px solid var(--ckc-linea-suave);
+  }
+
+  .hitos li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .hitos__anio {
+    font-family: var(--ckc-fuente-titulo);
+    font-size: var(--ckc-txt-xl);
+    color: var(--ckc-acento);
+    font-variant-numeric: tabular-nums;
+    min-width: 4.5ch;
+  }
+
+  .hitos h3 {
+    font-size: var(--ckc-txt-lg);
+    margin-bottom: var(--ckc-esp-2);
+  }
+
+  .hitos p {
+    color: var(--ckc-tinta-media);
+    line-height: 1.68;
+    max-width: var(--ckc-ancho-texto);
+  }
+
+  .instituciones {
+    margin-top: var(--ckc-esp-8);
+    padding-top: var(--ckc-esp-7);
+    border-top: 1px solid var(--ckc-linea);
+  }
+
+  .instituciones__titulo {
+    font-family: var(--ckc-fuente-texto);
+    font-size: var(--ckc-txt-xs);
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ckc-acento);
+    margin-bottom: var(--ckc-esp-5);
   }
 
   /* --- Filosofia --------------------------------------------------------- */

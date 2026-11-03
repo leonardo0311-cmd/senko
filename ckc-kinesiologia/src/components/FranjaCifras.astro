@@ -1,0 +1,177 @@
+---
+/**
+ * Franja de cifras: años de trayectoria, clubes, áreas y deportistas.
+ *
+ * Es lo primero que ve alguien después del hero, y lo que más rápido
+ * transmite escala. Las cifras que todavía no están confirmadas se muestran
+ * con un guion y un aviso, nunca con un número inventado.
+ */
+import { CIFRAS } from '@/data/trayectoria';
+
+interface Props {
+  variante?: 'oscura' | 'clara';
+  /** Muestra el aviso de datos pendientes (solo donde tenga sentido). */
+  conAviso?: boolean;
+}
+
+const { variante = 'oscura', conAviso = true } = Astro.props;
+const faltan = CIFRAS.filter((c) => c.valor === null).length;
+---
+
+<section class:list={['cifras', `cifras--${variante}`]} aria-label="El consultorio en números">
+  <div class="ckc-contenedor">
+    <ul class="cifras__lista">
+      {
+        CIFRAS.map((c, i) => (
+          <li class="cifras__item" data-animar style={`--retardo:${i * 80}ms`}>
+            <span class:list={['cifras__valor', c.valor === null && 'cifras__valor--vacio']}>
+              {c.valor ?? '—'}
+              {c.valor && c.id !== 'areas' && <span class="cifras__mas">+</span>}
+            </span>
+            <span class="cifras__etiqueta">{c.etiqueta}</span>
+            {c.valor === null && <span class="cifras__pendiente">A confirmar</span>}
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      conAviso && faltan > 0 && (
+        <p class="cifras__nota">
+          Estas cifras están pendientes de confirmación por el consultorio. No las
+          completamos por nuestra cuenta: un número inflado se cae en la primera
+          consulta.
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .cifras {
+    position: relative;
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  .cifras--oscura {
+    background: var(--ckc-primario-oscuro);
+    color: color-mix(in srgb, #ffffff 86%, var(--ckc-primario));
+  }
+
+  .cifras--clara {
+    background: var(--ckc-primario-claro);
+    color: var(--ckc-tinta-media);
+  }
+
+  .cifras__lista {
+    display: grid;
+    gap: var(--ckc-esp-5) var(--ckc-esp-4);
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    margin: 0;
+  }
+
+  @media (min-width: 56rem) {
+    .cifras__lista {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--ckc-esp-6);
+    }
+  }
+
+  .cifras__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    padding-left: 1rem;
+    border-left: 2px solid;
+  }
+
+  .cifras--oscura .cifras__item {
+    border-left-color: color-mix(in srgb, var(--ckc-acento-vivo) 70%, transparent);
+  }
+
+  .cifras--clara .cifras__item {
+    border-left-color: color-mix(in srgb, var(--ckc-primario) 40%, transparent);
+  }
+
+  .cifras__valor {
+    display: flex;
+    align-items: baseline;
+    font-family: var(--ckc-fuente-titulo);
+    font-size: var(--ckc-txt-cifra);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cifras--oscura .cifras__valor {
+    color: var(--ckc-blanco);
+  }
+
+  .cifras--clara .cifras__valor {
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .cifras__valor--vacio {
+    opacity: 0.4;
+  }
+
+  .cifras__mas {
+    font-size: 0.5em;
+    margin-left: 0.1em;
+    color: var(--ckc-acento-vivo);
+  }
+
+  .cifras__etiqueta {
+    font-size: var(--ckc-txt-sm);
+    font-weight: 600;
+    line-height: 1.35;
+    margin-top: 0.4rem;
+  }
+
+  .cifras--oscura .cifras__etiqueta {
+    color: color-mix(in srgb, #ffffff 82%, var(--ckc-primario));
+  }
+
+  .cifras__pendiente {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    padding: 0.12rem 0.5rem;
+    border-radius: var(--ckc-radio-pastilla);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cifras--oscura .cifras__pendiente {
+    background: color-mix(in srgb, #ffffff 14%, transparent);
+    color: color-mix(in srgb, #ffffff 72%, transparent);
+  }
+
+  .cifras--clara .cifras__pendiente {
+    background: var(--ckc-aviso-fondo);
+    color: color-mix(in srgb, var(--ckc-aviso) 92%, #000);
+  }
+
+  .cifras__nota {
+    margin-top: var(--ckc-esp-6);
+    padding-top: var(--ckc-esp-4);
+    border-top: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
+    max-width: 44rem;
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.6;
+  }
+
+  .cifras--oscura .cifras__nota {
+    color: color-mix(in srgb, #ffffff 55%, var(--ckc-primario));
+  }
+
+  .cifras--clara .cifras__nota {
+    border-top-color: var(--ckc-linea);
+    color: var(--ckc-tinta-suave);
+  }
+</style>

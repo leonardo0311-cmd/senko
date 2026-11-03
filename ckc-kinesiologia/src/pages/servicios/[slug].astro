@@ -64,11 +64,13 @@ const SECCIONES = [
     titulo={s.nombre}
     bajada={s.resumen}
     ruta={[{ texto: 'Servicios', href: '/servicios/' }, { texto: s.nombre }]}
+    variante="profundo"
   >
     <div class="portada__acciones">
       <BotonTurno
         mensaje={MENSAJES.servicio(s.nombreConsulta)}
         texto="Consultar por este servicio"
+        variante="secundario"
         tamanio="lg"
       />
     </div>
