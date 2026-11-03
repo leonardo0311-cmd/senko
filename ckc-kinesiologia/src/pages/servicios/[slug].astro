@@ -9,6 +9,7 @@ import Visual from '@/components/Visual.astro';
 import Icono from '@/components/Icono.astro';
 import { SERVICIOS } from '@/data/servicios';
 import { MENSAJES } from '@/data/site';
+import { fotoDeServicio, TEXTOS_ALT } from '@/data/fotos';
 import { SITE } from '@/data/site-url.mjs';
 
 export const getStaticPaths = (() =>
@@ -18,6 +19,7 @@ export const getStaticPaths = (() =>
   }))) satisfies GetStaticPaths;
 
 const { servicio: s } = Astro.props;
+const foto = fotoDeServicio(s.slug);
 
 /** Otros servicios, para los enlaces internos del final. */
 const otros = SERVICIOS.filter((o) => o.slug !== s.slug);
@@ -99,10 +101,12 @@ const SECCIONES = [
 
         <div class="servicio__visual" data-animar>
           <Visual
+            src={foto ?? undefined}
+            alt={foto ? TEXTOS_ALT[s.slug] : undefined}
             proporcion="16/9"
             motivo={s.motivo}
             tono={s.tono}
-            rotulo={s.fotoSugerida}
+            rotulo={foto ? undefined : s.fotoSugerida}
             ancho={840}
           />
         </div>

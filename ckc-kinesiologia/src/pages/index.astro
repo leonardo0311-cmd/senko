@@ -8,13 +8,16 @@ import TarjetaRasgo from '@/components/TarjetaRasgo.astro';
 import FichaProfesional from '@/components/FichaProfesional.astro';
 import FranjaCifras from '@/components/FranjaCifras.astro';
 import MuroInstituciones from '@/components/MuroInstituciones.astro';
+import MotivosConsulta from '@/components/MotivosConsulta.astro';
+import Visual from '@/components/Visual.astro';
 import BandaCta from '@/components/BandaCta.astro';
 import TarjetaNota from '@/components/TarjetaNota.astro';
 import AvisoPendiente from '@/components/AvisoPendiente.astro';
 import { SERVICIOS } from '@/data/servicios';
 import { PROFESIONALES, hayEquipoCargado } from '@/data/equipo';
 import { afirmacionDeEscala, respaldo, aniosDeTrayectoria } from '@/data/trayectoria';
-import { MENSAJES, CONTACTO } from '@/data/site';
+import { MENSAJES, CONTACTO, UBICACION, hayDireccion, direccionEnLinea } from '@/data/site';
+import { FOTOS, TEXTOS_ALT } from '@/data/fotos';
 import { getCollection } from 'astro:content';
 
 const notas = (await getCollection('blog'))
@@ -117,6 +120,18 @@ const DIFERENCIALES = [
 
   {/* ========================= CIFRAS ========================= */}
   <FranjaCifras variante="clara" />
+
+  {/* ===================== BUSCÁ POR LO QUE TE PASA ===================== */}
+  <section class="ckc-seccion ckc-seccion--corta" id="motivos">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Empezá por acá"
+        titulo="Buscá por lo que te pasa"
+        bajada="No hace falta que sepas el nombre del tratamiento. Entrá por el motivo que te trae y te llevamos al área que corresponde."
+      />
+      <MotivosConsulta />
+    </div>
+  </section>
 
   {/* ===================== CLUBES E INSTITUCIONES ===================== */}
   <section class="ckc-seccion ckc-seccion--blanca" id="instituciones">
@@ -278,6 +293,39 @@ const DIFERENCIALES = [
 
       <div class="centrado-pie" data-animar>
         <Boton href="/blog/" variante="contorno" flecha>Ver todas las notas</Boton>
+      </div>
+    </div>
+  </section>
+
+  {/* ===================== DÓNDE ESTAMOS ===================== */}
+  <section class="ckc-seccion ckc-seccion--blanca">
+    <div class="ckc-contenedor ubicacion-inicio">
+      <div class="ubicacion-inicio__texto" data-animar>
+        <p class="ckc-rotulo">Dónde estamos</p>
+        <h2>Atendemos en Canning</h2>
+        <p class="ckc-bajada">
+          {
+            hayDireccion && direccionEnLinea
+              ? direccionEnLinea
+              : `${UBICACION.resumen}. La dirección exacta está pendiente de confirmación: escribinos y te la pasamos junto con las indicaciones para llegar.`
+          }
+        </p>
+        <div class="ubicacion-inicio__acciones">
+          <Boton href="/contacto/" variante="primario" flecha>Ver cómo llegar</Boton>
+          <Boton href="/instalaciones/" variante="contorno">Conocé el consultorio</Boton>
+        </div>
+      </div>
+
+      <div class="ubicacion-inicio__visual" data-animar style="--retardo:100ms">
+        <Visual
+          src={FOTOS.ubicacion ?? undefined}
+          alt={FOTOS.ubicacion ? TEXTOS_ALT.ubicacion : undefined}
+          proporcion="4/3"
+          motivo="horizonte"
+          tono="arena"
+          rotulo={FOTOS.ubicacion ? undefined : 'Foto a incorporar: acceso o fachada del consultorio'}
+          ancho={640}
+        />
       </div>
     </div>
   </section>
@@ -510,6 +558,32 @@ const DIFERENCIALES = [
 
   :global(.trayectoria__ig) {
     color: color-mix(in srgb, #ffffff 84%, transparent);
+  }
+
+
+  /* ========================= DÓNDE ESTAMOS ========================= */
+
+  .ubicacion-inicio {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 60rem) {
+    .ubicacion-inicio {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ubicacion-inicio__texto h2 {
+    font-size: var(--ckc-txt-2xl);
+  }
+
+  .ubicacion-inicio__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ckc-esp-4);
+    margin-top: var(--ckc-esp-6);
   }
 
   /* ========================= COMUNES ========================= */

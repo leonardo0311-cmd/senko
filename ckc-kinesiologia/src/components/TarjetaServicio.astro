@@ -8,6 +8,7 @@ import Visual from './Visual.astro';
 import BotonTurno from './BotonTurno.astro';
 import { MENSAJES } from '@/data/site';
 import type { Servicio } from '@/data/servicios';
+import { fotoDeServicio, TEXTOS_ALT } from '@/data/fotos';
 
 interface Props {
   servicio: Servicio;
@@ -16,15 +17,18 @@ interface Props {
 }
 
 const { servicio, retardo = 0 } = Astro.props;
+const foto = fotoDeServicio(servicio.slug);
 ---
 
 <article class="ckc-tarjeta-servicio" data-animar style={`--retardo:${retardo}ms`}>
   <div class="ckc-tarjeta-servicio__visual">
     <Visual
+      src={foto ?? undefined}
+      alt={foto ? TEXTOS_ALT[servicio.slug] : undefined}
       proporcion="16/9"
       motivo={servicio.motivo}
       tono={servicio.tono}
-      rotulo={servicio.fotoSugerida}
+      rotulo={foto ? undefined : servicio.fotoSugerida}
       ancho={560}
     />
   </div>

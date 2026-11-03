@@ -76,14 +76,31 @@ const anios = anio > LEGAL.anioDesde ? `${LEGAL.anioDesde}–${anio}` : `${anio}
       {
         NAV_PIE.map((columna) => (
           <nav class="ckc-pie__columna" aria-label={columna.titulo}>
-            <h3 class="ckc-pie__columna-titulo">{columna.titulo}</h3>
-            <ul>
-              {columna.enlaces.map((enlace) => (
-                <li>
-                  <a href={enlace.href}>{enlace.texto}</a>
-                </li>
-              ))}
-            </ul>
+            {/* En celulares se pliega; de tablet para arriba el resumen se
+                oculta y la lista queda siempre abierta. */}
+            <details class="ckc-pie__plegable" open>
+              <summary class="ckc-pie__columna-titulo">
+                {columna.titulo}
+                <span class="ckc-pie__chevron" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" focusable="false">
+                    <path
+                      d="M4 6.5 8 10.5l4-4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <ul>
+                {columna.enlaces.map((enlace) => (
+                  <li>
+                    <a href={enlace.href}>{enlace.texto}</a>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </nav>
         ))
       }
@@ -296,6 +313,76 @@ const anios = anio > LEGAL.anioDesde ? `${LEGAL.anioDesde}–${anio}` : `${anio}
     text-underline-offset: 0.2em;
   }
 
+
+  /* --- Pie desplegable en celulares ------------------------------------ */
+
+  .ckc-pie__plegable summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ckc-esp-3);
+    min-height: var(--ckc-tactil-min);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .ckc-pie__plegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ckc-pie__plegable summary::marker {
+    content: '';
+  }
+
+  .ckc-pie__chevron {
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: color-mix(in srgb, #ffffff 65%, transparent);
+    transition: rotate var(--ckc-trans);
+  }
+
+  .ckc-pie__chevron svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ckc-pie__plegable[open] .ckc-pie__chevron {
+    rotate: 180deg;
+  }
+
+  .ckc-pie__plegable > ul {
+    padding-bottom: var(--ckc-esp-4);
+  }
+
+  @media (max-width: 39.99rem) {
+    .ckc-pie__columna {
+      border-bottom: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
+    }
+
+    .ckc-pie__plegable .ckc-pie__columna-titulo {
+      margin-bottom: 0;
+    }
+  }
+
+  /* De tablet para arriba no se pliega: el resumen deja de ser interactivo. */
+  @media (min-width: 40rem) {
+    .ckc-pie__chevron {
+      display: none;
+    }
+
+    .ckc-pie__plegable > ul {
+      padding-bottom: 0;
+    }
+
+    .ckc-pie__plegable summary {
+      cursor: default;
+      pointer-events: none;
+      min-height: 0;
+    }
+  }
+
   /* --- Datos de contacto ------------------------------------------------ */
 
   .ckc-pie__datos {
@@ -394,3 +481,22 @@ const anios = anio > LEGAL.anioDesde ? `${LEGAL.anioDesde}–${anio}` : `${anio}
     }
   }
 </style>
+
+<script>
+  // Las columnas del pie arrancan abiertas (así se ven sin JavaScript) y se
+  // pliegan solo en celulares, donde cinco listas seguidas son una tira larga.
+  const plegables = document.querySelectorAll<HTMLDetailsElement>('.ckc-pie__plegable');
+
+  if (plegables.length > 0) {
+    const angosto = window.matchMedia('(max-width: 39.99rem)');
+
+    const ajustar = () => {
+      plegables.forEach((d) => {
+        d.open = !angosto.matches;
+      });
+    };
+
+    ajustar();
+    angosto.addEventListener('change', ajustar);
+  }
+</script>

@@ -1,0 +1,158 @@
+---
+/**
+ * «Buscá por lo que te pasa».
+ *
+ * Patrón tomado de los grandes sitios de salud: la entrada principal no es el
+ * nombre del tratamiento —que el paciente no conoce— sino el motivo de
+ * consulta. Alguien que llega con dolor de hombro no sabe si eso es
+ * «kinesiología deportiva» o «tratamiento de lesiones»; sí sabe que le duele
+ * el hombro al moverlo.
+ *
+ * Cada tarjeta lleva a su categoría dentro de Especialidades.
+ */
+import Icono from './Icono.astro';
+import { ESPECIALIDADES } from '@/data/especialidades';
+
+interface Props {
+  /** Fondo de la sección contenedora, para ajustar el color de las tarjetas. */
+  sobre?: 'claro' | 'arena';
+}
+
+const { sobre = 'claro' } = Astro.props;
+---
+
+<ul class:list={['motivos', `motivos--${sobre}`]}>
+  {
+    ESPECIALIDADES.map((e, i) => (
+      <li data-animar style={`--retardo:${i * 55}ms`}>
+        <a href={`/especialidades/#${e.id}`}>
+          <span class="motivos__icono" aria-hidden="true">
+            <Icono nombre={e.icono} />
+          </span>
+
+          <span class="motivos__cuerpo">
+            <span class="motivos__titulo">{e.titulo}</span>
+            <span class="motivos__senal">{e.senales[0]}</span>
+          </span>
+
+          <span class="motivos__flecha" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false">
+              <path
+                d="M4 10h11M11 5.5 15.5 10 11 14.5"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .motivos {
+    display: grid;
+    gap: var(--ckc-esp-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    list-style: none;
+    margin: 0;
+  }
+
+  .motivos a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--ckc-esp-4);
+    height: 100%;
+    min-height: var(--ckc-tactil-min);
+    padding: var(--ckc-esp-4) var(--ckc-esp-5);
+    border: 1px solid var(--ckc-linea);
+    border-radius: var(--ckc-radio-md);
+    text-decoration: none;
+    transition:
+      border-color var(--ckc-trans),
+      box-shadow var(--ckc-trans),
+      translate var(--ckc-trans),
+      background-color var(--ckc-trans);
+  }
+
+  .motivos--claro a {
+    background: var(--ckc-blanco);
+  }
+
+  .motivos--arena a {
+    background: var(--ckc-fondo);
+  }
+
+  .motivos a:hover {
+    border-color: var(--ckc-primario);
+    box-shadow: var(--ckc-sombra-md);
+    translate: 0 -2px;
+  }
+
+  .motivos__icono {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--ckc-radio);
+    background: var(--ckc-primario-claro);
+    color: var(--ckc-primario);
+    transition: background-color var(--ckc-trans), color var(--ckc-trans);
+  }
+
+  .motivos a:hover .motivos__icono {
+    background: var(--ckc-primario);
+    color: var(--ckc-blanco);
+  }
+
+  .motivos__icono :global(svg) {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .motivos__cuerpo {
+    min-width: 0;
+  }
+
+  .motivos__titulo {
+    display: block;
+    font-family: var(--ckc-fuente-titulo);
+    font-size: var(--ckc-txt-base);
+    line-height: 1.3;
+    color: var(--ckc-primario-oscuro);
+  }
+
+  .motivos__senal {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.5;
+    color: var(--ckc-tinta-suave);
+  }
+
+  .motivos__flecha {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    color: var(--ckc-primario);
+    transition: translate var(--ckc-trans), background-color var(--ckc-trans);
+  }
+
+  .motivos__flecha svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .motivos a:hover .motivos__flecha {
+    background: var(--ckc-primario-claro);
+    translate: 3px 0;
+  }
+</style>

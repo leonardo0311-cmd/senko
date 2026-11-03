@@ -229,6 +229,31 @@ No debe quedar publicado nada que no corresponda.
 | Cada nota del blog | Imagen relacionada con el tema |
 | Imagen para compartir en redes | Idealmente una foto real con el logotipo, 1200×630 px, en `public/og/ckc-og.png` |
 
+### 4.3 Dónde se cargan las fotos ilustrativas — `src/data/fotos.ts`
+
+Las fotos del hero, de cada servicio, de Nosotros y de la ubicación se cargan
+todas desde **un único archivo**: `src/data/fotos.ts`. Ahí están las ranuras y,
+en `TEXTOS_ALT`, qué se espera ver en cada una — esa lista sirve de guion si se
+contrata una producción fotográfica.
+
+```ts
+import deportiva from '@/imagenes/kinesiologia-deportiva.jpg';
+
+export const FOTOS_SERVICIOS = {
+  'kinesiologia-deportiva': deportiva,
+  …
+};
+```
+
+Mientras una ranura esté en `null`, se dibuja la composición gráfica de la
+marca y el sitio se ve bien igual.
+
+> **Nota sobre esta sesión.** No pude dejar fotos cargadas: en este entorno la
+> política de red bloquea los bancos de imágenes (Unsplash, Pixabay) y también
+> el CDN desde donde se descargan las imágenes generadas. Se generaron dos
+> imágenes de prueba que quedaron en la cuenta de Higgsfield pero no pudieron
+> bajarse al repositorio.
+
 ---
 
 ## 5. Pendientes administrativos
@@ -360,6 +385,7 @@ consultorio** antes de darlo por definitivo:
 - [ ] Clubes e instituciones en `INSTITUCIONES`, con su autorización
 - [ ] Fichas del equipo con credenciales verificadas
 - [ ] Fotografías propias del consultorio, el equipo y las instalaciones
+- [ ] Fotos ilustrativas de hero y servicios en `src/data/fotos.ts`
 - [ ] Logotipo real en `BRAND.logoSrc`
 - [ ] Colores de la marca en `src/styles/tokens.css`
 - [ ] Coberturas, medios de pago y política de turnos
