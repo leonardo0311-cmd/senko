@@ -1,4 +1,17 @@
 # Datos pendientes de confirmación
+---
+
+## 0. Qué cambió en la última revisión
+
+El sitio pasó de 20 páginas a **una landing de página única**, siguiendo el sitio de
+referencia que indicó el cliente. Las páginas internas se retiraron del enrutado, pero
+**todo el contenido sigue cargado** en `src/data/` y en `src/content/blog/`: volver a
+abrirlas es recrear los archivos de `src/pages/`, no reescribir los textos.
+
+Lo que esto implica para el posicionamiento: se pierde una URL propia por servicio y por
+nota del blog. A cambio, el recorrido de conversión es más directo. Si más adelante se
+quiere recuperar el SEO por servicio, el contenido está listo.
+
 
 Este documento lista **todo lo que el sitio no publica porque no pudo verificarse**,
 dónde se completa cada dato y qué pasa en el sitio cuando se completa.

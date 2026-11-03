@@ -11,7 +11,9 @@
  * Cada tarjeta lleva a su categoría dentro de Especialidades.
  */
 import Icono from './Icono.astro';
+import BotonTurno from './BotonTurno.astro';
 import { ESPECIALIDADES } from '@/data/especialidades';
+import { MENSAJES } from '@/data/site';
 
 interface Props {
   /** Fondo de la sección contenedora, para ajustar el color de las tarjetas. */
@@ -24,29 +26,49 @@ const { sobre = 'claro' } = Astro.props;
 <ul class:list={['motivos', `motivos--${sobre}`]}>
   {
     ESPECIALIDADES.map((e, i) => (
-      <li data-animar style={`--retardo:${i * 55}ms`}>
-        <a href={`/especialidades/#${e.id}`}>
-          <span class="motivos__icono" aria-hidden="true">
-            <Icono nombre={e.icono} />
-          </span>
+      <li data-animar style={`--retardo:${i * 55}ms`} id={`motivo-${e.id}`}>
+        <details class="motivos__ficha">
+          <summary>
+            <span class="motivos__icono" aria-hidden="true">
+              <Icono nombre={e.icono} />
+            </span>
 
-          <span class="motivos__cuerpo">
-            <span class="motivos__titulo">{e.titulo}</span>
-            <span class="motivos__senal">{e.senales[0]}</span>
-          </span>
+            <span class="motivos__cuerpo">
+              <span class="motivos__titulo">{e.titulo}</span>
+              <span class="motivos__senal">{e.senales[0]}</span>
+            </span>
 
-          <span class="motivos__flecha" aria-hidden="true">
-            <svg viewBox="0 0 20 20" fill="none" focusable="false">
-              <path
-                d="M4 10h11M11 5.5 15.5 10 11 14.5"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-        </a>
+            <span class="motivos__signo" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none" focusable="false">
+                <path
+                  d="M10 4.5v11M4.5 10h11"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+          </summary>
+
+          <div class="motivos__detalle">
+            <p>{e.queAborda}</p>
+
+            <p class="motivos__rotulo">Señales que pueden motivar una consulta</p>
+            <ul class="motivos__senales">
+              {e.senales.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+
+            <p class="motivos__nota">{e.porQueEvaluar}</p>
+
+            <BotonTurno
+              mensaje={MENSAJES.especialidad(e.titulo.toLowerCase())}
+              texto="Consultar por este motivo"
+              variante="contorno"
+            />
+          </div>
+        </details>
       </li>
     ))
   }
@@ -61,7 +83,11 @@ const { sobre = 'claro' } = Astro.props;
     margin: 0;
   }
 
-  .motivos a {
+  .motivos__ficha {
+    height: 100%;
+  }
+
+  .motivos summary {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
@@ -71,6 +97,7 @@ const { sobre = 'claro' } = Astro.props;
     padding: var(--ckc-esp-4) var(--ckc-esp-5);
     border: 1px solid var(--ckc-linea);
     border-radius: var(--ckc-radio-md);
+    cursor: pointer;
     text-decoration: none;
     transition:
       border-color var(--ckc-trans),
@@ -79,15 +106,23 @@ const { sobre = 'claro' } = Astro.props;
       background-color var(--ckc-trans);
   }
 
-  .motivos--claro a {
+  .motivos--claro summary {
     background: var(--ckc-blanco);
   }
 
-  .motivos--arena a {
+  .motivos--arena summary {
     background: var(--ckc-fondo);
   }
 
-  .motivos a:hover {
+  .motivos summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .motivos summary::marker {
+    content: '';
+  }
+
+  .motivos summary:hover {
     border-color: var(--ckc-primario);
     box-shadow: var(--ckc-sombra-md);
     translate: 0 -2px;
@@ -105,7 +140,7 @@ const { sobre = 'claro' } = Astro.props;
     transition: background-color var(--ckc-trans), color var(--ckc-trans);
   }
 
-  .motivos a:hover .motivos__icono {
+  .motivos summary:hover .motivos__icono {
     background: var(--ckc-primario);
     color: var(--ckc-blanco);
   }
@@ -135,24 +170,93 @@ const { sobre = 'claro' } = Astro.props;
     color: var(--ckc-tinta-suave);
   }
 
-  .motivos__flecha {
+  .motivos__signo {
     flex: none;
     display: grid;
     place-items: center;
     width: 1.75rem;
     height: 1.75rem;
+    border: 1px solid var(--ckc-linea);
     border-radius: 50%;
     color: var(--ckc-primario);
-    transition: translate var(--ckc-trans), background-color var(--ckc-trans);
+    transition: rotate var(--ckc-trans), background-color var(--ckc-trans);
   }
 
-  .motivos__flecha svg {
-    width: 1rem;
-    height: 1rem;
+  .motivos__signo svg {
+    width: 0.95rem;
+    height: 0.95rem;
   }
 
-  .motivos a:hover .motivos__flecha {
+  .motivos__ficha[open] .motivos__signo {
+    rotate: 135deg;
     background: var(--ckc-primario-claro);
-    translate: 3px 0;
+    border-color: transparent;
+  }
+
+  .motivos__ficha[open] summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* --- Detalle desplegado ---------------------------------------------- */
+
+  .motivos__detalle {
+    display: grid;
+    gap: var(--ckc-esp-3);
+    padding: 0 var(--ckc-esp-5) var(--ckc-esp-5);
+    background: var(--ckc-blanco);
+    border: 1px solid var(--ckc-linea);
+    border-top: none;
+    border-radius: 0 0 var(--ckc-radio-md) var(--ckc-radio-md);
+  }
+
+  .motivos--arena .motivos__detalle {
+    background: var(--ckc-fondo);
+  }
+
+  .motivos__detalle p {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.68;
+    color: var(--ckc-tinta-media);
+  }
+
+  .motivos__rotulo {
+    font-size: var(--ckc-txt-xs) !important;
+    font-weight: var(--ckc-peso-fuerte);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ckc-acento) !important;
+  }
+
+  .motivos__senales {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .motivos__senales li {
+    position: relative;
+    padding-left: 1.2rem;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.55;
+    color: var(--ckc-tinta-media);
+  }
+
+  .motivos__senales li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--ckc-acento-vivo);
+  }
+
+  .motivos__nota {
+    padding-left: var(--ckc-esp-4);
+    border-left: 2px solid var(--ckc-primario-claro);
+    font-size: var(--ckc-txt-xs) !important;
   }
 </style>

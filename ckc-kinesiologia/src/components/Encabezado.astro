@@ -2,13 +2,36 @@
 import Logo from './Logo.astro';
 import BotonTurno from './BotonTurno.astro';
 import { NAV_DESTACADA, NAV_SECUNDARIA, NAV_PRINCIPAL } from '@/data/navegacion';
-import { esRutaActiva } from '@/lib/enlaces';
-import { MENSAJES, CONTACTO } from '@/data/site';
-
-const actual = Astro.url.pathname;
+import { MENSAJES, CONTACTO, UBICACION } from '@/data/site';
 ---
 
 <header class="ckc-encabezado" data-encabezado>
+  {/* Barra superior: solo lo que está confirmado. El teléfono y la dirección
+      exacta no se publican hasta que CKC los verifique. */}
+  <div class="ckc-barra-sup">
+    <div class="ckc-contenedor ckc-barra-sup__interior">
+      <a
+        class="ckc-barra-sup__dato"
+        href={CONTACTO.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.96.24 2.65.5.71.28 1.31.65 1.91 1.25.6.6.97 1.2 1.25 1.91.26.69.45 1.48.5 2.65.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.96-.5 2.65-.28.71-.65 1.31-1.25 1.91-.6.6-1.2.97-1.91 1.25-.69.26-1.48.45-2.65.5-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.96-.24-2.65-.5-.71-.28-1.31-.65-1.91-1.25-.6-.6-.97-1.2-1.25-1.91-.26-.69-.45-1.48-.5-2.65C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.96.5-2.65.28-.71.65-1.31 1.25-1.91.6-.6 1.2-.97 1.91-1.25.69-.26 1.48-.45 2.65-.5C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.15 0-3.5.01-4.73.07-.95.04-1.47.2-1.81.34-.46.18-.79.39-1.13.74-.35.34-.56.67-.74 1.13-.14.34-.3.86-.34 1.81-.06 1.23-.07 1.58-.07 4.73s.01 3.5.07 4.73c.04.95.2 1.47.34 1.81.18.46.39.79.74 1.13.34.35.67.56 1.13.74.34.14.86.3 1.81.34 1.23.06 1.58.07 4.73.07s3.5-.01 4.73-.07c.95-.04 1.47-.2 1.81-.34.46-.18.79-.39 1.13-.74.35-.34.56-.67.74-1.13.14-.34.3-.86.34-1.81.06-1.23.07-1.58.07-4.73s-.01-3.5-.07-4.73c-.04-.95-.2-1.47-.34-1.81a3.05 3.05 0 0 0-.74-1.13c-.34-.35-.67-.56-1.13-.74-.34-.14-.86-.3-1.81-.34-1.23-.06-1.58-.07-4.73-.07Zm0 3.06a4.98 4.98 0 1 1 0 9.96 4.98 4.98 0 0 1 0-9.96Zm0 8.21a3.23 3.23 0 1 0 0-6.46 3.23 3.23 0 0 0 0 6.46Zm6.34-8.41a1.16 1.16 0 1 1-2.33 0 1.16 1.16 0 0 1 2.33 0Z" />
+        </svg>
+        {CONTACTO.instagram.usuario}
+      </a>
+
+      <span class="ckc-barra-sup__dato ckc-barra-sup__dato--lugar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M12 21s6.4-5.6 6.4-10.4A6.4 6.4 0 0 0 5.6 10.6C5.6 15.4 12 21 12 21Z" />
+          <circle cx="12" cy="10.4" r="2.4" />
+        </svg>
+        {UBICACION.resumen}
+      </span>
+    </div>
+  </div>
+
   <div class="ckc-encabezado__barra">
     <div class="ckc-contenedor ckc-encabezado__interior">
       <a
@@ -28,7 +51,7 @@ const actual = Astro.url.pathname;
                 <a
                   href={enlace.href}
                   class="ckc-nav__enlace"
-                  aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+                  data-ancla={enlace.href}
                 >
                   {enlace.texto}
                 </a>
@@ -60,7 +83,7 @@ const actual = Astro.url.pathname;
                     <a
                       href={enlace.href}
                       class="ckc-submenu__enlace"
-                      aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+                      data-ancla={enlace.href}
                     >
                       <span class="ckc-submenu__texto">{enlace.texto}</span>
                       {enlace.detalle && (
@@ -126,7 +149,7 @@ const actual = Astro.url.pathname;
             <li>
               <a
                 href={enlace.href}
-                aria-current={esRutaActiva(actual, enlace.href) ? 'page' : undefined}
+                data-ancla={enlace.href}
               >
                 <span class="ckc-menu-movil__texto">{enlace.texto}</span>
                 {enlace.detalle && (
@@ -155,6 +178,49 @@ const actual = Astro.url.pathname;
 </div>
 
 <style>
+  /* --- Barra superior de contacto --------------------------------------- */
+
+  .ckc-barra-sup {
+    background: var(--ckc-verde-900);
+    color: color-mix(in srgb, #ffffff 76%, var(--ckc-verde-500));
+    font-size: var(--ckc-txt-xs);
+  }
+
+  .ckc-barra-sup__interior {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ckc-esp-5);
+    min-height: var(--ckc-alto-barra);
+  }
+
+  .ckc-barra-sup__dato {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  a.ckc-barra-sup__dato:hover {
+    color: var(--ckc-ambar-400);
+  }
+
+  .ckc-barra-sup__dato svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: none;
+    opacity: 0.85;
+  }
+
+  /* En celulares angostos la barra se reduce a Instagram. */
+  @media (max-width: 30rem) {
+    .ckc-barra-sup__dato--lugar {
+      display: none;
+    }
+  }
+
   /* --- Barra fija ------------------------------------------------------- */
 
   .ckc-encabezado {
@@ -244,14 +310,10 @@ const actual = Astro.url.pathname;
     background-color: color-mix(in srgb, var(--ckc-primario) 7%, transparent);
   }
 
-  .ckc-nav__enlace[aria-current='page'] {
+  .ckc-nav__enlace[data-activo='true'] {
     color: var(--ckc-primario-oscuro);
-    font-weight: 650;
-  }
-
-  .ckc-nav__enlace[aria-current='page']::after {
-    content: '';
-    position: absolute;
+    font-weight: var(--ckc-peso-fuerte);
+    background-color: var(--ckc-primario-claro);
   }
 
   .ckc-nav__lista > li {
@@ -316,7 +378,7 @@ const actual = Astro.url.pathname;
     margin-top: 0.1rem;
   }
 
-  .ckc-submenu__enlace[aria-current='page'] .ckc-submenu__texto {
+  .ckc-submenu__enlace[data-activo='true'] .ckc-submenu__texto {
     color: var(--ckc-acento);
   }
 
@@ -449,7 +511,7 @@ const actual = Astro.url.pathname;
     background-color: var(--ckc-primario-claro);
   }
 
-  .ckc-menu-movil__nav a[aria-current='page'] {
+  .ckc-menu-movil__nav a[data-activo='true'] {
     background-color: var(--ckc-primario-claro);
   }
 
@@ -460,7 +522,7 @@ const actual = Astro.url.pathname;
     font-size: 1.15rem;
   }
 
-  .ckc-menu-movil__nav a[aria-current='page'] .ckc-menu-movil__texto {
+  .ckc-menu-movil__nav a[data-activo='true'] .ckc-menu-movil__texto {
     color: var(--ckc-acento);
   }
 
@@ -652,5 +714,81 @@ const actual = Astro.url.pathname;
     window.matchMedia('(min-width: 64rem)').addEventListener('change', (e) => {
       if (e.matches && !menu.hidden) cerrarMenu();
     });
+  }
+</script>
+
+<script>
+  // Marca en la navegación la sección que se está viendo. Con una sola página,
+  // es lo que reemplaza al estado "página actual" de un sitio de varias rutas.
+  const enlacesAncla = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('[data-ancla]'),
+  );
+
+  if (enlacesAncla.length > 0) {
+    // Los enlaces son "/#seccion" para que funcionen desde cualquier página,
+    // así que acá se toma solo lo que va después del numeral.
+    const hashDe = (a: HTMLAnchorElement) => a.dataset.ancla?.split('#')[1] ?? '';
+
+    // Los mismos destinos aparecen en la barra, en el submenú y en el menú
+    // móvil, así que hay que quitar repetidos; y el cálculo de abajo recorre
+    // las secciones en el orden de la página, no en el de los enlaces.
+    const secciones = [...new Set(enlacesAncla.map(hashDe).filter(Boolean))]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null)
+      .sort((a, b) =>
+        a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
+      );
+
+    const marcar = (id: string) => {
+      enlacesAncla.forEach((a) => {
+        a.dataset.activo = hashDe(a) === id ? 'true' : 'false';
+      });
+    };
+
+    // Con un salto de ancla el observador puede no emitir evento (la sección ya
+    // estaba intersecando), así que el tramo activo se calcula directamente a
+    // partir del scroll: gana la última sección cuyo borde superior ya pasó por
+    // debajo del encabezado.
+    const calcular = () => {
+      if (window.scrollY < 150) {
+        marcar('');
+        return;
+      }
+
+      // Un salto de ancla deja la sección bastante más abajo del encabezado:
+      // se suman el scroll-padding del documento y el scroll-margin de la
+      // sección. Por eso el umbral no es el alto del encabezado sino una
+      // banda que cubre el cuarto superior de la pantalla.
+      const alto =
+        document.querySelector<HTMLElement>('[data-encabezado]')?.offsetHeight ?? 0;
+      const limite = alto + Math.min(window.innerHeight * 0.3, 260);
+
+      let actual = '';
+      for (const s of secciones) {
+        if (s.getBoundingClientRect().top <= limite) actual = s.id;
+      }
+
+      // Al final de la página gana siempre la última sección, aunque su borde
+      // superior no haya llegado al encabezado.
+      const fondo = window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
+      if (fondo && secciones.length > 0) actual = secciones[secciones.length - 1].id;
+
+      marcar(actual);
+    };
+
+    let pedido = 0;
+    const alDesplazarse = () => {
+      if (pedido) return;
+      pedido = requestAnimationFrame(() => {
+        pedido = 0;
+        calcular();
+      });
+    };
+
+    calcular();
+    window.addEventListener('scroll', alDesplazarse, { passive: true });
+    window.addEventListener('resize', alDesplazarse);
+    window.addEventListener('hashchange', () => window.setTimeout(calcular, 60));
+
   }
 </script>

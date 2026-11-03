@@ -46,7 +46,7 @@ import { MENSAJES } from '@/data/site';
             {
               SERVICIOS.map((s) => (
                 <li>
-                  <a href={`/servicios/${s.slug}/`}>{s.nombre}</a>
+                  <a href={s.slug === 'mep' ? '/#mep' : `/#servicio-${s.slug}`}>{s.nombre}</a>
                 </li>
               ))
             }
@@ -56,20 +56,19 @@ import { MENSAJES } from '@/data/site';
         <div class="error__columna">
           <h2>El consultorio</h2>
           <ul>
-            <li><a href="/nosotros/">Nosotros</a></li>
-            <li><a href="/como-trabajamos/">Cómo trabajamos</a></li>
-            <li><a href="/profesionales/">Equipo profesional</a></li>
-            <li><a href="/instalaciones/">Instalaciones</a></li>
+            <li><a href="/#nosotros">Nosotros</a></li>
+            <li><a href="/#servicios">Servicios</a></li>
+            <li><a href="/#equipo">Equipo profesional</a></li>
+            <li><a href="/#instalaciones">Instalaciones</a></li>
           </ul>
         </div>
 
         <div class="error__columna">
           <h2>Información</h2>
           <ul>
-            <li><a href="/especialidades/">Especialidades y tratamientos</a></li>
-            <li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/contacto/">Contacto y turnos</a></li>
+            <li><a href="/#motivos">Especialidades y tratamientos</a></li>
+            <li><a href="/#preguntas">Preguntas frecuentes</a></li>
+                        <li><a href="/#turnos">Contacto y turnos</a></li>
           </ul>
         </div>
       </nav>

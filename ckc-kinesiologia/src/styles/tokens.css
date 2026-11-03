@@ -1,69 +1,94 @@
 /* ===========================================================================
    CKC KINESIOLOGIA — FICHAS DE DISEÑO (DESIGN TOKENS)
    ---------------------------------------------------------------------------
-   PALETA PROVISIONAL.
+   SISTEMA VISUAL
 
-   No pudo accederse al perfil de Instagram de CKC desde el entorno de
-   desarrollo, por lo que no fue posible tomar los colores exactos de la marca.
-   Esta paleta es una propuesta provisional construida con el criterio pedido:
-   neutros, blancos y grises suaves, con dos colores de acento que transmiten
-   profesionalismo y bienestar (un verde petroleo sereno y un terracota
-   calido que aporta cercania y evita el aspecto de empresa tecnologica).
+   Portado del sitio de referencia que indicó el cliente (Global Kinetic,
+   Rosario): escala de verdes con acentos ámbar, tipografía Outfit en todos
+   los niveles, esquinas muy redondeadas (20 y 32 px), sombras verdes amplias
+   y suaves, y un ancho de contenido de 1180 px.
+
+   Dos ajustes propios, no copiados:
+     · El ámbar de la referencia (#c9771f) da 3,4:1 sobre blanco, por debajo
+       del mínimo de 4,5:1 que piden las pautas de accesibilidad para texto.
+       Se separó en dos tokens: uno oscuro para texto y uno vivo, el de la
+       referencia, para botones y elementos gráficos grandes.
+     · El resto de la paleta se mantiene fiel.
 
    PARA ADOPTAR LA IDENTIDAD REAL DE CKC:
-   solo hay que cambiar los valores del bloque "MARCA" de abajo. Todo el
-   resto del sitio deriva de ellos, incluidos estados, bordes y degradados.
+   cambiar los valores del bloque "MARCA". Todo el resto deriva de ellos.
    =========================================================================== */
 
 :root {
-  /* --- MARCA: cambiar estos valores por los de la identidad real --------- */
-  --ckc-primario: #0f6b61;         /* verde petroleo saturado: color principal */
-  --ckc-primario-oscuro: #06302c;  /* casi negro verdoso: secciones de impacto */
-  --ckc-primario-medio: #0a4a43;   /* intermedio: degradados                 */
-  --ckc-primario-claro: #ddefec;   /* muy claro: fondos suaves               */
-  --ckc-acento: #c4441b;           /* naranja profundo: textos y detalles    */
-  --ckc-acento-vivo: #f2602c;      /* naranja vivo: cifras, barras, energia  */
-  --ckc-acento-claro: #fdeee7;     /* naranja muy claro: fondos suaves       */
-  --ckc-arena: #f1ebe3;            /* neutro calido: secciones alternadas    */
+  /* --- MARCA: escala de verdes ------------------------------------------ */
+  --ckc-verde-900: #0d3b23;
+  --ckc-verde-800: #14512f;
+  --ckc-verde-700: #1b6b3e;
+  --ckc-verde-600: #267a48;
+  --ckc-verde-500: #2f9a58;
+  --ckc-verde-400: #4bb978;
+  --ckc-verde-300: #7fd3a0;
+  --ckc-verde-100: #dcf3e6;
+  --ckc-verde-50: #f1faf5;
+
+  /* --- MARCA: acentos ámbar --------------------------------------------- */
+  --ckc-ambar-700: #a35e13;  /* propio: para texto, cumple contraste 5:1    */
+  --ckc-ambar-600: #c9771f;
+  --ckc-ambar-500: #e08a2e;
+  --ckc-ambar-400: #f0a450;
+  --ckc-ambar-100: #fdeed9;
+
+  /* --- Alias que usa todo el sitio -------------------------------------- */
+  --ckc-primario: var(--ckc-verde-700);
+  --ckc-primario-oscuro: var(--ckc-verde-900);
+  --ckc-primario-medio: var(--ckc-verde-800);
+  --ckc-primario-claro: var(--ckc-verde-100);
+  --ckc-acento: var(--ckc-ambar-700);        /* textos y detalles finos     */
+  --ckc-acento-vivo: var(--ckc-ambar-500);   /* botones, cifras, gráficos   */
+  --ckc-acento-claro: var(--ckc-ambar-100);
+  --ckc-arena: #f6faf8;                      /* fondo suave alternado       */
 
   /* --- NEUTROS ---------------------------------------------------------- */
-  --ckc-tinta: #16221f;            /* texto principal                        */
-  --ckc-tinta-media: #46524f;      /* texto secundario                       */
-  --ckc-tinta-suave: #6b7572;      /* texto terciario, metadatos             */
-  --ckc-linea: #e2e0da;            /* bordes                                 */
-  --ckc-linea-suave: #eeece7;      /* bordes muy suaves                      */
-  --ckc-fondo: #fcfbf9;            /* fondo general                          */
+  --ckc-tinta: #0f1f17;
+  --ckc-tinta-media: #3c5247;
+  --ckc-tinta-suave: #6b8078;
+  --ckc-linea: #e2ece7;
+  --ckc-linea-suave: #eef5f1;
+  --ckc-fondo: #ffffff;
   --ckc-blanco: #ffffff;
 
   /* --- ESTADOS ---------------------------------------------------------- */
-  --ckc-error: #9b2c24;
-  --ckc-error-fondo: #fbeceb;
-  --ckc-exito: #0f6b61;
+  --ckc-error: #a32019;
+  --ckc-error-fondo: #fceceb;
+  --ckc-exito: var(--ckc-verde-700);
   --ckc-aviso: #8a5a12;
-  --ckc-aviso-fondo: #fdf4e3;
+  --ckc-aviso-fondo: var(--ckc-ambar-100);
 
   /* --- TIPOGRAFIA ------------------------------------------------------- */
-  --ckc-fuente-titulo: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-  --ckc-fuente-texto: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* La referencia usa una sola familia en todos los niveles. */
+  --ckc-fuente-titulo: 'Outfit Variable', 'Outfit', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ckc-fuente-texto: var(--ckc-fuente-titulo);
 
-  /* Escala tipografica fluida. El minimo nunca baja de 16px en el cuerpo
-     para que el texto siga siendo comodo de leer en celulares y para
-     personas mayores. */
-  --ckc-txt-xs: 0.8125rem;                                  /* 13px          */
-  --ckc-txt-sm: 0.9375rem;                                  /* 15px          */
-  --ckc-txt-base: 1.0625rem;                                /* 17px          */
-  --ckc-txt-md: clamp(1.125rem, 0.4vw + 1.03rem, 1.25rem);  /* 18 → 20px     */
-  --ckc-txt-lg: clamp(1.25rem, 0.7vw + 1.1rem, 1.5rem);     /* 20 → 24px     */
-  --ckc-txt-xl: clamp(1.5rem, 1.2vw + 1.22rem, 1.875rem);   /* 24 → 30px     */
-  --ckc-txt-2xl: clamp(1.875rem, 2vw + 1.4rem, 2.5rem);     /* 30 → 40px     */
-  --ckc-txt-3xl: clamp(2.35rem, 3.8vw + 1.45rem, 3.85rem);  /* 38 → 62px     */
-  --ckc-txt-4xl: clamp(2.75rem, 6vw + 1.3rem, 5.25rem);     /* 44 → 84px     */
-  --ckc-txt-cifra: clamp(2.75rem, 5vw + 1.4rem, 4.5rem);    /* cifras grandes */
+  /* Pesos: con una sola familia, la jerarquía la marca el peso. */
+  --ckc-peso-titulo: 600;
+  --ckc-peso-fuerte: 650;
 
-  --ckc-interlineado-ajustado: 1.08;
-  --ckc-interlineado-titulo: 1.16;
-  --ckc-interlineado-texto: 1.68;
+  /* Escala fluida. El cuerpo nunca baja de 16 px. */
+  --ckc-txt-xs: 0.8125rem;
+  --ckc-txt-sm: 0.9375rem;
+  --ckc-txt-base: 1.0625rem;
+  --ckc-txt-md: clamp(1.125rem, 0.4vw + 1.03rem, 1.25rem);
+  --ckc-txt-lg: clamp(1.25rem, 0.7vw + 1.1rem, 1.5rem);
+  --ckc-txt-xl: clamp(1.5rem, 1.2vw + 1.22rem, 1.875rem);
+  --ckc-txt-2xl: clamp(1.875rem, 2vw + 1.4rem, 2.5rem);
+  --ckc-txt-3xl: clamp(2.25rem, 3.6vw + 1.4rem, 3.6rem);
+  --ckc-txt-4xl: clamp(2.6rem, 5.4vw + 1.3rem, 4.75rem);
+  --ckc-txt-cifra: clamp(2.25rem, 3.4vw + 1.3rem, 3.25rem);
+
+  --ckc-interlineado-ajustado: 1.04;
+  --ckc-interlineado-titulo: 1.14;
+  --ckc-interlineado-texto: 1.7;
 
   /* --- ESPACIADO -------------------------------------------------------- */
   --ckc-esp-1: 0.25rem;
@@ -77,35 +102,34 @@
   --ckc-esp-9: 4rem;
   --ckc-esp-10: 5rem;
 
-  /* Aire vertical entre secciones: generoso, como pide la direccion de arte. */
-  --ckc-seccion-y: clamp(3.5rem, 7vw, 7.5rem);
+  --ckc-seccion-y: clamp(3.5rem, 7vw, 7rem);
   --ckc-seccion-y-corta: clamp(2.5rem, 4.5vw, 4.5rem);
 
   /* --- MEDIDAS ---------------------------------------------------------- */
-  --ckc-ancho-max: 76rem;          /* 1216px: contenedor general             */
-  --ckc-ancho-texto: 40rem;        /* 640px: ancho optimo de lectura         */
+  --ckc-ancho-max: 73.75rem;       /* 1180 px, como la referencia           */
+  --ckc-ancho-texto: 40rem;
   --ckc-ancho-angosto: 52rem;
-  --ckc-margen-lateral: clamp(1.25rem, 5vw, 3rem);
+  --ckc-margen-lateral: clamp(1.25rem, 5vw, 2.5rem);
 
-  /* --- RADIOS ----------------------------------------------------------- */
-  --ckc-radio-sm: 6px;
-  --ckc-radio: 12px;
-  --ckc-radio-md: 18px;
-  --ckc-radio-lg: 28px;
+  /* --- RADIOS: la esquina muy redondeada es la firma del sistema -------- */
+  --ckc-radio-sm: 12px;
+  --ckc-radio: 20px;
+  --ckc-radio-md: 24px;
+  --ckc-radio-lg: 32px;
   --ckc-radio-pastilla: 999px;
 
-  /* --- SOMBRAS: suaves, nunca exageradas -------------------------------- */
-  --ckc-sombra-sm: 0 1px 2px rgba(22, 34, 31, 0.05);
-  --ckc-sombra: 0 2px 8px rgba(22, 34, 31, 0.05), 0 1px 2px rgba(22, 34, 31, 0.04);
-  --ckc-sombra-md: 0 10px 28px -12px rgba(22, 34, 31, 0.14), 0 2px 6px rgba(22, 34, 31, 0.04);
-  --ckc-sombra-lg: 0 24px 56px -24px rgba(22, 34, 31, 0.2), 0 4px 12px rgba(22, 34, 31, 0.05);
+  /* --- SOMBRAS: amplias, suaves y teñidas de verde ---------------------- */
+  --ckc-sombra-sm: 0 2px 10px rgba(13, 59, 35, 0.06);
+  --ckc-sombra: 0 14px 40px -14px rgba(13, 59, 35, 0.22);
+  --ckc-sombra-md: 0 14px 40px -14px rgba(13, 59, 35, 0.22);
+  --ckc-sombra-lg: 0 34px 80px -28px rgba(13, 59, 35, 0.38);
 
-  /* --- TRANSICIONES: sutiles y elegantes -------------------------------- */
-  --ckc-curva: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* --- TRANSICIONES ----------------------------------------------------- */
+  --ckc-curva: cubic-bezier(0.22, 1, 0.36, 1);
   --ckc-curva-suave: cubic-bezier(0.4, 0, 0.2, 1);
-  --ckc-trans-rapida: 160ms var(--ckc-curva);
-  --ckc-trans: 260ms var(--ckc-curva);
-  --ckc-trans-lenta: 520ms var(--ckc-curva);
+  --ckc-trans-rapida: 180ms var(--ckc-curva);
+  --ckc-trans: 320ms var(--ckc-curva);
+  --ckc-trans-lenta: 620ms var(--ckc-curva);
 
   /* --- CAPAS ------------------------------------------------------------ */
   --ckc-z-base: 1;
@@ -115,9 +139,9 @@
   --ckc-z-modal: 70;
 
   /* --- ALTURAS ---------------------------------------------------------- */
-  --ckc-alto-encabezado: 76px;
-  --ckc-alto-encabezado-compacto: 62px;
-  /* Objetivo tactil minimo: 48px, segun las pautas de accesibilidad. */
+  --ckc-alto-barra: 40px;          /* barra superior de contacto            */
+  --ckc-alto-encabezado: 78px;
+  --ckc-alto-encabezado-compacto: 64px;
   --ckc-tactil-min: 48px;
 }
 

@@ -41,12 +41,18 @@ Los tres scripts de verificación se corren **después** de `npm run build`.
 
 ## Qué tiene el sitio
 
-**20 páginas:** inicio · nosotros · servicios (listado + 5 páginas de detalle) ·
-especialidades y tratamientos · cómo trabajamos · equipo profesional · instalaciones ·
-preguntas frecuentes · contacto y turnos · blog (listado + 3 notas) · política de
-privacidad · error 404.
+**Una landing de página única**, más la política de privacidad (necesaria por el
+formulario) y un error 404.
 
-- Diseño propio, adaptado a computadora, tablet y celular.
+Secciones de la landing, en orden: hero con cifras · servicios (cinco áreas, cada una
+desplegable) · MEP como área destacada · buscá por lo que te pasa · quiénes somos ·
+clubes e instituciones · instalaciones · equipo · preguntas frecuentes · turnos.
+
+El sistema visual está portado del sitio de referencia que indicó el cliente: una sola
+familia tipográfica (Outfit), escala de verdes con acentos ámbar, esquinas de 20 y 32 px,
+sombras verdes amplias y barra superior de contacto.
+
+- Navegación por anclas con marcado de la sección activa al desplazarse.
 - Menú lateral en celulares, con foco atrapado y cierre con `Esc`.
 - Botón flotante de WhatsApp que aparece al bajar y se esconde al llegar al pie.
 - Galería de instalaciones con ampliación en pantalla completa y navegación por teclado.
@@ -100,39 +106,19 @@ src/
 | Los profesionales | `src/data/equipo.ts` |
 | Las fotos de instalaciones | `src/data/instalaciones.ts` |
 | El menú | `src/data/navegacion.ts` |
-| El texto de una página | `src/pages/<pagina>.astro` |
-
-### Agregar una nota al blog
-
-Crear un `.md` en `src/content/blog/`. El nombre del archivo es la URL.
-
-```markdown
----
-titulo: 'Título de la nota'
-resumen: 'Resumen de una o dos líneas. Se usa como meta descripción (máx. 165 caracteres).'
-fecha: 2026-01-15
-categoria: 'Prevención'      # Movimiento | Prevención | Rehabilitación | La consulta | Hábitos
-lectura: 4                   # minutos
-motivo: 'arcos'              # gráfico mientras no haya foto
-tono: 'primario'
-serviciosRelacionados: ['kinesiologia-deportiva']
----
-
-Primer párrafo, que se muestra más grande.
-
-## Un subtítulo
-
-El resto de la nota.
-```
-
-El listado, la URL, las metaetiquetas y los datos estructurados se arman solos.
+| El orden o el texto de una sección | `src/pages/index.astro` |
+| Las fotos ilustrativas | `src/data/fotos.ts` |
+| Años, cifras y clubes | `src/data/trayectoria.ts` |
 
 ### Agregar un servicio
 
-Sumar una entrada a `SERVICIOS` en `src/data/servicios.ts`. Pide los nueve apartados
-(introducción, descripción, situaciones, objetivos, evaluación, proceso, participación,
-preguntas frecuentes y la advertencia si corresponde). Se genera sola la página, la
-tarjeta en el inicio y en el listado, el enlace del pie y los datos estructurados.
+Sumar una entrada a `SERVICIOS` en `src/data/servicios.ts`. Aparece sola como tarjeta en
+la landing, con su desplegable, su ancla propia y su enlace en el pie.
+
+Los nueve apartados de cada servicio (introducción, descripción, situaciones, objetivos,
+evaluación, proceso, participación, preguntas y advertencia) siguen cargados en el
+archivo aunque la landing muestre un resumen: si en algún momento se vuelven a abrir
+páginas por servicio, el contenido ya está escrito.
 
 ---
 

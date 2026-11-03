@@ -81,22 +81,24 @@ h4,
 h5,
 h6 {
   font-family: var(--ckc-fuente-titulo);
-  font-weight: 400;
+  /* Con una sola familia, el peso es lo que separa un título del cuerpo. */
+  font-weight: var(--ckc-peso-titulo);
   line-height: var(--ckc-interlineado-titulo);
   color: var(--ckc-primario-oscuro);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
 h1 {
   font-size: var(--ckc-txt-3xl);
   line-height: var(--ckc-interlineado-ajustado);
-  letter-spacing: -0.025em;
+  /* Una geométrica necesita más cierre en tamaños grandes. */
+  letter-spacing: -0.035em;
 }
 
 h2 {
   font-size: var(--ckc-txt-2xl);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 h3 {
@@ -118,7 +120,8 @@ b {
 }
 
 em {
-  font-style: italic;
+  font-style: normal;
+  color: var(--ckc-primario);
 }
 
 a {

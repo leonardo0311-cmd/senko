@@ -31,7 +31,7 @@ export const PREGUNTAS: Pregunta[] = [
     grupo: 'turnos',
     pregunta: '¿Cómo puedo solicitar un turno?',
     respuesta: [
-      'Podés escribirnos por WhatsApp desde cualquier botón de este sitio o por mensaje directo en <a href="https://www.instagram.com/ckc.kinesiocanning/" target="_blank" rel="noopener noreferrer">Instagram</a>. También podés dejarnos tus datos en el <a href="/contacto/">formulario de contacto</a>.',
+      'Podés escribirnos por WhatsApp desde cualquier botón de este sitio o por mensaje directo en <a href="https://www.instagram.com/ckc.kinesiocanning/" target="_blank" rel="noopener noreferrer">Instagram</a>. También podés dejarnos tus datos en el <a href="/#turnos">formulario de contacto</a>.',
       'Contanos brevemente tu motivo de consulta: con esa información podemos orientarte sobre los próximos pasos y coordinar el turno que corresponda.',
     ],
   },
@@ -102,8 +102,8 @@ export const PREGUNTAS: Pregunta[] = [
     grupo: 'consulta',
     pregunta: '¿Cómo puedo conocer los servicios disponibles?',
     respuesta: [
-      'En la sección de <a href="/servicios/">servicios</a> está el detalle de cada área de atención del consultorio, con una página propia que explica en qué consiste, en qué situaciones puede estar indicada y cómo se determina si es adecuada.',
-      'En <a href="/especialidades/">especialidades y tratamientos</a> la información está organizada por motivo de consulta, que suele ser una forma más directa de encontrar lo que buscás.',
+      'En la sección de <a href="/#servicios">servicios</a> está el detalle de cada área de atención: tocando cualquiera se abre en qué consiste, en qué situaciones puede estar indicada y qué busca el tratamiento.',
+      'En <a href="/#motivos">buscá por lo que te pasa</a> la información está organizada por motivo de consulta, que suele ser una forma más directa de encontrar lo que buscás.',
       'También publicamos novedades y contenido sobre movimiento y prevención en <a href="https://www.instagram.com/ckc.kinesiocanning/" target="_blank" rel="noopener noreferrer">Instagram</a>.',
     ],
   },

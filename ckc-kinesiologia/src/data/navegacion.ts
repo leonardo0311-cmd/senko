@@ -1,65 +1,69 @@
+/**
+ * NAVEGACION DE LA LANDING
+ *
+ * El sitio es una sola página larga, así que la navegación son anclas a las
+ * secciones. Las únicas páginas aparte son la política de privacidad (hace
+ * falta por el formulario) y el error 404.
+ *
+ * Si en algún momento se vuelven a abrir páginas internas, acá se cambian los
+ * `href` por rutas y el resto del sitio sigue funcionando igual.
+ */
+
 export type EnlaceNav = {
   texto: string;
   href: string;
-  /** Descripcion corta para el menu movil y el pie de pagina. */
+  /** Descripción corta para el menú móvil. */
   detalle?: string;
 };
 
-/** Menu principal del encabezado. */
+/** Menú principal del encabezado: todas son secciones de la misma página. */
 export const NAV_PRINCIPAL: EnlaceNav[] = [
-  { texto: 'Inicio', href: '/', detalle: 'Volver a la portada' },
-  { texto: 'Nosotros', href: '/nosotros/', detalle: 'Quiénes somos y cómo pensamos la kinesiología' },
-  { texto: 'Servicios', href: '/servicios/', detalle: 'Las cinco áreas de atención del consultorio' },
-  { texto: 'Especialidades', href: '/especialidades/', detalle: 'Motivos de consulta y tratamientos' },
-  { texto: 'Cómo trabajamos', href: '/como-trabajamos/', detalle: 'Qué esperar, paso a paso' },
-  { texto: 'Equipo', href: '/profesionales/', detalle: 'Los profesionales del consultorio' },
-  { texto: 'Instalaciones', href: '/instalaciones/', detalle: 'El espacio donde atendemos' },
-  { texto: 'Blog', href: '/blog/', detalle: 'Salud, movimiento y prevención' },
-  { texto: 'Preguntas frecuentes', href: '/preguntas-frecuentes/', detalle: 'Dudas habituales antes de consultar' },
-  { texto: 'Contacto', href: '/contacto/', detalle: 'Turnos, ubicación y canales de contacto' },
+  { texto: 'Servicios', href: '/#servicios', detalle: 'Las cinco áreas de atención' },
+  { texto: 'Qué te pasa', href: '/#motivos', detalle: 'Entrá por tu motivo de consulta' },
+  { texto: 'Nosotros', href: '/#nosotros', detalle: 'Cómo trabajamos y qué nos distingue' },
+  { texto: 'Instalaciones', href: '/#instalaciones', detalle: 'El espacio donde atendemos' },
+  { texto: 'Equipo', href: '/#equipo', detalle: 'Los profesionales del consultorio' },
+  { texto: 'Preguntas', href: '/#preguntas', detalle: 'Dudas frecuentes antes de consultar' },
+  { texto: 'Turnos', href: '/#turnos', detalle: 'Contacto, ubicación y formulario' },
 ];
 
-/**
- * Enlaces que se muestran siempre visibles en la barra de escritorio.
- * El resto queda dentro del menu "Más", para que el encabezado no se sature.
- */
+/** Las que se ven siempre en la barra de escritorio. */
 export const NAV_DESTACADA: EnlaceNav[] = NAV_PRINCIPAL.filter((e) =>
-  ['/nosotros/', '/servicios/', '/especialidades/', '/como-trabajamos/', '/contacto/'].includes(e.href),
+  ['/#servicios', '/#motivos', '/#nosotros', '/#instalaciones', '/#turnos'].includes(e.href),
 );
 
+/** El resto, dentro del menú "Más". */
 export const NAV_SECUNDARIA: EnlaceNav[] = NAV_PRINCIPAL.filter((e) =>
-  ['/profesionales/', '/instalaciones/', '/blog/', '/preguntas-frecuentes/'].includes(e.href),
+  ['/#equipo', '/#preguntas'].includes(e.href),
 );
 
-/** Columnas del pie de pagina. */
+/** Columnas del pie de página. */
 export const NAV_PIE: Array<{ titulo: string; enlaces: EnlaceNav[] }> = [
   {
-    titulo: 'El consultorio',
+    titulo: 'Servicios',
     enlaces: [
-      { texto: 'Nosotros', href: '/nosotros/' },
-      { texto: 'Cómo trabajamos', href: '/como-trabajamos/' },
-      { texto: 'Equipo profesional', href: '/profesionales/' },
-      { texto: 'Instalaciones', href: '/instalaciones/' },
+      { texto: 'Kinesiología deportiva', href: '/#servicio-kinesiologia-deportiva' },
+      { texto: 'Tratamiento y prevención de lesiones', href: '/#servicio-tratamiento-y-prevencion-de-lesiones' },
+      { texto: 'Prevención de caídas', href: '/#servicio-prevencion-de-caidas' },
+      { texto: 'Suelo pélvico', href: '/#servicio-suelo-pelvico' },
+      { texto: 'MEP', href: '/#mep' },
     ],
   },
   {
-    titulo: 'Atención',
+    titulo: 'El consultorio',
     enlaces: [
-      { texto: 'Todos los servicios', href: '/servicios/' },
-      { texto: 'Kinesiología deportiva', href: '/servicios/kinesiologia-deportiva/' },
-      { texto: 'Lesiones: tratamiento y prevención', href: '/servicios/tratamiento-y-prevencion-de-lesiones/' },
-      { texto: 'Prevención de caídas', href: '/servicios/prevencion-de-caidas/' },
-      { texto: 'Suelo pélvico', href: '/servicios/suelo-pelvico/' },
-      { texto: 'MEP', href: '/servicios/mep/' },
+      { texto: 'Quiénes somos', href: '/#nosotros' },
+      { texto: 'Equipo profesional', href: '/#equipo' },
+      { texto: 'Instalaciones', href: '/#instalaciones' },
+      { texto: 'Clubes e instituciones', href: '/#instituciones' },
     ],
   },
   {
     titulo: 'Información',
     enlaces: [
-      { texto: 'Especialidades y tratamientos', href: '/especialidades/' },
-      { texto: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
-      { texto: 'Blog', href: '/blog/' },
-      { texto: 'Contacto y turnos', href: '/contacto/' },
+      { texto: 'Buscá por lo que te pasa', href: '/#motivos' },
+      { texto: 'Preguntas frecuentes', href: '/#preguntas' },
+      { texto: 'Turnos y contacto', href: '/#turnos' },
       { texto: 'Política de privacidad', href: '/politica-de-privacidad/' },
     ],
   },

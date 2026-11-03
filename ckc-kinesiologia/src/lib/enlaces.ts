@@ -11,7 +11,7 @@ import { CONTACTO, MENSAJES } from '@/data/site';
  */
 export function enlaceWhatsApp(mensaje: string = MENSAJES.general): string {
   const numero = CONTACTO.whatsapp;
-  if (!numero) return '/contacto/#canales';
+  if (!numero) return '/#turnos';
   return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
 }
 

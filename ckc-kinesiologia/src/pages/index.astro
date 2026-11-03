@@ -1,30 +1,56 @@
 ---
+/**
+ * LANDING DE CKC — página única.
+ *
+ * Estructura portada del sitio de referencia que indicó el cliente: barra
+ * superior de contacto, hero con cifras incrustadas, grilla de servicios, un
+ * área destacada, quiénes somos, instalaciones, equipo y bloque de turnos.
+ *
+ * El contenido es solo el que CKC tiene confirmado. Los bloques de la
+ * referencia que no aplican —metros cuadrados, unidades móviles, servicios
+ * que CKC no ofrece— quedaron afuera en lugar de rellenarse.
+ */
 import Base from '@/layouts/Base.astro';
 import Boton from '@/components/Boton.astro';
 import BotonTurno from '@/components/BotonTurno.astro';
 import TituloSeccion from '@/components/TituloSeccion.astro';
 import TarjetaServicio from '@/components/TarjetaServicio.astro';
+import MotivosConsulta from '@/components/MotivosConsulta.astro';
 import TarjetaRasgo from '@/components/TarjetaRasgo.astro';
 import FichaProfesional from '@/components/FichaProfesional.astro';
-import FranjaCifras from '@/components/FranjaCifras.astro';
 import MuroInstituciones from '@/components/MuroInstituciones.astro';
-import MotivosConsulta from '@/components/MotivosConsulta.astro';
+import Galeria from '@/components/Galeria.astro';
+import Acordeon from '@/components/Acordeon.astro';
+import Formulario from '@/components/Formulario.astro';
 import Visual from '@/components/Visual.astro';
-import BandaCta from '@/components/BandaCta.astro';
-import TarjetaNota from '@/components/TarjetaNota.astro';
+import Icono from '@/components/Icono.astro';
 import AvisoPendiente from '@/components/AvisoPendiente.astro';
-import { SERVICIOS } from '@/data/servicios';
+
+import { SERVICIOS, servicioPorSlug } from '@/data/servicios';
+import { PREGUNTAS } from '@/data/preguntas';
 import { PROFESIONALES, hayEquipoCargado } from '@/data/equipo';
-import { afirmacionDeEscala, respaldo, aniosDeTrayectoria } from '@/data/trayectoria';
-import { MENSAJES, CONTACTO, UBICACION, hayDireccion, direccionEnLinea } from '@/data/site';
+import { GALERIA, hayFotosPropias } from '@/data/instalaciones';
+import { CIFRAS, anioInicio } from '@/data/trayectoria';
 import { FOTOS, TEXTOS_ALT } from '@/data/fotos';
-import { getCollection } from 'astro:content';
+import {
+  MENSAJES,
+  CONTACTO,
+  UBICACION,
+  HORARIOS,
+  hayWhatsApp,
+  hayTelefono,
+  hayDireccion,
+  hayHorarios,
+  direccionEnLinea,
+} from '@/data/site';
+import { SITE } from '@/data/site-url.mjs';
 
-const notas = (await getCollection('blog'))
-  .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime())
-  .slice(0, 3);
+const mep = servicioPorSlug('mep')!;
+const otrosServicios = SERVICIOS.filter((s) => s.slug !== 'mep');
 
-/* Cuatro diferenciales, no seis: menos lista, más peso en cada uno. */
+/** Cifras del hero: solo las tres que tienen sentido ahí arriba. */
+const cifrasHero = CIFRAS.filter((c) => ['anios', 'areas', 'clubes'].includes(c.id));
+
 const DIFERENCIALES = [
   {
     icono: 'evaluacion' as const,
@@ -45,96 +71,241 @@ const DIFERENCIALES = [
       'El plan se arma sobre lo que querés volver a hacer, y se revisa a medida que avanzás.',
   },
   {
+    icono: 'dialogo' as const,
+    titulo: 'Explicaciones claras',
+    texto:
+      'Te contamos qué encontramos y por qué hacemos lo que hacemos, sin tecnicismos innecesarios.',
+  },
+  {
     icono: 'casa' as const,
     titulo: 'Seguís en casa',
     texto:
       'Pautas realistas para sostener el trabajo entre sesiones, pensadas para tu rutina.',
   },
+  {
+    icono: 'acompanamiento' as const,
+    titulo: 'Acompañamiento del proceso',
+    texto:
+      'Revisamos la evolución y ajustamos el plan. Un tratamiento que no se revisa deja de adaptarse.',
+  },
 ];
+
+const limpiar = (s: string) =>
+  s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 ---
 
 <Base
-  titulo="CKC Kinesiología | Consultorio kinésico en Canning"
-  descripcion="Consultorio kinésico en Canning: kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP. Evaluamos tu caso y definimos un plan. Consultanos."
+  titulo="CKC Kinesiología — Consultorio Kinésico Canning"
+  descripcion="Consultorio kinésico en Canning: kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP. Evaluamos tu caso y definimos un plan. Sacá tu turno."
+  esquemas={[
+    {
+      '@type': 'FAQPage',
+      mainEntity: PREGUNTAS.map((p) => ({
+        '@type': 'Question',
+        name: p.pregunta,
+        acceptedAnswer: { '@type': 'Answer', text: p.respuesta.map(limpiar).join(' ') },
+      })),
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Áreas de atención de CKC Kinesiología',
+      itemListElement: SERVICIOS.map((s, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: s.nombre,
+        url: `${SITE}/#servicio-${s.slug}`,
+      })),
+    },
+  ]}
 >
   {/* ============================ HERO ============================ */}
   <section class="hero">
     <div class="hero__fondo" aria-hidden="true">
-      <svg viewBox="0 0 1200 820" preserveAspectRatio="xMidYMid slice" fill="none">
+      <svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" fill="none">
         <defs>
-          <radialGradient id="h-brillo" cx="0.78" cy="0.3" r="0.72">
-            <stop offset="0%" stop-color="#158174" stop-opacity="0.85" />
-            <stop offset="100%" stop-color="#06302c" stop-opacity="0" />
+          <radialGradient id="h-luz" cx="0.76" cy="0.26" r="0.78">
+            <stop offset="0%" stop-color="#2f9a58" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#0d3b23" stop-opacity="0" />
           </radialGradient>
         </defs>
-        <rect width="1200" height="820" fill="#06302c" />
-        <rect width="1200" height="820" fill="url(#h-brillo)" />
+        <rect width="1200" height="900" fill="#0d3b23" />
+        <rect width="1200" height="900" fill="url(#h-luz)" />
         <g class="hero__arcos">
-          <circle cx="945" cy="340" r="330" />
-          <circle cx="945" cy="340" r="248" />
-          <circle cx="945" cy="340" r="166" class="hero__arco--vivo" />
-          <circle cx="945" cy="340" r="84" />
-          <path d="M-60 760C250 760 330 300 600 300s250 330 700 190" />
-          <path d="M-60 812C250 812 330 352 600 352s250 330 700 190" class="hero__arco--punteado" />
+          <circle cx="950" cy="330" r="340" />
+          <circle cx="950" cy="330" r="252" />
+          <circle cx="950" cy="330" r="164" class="hero__arco--vivo" />
+          <path d="M-60 820C250 820 330 330 610 330s250 350 700 200" />
         </g>
       </svg>
     </div>
 
     <div class="ckc-contenedor hero__interior">
-      <p class="hero__rotulo">Consultorio Kinésico Canning</p>
+      <div class="hero__texto">
+        <p class="hero__rotulo">Consultorio kinésico · Canning</p>
 
-      <h1 class="hero__titulo">
-        Recuperá tu movimiento.<br />
-        <em>Volvé a sentirte bien.</em>
-      </h1>
+        <h1 class="hero__titulo">
+          Miramos cada caso <em>en particular</em>, no el promedio.
+        </h1>
 
-      <p class="hero__bajada">
-        Kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP.
-        Cinco áreas, un mismo punto de partida: entender tu caso antes de proponerte
-        un tratamiento.
-      </p>
+        <p class="hero__bajada">
+          Kinesiología deportiva, lesiones, prevención de caídas, suelo pélvico y MEP.
+          Cinco áreas con un mismo punto de partida: entender qué te pasa antes de
+          proponerte un tratamiento.
+        </p>
 
-      <div class="hero__acciones">
-        <BotonTurno
-          mensaje={MENSAJES.turno}
-          texto="Solicitar un turno"
-          variante="secundario"
-          tamanio="lg"
-        />
-        <Boton href="#servicios" variante="claro" tamanio="lg" flecha>
-          Ver los servicios
-        </Boton>
+        <div class="hero__acciones">
+          <BotonTurno
+            mensaje={MENSAJES.turno}
+            texto="Escribinos por WhatsApp"
+            variante="secundario"
+            tamanio="lg"
+          />
+          <Boton href="#servicios" variante="claro" tamanio="lg" flecha>
+            Ver nuestros servicios
+          </Boton>
+        </div>
+
+        {/* --- Cifras incrustadas, como en la referencia --- */}
+        <ul class="hero__cifras">
+          {
+            cifrasHero.map((c) => (
+              <li>
+                <span class:list={['hero__cifra', !c.valor && 'hero__cifra--vacia']}>
+                  {c.id === 'anios' && anioInicio ? anioInicio : (c.valor ?? '—')}
+                </span>
+                <span class="hero__cifra-etiqueta">
+                  {c.id === 'anios' ? 'Desde' : c.etiqueta}
+                  {!c.valor && <span class="hero__pendiente">a confirmar</span>}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
 
-      <ul class="hero__areas">
-        {
-          SERVICIOS.map((s) => (
-            <li>
-              <a href={`/servicios/${s.slug}/`}>{s.nombre}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="hero__visual">
+        <Visual
+          src={FOTOS.hero ?? undefined}
+          alt={FOTOS.hero ? TEXTOS_ALT.hero : undefined}
+          proporcion="4/5"
+          motivo="arcos"
+          tono="profundo"
+          rotulo={FOTOS.hero ? undefined : 'Foto a incorporar: sesión de tratamiento en el consultorio'}
+          prioridad
+          ancho={620}
+        />
+      </div>
     </div>
   </section>
 
-  {/* ========================= CIFRAS ========================= */}
-  <FranjaCifras variante="clara" />
+  {/* ============================ SERVICIOS ============================ */}
+  <section class="ckc-seccion" id="servicios">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Nuestros servicios"
+        titulo="Un abordaje integral para cada consulta"
+        bajada="Cinco áreas en un mismo consultorio. Tocá cualquiera para ver en qué consiste y qué busca el tratamiento."
+      />
 
-  {/* ===================== BUSCÁ POR LO QUE TE PASA ===================== */}
-  <section class="ckc-seccion ckc-seccion--corta" id="motivos">
+      <div class="grilla-servicios">
+        {otrosServicios.map((s, i) => <TarjetaServicio servicio={s} retardo={i * 60} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* ========================= ÁREA DESTACADA: MEP ========================= */}
+  <section class="ckc-seccion destacada" id="mep">
+    <div class="ckc-contenedor destacada__interior">
+      <div class="destacada__texto" data-animar>
+        <p class="ckc-rotulo">Área destacada</p>
+        <h2>{mep.nombre}, en sus líneas Sport y Beauty</h2>
+        <p class="destacada__entrada">{mep.resumen}</p>
+
+        <div class="destacada__bloques">
+          <div>
+            <p class="destacada__rotulo">¿Para quién?</p>
+            <ul>
+              {mep.situaciones.slice(0, 3).map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+          <div>
+            <p class="destacada__rotulo">Cómo se decide</p>
+            <p class="destacada__parrafo">{mep.evaluacion[0]}</p>
+          </div>
+        </div>
+
+        {mep.advertencia && <p class="destacada__aviso">{mep.advertencia}</p>}
+
+        <div class="destacada__accion">
+          <BotonTurno
+            mensaje={MENSAJES.servicio(mep.nombreConsulta)}
+            texto="Consultar por MEP"
+            tamanio="lg"
+          />
+        </div>
+      </div>
+
+      <div class="destacada__visual" data-animar style="--retardo:110ms">
+        <Visual
+          proporcion="4/5"
+          motivo={mep.motivo}
+          tono="profundo"
+          rotulo={mep.fotoSugerida}
+          ancho={540}
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* ============================ MOTIVOS ============================ */}
+  <section class="ckc-seccion ckc-seccion--arena" id="motivos">
     <div class="ckc-contenedor">
       <TituloSeccion
         rotulo="Empezá por acá"
         titulo="Buscá por lo que te pasa"
-        bajada="No hace falta que sepas el nombre del tratamiento. Entrá por el motivo que te trae y te llevamos al área que corresponde."
+        bajada="No hace falta que sepas el nombre del tratamiento. Entrá por el motivo que te trae y te contamos cómo lo abordamos."
       />
-      <MotivosConsulta />
+      <MotivosConsulta sobre="arena" />
     </div>
   </section>
 
-  {/* ===================== CLUBES E INSTITUCIONES ===================== */}
-  <section class="ckc-seccion ckc-seccion--blanca" id="instituciones">
+  {/* ============================ NOSOTROS ============================ */}
+  <section class="ckc-seccion" id="nosotros">
+    <div class="ckc-contenedor">
+      <TituloSeccion
+        rotulo="Quiénes somos"
+        titulo="Una mirada que nos hace distintos"
+        bajada="No vamos a decirte que tenemos la mejor tecnología ni que te vas a curar en un número de sesiones. Preferimos contarte cómo trabajamos."
+      />
+
+      <div class="ckc-grilla ckc-grilla--3">
+        {
+          DIFERENCIALES.map((d, i) => (
+            <TarjetaRasgo icono={d.icono} titulo={d.titulo} texto={d.texto} retardo={i * 55} />
+          ))
+        }
+      </div>
+
+      {
+        !anioInicio && (
+          <AvisoPendiente
+            titulo="Trayectoria a confirmar"
+            campo="src/data/trayectoria.ts → anioInicio, CIFRAS, INSTITUCIONES"
+            class="nosotros__aviso"
+          >
+            <p>
+              El año de inicio, la cantidad de clubes y los deportistas acompañados los
+              tiene que confirmar el consultorio. En cuanto estén cargados aparecen en el
+              hero y acá, y los años se recalculan solos cada enero.
+            </p>
+          </AvisoPendiente>
+        )
+      }
+    </div>
+  </section>
+
+  {/* ========================= INSTITUCIONES ========================= */}
+  <section class="ckc-seccion ckc-seccion--arena" id="instituciones">
     <div class="ckc-contenedor">
       <TituloSeccion
         rotulo="Con quiénes trabajamos"
@@ -145,107 +316,37 @@ const DIFERENCIALES = [
     </div>
   </section>
 
-  {/* ========================= SERVICIOS ========================= */}
-  <section class="ckc-seccion ckc-seccion--arena" id="servicios">
+  {/* ========================= INSTALACIONES ========================= */}
+  <section class="ckc-seccion" id="instalaciones">
     <div class="ckc-contenedor">
       <TituloSeccion
-        rotulo="Servicios"
-        titulo="Cinco áreas, un solo consultorio"
-        bajada="No hace falta ir a un lugar distinto por cada cosa. Estas son las áreas con las que trabajamos, cada una con su página."
+        rotulo="Nuestras instalaciones"
+        titulo="El espacio donde atendemos"
+        bajada="Conocer el lugar antes de ir hace más fácil la primera consulta, sobre todo si es tu primer tratamiento kinésico."
       />
 
-      <div class="ckc-grilla ckc-grilla--3">
-        {SERVICIOS.map((s, i) => <TarjetaServicio servicio={s} retardo={i * 60} />)}
-      </div>
+      {
+        !hayFotosPropias && (
+          <AvisoPendiente
+            titulo="Fotografías del consultorio pendientes"
+            campo="src/data/instalaciones.ts → GALERIA"
+            class="galeria__aviso"
+          >
+            <p>
+              No usamos imágenes de otros centros ni fotos genéricas que puedan hacerse
+              pasar por este consultorio. Cada casillero indica qué fotografía
+              corresponde en ese lugar.
+            </p>
+          </AvisoPendiente>
+        )
+      }
 
-      <div class="cierre-servicios" data-animar>
-        <p>¿No sabés a qué área corresponde tu caso? Contanos qué te pasa y te orientamos.</p>
-        <BotonTurno mensaje={MENSAJES.general} texto="Consultar mi caso" />
-      </div>
+      <Galeria items={GALERIA} />
     </div>
   </section>
 
-  {/* ========================= DIFERENCIALES ========================= */}
-  <section class="ckc-seccion">
-    <div class="ckc-contenedor diferenciales">
-      <div class="diferenciales__texto" data-animar>
-        <p class="ckc-rotulo">Cómo atendemos</p>
-        <h2>
-          Sin promesas. <em>Con criterio.</em>
-        </h2>
-        <p class="ckc-bajada">
-          No vamos a decirte que tenemos la mejor tecnología ni que te vas a curar en
-          un número de sesiones. Preferimos contarte cómo trabajamos, que es lo que
-          podés esperar de verdad.
-        </p>
-        <Boton href="/como-trabajamos/" variante="contorno" flecha class="diferenciales__boton">
-          Ver el proceso completo
-        </Boton>
-      </div>
-
-      <div class="diferenciales__grilla">
-        {
-          DIFERENCIALES.map((d, i) => (
-            <TarjetaRasgo
-              icono={d.icono}
-              titulo={d.titulo}
-              texto={d.texto}
-              retardo={i * 60}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  {/* ========================= TRAYECTORIA ========================= */}
-  <section class="ckc-seccion ckc-seccion--oscura trayectoria">
-    <div class="ckc-contenedor trayectoria__interior">
-      <div data-animar>
-        <p class="ckc-rotulo">Trayectoria</p>
-        <h2 class="trayectoria__titulo">
-          {
-            afirmacionDeEscala
-              ? afirmacionDeEscala
-              : aniosDeTrayectoria
-                ? `${aniosDeTrayectoria} años atendiendo en Canning`
-                : 'Kinesiología en Canning, de la cancha al consultorio'
-          }
-        </h2>
-        <p class="trayectoria__texto">
-          {
-            respaldo
-              ? respaldo
-              : 'Atendemos a deportistas, a personas que se están recuperando de una lesión o una cirugía, a adultos mayores que quieren moverse con seguridad y a consultas de suelo pélvico. Cinco áreas bajo el mismo techo, en Canning.'
-          }
-        </p>
-
-        <div class="trayectoria__acciones">
-          <Boton href="/nosotros/" variante="claro" flecha>Conocé el consultorio</Boton>
-          <Boton href={CONTACTO.instagram.url} variante="texto" class="trayectoria__ig">
-            Mirá nuestro día a día en Instagram
-          </Boton>
-        </div>
-      </div>
-
-      <AvisoPendiente
-        titulo="Años y cifras a confirmar"
-        campo="src/data/trayectoria.ts → anioInicio, CIFRAS, INSTITUCIONES"
-        tono="neutro"
-        class="trayectoria__aviso"
-      >
-        <p>
-          El año de inicio, la cantidad de clubes y los deportistas acompañados los
-          tiene que confirmar el consultorio. En cuanto estén cargados, aparecen acá,
-          en la franja de cifras y en Nosotros, y los años se recalculan solos cada
-          enero.
-        </p>
-      </AvisoPendiente>
-    </div>
-  </section>
-
-  {/* ========================= EQUIPO ========================= */}
-  <section class="ckc-seccion ckc-seccion--blanca">
+  {/* ============================ EQUIPO ============================ */}
+  <section class="ckc-seccion ckc-seccion--arena" id="equipo">
     <div class="ckc-contenedor">
       <TituloSeccion
         rotulo="Equipo"
@@ -271,72 +372,136 @@ const DIFERENCIALES = [
       <div class="ckc-grilla ckc-grilla--2 equipo__grilla">
         {PROFESIONALES.map((p, i) => <FichaProfesional profesional={p} retardo={i * 80} />)}
       </div>
-
-      <div class="centrado-pie" data-animar>
-        <Boton href="/profesionales/" variante="contorno" flecha>Ver el equipo completo</Boton>
-      </div>
     </div>
   </section>
 
-  {/* ========================= BLOG ========================= */}
-  <section class="ckc-seccion ckc-seccion--arena">
-    <div class="ckc-contenedor">
-      <TituloSeccion
-        rotulo="Blog"
-        titulo="Salud, movimiento y prevención"
-        bajada="Información general para entender mejor el cuerpo y qué esperar de un tratamiento. No reemplaza una consulta."
-      />
-
-      <div class="ckc-grilla ckc-grilla--3">
-        {notas.map((nota, i) => <TarjetaNota nota={nota} retardo={i * 60} />)}
-      </div>
-
-      <div class="centrado-pie" data-animar>
-        <Boton href="/blog/" variante="contorno" flecha>Ver todas las notas</Boton>
-      </div>
-    </div>
-  </section>
-
-  {/* ===================== DÓNDE ESTAMOS ===================== */}
-  <section class="ckc-seccion ckc-seccion--blanca">
-    <div class="ckc-contenedor ubicacion-inicio">
-      <div class="ubicacion-inicio__texto" data-animar>
-        <p class="ckc-rotulo">Dónde estamos</p>
-        <h2>Atendemos en Canning</h2>
+  {/* ============================ PREGUNTAS ============================ */}
+  <section class="ckc-seccion" id="preguntas">
+    <div class="ckc-contenedor preguntas">
+      <div class="preguntas__texto" data-animar>
+        <p class="ckc-rotulo">Preguntas frecuentes</p>
+        <h2>Las dudas que aparecen antes de consultar</h2>
         <p class="ckc-bajada">
-          {
-            hayDireccion && direccionEnLinea
-              ? direccionEnLinea
-              : `${UBICACION.resumen}. La dirección exacta está pendiente de confirmación: escribinos y te la pasamos junto con las indicaciones para llegar.`
-          }
+          Donde la respuesta depende de algo administrativo que todavía tenemos que
+          confirmar, lo decimos en lugar de inventar un dato.
         </p>
-        <div class="ubicacion-inicio__acciones">
-          <Boton href="/contacto/" variante="primario" flecha>Ver cómo llegar</Boton>
-          <Boton href="/instalaciones/" variante="contorno">Conocé el consultorio</Boton>
+        <div class="preguntas__accion">
+          <BotonTurno mensaje={MENSAJES.general} texto="Hacer otra consulta" variante="contorno" />
         </div>
       </div>
 
-      <div class="ubicacion-inicio__visual" data-animar style="--retardo:100ms">
-        <Visual
-          src={FOTOS.ubicacion ?? undefined}
-          alt={FOTOS.ubicacion ? TEXTOS_ALT.ubicacion : undefined}
-          proporcion="4/3"
-          motivo="horizonte"
-          tono="arena"
-          rotulo={FOTOS.ubicacion ? undefined : 'Foto a incorporar: acceso o fachada del consultorio'}
-          ancho={640}
-        />
+      <div class="preguntas__lista">
+        <Acordeon preguntas={PREGUNTAS} />
       </div>
     </div>
   </section>
 
-  <BandaCta
-    titulo="¿Querés saber qué tratamiento puede ayudarte?"
-    texto="Contanos tu motivo de consulta y vemos juntos los próximos pasos."
-    mensaje={MENSAJES.general}
-    textoBoton="Escribinos por WhatsApp"
-    secundario={{ texto: 'Ver preguntas frecuentes', href: '/preguntas-frecuentes/' }}
-  />
+  {/* ============================ TURNOS ============================ */}
+  <section class="ckc-seccion turnos" id="turnos">
+    <div class="ckc-contenedor">
+      <div class="turnos__encabezado" data-animar>
+        <p class="ckc-rotulo">Turnos</p>
+        <h2>Sacá tu turno</h2>
+        <p class="turnos__bajada">
+          Contanos tu motivo de consulta y te orientamos sobre los próximos pasos. Si
+          hace falta una evaluación, coordinamos el turno.
+        </p>
+      </div>
+
+      <div class="turnos__cuerpo">
+        {/* --- Canales --- */}
+        <div class="turnos__canales" data-animar>
+          <h3 class="turnos__subtitulo">¿Preferís resolverlo al instante?</h3>
+
+          <ul class="turnos__datos">
+            <li>
+              <span class="turnos__icono" aria-hidden="true"><Icono nombre="dialogo" /></span>
+              <span>
+                <strong>WhatsApp</strong>
+                {
+                  hayWhatsApp ? (
+                    <span>La vía más rápida para coordinar un turno.</span>
+                  ) : (
+                    <span>
+                      Pendiente de confirmación. No publicamos un número sin verificar
+                      para que nadie escriba a un destinatario equivocado.
+                    </span>
+                  )
+                }
+              </span>
+            </li>
+
+            <li>
+              <span class="turnos__icono" aria-hidden="true"><Icono nombre="persona" /></span>
+              <span>
+                <strong>Instagram</strong>
+                <a href={CONTACTO.instagram.url} target="_blank" rel="noopener noreferrer">
+                  {CONTACTO.instagram.usuario}
+                </a>
+                <span>Nuestro canal activo.</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="turnos__icono" aria-hidden="true"><Icono nombre="ubicacion" /></span>
+              <span>
+                <strong>Dónde estamos</strong>
+                <span>
+                  {
+                    hayDireccion && direccionEnLinea
+                      ? direccionEnLinea
+                      : `${UBICACION.resumen}. Dirección exacta a confirmar: escribinos y te la pasamos.`
+                  }
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="turnos__icono" aria-hidden="true"><Icono nombre="tiempo" /></span>
+              <span>
+                <strong>Horarios</strong>
+                {
+                  hayHorarios && HORARIOS.lista ? (
+                    <span>
+                      {HORARIOS.lista.map((h) => (
+                        <span class="turnos__horario">
+                          {h.dias}: {h.franjas.join(' y ')}
+                        </span>
+                      ))}
+                    </span>
+                  ) : (
+                    <span>A confirmar. Consultanos la disponibilidad actual.</span>
+                  )
+                }
+              </span>
+            </li>
+
+            {
+              hayTelefono && CONTACTO.telefono && (
+                <li>
+                  <span class="turnos__icono" aria-hidden="true"><Icono nombre="calendario" /></span>
+                  <span>
+                    <strong>Teléfono</strong>
+                    <a href={`tel:+${CONTACTO.telefono.link}`}>{CONTACTO.telefono.display}</a>
+                  </span>
+                </li>
+              )
+            }
+          </ul>
+
+          <div class="turnos__cta">
+            <BotonTurno mensaje={MENSAJES.turno} texto="Sacá tu turno" tamanio="lg" ancho />
+          </div>
+        </div>
+
+        {/* --- Formulario --- */}
+        <div class="turnos__formulario" data-animar style="--retardo:110ms">
+          <h3 class="turnos__subtitulo">Escribinos</h3>
+          <Formulario />
+        </div>
+      </div>
+    </div>
+  </section>
 </Base>
 
 <style>
@@ -345,8 +510,8 @@ const DIFERENCIALES = [
   .hero {
     position: relative;
     overflow: hidden;
-    background: var(--ckc-primario-oscuro);
-    padding-block: clamp(3.5rem, 9vw, 7rem) clamp(3rem, 7vw, 5.5rem);
+    background: var(--ckc-verde-900);
+    padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3rem, 7vw, 5.5rem);
   }
 
   .hero__fondo {
@@ -363,25 +528,34 @@ const DIFERENCIALES = [
   .hero__arcos circle,
   .hero__arcos path {
     fill: none;
-    stroke: color-mix(in srgb, #ffffff 16%, transparent);
+    stroke: color-mix(in srgb, #ffffff 15%, transparent);
     stroke-width: 1;
     vector-effect: non-scaling-stroke;
   }
 
   .hero__arco--vivo {
-    stroke: color-mix(in srgb, var(--ckc-acento-vivo) 62%, transparent) !important;
+    stroke: color-mix(in srgb, var(--ckc-ambar-400) 65%, transparent) !important;
     stroke-width: 1.6 !important;
-  }
-
-  .hero__arco--punteado {
-    stroke-dasharray: 5 10;
-    opacity: 0.7;
   }
 
   .hero__interior {
     position: relative;
     z-index: 1;
-    max-width: 60rem;
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  @media (min-width: 62rem) {
+    .hero__interior {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  @media (max-width: 46rem) {
+    .hero__visual {
+      display: none;
+    }
   }
 
   .hero__rotulo {
@@ -389,39 +563,39 @@ const DIFERENCIALES = [
     align-items: center;
     gap: 0.65rem;
     font-size: var(--ckc-txt-xs);
-    font-weight: 650;
+    font-weight: var(--ckc-peso-fuerte);
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--ckc-acento-vivo) 80%, #ffffff);
+    color: var(--ckc-ambar-400);
   }
 
   .hero__rotulo::before {
     content: '';
     width: 2rem;
     height: 2px;
-    background: var(--ckc-acento-vivo);
+    background: var(--ckc-ambar-500);
   }
 
   .hero__titulo {
     margin-top: var(--ckc-esp-5);
     font-size: var(--ckc-txt-4xl);
-    line-height: 0.98;
-    letter-spacing: -0.035em;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
     color: var(--ckc-blanco);
-    max-width: 16ch;
+    max-width: 15ch;
   }
 
   .hero__titulo em {
-    font-style: italic;
-    color: color-mix(in srgb, var(--ckc-acento-vivo) 72%, #ffffff);
+    font-style: normal;
+    color: var(--ckc-ambar-400);
   }
 
   .hero__bajada {
     margin-top: var(--ckc-esp-6);
-    max-width: 40rem;
+    max-width: 38rem;
     font-size: var(--ckc-txt-md);
     line-height: 1.6;
-    color: color-mix(in srgb, #ffffff 78%, var(--ckc-primario));
+    color: color-mix(in srgb, #ffffff 80%, var(--ckc-verde-500));
   }
 
   .hero__acciones {
@@ -431,186 +605,315 @@ const DIFERENCIALES = [
     margin-top: var(--ckc-esp-7);
   }
 
-  .hero__areas {
+  .hero__cifras {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: var(--ckc-esp-7);
     list-style: none;
     margin: var(--ckc-esp-8) 0 0;
-    padding-top: var(--ckc-esp-5);
-    border-top: 1px solid color-mix(in srgb, #ffffff 15%, transparent);
+    padding-top: var(--ckc-esp-6);
+    border-top: 1px solid color-mix(in srgb, #ffffff 16%, transparent);
   }
 
-  .hero__areas a {
-    display: inline-block;
-    padding: 0.42rem 0.9rem;
-    border: 1px solid color-mix(in srgb, #ffffff 22%, transparent);
-    border-radius: var(--ckc-radio-pastilla);
-    font-size: var(--ckc-txt-xs);
-    font-weight: 600;
-    color: color-mix(in srgb, #ffffff 86%, transparent);
-    text-decoration: none;
-    transition: background-color var(--ckc-trans), border-color var(--ckc-trans);
-  }
-
-  .hero__areas a:hover {
-    background: color-mix(in srgb, #ffffff 12%, transparent);
-    border-color: color-mix(in srgb, #ffffff 46%, transparent);
+  .hero__cifra {
+    display: block;
+    font-size: var(--ckc-txt-cifra);
+    font-weight: var(--ckc-peso-titulo);
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: var(--ckc-blanco);
+    font-variant-numeric: tabular-nums;
   }
 
-  /* ========================= SERVICIOS ========================= */
+  .hero__cifra--vacia {
+    opacity: 0.45;
+  }
 
-  .cierre-servicios {
-    display: flex;
-    flex-wrap: wrap;
+  .hero__cifra-etiqueta {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: var(--ckc-txt-sm);
+    font-weight: 500;
+    color: color-mix(in srgb, #ffffff 76%, var(--ckc-verde-500));
+    max-width: 11rem;
+  }
+
+  .hero__pendiente {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.68rem;
+    font-weight: var(--ckc-peso-fuerte);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, #ffffff 55%, transparent);
+  }
+
+  /* ============================ SERVICIOS ============================ */
+
+  .grilla-servicios {
+    display: grid;
+    gap: var(--ckc-esp-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    align-items: start;
+  }
+
+  /* ========================= ÁREA DESTACADA ========================= */
+
+  .destacada {
+    background: var(--ckc-verde-900);
+    color: color-mix(in srgb, #ffffff 84%, var(--ckc-verde-500));
+    scroll-margin-top: calc(var(--ckc-alto-encabezado) + 1rem);
+  }
+
+  .destacada__interior {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
     align-items: center;
-    justify-content: space-between;
+  }
+
+  @media (min-width: 62rem) {
+    .destacada__interior {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  .destacada :global(.ckc-rotulo) {
+    color: var(--ckc-ambar-400);
+  }
+
+  .destacada h2 {
+    color: var(--ckc-blanco);
+    font-size: var(--ckc-txt-2xl);
+    max-width: 20ch;
+  }
+
+  .destacada__entrada {
+    margin-top: var(--ckc-esp-5);
+    max-width: 40rem;
+    font-size: var(--ckc-txt-md);
+    line-height: 1.65;
+  }
+
+  .destacada__bloques {
+    display: grid;
     gap: var(--ckc-esp-5);
     margin-top: var(--ckc-esp-7);
-    padding: var(--ckc-esp-5) var(--ckc-esp-6);
-    background: var(--ckc-blanco);
-    border: 1px solid var(--ckc-linea);
-    border-radius: var(--ckc-radio-md);
   }
 
-  .cierre-servicios p {
-    max-width: 42rem;
-    font-size: var(--ckc-txt-base);
-    color: var(--ckc-tinta-media);
+  @media (min-width: 40rem) {
+    .destacada__bloques {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--ckc-esp-6);
+    }
   }
 
-  /* ========================= DIFERENCIALES ========================= */
+  .destacada__rotulo {
+    font-size: var(--ckc-txt-xs);
+    font-weight: var(--ckc-peso-fuerte);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ckc-ambar-400);
+    margin-bottom: var(--ckc-esp-3);
+  }
 
-  .diferenciales {
+  .destacada__bloques ul {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .destacada__bloques li,
+  .destacada__parrafo {
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.6;
+  }
+
+  .destacada__bloques li {
+    position: relative;
+    padding-left: 1.2rem;
+  }
+
+  .destacada__bloques li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--ckc-ambar-500);
+  }
+
+  .destacada__aviso {
+    margin-top: var(--ckc-esp-6);
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--ckc-radio-sm);
+    background: color-mix(in srgb, #ffffff 9%, transparent);
+    border: 1px solid color-mix(in srgb, #ffffff 16%, transparent);
+    font-size: var(--ckc-txt-xs);
+    line-height: 1.65;
+  }
+
+  .destacada__accion {
+    margin-top: var(--ckc-esp-6);
+  }
+
+  /* ============================ PREGUNTAS ============================ */
+
+  .preguntas {
     display: grid;
     gap: clamp(2rem, 4vw, 3.5rem);
     align-items: start;
   }
 
-  @media (min-width: 62rem) {
-    .diferenciales {
-      grid-template-columns: 22rem 1fr;
+  @media (min-width: 64rem) {
+    .preguntas {
+      grid-template-columns: 21rem 1fr;
     }
 
-    .diferenciales__texto {
+    .preguntas__texto {
       position: sticky;
       top: calc(var(--ckc-alto-encabezado) + 2rem);
     }
   }
 
-  .diferenciales__texto h2 {
+  .preguntas__texto h2 {
+    font-size: var(--ckc-txt-xl);
+    max-width: 18ch;
+  }
+
+  .preguntas__accion {
+    margin-top: var(--ckc-esp-5);
+  }
+
+  /* ============================ TURNOS ============================ */
+
+  .turnos {
+    background: var(--ckc-arena);
+    scroll-margin-top: var(--ckc-alto-encabezado);
+  }
+
+  .turnos__encabezado {
+    margin-bottom: var(--ckc-esp-8);
+    max-width: 44rem;
+  }
+
+  .turnos__encabezado h2 {
+    margin-top: var(--ckc-esp-3);
     font-size: var(--ckc-txt-2xl);
-    max-width: 14ch;
   }
 
-  .diferenciales__texto h2 em {
-    font-style: italic;
-    color: var(--ckc-primario);
+  .turnos__bajada {
+    margin-top: var(--ckc-esp-4);
+    font-size: var(--ckc-txt-md);
+    color: var(--ckc-tinta-media);
   }
 
-  .diferenciales__grilla {
+  .turnos__cuerpo {
     display: grid;
-    gap: var(--ckc-esp-4);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  }
-
-  /* ========================= TRAYECTORIA ========================= */
-
-  .trayectoria {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .trayectoria__interior {
-    display: grid;
-    gap: clamp(2rem, 4vw, 3.5rem);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
     align-items: start;
   }
 
   @media (min-width: 62rem) {
-    .trayectoria__interior {
-      grid-template-columns: 1fr 22rem;
+    .turnos__cuerpo {
+      grid-template-columns: 22rem 1fr;
     }
   }
 
-  .trayectoria__titulo {
-    margin-top: var(--ckc-esp-4);
-    font-size: var(--ckc-txt-2xl);
-    max-width: 18ch;
+  .turnos__canales {
+    padding: var(--ckc-esp-6);
+    background: var(--ckc-verde-900);
+    border-radius: var(--ckc-radio-lg);
+    color: color-mix(in srgb, #ffffff 82%, var(--ckc-verde-500));
   }
 
-  .trayectoria__texto {
-    margin-top: var(--ckc-esp-5);
-    max-width: 42rem;
-    font-size: var(--ckc-txt-md);
-    line-height: 1.65;
-    color: color-mix(in srgb, #ffffff 76%, var(--ckc-primario));
+  .turnos__subtitulo {
+    font-size: var(--ckc-txt-lg);
+    margin-bottom: var(--ckc-esp-5);
   }
 
-  .trayectoria__acciones {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--ckc-esp-4);
-    margin-top: var(--ckc-esp-6);
+  .turnos__canales .turnos__subtitulo {
+    color: var(--ckc-blanco);
   }
 
-  :global(.trayectoria__ig) {
-    color: color-mix(in srgb, #ffffff 84%, transparent);
-  }
-
-
-  /* ========================= DÓNDE ESTAMOS ========================= */
-
-  .ubicacion-inicio {
+  .turnos__datos {
+    list-style: none;
+    margin: 0;
     display: grid;
-    gap: clamp(2rem, 4vw, 3.5rem);
-    align-items: center;
+    gap: var(--ckc-esp-5);
   }
 
-  @media (min-width: 60rem) {
-    .ubicacion-inicio {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .ubicacion-inicio__texto h2 {
-    font-size: var(--ckc-txt-2xl);
-  }
-
-  .ubicacion-inicio__acciones {
-    display: flex;
-    flex-wrap: wrap;
+  .turnos__datos > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: var(--ckc-esp-4);
+    align-items: start;
+  }
+
+  .turnos__icono {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: none;
+    border-radius: var(--ckc-radio-sm);
+    background: color-mix(in srgb, #ffffff 11%, transparent);
+    color: var(--ckc-ambar-400);
+  }
+
+  .turnos__icono :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .turnos__datos strong {
+    display: block;
+    color: var(--ckc-blanco);
+    font-size: var(--ckc-txt-sm);
+    font-weight: var(--ckc-peso-fuerte);
+    margin-bottom: 0.15rem;
+  }
+
+  .turnos__datos span span,
+  .turnos__datos a {
+    display: block;
+    font-size: var(--ckc-txt-sm);
+    line-height: 1.55;
+  }
+
+  .turnos__datos a {
+    color: var(--ckc-ambar-400);
+    font-weight: 600;
+  }
+
+  .turnos__horario {
+    display: block;
+  }
+
+  .turnos__cta {
     margin-top: var(--ckc-esp-6);
+    padding-top: var(--ckc-esp-5);
+    border-top: 1px solid color-mix(in srgb, #ffffff 15%, transparent);
   }
 
-  /* ========================= COMUNES ========================= */
-
-  /* Estas clases viajan a la raíz de otro componente (<Boton>,
-     <AvisoPendiente>), adonde los estilos con alcance no llegan. */
-  :global(.diferenciales__boton) {
-    margin-top: var(--ckc-esp-5);
+  .turnos__formulario .turnos__subtitulo {
+    color: var(--ckc-primario-oscuro);
   }
 
-  :global(.trayectoria__aviso) {
-    background: color-mix(in srgb, #ffffff 9%, transparent) !important;
-    border-color: color-mix(in srgb, #ffffff 18%, transparent) !important;
-    color: color-mix(in srgb, #ffffff 80%, transparent) !important;
+  /* ============================ COMUNES ============================ */
+
+  :global(.nosotros__aviso) {
+    margin-top: var(--ckc-esp-7);
   }
 
-  :global(.equipo__aviso) {
+  :global(.equipo__aviso),
+  :global(.galeria__aviso) {
     margin-bottom: var(--ckc-esp-6);
   }
 
   .equipo__grilla {
     gap: var(--ckc-esp-5);
-  }
-
-  .centrado-pie {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--ckc-esp-7);
   }
 </style>

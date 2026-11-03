@@ -1,18 +1,13 @@
 ---
 /**
- * Tipografías servidas desde el propio dominio (sin pedidos a Google Fonts):
+ * Tipografía servida desde el propio dominio (sin pedidos a Google Fonts):
  * carga más rápida, sin dependencia externa y sin enviar datos de los
  * visitantes a terceros.
  *
- * De Newsreader se importan solo los subconjuntos latinos, que son los que
- * usa un sitio en español. Inter variable se distribuye en un único archivo
- * de estilos con todos los subconjuntos, pero cada uno declara su
- * `unicode-range`: el navegador descarga únicamente el latino.
+ * El sistema usa una sola familia en todos los niveles, como el sitio de
+ * referencia: la jerarquía la marca el peso, no el contraste entre familias.
  */
-import '@fontsource-variable/inter';
-import '@fontsource/newsreader/latin-400.css';
-import '@fontsource/newsreader/latin-500.css';
-import '@fontsource/newsreader/latin-400-italic.css';
+import '@fontsource-variable/outfit';
 import '@/styles/global.css';
 
 import Cabecera from '@/components/Cabecera.astro';
