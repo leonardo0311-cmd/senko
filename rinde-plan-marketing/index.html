@@ -3,21 +3,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Caveat:wght@700&display=swap">
 <style>
-/* Sistema tomado de la plantilla: lienzo gris claro, páginas blancas o lima, grotesca negra en minúsculas,
-   micro-etiquetas en las cuatro esquinas y fotografía a sangre. Diseño de una sola apariencia, clara. */
+/* Estructura de la plantilla (etiquetas en las esquinas, grotesca pesada en minúsculas, foto a sangre)
+   con la paleta de HOT LOOK: negro, el rosa del logo y el rojo del feed. Una sola apariencia, oscura. */
 :root{
-  --canvas:#f5f5f5;
-  --page:#ffffff;
-  --ink:#0a0a0a;
-  --ink-2:#5c5c5c;
-  --ink-3:#8e8e8e;
-  --line:#dcdcdc;
-  --lima:#e2f22e;
-  --lima-pg:#e9f263;
-  --cielo:#a7c9e8;
+  --canvas:#0a090c;
+  --page:#141216;
+  --ink:#f6f2f4;
+  --ink-2:#b3a9ae;
+  --ink-3:#7d737a;
+  --line:#2b262e;
+  --rosa:#eda9d2;
+  --rosa-pg:#eda9d2;
+  --rojo:#f32b2e;
+  --sobre-acento:#170d14;
   --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
   --script:"Caveat","Segoe Script",cursive;
-  color-scheme:light;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:.95rem;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -40,14 +41,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .topnav a{flex:none;text-decoration:none;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;
   padding:.32rem .5rem;color:var(--ink-2);white-space:nowrap;border:1px solid transparent}
 .topnav a:hover{color:var(--ink);border-color:var(--line)}
-.topnav a[aria-current="true"]{background:var(--lima);color:var(--ink)}
+.topnav a[aria-current="true"]{background:var(--rosa);color:var(--sobre-acento)}
 
 /* ---- páginas ---- */
 .deck{display:flex;flex-direction:column;gap:14px;padding-top:14px}
 .page{position:relative;background:var(--page);display:flex;flex-direction:column;overflow:hidden;
   min-height:min(74vh,760px);padding:clamp(16px,2.2vw,30px) clamp(16px,2.4vw,34px);
   scroll-margin-top:calc(env(safe-area-inset-top,0px) + 3.6rem)}
-.page.lima{background:var(--lima-pg)}
+.page.acc{background:var(--rosa-pg);color:var(--sobre-acento)}
+.page.acc2{background:var(--rojo);color:#fff}
 .page.bleed{min-height:min(86vh,860px);color:#fff;justify-content:flex-end}
 .page .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .page .scrim{position:absolute;inset:0;z-index:1;
@@ -65,10 +67,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* ---- tipografía de página ---- */
 .dh{font-weight:900;font-size:clamp(2.3rem,6.6vw,5.2rem);line-height:.9;letter-spacing:-.035em;text-wrap:balance}
 .dh.sm{font-size:clamp(1.9rem,4.6vw,3.4rem);line-height:.94}
-.dh .ac{color:var(--lima)}
-.dh .cy{color:var(--cielo)}
+.dh .ac{color:var(--rosa)}
+.dh .cy{color:var(--rojo)}
 .sub{font-size:clamp(.72rem,1.5vw,.95rem);font-weight:700;text-transform:uppercase;letter-spacing:.2em;line-height:1.5}
-.sub.cy{color:var(--cielo)}
+.sub.cy{color:var(--rosa)}
 .shout{font-size:clamp(.82rem,1.7vw,1.05rem);font-weight:700;text-transform:uppercase;letter-spacing:.11em;line-height:1.55}
 .lede{font-size:1rem;color:var(--ink-2);max-width:60ch}
 .small{font-size:.85rem;line-height:1.45;color:var(--ink-2)}
@@ -84,19 +86,33 @@ button{font:inherit;color:inherit;cursor:pointer}
 .item .n{font-size:.62rem;font-weight:700;letter-spacing:.14em}
 .item h3{margin:0;font-size:1rem;font-weight:800;line-height:1.15}
 .item p{font-size:.86rem;color:var(--ink-2);line-height:1.45}
-.lima .item p,.lima .small,.lima .lede{color:#2c3300}
+.acc .item p,.acc .small,.acc .lede{color:#3a1f31}
+.acc2 .item p,.acc2 .small,.acc2 .lede{color:#ffe3e3}
 ul.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3rem}
 ul.ticks li{padding-left:.95rem;position:relative;font-size:.88rem;color:var(--ink-2)}
 ul.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:.45rem;height:1px;background:var(--ink)}
-.lima ul.ticks li{color:#2c3300}
+.acc ul.ticks li{color:#3a1f31}
+.acc2 ul.ticks li{color:#ffe3e3}
+.acc ul.ticks li::before,.acc ol.steps li::before,.page.acc .lbl,.acc .item .n{color:var(--sobre-acento)}
+.acc2 ul.ticks li::before,.acc2 ol.steps li::before,.page.acc2 .lbl,.acc2 .item .n{color:#fff}
+.acc ol.steps li{color:#3a1f31}
+.acc2 ol.steps li{color:#ffe3e3}
+.acc .item,.acc2 .item{border-top-color:currentColor}
+.acc .chip{border-color:var(--sobre-acento);color:var(--sobre-acento)}
+.acc .chip.fill{background:var(--sobre-acento);border-color:var(--sobre-acento);color:var(--rosa)}
+.acc2 .chip{border-color:#fff;color:#fff}
+.acc2 .chip.fill{background:#fff;border-color:#fff;color:var(--rojo)}
 ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:.35rem}
 ol.steps li{counter-increment:s;padding-left:1.7rem;position:relative;font-size:.88rem;color:var(--ink-2)}
 ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:.15em;font-size:.62rem;font-weight:700;letter-spacing:.1em;color:var(--ink)}
 .chip{display:inline-flex;align-items:center;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.11em;padding:.26rem .5rem;border:1px solid var(--ink);color:var(--ink);background:transparent}
-.chip.fill{background:var(--lima);border-color:var(--lima)}
+.chip.fill{background:var(--rosa);border-color:var(--rosa);color:var(--sobre-acento)}
 .chips{display:flex;flex-wrap:wrap;gap:.3rem}
 .note{border-left:3px solid var(--ink);padding:.7rem .9rem;font-size:.85rem;color:var(--ink-2);background:var(--canvas)}
-.lima .note{background:rgba(255,255,255,.45);color:#2c3300}
+.acc .note{background:rgba(255,255,255,.4);border-left-color:var(--sobre-acento);color:#3a1f31}
+.acc .note strong{color:var(--sobre-acento)}
+.acc2 .note{background:rgba(0,0,0,.22);border-left-color:#fff;color:#ffe3e3}
+.acc2 .note strong{color:#fff}
 .note strong{color:var(--ink)}
 .framed{width:100%;height:auto;display:block;border:1px solid var(--ink)}
 .sq{aspect-ratio:1;object-fit:cover}
@@ -110,8 +126,10 @@ th,td{text-align:left;padding:.5rem .7rem .5rem 0;border-bottom:1px solid var(--
 th{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink);border-bottom-color:var(--ink)}
 td strong{color:var(--ink);font-weight:700}
 td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);font-weight:700;text-align:right;padding-right:0}
-.lima th,.lima td{border-bottom-color:rgba(0,0,0,.18);color:#2c3300}
-.lima th,.lima td strong,.lima td.num{color:var(--ink)}
+.acc th,.acc td{border-bottom-color:rgba(0,0,0,.2);color:#3a1f31}
+.acc2 th,.acc2 td{border-bottom-color:rgba(255,255,255,.3);color:#ffe3e3}
+.acc2 th,.acc2 td strong,.acc2 td.num{color:#fff}
+.acc th,.acc td strong,.acc td.num{color:var(--sobre-acento)}
 
 /* ---- controles ---- */
 .btn{background:transparent;border:1px solid var(--ink);padding:.33rem .6rem;font-size:.62rem;font-weight:700;
@@ -145,17 +163,18 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
 .day .f{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
 .day .bar{height:3px;background:var(--line);margin-top:auto}
 .day[data-prod="RINDE"] .bar{background:var(--ink)}
-.day[data-prod="Cliente"] .bar{background:var(--cielo)}
-.day[data-prod="Mixta"] .bar{background:linear-gradient(90deg,var(--ink) 50%,var(--cielo) 50%)}
+.day[data-prod="Cliente"] .bar{background:var(--rojo)}
+.day[data-prod="Mixta"] .bar{background:linear-gradient(90deg,var(--ink) 50%,var(--rojo) 50%)}
 .day:hover{border-color:var(--ink)}
-.day[aria-pressed="true"]{background:var(--lima);border-color:var(--ink)}
+.day[aria-pressed="true"]{background:var(--rosa);border-color:var(--rosa)}
+.day[aria-pressed="true"] .d,.day[aria-pressed="true"] .f{color:var(--sobre-acento)}
 .day.dim{opacity:.3}
 .detail{border:1px solid var(--ink);padding:1rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 4rem);display:flex;flex-direction:column;gap:.7rem}
 .detail > *{min-width:0}
 .detail dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;align-items:baseline;margin:0}
 .detail dt{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3)}
 .detail dd{margin:0;font-size:.86rem;color:var(--ink-2)}
-.copybox{background:var(--lima);padding:.7rem .8rem;font-size:.92rem;font-weight:500;line-height:1.4;color:var(--ink)}
+.copybox{background:var(--rosa);padding:.7rem .8rem;font-size:.92rem;font-weight:500;line-height:1.4;color:var(--sobre-acento)}
 @media (max-width:860px){.calwrap{grid-template-columns:1fr}.detail{position:static}}
 
 /* ---- grillas de foto ---- */
@@ -163,6 +182,11 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
 .photo3 img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;display:block}
 .mood{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.3rem;align-items:start}
 .mood img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block}
+.pal{display:flex;flex-wrap:wrap;gap:.4rem}
+.pal > div{flex:1 1 140px;min-width:0;display:flex;flex-direction:column;gap:.15rem}
+.pal i{display:block;height:46px;margin-bottom:.3rem;border:1px solid var(--line)}
+.pal b{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+.pal span{font-size:.64rem;letter-spacing:.06em;color:var(--ink-3);font-variant-numeric:tabular-nums}
 @media (max-width:760px){.mood{grid-template-columns:repeat(4,minmax(0,1fr))}}
 
 /* ---- precio ---- */
@@ -173,7 +197,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
 .pager{position:fixed;z-index:55;right:calc(1rem + env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));
   display:flex;align-items:center;background:var(--ink);color:var(--page)}
 .pager button{background:none;border:0;padding:.45rem .65rem;font-size:.85rem;color:var(--page)}
-.pager button:hover{background:var(--lima);color:var(--ink)}
+.pager button:hover{background:var(--rosa);color:var(--sobre-acento)}
 .pager .pos{font-size:.62rem;font-weight:700;letter-spacing:.12em;padding:0 .55rem;font-variant-numeric:tabular-nums}
 
 @media (max-width:620px){
@@ -217,7 +241,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
 </section>
 
 <!-- 2 -->
-<section class="page lima" id="enfoque">
+<section class="page acc" id="enfoque">
   <header class="phead"><span class="lbl">El enfoque</span><span class="lbl">HOT LOOK</span></header>
   <div class="pbody">
     <div class="split">
@@ -741,6 +765,16 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
     </div>
 
     <div style="display:flex;flex-direction:column;gap:.45rem;margin-top:1.2rem">
+      <span class="lbl">Paleta de marca</span>
+      <div class="pal">
+        <div><i style="background:#0a090c"></i><b>Negro</b><span>#0A090C</span></div>
+        <div><i style="background:#eda9d2"></i><b>Rosa HL</b><span>#EDA9D2</span></div>
+        <div><i style="background:#f32b2e"></i><b>Rojo</b><span>#F32B2E</span></div>
+      </div>
+      <p class="small">Tomada del logo y de las publicaciones de la cuenta. Es la paleta de toda esta presentación.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:.45rem;margin-top:1.2rem">
       <span class="lbl">Dirección visual de referencia</span>
       <div class="mood">
         <img src="img/ref-01.jpg" alt="Manos con uñas largas y anillos en la calle">
@@ -752,14 +786,14 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);fon
         <img src="img/ref-07.jpg" alt="Dos mujeres con anteojos de sol, uñas y anillos">
         <img src="img/ref-08.jpg" alt="Mesa de trabajo de manicura">
       </div>
-      <p class="small">Tablero del cliente: chocolate y crema, dorado, cereza, animal print y cromado. Define paleta y encuadres — no son trabajos de HOT LOOK.</p>
+      <p class="small">Tablero de Pinterest del cliente: define el estilo fotográfico y los encuadres. No son trabajos de HOT LOOK.</p>
     </div>
   </div>
   <footer class="pfoot"><span class="lbl">RINDE</span><span class="lbl pg"></span></footer>
 </section>
 
 <!-- 11 -->
-<section class="page lima" id="inversion">
+<section class="page acc2" id="inversion">
   <header class="phead"><span class="lbl">Propuesta comercial</span><span class="lbl">HOT LOOK</span></header>
   <div class="pbody top">
     <div class="price">

@@ -22,13 +22,23 @@ Caso de aplicación: **HOT LOOK**, establecimiento de uñas y pestañas.
 Sistema tomado de la plantilla de Figma *Marketing Portfolio — Matching Resume*
 (caitlinzjohns, Figma Community), que el cliente eligió como referencia:
 
-- Lienzo `#F5F5F5`, páginas blancas y páginas de acento en lima `#E9F263`.
+- Lienzo y páginas en negro, con páginas de acento en el rosa y el rojo de la marca.
 - Grotesca negra (Archivo 900) en minúsculas para titulares; micro-etiquetas en
   mayúsculas con interletrado en las cuatro esquinas de cada página.
 - Fotografía a sangre, páginas de caso en blanco y negro, script manuscrita
   (Caveat) como acento sobre foto.
 - Diseño de una sola apariencia, clara: la plantilla es un sistema claro y no
   tiene equivalente oscuro.
+
+## Paleta
+
+Tomada del logo de HL beauty club y de las publicaciones de la cuenta:
+
+| | |
+|---|---|
+| Negro | `#0A090C` fondo |
+| Rosa HL | `#EDA9D2` acento principal, del monograma del logo |
+| Rojo | `#F32B2E` acento secundario, muestreado del feed |
 
 Las imágenes de `img/` salen del tablero de Pinterest del cliente. Son referencia
 visual, van marcadas como tal y no son trabajos de HOT LOOK.
