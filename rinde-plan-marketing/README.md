@@ -19,12 +19,19 @@ Caso de aplicación: **HOT LOOK**, establecimiento de uñas y pestañas.
 
 ## Dirección visual
 
-Paleta y tipografía tomadas del tablero de referencia del cliente: chocolate y crema,
-dorado de joyería, cereza y animal print. Display en Bodoni Moda, interfaz en Archivo,
-datos en IBM Plex Mono.
+Sistema tomado de la plantilla de Figma *Marketing Portfolio — Matching Resume*
+(caitlinzjohns, Figma Community), que el cliente eligió como referencia:
 
-Las ocho imágenes de `img/` son el moodboard de referencia y están publicadas como tal.
-No son trabajos de HOT LOOK y no deben presentarse como propios.
+- Lienzo `#F5F5F5`, páginas blancas y páginas de acento en lima `#E9F263`.
+- Grotesca negra (Archivo 900) en minúsculas para titulares; micro-etiquetas en
+  mayúsculas con interletrado en las cuatro esquinas de cada página.
+- Fotografía a sangre, páginas de caso en blanco y negro, script manuscrita
+  (Caveat) como acento sobre foto.
+- Diseño de una sola apariencia, clara: la plantilla es un sistema claro y no
+  tiene equivalente oscuro.
+
+Las imágenes de `img/` salen del tablero de Pinterest del cliente. Son referencia
+visual, van marcadas como tal y no son trabajos de HOT LOOK.
 
 ## Interacción
 
