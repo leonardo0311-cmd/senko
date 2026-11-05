@@ -17,6 +17,15 @@ Caso de aplicación: **HOT LOOK**, establecimiento de uñas y pestañas.
 | 07 Adaptación al rubro | Palancas de decisión, momentos de demanda y promoción inteligente |
 | 08 Inversión y alcance | Desglose de los USD 400/mes, qué no incluye y condiciones |
 
+## Dirección visual
+
+Paleta y tipografía tomadas del tablero de referencia del cliente: chocolate y crema,
+dorado de joyería, cereza y animal print. Display en Bodoni Moda, interfaz en Archivo,
+datos en IBM Plex Mono.
+
+Las ocho imágenes de `img/` son el moodboard de referencia y están publicadas como tal.
+No son trabajos de HOT LOOK y no deben presentarse como propios.
+
 ## Interacción
 
 - Índice lateral con seguimiento de la sección activa.

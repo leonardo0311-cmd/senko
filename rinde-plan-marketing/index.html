@@ -1,214 +1,190 @@
 <title>Plan Mensual RINDE</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;600&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: índice vertical fijo a la izquierda, mazo de secciones a la derecha; un solo acento laca, el resto grafito. */
+/* Paleta tomada del tablero del cliente: espresso, crema, dorado de joyería y cereza. Índice fijo a la izquierda, secciones compactas a la derecha, el detalle siempre detrás de un clic. */
 :root{
-  --paper:#f6f2f1;
-  --surface:#fffdfc;
-  --surface-2:#efe8e7;
-  --ink:#171114;
-  --ink-2:#564a4e;
-  --ink-3:#8a7a7f;
-  --line:#ded4d3;
-  --laca:#a8123c;
-  --laca-soft:#f7e2e8;
-  --jade:#15605b;
-  --jade-soft:#e0efec;
-  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --body:"Newsreader",Georgia,"Times New Roman",serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --paper:#f1e8dd;
+  --surface:#fbf5ee;
+  --surface-2:#e8dccd;
+  --ink:#241611;
+  --ink-2:#6a5245;
+  --ink-3:#9c8577;
+  --line:#dbc9b6;
+  --cacao:#3d2419;
+  --cacao-ink:#f3e7da;
+  --oro:#a4762f;
+  --cereza:#7e1f28;
+  --cereza-soft:#f0ded9;
+  --display:"Bodoni Moda",Didot,"Times New Roman",serif;
+  --ui:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#141013;
-    --surface:#1c161a;
-    --surface-2:#251d22;
-    --ink:#f4ecef;
-    --ink-2:#bdadb3;
-    --ink-3:#8c7c82;
-    --line:#352b31;
-    --laca:#ff5b82;
-    --laca-soft:#3d1724;
-    --jade:#64d6c6;
-    --jade-soft:#123430;
+    --paper:#150f0c;--surface:#1f1711;--surface-2:#2b201a;
+    --ink:#f3e7da;--ink-2:#bca896;--ink-3:#8d7a6b;--line:#3a2a1f;
+    --cacao:#2b1d15;--cacao-ink:#f3e7da;
+    --oro:#dcab5d;--cereza:#e8909a;--cereza-soft:#371d1e;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#141013;
-  --surface:#1c161a;
-  --surface-2:#251d22;
-  --ink:#f4ecef;
-  --ink-2:#bdadb3;
-  --ink-3:#8c7c82;
-  --line:#352b31;
-  --laca:#ff5b82;
-  --laca-soft:#3d1724;
-  --jade:#64d6c6;
-  --jade-soft:#123430;
+  --paper:#150f0c;--surface:#1f1711;--surface-2:#2b201a;
+  --ink:#f3e7da;--ink-2:#bca896;--ink-3:#8d7a6b;--line:#3a2a1f;
+  --cacao:#2b1d15;--cacao-ink:#f3e7da;
+  --oro:#dcab5d;--cereza:#e8909a;--cereza-soft:#371d1e;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--body);
-  font-size:1.0625rem;
-  line-height:1.62;
-  -webkit-font-smoothing:antialiased;
-}
+body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:.97rem;line-height:1.5;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--paper)}
-.shell{
-  max-width:1180px;margin:0 auto;
-  padding-left:max(16px,env(safe-area-inset-left,0px));
-  padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:0 5rem;
-}
-h1,h2,h3,h4{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;line-height:1.08}
-h1{font-size:clamp(2.3rem,6.4vw,4.1rem);font-stretch:118%;letter-spacing:-.02em}
-h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-stretch:112%;letter-spacing:-.012em}
-h3{font-size:1.14rem;font-stretch:104%;line-height:1.22}
-h4{font-size:.95rem;font-stretch:100%}
+.shell{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 5rem}
+h1,h2{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;line-height:1.02;letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,7vw,4.6rem)}
+h2{font-size:clamp(1.7rem,3.8vw,2.6rem)}
+h3,h4{font-family:var(--ui);font-weight:700;margin:0;line-height:1.2;text-wrap:balance}
+h3{font-size:1.05rem;font-stretch:104%}
+h4{font-size:.9rem;font-stretch:100%}
 p{margin:0}
-a{color:var(--laca)}
-.eyebrow{font-family:var(--display);font-stretch:78%;font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.17em;color:var(--ink-3)}
-.lede{font-size:clamp(1.12rem,2.1vw,1.35rem);line-height:1.52;color:var(--ink-2)}
-.small{font-size:.92rem;line-height:1.55;color:var(--ink-2)}
-.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+a{color:var(--cereza)}
+.serif-it{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(1.15rem,2.4vw,1.6rem);line-height:1.35;color:var(--ink-2)}
+.eyebrow{font-family:var(--ui);font-stretch:78%;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.18em;color:var(--ink-3)}
+.lede{font-size:1.02rem;color:var(--ink-2);max-width:62ch}
+.small{font-size:.86rem;line-height:1.45;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--ink-3)}
 .stack{display:flex;flex-direction:column}
-.g8{gap:.5rem}.g12{gap:.75rem}.g16{gap:1rem}.g24{gap:1.5rem}.g32{gap:2rem}
-hr.rule{border:0;border-top:1px solid var(--line);margin:0}
+.stack > *{min-width:0}
+.g8{gap:.5rem}.g12{gap:.75rem}.g16{gap:1rem}.g24{gap:1.5rem}
 
-/* ---- índice / rail ---- */
-.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:3.2rem;align-items:start}
+.layout{display:grid;grid-template-columns:186px minmax(0,1fr);gap:3rem;align-items:start}
 .layout > *{min-width:0}
-.grid2 > *,.grid3 > *,.stack > *{min-width:0}
 .rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1.5rem);padding-top:1rem}
-.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.1rem}
-.rail a{
-  display:grid;grid-template-columns:1.6rem 1fr;gap:.5rem;align-items:baseline;
-  text-decoration:none;color:var(--ink-2);padding:.42rem .5rem;border-left:2px solid var(--line);
-  font-family:var(--display);font-size:.84rem;font-stretch:92%;line-height:1.25;
-}
-.rail a span.n{font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.05rem}
+.rail a{display:grid;grid-template-columns:1.5rem 1fr;gap:.45rem;align-items:baseline;text-decoration:none;color:var(--ink-2);padding:.4rem .5rem;border-left:2px solid var(--line);font-size:.82rem;font-stretch:94%;line-height:1.25}
+.rail a span.n{font-family:var(--mono);font-size:.66rem;color:var(--ink-3)}
 .rail a:hover{color:var(--ink);background:var(--surface-2)}
-.rail a[aria-current="true"]{color:var(--ink);border-left-color:var(--laca);font-weight:700;background:var(--surface)}
-.rail a[aria-current="true"] span.n{color:var(--laca)}
-.railhead{font-family:var(--display);font-stretch:78%;font-weight:700;font-size:.72rem;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3);padding:0 .5rem .6rem}
+.rail a[aria-current="true"]{color:var(--ink);border-left-color:var(--oro);font-weight:700;background:var(--surface)}
+.rail a[aria-current="true"] span.n{color:var(--oro)}
+.railhead{font-family:var(--display);font-style:italic;font-size:1rem;color:var(--ink-3);padding:0 .5rem .7rem}
 
-/* ---- secciones ---- */
-section{padding-block:3.4rem;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 5.5rem)}
+section{padding-block:3rem;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 5.5rem)}
 section + section{border-top:1px solid var(--line)}
-.sechead{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.9rem}
-.sechead .num{font-family:var(--mono);font-size:.78rem;color:var(--laca);letter-spacing:.08em}
+.sechead{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.6rem}
+.sechead .num{font-family:var(--mono);font-size:.72rem;color:var(--oro);letter-spacing:.1em}
 
-/* ---- tarjetas ---- */
-.card{background:var(--surface);border:1px solid var(--line);padding:1.15rem 1.25rem;display:flex;flex-direction:column;gap:.55rem}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1rem}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.45rem}
 .card > *{min-width:0}
-.pillar{position:relative;padding-left:1.25rem}
-.pillar::before{content:"";position:absolute;left:0;top:.15rem;bottom:.15rem;width:3px;background:var(--laca)}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;align-items:baseline}
-.kv dt{font-family:var(--display);font-stretch:80%;font-size:.72rem;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);white-space:nowrap}
-.kv dd{margin:0;font-size:.97rem}
-ul.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.4rem}
-ul.ticks li{padding-left:1.1rem;position:relative;font-size:.97rem}
-ul.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:.5rem;height:1px;background:var(--laca)}
-ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:.55rem}
-ol.steps li{counter-increment:s;padding-left:1.8rem;position:relative;font-size:.97rem}
-ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:.08em;font-family:var(--mono);font-size:.72rem;color:var(--laca)}
-.tag{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--display);font-stretch:84%;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:.22rem .45rem;border:1px solid var(--line);color:var(--ink-2);background:var(--surface-2)}
-.tag.laca{color:var(--laca);border-color:color-mix(in srgb,var(--laca) 40%,transparent);background:var(--laca-soft)}
-.tag.jade{color:var(--jade);border-color:color-mix(in srgb,var(--jade) 40%,transparent);background:var(--jade-soft)}
-.tagrow{display:flex;flex-wrap:wrap;gap:.35rem}
-.note{background:var(--surface-2);border-left:3px solid var(--ink-3);padding:.9rem 1rem;font-size:.93rem;color:var(--ink-2)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem}
+.grid2.top,.grid3.top{align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem}
+.grid2 > *,.grid3 > *{min-width:0}
+.edge{border-left:3px solid var(--oro)}
+ul.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3rem}
+ul.ticks li{padding-left:.95rem;position:relative;font-size:.9rem;color:var(--ink-2)}
+ul.ticks li::before{content:"";position:absolute;left:0;top:.6em;width:.45rem;height:1px;background:var(--oro)}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:.35rem}
+ol.steps li{counter-increment:s;padding-left:1.6rem;position:relative;font-size:.9rem;color:var(--ink-2)}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:.1em;font-family:var(--mono);font-size:.68rem;color:var(--oro)}
+.tag{display:inline-flex;align-items:center;font-family:var(--ui);font-stretch:84%;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.09em;padding:.25rem .5rem;border:1px solid var(--line);color:var(--ink-2);background:var(--surface)}
+.tag.oro{color:var(--oro);border-color:var(--oro);background:transparent}
+.tag.cereza{color:var(--cereza);border-color:var(--cereza);background:var(--cereza-soft)}
+.tagrow{display:flex;flex-wrap:wrap;gap:.3rem}
+.note{background:var(--surface-2);border-left:3px solid var(--ink-3);padding:.75rem .9rem;font-size:.86rem;color:var(--ink-2)}
 .note strong{color:var(--ink)}
 
-/* ---- botones ---- */
-button{font:inherit;color:inherit;cursor:pointer}
-.btn{background:var(--surface);border:1px solid var(--line);padding:.45rem .8rem;font-family:var(--display);font-stretch:92%;font-size:.82rem;font-weight:600;color:var(--ink-2)}
-.btn:hover{border-color:var(--ink-3);color:var(--ink)}
-.btn[aria-pressed="true"],.btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-:focus-visible{outline:2px solid var(--laca);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem}
+.stat{background:var(--cacao);color:var(--cacao-ink);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.stat b{font-family:var(--display);font-weight:700;font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.76rem;font-stretch:88%;text-transform:uppercase;letter-spacing:.1em;opacity:.78}
 
-/* ---- acordeón ---- */
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{background:var(--surface);border:1px solid var(--line);padding:.4rem .7rem;font-family:var(--ui);font-stretch:92%;font-size:.8rem;font-weight:600;color:var(--ink-2)}
+.btn:hover{border-color:var(--ink-3);color:var(--ink)}
+.btn.on{background:var(--cacao);color:var(--cacao-ink);border-color:var(--cacao)}
+:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
+
 .acc{border:1px solid var(--line);background:var(--surface)}
 .acc + .acc{border-top:0}
-.acc > button{width:100%;display:grid;grid-template-columns:2.1rem 1fr auto;gap:.6rem;align-items:baseline;text-align:left;background:none;border:0;padding:.95rem 1.05rem}
-.acc > button .ix{font-family:var(--mono);font-size:.74rem;color:var(--laca)}
-.acc > button .ttl{font-family:var(--display);font-stretch:102%;font-weight:700;font-size:1.02rem;line-height:1.25}
-.acc > button .mk{font-family:var(--mono);font-size:1rem;color:var(--ink-3)}
+.acc > button{width:100%;display:grid;grid-template-columns:1.8rem 1fr auto;gap:.5rem;align-items:baseline;text-align:left;background:none;border:0;padding:.8rem .95rem}
+.acc > button .ix{font-family:var(--mono);font-size:.7rem;color:var(--oro)}
+.acc > button .ttl{font-weight:700;font-size:.97rem;font-stretch:102%;line-height:1.25}
+.acc > button .mk{font-family:var(--mono);font-size:.95rem;color:var(--ink-3)}
 .acc > button:hover{background:var(--surface-2)}
-.accbody{padding:0 1.05rem 1.15rem 3.15rem;display:flex;flex-direction:column;gap:.85rem}
-@media (max-width:540px){.accbody{padding-left:1.05rem}}
+.accbody{padding:0 .95rem 1rem 2.75rem;display:flex;flex-direction:column;gap:.7rem}
+.accbody > *{min-width:0}
+.accbody .why{font-family:var(--display);font-style:italic;font-size:1rem;color:var(--ink-2)}
+@media (max-width:540px){.accbody{padding-left:.95rem}}
 
-/* ---- checklist ---- */
-.check{display:flex;flex-direction:column;gap:.3rem;border-top:1px dashed var(--line);padding-top:.7rem}
-.check label{display:grid;grid-template-columns:auto 1fr;gap:.55rem;align-items:start;font-size:.93rem;color:var(--ink-2)}
-.check input{margin:.35rem 0 0;accent-color:var(--laca)}
+.check{display:flex;flex-direction:column;gap:.25rem;border-top:1px dashed var(--line);padding-top:.6rem}
+.check label{display:grid;grid-template-columns:auto 1fr;gap:.5rem;align-items:start;font-size:.86rem;color:var(--ink-2)}
+.check input{margin:.3rem 0 0;accent-color:var(--cereza)}
 .check input:checked + span{color:var(--ink-3);text-decoration:line-through}
 
-/* ---- tabs etapas ---- */
-.tabbar{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.3rem}
-.stagehead{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:center;margin-bottom:1.1rem}
-.stagehead .big{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:clamp(2.6rem,9vw,4rem);line-height:.85;color:var(--laca);font-variant-numeric:tabular-nums}
+.tabbar{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.1rem}
+.stagehead{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;margin-bottom:.9rem}
+.stagehead .big{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,9vw,3.8rem);line-height:.85;color:var(--oro);font-variant-numeric:tabular-nums}
 
-/* ---- calendario ---- */
-.calbar{display:flex;flex-wrap:wrap;gap:.9rem;align-items:flex-end;justify-content:space-between;margin-bottom:1.1rem}
-.filters{display:flex;flex-wrap:wrap;gap:.3rem}
-.calwrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:1.4rem;align-items:start}
-.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:.4rem}
-.day{background:var(--surface);border:1px solid var(--line);padding:.5rem .55rem;display:flex;flex-direction:column;gap:.28rem;text-align:left;min-height:74px}
-.day .d{font-family:var(--mono);font-size:.72rem;color:var(--ink-3)}
-.day .f{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;line-height:1.1}
+.calbar{display:flex;flex-wrap:wrap;gap:.9rem;align-items:flex-end;justify-content:space-between;margin-bottom:1rem}
+.filters{display:flex;flex-wrap:wrap;gap:.25rem}
+.calwrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:1.2rem;align-items:start}
+.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.35rem}
+.day{background:var(--surface);border:1px solid var(--line);padding:.45rem .5rem;display:flex;flex-direction:column;gap:.22rem;text-align:left;min-height:68px}
+.day .d{font-family:var(--mono);font-size:.68rem;color:var(--ink-3)}
+.day .f{font-weight:700;font-size:.74rem;font-stretch:88%;text-transform:uppercase;letter-spacing:.04em;line-height:1.1}
 .day .bar{height:3px;background:var(--line);margin-top:auto}
-.day[data-prod="RINDE"] .bar{background:var(--laca)}
-.day[data-prod="Cliente"] .bar{background:var(--jade)}
-.day[data-prod="Mixta"] .bar{background:linear-gradient(90deg,var(--laca) 50%,var(--jade) 50%)}
+.day[data-prod="RINDE"] .bar{background:var(--oro)}
+.day[data-prod="Cliente"] .bar{background:var(--cereza)}
+.day[data-prod="Mixta"] .bar{background:linear-gradient(90deg,var(--oro) 50%,var(--cereza) 50%)}
 .day:hover{border-color:var(--ink-3)}
-.day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink)}
-.day[aria-pressed="true"] .d,.day[aria-pressed="true"] .f{color:var(--paper)}
-.day.dim{opacity:.3}
-.detail{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--laca);padding:1.2rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 1.5rem);display:flex;flex-direction:column;gap:.85rem}
-.detail .copybox{background:var(--surface-2);padding:.8rem .9rem;font-size:.97rem;border-left:3px solid var(--laca)}
+.day[aria-pressed="true"]{background:var(--cacao);border-color:var(--cacao)}
+.day[aria-pressed="true"] .d,.day[aria-pressed="true"] .f{color:var(--cacao-ink)}
+.day.dim{opacity:.32}
+.detail{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--oro);padding:1.05rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 1.5rem);display:flex;flex-direction:column;gap:.7rem}
+.detail > *{min-width:0}
+.detail .kv{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;align-items:baseline}
+.detail .kv dt{font-family:var(--ui);font-stretch:80%;font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3)}
+.detail .kv dd{margin:0;font-size:.89rem;color:var(--ink-2)}
+.copybox{background:var(--surface-2);padding:.7rem .8rem;font-family:var(--display);font-size:1rem;line-height:1.4;border-left:3px solid var(--cereza)}
 @media (max-width:860px){.calwrap{grid-template-columns:1fr}.detail{position:static}}
 
-/* ---- tablas ---- */
+.moodboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;align-items:start}
+.moodboard img{width:100%;max-width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block;border:1px solid var(--line)}
+.moodnote{font-family:var(--display);font-style:italic;font-size:.95rem;color:var(--ink-3)}
+
 .tablewrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}
-th,td{text-align:left;padding:.62rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:var(--display);font-stretch:82%;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);background:var(--surface-2)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:.88rem}
+th,td{text-align:left;padding:.55rem .75rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+th{font-family:var(--ui);font-stretch:82%;font-weight:700;font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);background:var(--surface-2)}
+td strong{color:var(--ink)}
 tr:last-child td{border-bottom:0}
-td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
 
-/* ---- precio ---- */
-.price{display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--laca);padding:1.3rem 1.4rem}
-.price .fig{font-family:var(--display);font-stretch:122%;font-weight:800;font-size:clamp(2.4rem,7vw,3.4rem);line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.price .per{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);display:block;margin-top:.4rem}
+.price{display:grid;grid-template-columns:auto 1fr;gap:1.3rem;align-items:center;background:var(--cacao);color:var(--cacao-ink);padding:1.3rem 1.4rem}
+.price .fig{font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,7vw,3.6rem);line-height:.9;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price .per{font-family:var(--mono);font-size:.72rem;opacity:.75;display:block;margin-top:.35rem}
+.price p{font-size:.9rem;opacity:.9}
+.price strong{color:var(--cacao-ink)}
 
-/* ---- pager ---- */
-.pager{
-  position:fixed;z-index:30;
-  right:calc(1rem + env(safe-area-inset-right,0px));
-  bottom:calc(1rem + env(safe-area-inset-bottom,0px));
-  display:flex;align-items:center;gap:.1rem;background:var(--surface);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.14)
-}
-.pager button{background:none;border:0;padding:.5rem .7rem;font-family:var(--mono);font-size:.9rem;color:var(--ink-2)}
+.pager{position:fixed;z-index:30;right:calc(1rem + env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.16)}
+.pager button{background:none;border:0;padding:.45rem .65rem;font-family:var(--mono);font-size:.88rem;color:var(--ink-2)}
 .pager button:hover{background:var(--surface-2);color:var(--ink)}
-.pager .pos{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);padding:0 .55rem;border-left:1px solid var(--line);border-right:1px solid var(--line);font-variant-numeric:tabular-nums}
+.pager .pos{font-family:var(--mono);font-size:.7rem;color:var(--ink-3);padding:0 .5rem;border-left:1px solid var(--line);border-right:1px solid var(--line);font-variant-numeric:tabular-nums}
 
 @media (max-width:900px){
   .layout{grid-template-columns:minmax(0,1fr);gap:0}
-  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:.5rem 0;margin-bottom:.5rem}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:.45rem 0;margin-bottom:.5rem}
   .railhead{display:none}
-  .rail ol{flex-direction:row;overflow-x:auto;max-width:100%;gap:.25rem;padding-bottom:.2rem;scrollbar-width:thin}
-  .rail a{grid-template-columns:auto;border-left:0;border-bottom:2px solid var(--line);white-space:nowrap;padding:.4rem .6rem}
+  .rail ol{flex-direction:row;overflow-x:auto;max-width:100%;gap:.2rem;padding-bottom:.2rem;scrollbar-width:thin}
+  .rail a{grid-template-columns:auto;border-left:0;border-bottom:2px solid var(--line);white-space:nowrap;padding:.35rem .55rem}
   .rail a span.n{display:none}
-  .rail a[aria-current="true"]{border-bottom-color:var(--laca);background:none}
-  section{padding-block:2.6rem}
+  .rail a[aria-current="true"]{border-bottom-color:var(--oro);background:none}
+  section{padding-block:2.4rem}
+  .price{grid-template-columns:1fr;gap:.8rem}
+}
+@media (max-width:600px){
+  .moodboard{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -217,365 +193,340 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 <div class="layout">
 
 <nav class="rail" aria-label="Índice de la propuesta">
-  <div class="railhead">RINDE · Plan mensual</div>
+  <div class="railhead">RINDE</div>
   <ol id="railList">
     <li><a href="#portada"><span class="n">00</span><span>Propuesta</span></a></li>
     <li><a href="#enfoque"><span class="n">01</span><span>El enfoque</span></a></li>
     <li><a href="#acompanamiento"><span class="n">02</span><span>Acompañamiento</span></a></li>
-    <li><a href="#estrategia"><span class="n">03</span><span>Estrategia del mes</span></a></li>
-    <li><a href="#calendario"><span class="n">04</span><span>Calendario 30 días</span></a></li>
+    <li><a href="#estrategia"><span class="n">03</span><span>Estrategia</span></a></li>
+    <li><a href="#calendario"><span class="n">04</span><span>Calendario</span></a></li>
     <li><a href="#ads"><span class="n">05</span><span>Meta Ads</span></a></li>
     <li><a href="#produccion"><span class="n">06</span><span>Producción</span></a></li>
-    <li><a href="#rubro"><span class="n">07</span><span>Adaptación al rubro</span></a></li>
-    <li><a href="#inversion"><span class="n">08</span><span>Inversión y alcance</span></a></li>
+    <li><a href="#rubro"><span class="n">07</span><span>Caso HOT LOOK</span></a></li>
+    <li><a href="#inversion"><span class="n">08</span><span>Inversión</span></a></li>
   </ol>
 </nav>
 
 <main>
 
-<!-- ===== 00 PORTADA ===== -->
+<!-- 00 -->
 <section id="portada">
   <div class="stack g24">
     <div class="stack g12">
-      <p class="eyebrow">RINDE · Propuesta de servicio mensual</p>
+      <p class="eyebrow">RINDE · Propuesta mensual</p>
       <h1>Plan mensual de marketing integral</h1>
-      <p class="lede">Estrategia, capacitación y producción profesional de contenido para que el negocio deje de publicar por publicar y empiece a tomar decisiones comerciales con información.</p>
+      <p class="serif-it">Estrategia, capacitación y producción profesional. No es administración de Instagram.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>6</b><span>Frentes de trabajo</span></div>
+      <div class="stat"><b>30</b><span>Días planificados</span></div>
+      <div class="stat"><b>42</b><span>Piezas producidas</span></div>
+      <div class="stat"><b>400</b><span>USD por mes</span></div>
     </div>
 
     <div class="grid2">
-      <div class="card">
-        <dl class="kv">
-          <dt>Cliente</dt><dd>HOT LOOK — uñas y pestañas <span class="small">(modelo aplicable a otros rubros)</span></dd>
-          <dt>Servicio</dt><dd>Acompañamiento integral + producción de contenido</dd>
-          <dt>Ciclo</dt><dd>Mensual, con revisión a mitad de mes</dd>
-          <dt>Honorarios</dt><dd><strong>USD 400 / mes</strong> — inversión en Meta Ads aparte</dd>
-        </dl>
-      </div>
-      <div class="card pillar">
-        <h3>Qué resuelve este plan</h3>
+      <div class="card edge">
+        <h3>Para quién</h3>
         <ul class="ticks">
-          <li>Una cuenta que comunica la oferta con claridad y no depende de descuentos.</li>
-          <li>Un calendario con un objetivo comercial detrás de cada pieza.</li>
-          <li>Contenido producido por nuestro equipo con herramientas profesionales.</li>
-          <li>Un dueño de negocio que entiende sus métricas y su propia agenda.</li>
+          <li>HOT LOOK — uñas y pestañas.</li>
+          <li>Modelo aplicable a cualquier rubro.</li>
+          <li>Ciclo mensual, revisión a mitad de mes.</li>
+        </ul>
+      </div>
+      <div class="card edge">
+        <h3>Qué resuelve</h3>
+        <ul class="ticks">
+          <li>Comunicar la oferta sin depender de descuentos.</li>
+          <li>Un objetivo comercial detrás de cada pieza.</li>
+          <li>Contenido producido con herramientas profesionales.</li>
+          <li>Métricas que el negocio entiende y usa.</li>
         </ul>
       </div>
     </div>
 
-    <div class="note">
-      <strong>Sobre los resultados:</strong> no garantizamos cantidad de ventas, seguidores ni consultas. Lo que garantizamos es método, entregables, frecuencia de trabajo y lectura de datos. Las decisiones de precio, agenda y capacidad de atención siguen siendo del negocio.
-    </div>
+    <div class="note"><strong>Sin resultados garantizados.</strong> Comprometemos método, entregables y plazos. No prometemos cantidad de ventas, seguidores ni consultas.</div>
   </div>
 </section>
 
-<!-- ===== 01 ENFOQUE ===== -->
+<!-- 01 -->
 <section id="enfoque">
   <div class="sechead">
     <span class="num">01 / Enfoque</span>
-    <h2>No es administración de Instagram</h2>
-    <p class="lede">Administrar una cuenta es ejecutar. Acá trabajamos tres cosas a la vez: decidir qué conviene comunicar, enseñar a sostenerlo y producir las piezas con calidad profesional. Son seis frentes y cada uno tiene entregable propio.</p>
+    <h2>Seis frentes, un solo mes</h2>
+    <p class="lede">Cada frente con entregable propio y fecha.</p>
   </div>
 
-  <div class="grid2">
-    <div class="card pillar">
-      <p class="mono">01</p>
-      <h3>Acompañamiento estratégico</h3>
-      <p class="small">Definimos el eje del mes, qué servicio se empuja, en qué momento y con qué argumento. Reunión de apertura y una de revisión a mitad de mes.</p>
-    </div>
-    <div class="card pillar">
-      <p class="mono">02</p>
-      <h3>Asesoramiento y capacitación</h3>
-      <p class="small">Guía práctica y sesiones de trabajo sobre la cuenta real del negocio: perfil, historias, DM, métricas y lectura de resultados.</p>
-    </div>
-    <div class="card pillar">
-      <p class="mono">03</p>
-      <h3>Planificación mensual</h3>
-      <p class="small">Calendario con fecha, formato, idea, copy, llamado a la acción y objetivo comercial. Se aprueba antes de arrancar el mes.</p>
-    </div>
-    <div class="card pillar">
-      <p class="mono">04</p>
-      <h3>Producción profesional</h3>
-      <p class="small">Diseño, edición y animación con el ecosistema Adobe. Reels, carruseles, placas e historias adaptadas a la identidad de la marca.</p>
-    </div>
-    <div class="card pillar">
-      <p class="mono">05</p>
-      <h3>Orientación en Meta Ads</h3>
-      <p class="small">Configuración, segmentación y lectura de campañas, explicadas paso a paso. El presupuesto publicitario lo define y lo paga el negocio.</p>
-    </div>
-    <div class="card pillar">
-      <p class="mono">06</p>
-      <h3>Seguimiento y optimización</h3>
-      <p class="small">Revisión de lo que funcionó, ajuste del plan en curso y reporte mensual con conclusiones y próximos pasos.</p>
-    </div>
+  <div class="grid3">
+    <div class="card edge"><p class="mono">01</p><h3>Acompañamiento</h3><p class="small">Eje del mes, servicio a priorizar y acciones comerciales.</p></div>
+    <div class="card edge"><p class="mono">02</p><h3>Capacitación</h3><p class="small">Nueve módulos aplicados sobre la cuenta real.</p></div>
+    <div class="card edge"><p class="mono">03</p><h3>Planificación</h3><p class="small">Calendario con copy, acción y objetivo comercial.</p></div>
+    <div class="card edge"><p class="mono">04</p><h3>Producción</h3><p class="small">Diseño, edición y animación con herramientas Adobe.</p></div>
+    <div class="card edge"><p class="mono">05</p><h3>Meta Ads</h3><p class="small">Configuración, segmentación y lectura de campañas.</p></div>
+    <div class="card edge"><p class="mono">06</p><h3>Seguimiento</h3><p class="small">Reporte mensual y ajuste del plan en curso.</p></div>
   </div>
 
-  <div class="stack g12" style="margin-top:1.6rem">
+  <div class="stack g12" style="margin-top:1.4rem">
     <p class="eyebrow">Cómo corre el mes</p>
-    <div class="grid3">
-      <div class="card"><h4>Días 1–3 · Diagnóstico</h4><p class="small">Revisión de la cuenta, de la agenda del mes anterior y de los servicios con más margen.</p></div>
-      <div class="card"><h4>Días 3–5 · Planificación</h4><p class="small">Calendario propuesto, aprobación del cliente y pedido de material propio.</p></div>
-      <div class="card"><h4>Días 5–7 · Producción</h4><p class="small">Sesión de registro en el local y edición del paquete del mes.</p></div>
-      <div class="card"><h4>Día 15 · Revisión</h4><p class="small">Qué rindió, qué se corrige y qué se refuerza en la segunda mitad.</p></div>
-      <div class="card"><h4>Días 25–30 · Cierre</h4><p class="small">Acciones de reactivación, anticipo del mes siguiente y reserva anticipada.</p></div>
-      <div class="card"><h4>Día 30 · Reporte</h4><p class="small">Métricas, aprendizajes y plan preliminar del mes que entra.</p></div>
+    <div class="tablewrap">
+      <table>
+        <tbody>
+          <tr><td class="num">Días 1–3</td><td><strong>Diagnóstico</strong> — cuenta, agenda anterior y servicios con más margen.</td></tr>
+          <tr><td class="num">Días 3–5</td><td><strong>Planificación</strong> — calendario propuesto y aprobado.</td></tr>
+          <tr><td class="num">Días 5–7</td><td><strong>Producción</strong> — sesión en el local y edición del paquete.</td></tr>
+          <tr><td class="num">Día 15</td><td><strong>Revisión</strong> — qué rindió y qué se corrige.</td></tr>
+          <tr><td class="num">Días 25–30</td><td><strong>Cierre</strong> — reactivación y reserva anticipada.</td></tr>
+          <tr><td class="num">Día 30</td><td><strong>Reporte</strong> — métricas y plan del mes siguiente.</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<!-- ===== 02 ACOMPAÑAMIENTO ===== -->
+<!-- 02 -->
 <section id="acompanamiento">
   <div class="sechead">
-    <span class="num">02 / Acompañamiento y asesoramiento</span>
-    <h2>Guía práctica para gestionar la cuenta</h2>
-    <p class="lede">Nueve módulos aplicados al rubro del cliente. No es un PDF genérico: cada módulo se trabaja sobre la cuenta real, con una tarea concreta para dejar hecha. Tocá cada título para abrirlo; las tareas quedan marcadas en este navegador.</p>
+    <span class="num">02 / Acompañamiento</span>
+    <h2>Guía práctica de Instagram</h2>
+    <p class="lede">Nueve módulos sobre la cuenta real. Abrí el que te interese; las tareas quedan marcadas.</p>
   </div>
 
   <div id="accWrap">
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="true"><span class="ix">A</span><span class="ttl">Organizar y administrar Instagram profesionalmente</span><span class="mk">−</span></button>
-      <div class="accbody">
-        <p class="small"><strong>Para qué sirve:</strong> que alguien que entra por primera vez entienda en diez segundos qué se hace, dónde, cuánto cuesta aproximadamente y cómo reservar.</p>
+      <button type="button" aria-expanded="false"><span class="ix">A</span><span class="ttl">Organizar la cuenta</span><span class="mk">+</span></button>
+      <div class="accbody" hidden>
+        <p class="why">Que en diez segundos se entienda qué hacés y cómo reservar.</p>
         <ol class="steps">
-          <li>Pasar a cuenta profesional y completar categoría, zona y botón de contacto.</li>
-          <li>Nombre buscable: en el campo "nombre" va el servicio, no solo la marca (por ejemplo "HOT LOOK · Uñas y pestañas").</li>
-          <li>Bio con tres líneas: qué hacés, dónde, cómo se reserva. Link de WhatsApp con mensaje prearmado.</li>
-          <li>Destacados ordenados y con portada: Servicios · Precios · Trabajos · Turnos · Cuidados.</li>
-          <li>Respuestas rápidas en el DM para precios, duración, ubicación y seña.</li>
+          <li>Cuenta profesional, categoría y zona.</li>
+          <li>Nombre buscable: "HOT LOOK · Uñas y pestañas".</li>
+          <li>Bio de tres líneas y link de WhatsApp con mensaje armado.</li>
+          <li>Destacados: Servicios · Precios · Trabajos · Turnos · Cuidados.</li>
+          <li>Respuestas rápidas en el DM.</li>
         </ol>
-        <div class="check" data-check="A">
-          <label><input type="checkbox" id="chk-a1"><span>Bio reescrita con servicio, zona y forma de reserva.</span></label>
-          <label><input type="checkbox" id="chk-a2"><span>Cinco destacados creados y ordenados.</span></label>
-          <label><input type="checkbox" id="chk-a3"><span>Tres respuestas rápidas cargadas en el DM.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-a1"><span>Bio reescrita.</span></label>
+          <label><input type="checkbox" id="chk-a2"><span>Cinco destacados ordenados.</span></label>
+          <label><input type="checkbox" id="chk-a3"><span>Respuestas rápidas cargadas.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">B</span><span class="ttl">Identificar al público objetivo</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">B</span><span class="ttl">Identificar al público</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> dejar de hablarle a "todos". En servicios estéticos el público se define por zona, momento de vida y frecuencia de mantenimiento, no solo por edad.</p>
+        <p class="why">El público se define por zona y frecuencia, no solo por edad.</p>
         <ol class="steps">
-          <li>Definir el radio real de influencia: hasta cuántos minutos de viaje está dispuesta a moverse una clienta.</li>
-          <li>Separar tres grupos: clienta de mantenimiento (vuelve cada 21–28 días), clienta de evento (cumpleaños, casamiento, egresados) y clienta de prueba (primera vez).</li>
-          <li>Validar con datos propios: encuestas en historias, caja de preguntas y la pestaña de público en las estadísticas.</li>
-          <li>Anotar qué servicio pide cada grupo y a qué hora reserva. Eso define horarios de publicación y de campaña.</li>
+          <li>Radio real: cuántos minutos se mueve una clienta.</li>
+          <li>Tres grupos: mantenimiento, evento y primera vez.</li>
+          <li>Validar con encuestas y con la pestaña de público.</li>
+          <li>Anotar qué pide cada grupo y a qué hora reserva.</li>
         </ol>
-        <div class="check" data-check="B">
-          <label><input type="checkbox" id="chk-b1"><span>Radio de influencia definido en minutos y barrios.</span></label>
-          <label><input type="checkbox" id="chk-b2"><span>Tres perfiles de clienta escritos en una hoja.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-b1"><span>Radio definido en minutos y barrios.</span></label>
+          <label><input type="checkbox" id="chk-b2"><span>Tres perfiles escritos.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">C</span><span class="ttl">Comunicar correctamente servicios y productos</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">C</span><span class="ttl">Comunicar los servicios</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> la mayoría de las consultas se pierden por falta de información, no por precio. Un servicio bien explicado baja la cantidad de preguntas y sube la calidad de la consulta.</p>
+        <p class="why">Las consultas se pierden por falta de información, no por precio.</p>
         <ol class="steps">
-          <li>Nombrar el servicio como lo busca la clienta ("kapping", "esculpidas", "volumen ruso"), no con nombres internos.</li>
-          <li>Decir siempre cuatro datos: qué incluye, cuánto dura la sesión, cuánto dura el resultado y cada cuánto se mantiene.</li>
-          <li>Mostrar rango de precio o precio desde. La ausencia de precio no protege: filtra mal y genera DM de bajo interés.</li>
-          <li>Explicar la diferencia entre opciones en un carrusel comparativo, para que la clienta elija sola.</li>
+          <li>Nombrar el servicio como lo busca la clienta.</li>
+          <li>Decir siempre: qué incluye, cuánto dura la sesión, cuánto dura el resultado, cada cuánto se mantiene.</li>
+          <li>Mostrar precio desde. Esconderlo filtra mal.</li>
+          <li>Comparar opciones en un carrusel para que elija sola.</li>
         </ol>
-        <div class="check" data-check="C">
-          <label><input type="checkbox" id="chk-c1"><span>Ficha escrita de cada servicio con los cuatro datos.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-c1"><span>Ficha de cada servicio con los cuatro datos.</span></label>
           <label><input type="checkbox" id="chk-c2"><span>Destacado de precios actualizado.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">D</span><span class="ttl">Generar contenido que despierte interés y genere consultas</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">D</span><span class="ttl">Contenido que genera consultas</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> tener fórmulas repetibles. Cinco estructuras cubren casi todo el mes sin quedarse sin ideas.</p>
+        <p class="why">Cinco fórmulas cubren el mes sin quedarse sin ideas.</p>
         <ul class="ticks">
-          <li><strong>Antes y después:</strong> muestra resultado, es el formato que más guardados genera en estética.</li>
-          <li><strong>Proceso:</strong> justifica el precio porque hace visible el trabajo y el tiempo.</li>
-          <li><strong>Objeción resuelta:</strong> una duda frecuente por pieza ("¿daña la uña natural?", "¿cuánto me dura?").</li>
-          <li><strong>Elección entre opciones:</strong> seis diseños numerados y "mandá el número por DM". Convierte contenido en conversación.</li>
-          <li><strong>Prueba social:</strong> testimonio, captura con permiso o clienta habitual contando por qué vuelve.</li>
+          <li><strong>Antes y después</strong> — el formato que más se guarda.</li>
+          <li><strong>Proceso</strong> — hace visible el trabajo y justifica el precio.</li>
+          <li><strong>Objeción resuelta</strong> — una duda por pieza.</li>
+          <li><strong>Elegí una opción</strong> — seis diseños numerados, respuesta por DM.</li>
+          <li><strong>Prueba social</strong> — testimonio o clienta habitual.</li>
         </ul>
-        <p class="small">Regla de trabajo: toda pieza termina en una acción concreta. Si no sabemos qué queremos que haga la persona, la pieza no entra al calendario.</p>
-        <div class="check" data-check="D">
-          <label><input type="checkbox" id="chk-d1"><span>Lista de diez objeciones frecuentes anotadas.</span></label>
-          <label><input type="checkbox" id="chk-d2"><span>Banco de antes/después con autorización de uso.</span></label>
+        <p class="small">Si no sabemos qué queremos que haga la persona, la pieza no entra al calendario.</p>
+        <div class="check">
+          <label><input type="checkbox" id="chk-d1"><span>Diez objeciones frecuentes anotadas.</span></label>
+          <label><input type="checkbox" id="chk-d2"><span>Banco de antes/después con autorización.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">E</span><span class="ttl">Usar historias para una comunicación constante</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">E</span><span class="ttl">Historias todos los días</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> las historias sostienen la relación entre publicación y publicación, y son el canal donde se reserva. Es el espacio de la agenda, no del diseño.</p>
+        <p class="why">Las historias son el canal de la agenda, no el del diseño.</p>
         <ol class="steps">
-          <li>Apertura del día: con quién se trabaja hoy y qué turnos quedan.</li>
-          <li>Proceso: dos o tres momentos reales del servicio, sin producción compleja.</li>
-          <li>Resultado: la foto final, siempre con la misma luz y el mismo fondo.</li>
-          <li>Interacción: encuesta o caja de preguntas, una por día.</li>
-          <li>Cierre: recordatorio de cómo reservar, con el enlace de WhatsApp.</li>
+          <li>Apertura: qué turnos quedan hoy.</li>
+          <li>Proceso: dos o tres momentos reales.</li>
+          <li>Resultado: misma luz, mismo fondo.</li>
+          <li>Interacción: una encuesta o pregunta por día.</li>
+          <li>Cierre: cómo reservar, con el enlace.</li>
         </ol>
-        <p class="small">De tres a cinco historias por día hábil. Constancia antes que volumen: es mejor todos los días a la misma hora que veinte historias un día y nada por cuatro.</p>
-        <div class="check" data-check="E">
-          <label><input type="checkbox" id="chk-e1"><span>Rutina diaria de historias definida con horarios.</span></label>
-          <label><input type="checkbox" id="chk-e2"><span>Plantillas de apertura y cierre cargadas.</span></label>
+        <p class="small">Tres a cinco por día hábil. Constancia antes que volumen.</p>
+        <div class="check">
+          <label><input type="checkbox" id="chk-e1"><span>Rutina diaria con horarios.</span></label>
+          <label><input type="checkbox" id="chk-e2"><span>Plantillas de apertura y cierre.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">F</span><span class="ttl">Aprovechar las herramientas de Instagram</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">F</span><span class="ttl">Herramientas de Instagram</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> cada herramienta tiene un uso comercial concreto. Usarlas sin criterio no suma; usarlas con intención genera datos y reservas.</p>
+        <p class="why">Cada herramienta con un uso comercial concreto.</p>
         <div class="tablewrap">
           <table>
-            <thead><tr><th>Herramienta</th><th>Uso comercial</th></tr></thead>
             <tbody>
-              <tr><td>Encuestas</td><td>Decidir qué servicio empujar y qué diseño producir.</td></tr>
-              <tr><td>Caja de preguntas</td><td>Recolectar objeciones reales para convertirlas en contenido.</td></tr>
-              <tr><td>Cuenta regresiva</td><td>Promociones con fecha de cierre y apertura de agenda.</td></tr>
-              <tr><td>Enlace en historia</td><td>Llevar al WhatsApp con mensaje prearmado.</td></tr>
-              <tr><td>Colaboraciones</td><td>Publicar junto a clientas o negocios de la zona y compartir alcance.</td></tr>
-              <tr><td>Mensajes guardados</td><td>Responder precios y disponibilidad en segundos.</td></tr>
-              <tr><td>Programación nativa</td><td>Dejar el feed del mes cargado y liberar tiempo de atención.</td></tr>
-              <tr><td>Audios en reels</td><td>Alcance en público nuevo de la zona.</td></tr>
+              <tr><td><strong>Encuestas</strong></td><td>Decidir qué servicio empujar.</td></tr>
+              <tr><td><strong>Caja de preguntas</strong></td><td>Juntar objeciones reales.</td></tr>
+              <tr><td><strong>Cuenta regresiva</strong></td><td>Promos con fecha de cierre.</td></tr>
+              <tr><td><strong>Enlace en historia</strong></td><td>Llevar al WhatsApp.</td></tr>
+              <tr><td><strong>Colaboraciones</strong></td><td>Compartir alcance con clientas y vecinos.</td></tr>
+              <tr><td><strong>Programación</strong></td><td>Dejar el feed del mes cargado.</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="check" data-check="F">
-          <label><input type="checkbox" id="chk-f1"><span>Una encuesta y una caja de preguntas por semana agendadas.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-f1"><span>Una encuesta por semana agendada.</span></label>
           <label><input type="checkbox" id="chk-f2"><span>Feed del mes programado.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">G</span><span class="ttl">Interpretar estadísticas, alcance, interacciones y visitas al perfil</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">G</span><span class="ttl">Leer las estadísticas</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> dejar de mirar likes. Las métricas que importan son las que anticipan una consulta.</p>
+        <p class="why">Las métricas que importan son las que anticipan una consulta.</p>
         <div class="tablewrap">
           <table>
-            <thead><tr><th>Métrica</th><th>Qué dice</th><th>Qué hacer con eso</th></tr></thead>
+            <thead><tr><th>Métrica</th><th>Qué hacer con eso</th></tr></thead>
             <tbody>
-              <tr><td>Alcance</td><td>Cuántas cuentas distintas vieron la pieza.</td><td>Mide visibilidad. Si cae, revisar formato y horario.</td></tr>
-              <tr><td>Impresiones</td><td>Veces que se mostró, incluso repetidas.</td><td>Comparar con alcance para detectar saturación.</td></tr>
-              <tr><td>Interacciones</td><td>Likes, comentarios, guardados, compartidos.</td><td>Guardados y compartidos pesan más que likes.</td></tr>
-              <tr><td>Visitas al perfil</td><td>Cuánta gente quiso saber más después de ver.</td><td>Es la antesala de la consulta: la métrica clave del mes.</td></tr>
-              <tr><td>Toques en el enlace</td><td>Intención real de contacto.</td><td>Si hay visitas pero no toques, el perfil no cierra.</td></tr>
-              <tr><td>Retención en reels</td><td>Hasta dónde se mira el video.</td><td>Si cae antes de 3 segundos, el problema es el inicio.</td></tr>
+              <tr><td><strong>Alcance</strong></td><td>Si cae, revisar formato y horario.</td></tr>
+              <tr><td><strong>Guardados y compartidos</strong></td><td>Pesan más que los likes.</td></tr>
+              <tr><td><strong>Visitas al perfil</strong></td><td>La antesala de la consulta: la métrica del mes.</td></tr>
+              <tr><td><strong>Toques en el enlace</strong></td><td>Si hay visitas y no toques, el perfil no cierra.</td></tr>
+              <tr><td><strong>Retención en reels</strong></td><td>Si cae antes de 3 segundos, el problema es el inicio.</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="small">Lectura mensual en tres preguntas: ¿llegamos a más gente que el mes pasado?, ¿esa gente entró al perfil?, ¿esas visitas se convirtieron en conversación?</p>
-        <div class="check" data-check="G">
-          <label><input type="checkbox" id="chk-g1"><span>Planilla mensual de métricas creada.</span></label>
-          <label><input type="checkbox" id="chk-g2"><span>Visitas al perfil y toques en el enlace anotados cada semana.</span></label>
+        <p class="small">Tres preguntas al mes: ¿llegamos a más gente?, ¿entró al perfil?, ¿escribió?</p>
+        <div class="check">
+          <label><input type="checkbox" id="chk-g1"><span>Planilla mensual creada.</span></label>
+          <label><input type="checkbox" id="chk-g2"><span>Visitas y toques anotados por semana.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">H</span><span class="ttl">Identificar qué publicaciones funcionan mejor</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">H</span><span class="ttl">Saber qué funciona</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> repetir lo que rinde en vez de improvisar cada mes.</p>
+        <p class="why">Repetir lo que rinde en vez de improvisar cada mes.</p>
         <ol class="steps">
-          <li>Comparar siempre contra el promedio propio de los últimos 30 días, no contra otras cuentas.</li>
-          <li>Agrupar por formato (reel, carrusel, imagen) y por tema (resultado, proceso, precio, promoción).</li>
-          <li>Ordenar por guardados, compartidos y visitas al perfil. Esa es la tabla que define el mes siguiente.</li>
-          <li>Anotar las consultas por DM que llegaron el día de cada publicación: es el dato que Instagram no muestra.</li>
-          <li>Lo que funciona se repite con otra variante, no se abandona porque "ya lo hicimos".</li>
+          <li>Comparar contra el promedio propio, no contra otras cuentas.</li>
+          <li>Agrupar por formato y por tema.</li>
+          <li>Ordenar por guardados, compartidos y visitas al perfil.</li>
+          <li>Anotar las consultas del día: el dato que Instagram no muestra.</li>
+          <li>Lo que funciona se repite con otra variante.</li>
         </ol>
-        <div class="check" data-check="H">
-          <label><input type="checkbox" id="chk-h1"><span>Ranking de las cinco mejores piezas del mes.</span></label>
-          <label><input type="checkbox" id="chk-h2"><span>Registro diario de consultas por DM.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-h1"><span>Ranking de las cinco mejores piezas.</span></label>
+          <label><input type="checkbox" id="chk-h2"><span>Registro diario de consultas.</span></label>
         </div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">I</span><span class="ttl">Convertir seguidores en potenciales clientes</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">I</span><span class="ttl">Convertir seguidores en clientas</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small"><strong>Para qué sirve:</strong> acá se pierde la mayor parte del trabajo del mes. El contenido genera la conversación; la conversación la cierra el negocio.</p>
+        <p class="why">Acá se pierde la mayor parte del trabajo del mes.</p>
         <ol class="steps">
-          <li>Responder rápido y en horario definido. Un DM contestado al otro día ya compite con otro local.</li>
-          <li>No contestar solo el precio: precio + qué incluye + dos horarios concretos para elegir.</li>
-          <li>Confirmar con seña o recordatorio 24 horas antes para bajar ausencias.</li>
-          <li>Al terminar el servicio, agendar el siguiente turno antes de que la clienta se vaya.</li>
-          <li>Registrar nombre, servicio y fecha. A los 35–45 días, mensaje de reactivación.</li>
+          <li>Responder rápido y en horario definido.</li>
+          <li>No contestar solo el precio: precio, qué incluye y dos horarios concretos.</li>
+          <li>Confirmar con seña o recordatorio 24 horas antes.</li>
+          <li>Agendar el próximo turno antes de que la clienta se vaya.</li>
+          <li>Reactivar a los 45 días con un mensaje directo.</li>
         </ol>
-        <p class="small">Un seguidor no es un cliente. El objetivo del contenido es iniciar conversaciones; el objetivo de la atención es convertirlas en turnos agendados.</p>
-        <div class="check" data-check="I">
-          <label><input type="checkbox" id="chk-i1"><span>Guion de respuesta de DM escrito.</span></label>
-          <label><input type="checkbox" id="chk-i2"><span>Base de clientas con fecha de último servicio.</span></label>
-          <label><input type="checkbox" id="chk-i3"><span>Rutina de reactivación a los 45 días activada.</span></label>
+        <div class="check">
+          <label><input type="checkbox" id="chk-i1"><span>Guion de respuesta escrito.</span></label>
+          <label><input type="checkbox" id="chk-i2"><span>Base de clientas con última fecha.</span></label>
+          <label><input type="checkbox" id="chk-i3"><span>Rutina de reactivación activada.</span></label>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== 03 ESTRATEGIA ===== -->
+<!-- 03 -->
 <section id="estrategia">
   <div class="sechead">
-    <span class="num">03 / Estrategia de publicaciones</span>
+    <span class="num">03 / Estrategia</span>
     <h2>El mes en tres etapas</h2>
-    <p class="lede">El mes no es plano. La predisposición a comprar cambia según la semana, el cobro y el calendario social. Por eso el plan se divide en tres etapas con objetivos distintos y se mide distinto en cada una.</p>
+    <p class="lede">La predisposición a comprar cambia según la semana y el cobro.</p>
   </div>
 
   <div class="tabbar" role="tablist" aria-label="Etapas del mes">
-    <button class="btn on" role="tab" aria-selected="true" data-stage="1">Días 1–10 · Visibilidad</button>
-    <button class="btn" role="tab" aria-selected="false" data-stage="2">Días 11–20 · Conversión</button>
-    <button class="btn" role="tab" aria-selected="false" data-stage="3">Días 21–30 · Reactivación</button>
+    <button class="btn on" role="tab" aria-selected="true" data-stage="1">1–10 · Visibilidad</button>
+    <button class="btn" role="tab" aria-selected="false" data-stage="2">11–20 · Conversión</button>
+    <button class="btn" role="tab" aria-selected="false" data-stage="3">21–30 · Reactivación</button>
   </div>
 
   <div class="stagepanel" data-panel="1">
-    <div class="stagehead"><span class="big">01</span><div><p class="eyebrow">Principio de mes</p><h3 style="font-size:1.5rem">Visibilidad y atracción</h3></div></div>
+    <div class="stagehead"><span class="big">01</span><div><p class="eyebrow">Principio de mes</p><h3 style="font-size:1.4rem">Visibilidad y atracción</h3></div></div>
     <div class="grid2">
-      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Presentación de servicios y productos con información completa.</li><li>Piezas que despierten interés en público nuevo.</li><li>Videos profesionales pensados para captar atención en los primeros 3 segundos.</li><li>Promociones y beneficios estratégicos de apertura de agenda.</li><li>Historias que incentiven consultas y reservas.</li></ul></div>
-      <div class="card"><h4>Por qué acá</h4><p class="small">Es el momento del mes con más liquidez y agenda libre. Se busca entrar en consideración: que la gente de la zona sepa que el local existe y qué se hace exactamente. La promoción de esta etapa no es un descuento, es una razón para probar.</p></div>
-      <div class="card"><h4>Formatos que pesan</h4><div class="tagrow"><span class="tag laca">Reel</span><span class="tag">Carrusel de servicios</span><span class="tag">Placa de marca</span><span class="tag jade">Historias de agenda</span></div><p class="small">Reparto sugerido: 50% reels, 30% carruseles, 20% placas.</p></div>
-      <div class="card"><h4>Qué medimos</h4><ul class="ticks"><li>Alcance en cuentas no seguidoras.</li><li>Visitas al perfil.</li><li>Guardados del carrusel de servicios.</li><li>Consultas nuevas por DM.</li></ul></div>
-      <div class="card"><h4>Errores a evitar</h4><ul class="ticks"><li>Abrir el mes con descuento: quema margen antes de necesitarlo.</li><li>Publicar servicios sin duración ni mantenimiento.</li><li>Reels largos sin gancho inicial.</li></ul></div>
+      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Presentar servicios con información completa.</li><li>Piezas que despierten interés en público nuevo.</li><li>Videos con gancho en los primeros 3 segundos.</li><li>Beneficio de apertura de agenda.</li><li>Historias que piden la consulta.</li></ul></div>
+      <div class="card"><h4>Por qué acá</h4><p class="small">Más liquidez y agenda libre. Se busca entrar en consideración: que la zona sepa que el local existe.</p><div class="tagrow" style="margin-top:.4rem"><span class="tag oro">50% reels</span><span class="tag">30% carruseles</span><span class="tag">20% placas</span></div></div>
+      <div class="card"><h4>Métrica clave</h4><ul class="ticks"><li>Alcance en cuentas no seguidoras.</li><li>Visitas al perfil.</li><li>Consultas nuevas.</li></ul></div>
+      <div class="card"><h4>Error típico</h4><ul class="ticks"><li>Abrir el mes con descuento.</li><li>Publicar servicios sin duración ni mantenimiento.</li></ul></div>
     </div>
   </div>
 
   <div class="stagepanel" data-panel="2" hidden>
-    <div class="stagehead"><span class="big">02</span><div><p class="eyebrow">Mitad de mes</p><h3 style="font-size:1.5rem">Conversión y fidelización</h3></div></div>
+    <div class="stagehead"><span class="big">02</span><div><p class="eyebrow">Mitad de mes</p><h3 style="font-size:1.4rem">Conversión y fidelización</h3></div></div>
     <div class="grid2">
-      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Mostrar resultados y trabajos realizados.</li><li>Testimonios y experiencias de clientas.</li><li>Beneficios concretos de contratar el servicio.</li><li>Recordatorios de turnos, compras o reservas.</li><li>Contenido que responde dudas y objeciones.</li><li>Acciones comerciales para estimular la demanda.</li></ul></div>
-      <div class="card"><h4>Por qué acá</h4><p class="small">La gente ya vio la cuenta en la primera etapa. Ahora hay que sacarle la duda: si dura, si daña, si vale lo que cuesta, si el lugar es confiable. Es la etapa donde se trabaja la decisión, no el descubrimiento.</p></div>
-      <div class="card"><h4>Formatos que pesan</h4><div class="tagrow"><span class="tag laca">Reel de proceso</span><span class="tag">Carrusel de resultados</span><span class="tag">Testimonios</span><span class="tag jade">Caja de preguntas</span></div><p class="small">Reparto sugerido: 40% reels, 40% carruseles, 20% placas.</p></div>
-      <div class="card"><h4>Qué medimos</h4><ul class="ticks"><li>Conversaciones iniciadas por DM.</li><li>Turnos agendados sobre consultas recibidas.</li><li>Guardados y compartidos de piezas de resultado.</li><li>Respuestas en caja de preguntas.</li></ul></div>
-      <div class="card"><h4>Errores a evitar</h4><ul class="ticks"><li>Mostrar resultados sin contar qué servicio es ni cuánto dura.</li><li>Pedir el turno una sola vez y en una sola pieza.</li><li>Dejar objeciones sin responder porque "ya se explicó".</li></ul></div>
+      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Resultados y trabajos realizados.</li><li>Testimonios y experiencias.</li><li>Beneficios de contratar el servicio.</li><li>Recordatorios de turnos y reservas.</li><li>Respuesta a dudas y objeciones.</li></ul></div>
+      <div class="card"><h4>Por qué acá</h4><p class="small">Ya vieron la cuenta. Ahora hay que sacar la duda: si dura, si daña, si vale lo que cuesta.</p><div class="tagrow" style="margin-top:.4rem"><span class="tag oro">40% reels</span><span class="tag">40% carruseles</span><span class="tag">20% placas</span></div></div>
+      <div class="card"><h4>Métrica clave</h4><ul class="ticks"><li>Conversaciones iniciadas.</li><li>Turnos sobre consultas recibidas.</li><li>Guardados de piezas de resultado.</li></ul></div>
+      <div class="card"><h4>Error típico</h4><ul class="ticks"><li>Mostrar resultados sin decir qué servicio es.</li><li>Pedir el turno una sola vez.</li></ul></div>
     </div>
   </div>
 
   <div class="stagepanel" data-panel="3" hidden>
-    <div class="stagehead"><span class="big">03</span><div><p class="eyebrow">Final de mes</p><h3 style="font-size:1.5rem">Reactivación y cierre</h3></div></div>
+    <div class="stagehead"><span class="big">03</span><div><p class="eyebrow">Final de mes</p><h3 style="font-size:1.4rem">Reactivación y cierre</h3></div></div>
     <div class="grid2">
-      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Últimos turnos y disponibilidad real.</li><li>Promociones puntuales y acotadas en el tiempo.</li><li>Recordatorios de servicios de mantenimiento.</li><li>Campañas para quienes consultaron y no concretaron.</li><li>Incentivos para volver a comprar o reservar.</li><li>Anticipación de las novedades del mes siguiente.</li></ul></div>
-      <div class="card"><h4>Por qué acá</h4><p class="small">Es la etapa con menos liquidez, así que no se pelea por público nuevo: se trabaja sobre gente que ya conoce el local. Reactivar una clienta que vino hace 45 días cuesta mucho menos que conseguir una nueva.</p></div>
-      <div class="card"><h4>Formatos que pesan</h4><div class="tagrow"><span class="tag jade">Historias de cierre</span><span class="tag">Placa de últimos turnos</span><span class="tag laca">Reel resumen</span><span class="tag">DM a base inactiva</span></div><p class="small">Reparto sugerido: 30% reels, 30% carruseles, 40% placas e historias.</p></div>
-      <div class="card"><h4>Qué medimos</h4><ul class="ticks"><li>Turnos cerrados en los últimos 10 días.</li><li>Respuestas de la base inactiva contactada.</li><li>Reservas anticipadas para el mes siguiente.</li><li>Clientas que vuelven dentro del ciclo de mantenimiento.</li></ul></div>
-      <div class="card"><h4>Errores a evitar</h4><ul class="ticks"><li>Anunciar "últimos turnos" cuando la agenda está vacía: se pierde credibilidad.</li><li>Cerrar el mes sin anticipar nada del siguiente.</li><li>Liquidar precios para llenar la agenda.</li></ul></div>
+      <div class="card"><h4>Prioridades</h4><ul class="ticks"><li>Últimos turnos y disponibilidad real.</li><li>Promos puntuales con fecha.</li><li>Recordatorio de mantenimiento.</li><li>Campaña a quienes no concretaron.</li><li>Anticipo del mes siguiente.</li></ul></div>
+      <div class="card"><h4>Por qué acá</h4><p class="small">Menos liquidez: no se pelea público nuevo. Reactivar a una clienta de hace 45 días cuesta mucho menos.</p><div class="tagrow" style="margin-top:.4rem"><span class="tag oro">30% reels</span><span class="tag">30% carruseles</span><span class="tag">40% historias</span></div></div>
+      <div class="card"><h4>Métrica clave</h4><ul class="ticks"><li>Turnos cerrados en los últimos 10 días.</li><li>Respuestas de la base inactiva.</li><li>Reservas anticipadas.</li></ul></div>
+      <div class="card"><h4>Error típico</h4><ul class="ticks"><li>Decir "últimos turnos" con la agenda vacía.</li><li>Cerrar el mes sin anticipar nada.</li></ul></div>
     </div>
   </div>
 
-  <div class="note" style="margin-top:1.5rem">
-    <strong>Criterio transversal:</strong> uñas y pestañas no son una necesidad básica. No alcanza con estar presente: hay que elegir los momentos en que la clienta tiene mayor predisposición (cobro, fin de semana, evento, vencimiento del mantenimiento) y construir ahí el motivo de compra.
-  </div>
+  <div class="note" style="margin-top:1.2rem"><strong>Criterio transversal:</strong> uñas y pestañas no son necesidad básica. Hay que elegir el momento de mayor predisposición y construir ahí el motivo de compra.</div>
 </section>
 
-<!-- ===== 04 CALENDARIO ===== -->
+<!-- 04 -->
 <section id="calendario">
   <div class="sechead">
-    <span class="num">04 / Planificación y organización</span>
-    <h2>Calendario mensual, día por día</h2>
-    <p class="lede">Treinta días con formato, objetivo, idea creativa, copy, llamado a la acción y objetivo comercial. Tocá cualquier día para ver la ficha completa. La barra inferior de cada día indica quién produce la pieza.</p>
+    <span class="num">04 / Planificación</span>
+    <h2>Calendario de 30 días</h2>
+    <p class="lede">Tocá un día para ver idea, copy, acción y objetivo. La barra indica quién produce.</p>
   </div>
 
   <div class="calbar">
     <div class="stack g8">
-      <p class="eyebrow">Filtrar por formato</p>
+      <p class="eyebrow">Formato</p>
       <div class="filters" id="fmtFilters">
         <button class="btn on" data-fmt="all">Todos</button>
         <button class="btn" data-fmt="Reel">Reels</button>
@@ -602,67 +553,49 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     <aside class="detail" id="dayDetail" aria-live="polite"></aside>
   </div>
 
-  <div class="stack g12" style="margin-top:2rem">
-    <p class="eyebrow">Reparto de producción</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Produce RINDE</th><th>Produce el cliente</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Calendario mensual completo con copys y llamados a la acción.</td>
-            <td>Material en bruto del día a día: fotos del resultado de cada servicio.</td>
-          </tr>
-          <tr>
-            <td>Diseño de carruseles, placas y plantillas de historias.</td>
-            <td>Publicación de historias diarias según la rutina definida.</td>
-          </tr>
-          <tr>
-            <td>Edición y animación de reels a partir del material de la sesión mensual.</td>
-            <td>Respuesta de DM y cierre de turnos, con el guion acordado.</td>
-          </tr>
-          <tr>
-            <td>Una sesión de registro en el local por mes (hasta 3 horas).</td>
-            <td>Datos de agenda: turnos tomados, ausencias y servicios más pedidos.</td>
-          </tr>
-          <tr>
-            <td>Configuración y lectura de campañas en Meta Ads.</td>
-            <td>Aprobación del calendario y definición del presupuesto publicitario.</td>
-          </tr>
-          <tr>
-            <td>Reporte mensual con métricas y conclusiones.</td>
-            <td>Autorizaciones de uso de imagen de clientas.</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="grid2" style="margin-top:1.4rem">
+    <div class="card edge">
+      <h3>Produce RINDE</h3>
+      <ul class="ticks">
+        <li>Calendario con copys y acciones.</li>
+        <li>Carruseles, placas y plantillas.</li>
+        <li>Edición y animación de reels.</li>
+        <li>Sesión mensual en el local.</li>
+        <li>Campañas y reporte.</li>
+      </ul>
     </div>
-    <p class="small">Las historias diarias las publica el cliente con plantillas y guiones que entregamos: son el canal de la agenda y necesitan estar en tiempo real.</p>
+    <div class="card edge">
+      <h3>Produce el cliente</h3>
+      <ul class="ticks">
+        <li>Fotos del resultado de cada servicio.</li>
+        <li>Historias diarias con las plantillas.</li>
+        <li>Respuesta de DM y cierre de turnos.</li>
+        <li>Datos de agenda y ausencias.</li>
+        <li>Autorizaciones de imagen.</li>
+      </ul>
+    </div>
   </div>
 </section>
 
-<!-- ===== 05 META ADS ===== -->
+<!-- 05 -->
 <section id="ads">
   <div class="sechead">
-    <span class="num">05 / Meta Ads y publicidad digital</span>
-    <h2>Publicidad explicada desde cero</h2>
-    <p class="lede">Guía progresiva, sin dar por sabido nada. Primero entender la herramienta, después armar una campaña, después leer resultados. El presupuesto de publicidad se define y se paga aparte de nuestros honorarios.</p>
+    <span class="num">05 / Meta Ads</span>
+    <h2>Publicidad desde cero</h2>
+    <p class="lede">Ocho pasos, sin dar nada por sabido. La inversión publicitaria se presupuesta aparte.</p>
   </div>
 
   <div id="adsWrap">
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="true"><span class="ix">1</span><span class="ttl">Cómo funciona el administrador de anuncios</span><span class="mk">−</span></button>
-      <div class="accbody">
-        <p class="small">El administrador de anuncios es el panel desde donde se publicita en Instagram y Facebook. Trabaja en tres niveles, y entender esos tres niveles resuelve el 80% de las dudas.</p>
-        <div class="tablewrap">
-          <table>
-            <thead><tr><th>Nivel</th><th>Qué se decide ahí</th></tr></thead>
-            <tbody>
-              <tr><td>Campaña</td><td>El objetivo: qué queremos que pase (que nos conozcan, que escriban, que entren al sitio).</td></tr>
-              <tr><td>Conjunto de anuncios</td><td>A quién le mostramos, dónde, cuánto gastamos por día y en qué fechas.</td></tr>
-              <tr><td>Anuncio</td><td>La pieza concreta: el video o la imagen, el texto y el botón.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small">Promocionar desde el botón "Promocionar publicación" de Instagram es la versión simplificada de todo esto. Sirve para empezar, pero deja afuera la segmentación fina y la comparación entre públicos.</p>
+      <button type="button" aria-expanded="false"><span class="ix">1</span><span class="ttl">Cómo funciona el administrador</span><span class="mk">+</span></button>
+      <div class="accbody" hidden>
+        <p class="why">Tres niveles. Entenderlos resuelve el 80% de las dudas.</p>
+        <div class="tablewrap"><table><tbody>
+          <tr><td><strong>Campaña</strong></td><td>El objetivo: qué queremos que pase.</td></tr>
+          <tr><td><strong>Conjunto</strong></td><td>A quién, dónde, cuánto por día y en qué fechas.</td></tr>
+          <tr><td><strong>Anuncio</strong></td><td>La pieza, el texto y el botón.</td></tr>
+        </tbody></table></div>
+        <p class="small">El botón "Promocionar" de Instagram es la versión simplificada: sirve para empezar.</p>
       </div>
     </div>
 
@@ -670,335 +603,291 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
       <button type="button" aria-expanded="false"><span class="ix">2</span><span class="ttl">Vincular Instagram y Facebook</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
         <ol class="steps">
-          <li>Tener la cuenta de Instagram como cuenta profesional.</li>
-          <li>Crear una página de Facebook del negocio, aunque no se publique ahí: es el requisito técnico para publicitar.</li>
-          <li>Crear un portafolio comercial en el Administrador Comercial de Meta y cargar ahí la página y la cuenta de Instagram.</li>
-          <li>Crear una cuenta publicitaria dentro de ese portafolio y asociar el medio de pago del negocio.</li>
-          <li>Verificar en Configuración que la cuenta de Instagram aparezca disponible como identidad del anuncio.</li>
+          <li>Instagram como cuenta profesional.</li>
+          <li>Página de Facebook del negocio, aunque no se publique.</li>
+          <li>Portafolio comercial en el Administrador de Meta.</li>
+          <li>Cuenta publicitaria con el medio de pago del negocio.</li>
+          <li>Verificar que Instagram aparezca como identidad del anuncio.</li>
         </ol>
-        <div class="note"><strong>Importante:</strong> la cuenta publicitaria y el medio de pago quedan siempre a nombre del negocio. Nosotros trabajamos con acceso de socio, no somos titulares de la cuenta ni de los datos.</div>
+        <div class="note"><strong>La cuenta y el pago quedan a nombre del negocio.</strong> Trabajamos con acceso de socio.</div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">3</span><span class="ttl">Crear una campaña, paso a paso</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">3</span><span class="ttl">Crear una campaña</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
         <ol class="steps">
-          <li>Crear campaña y elegir el objetivo (ver el cuadro del punto 4).</li>
-          <li>Ponerle nombre con criterio: servicio + público + mes. Por ejemplo "Pestañas · Zona 5km · Noviembre".</li>
-          <li>En el conjunto de anuncios, definir presupuesto diario y fechas de inicio y fin.</li>
-          <li>Definir ubicación, edad y, si corresponde, intereses.</li>
-          <li>Elegir ubicaciones: para empezar, automáticas; después, solo Instagram si ahí está el público.</li>
-          <li>En el anuncio, elegir entre usar una publicación existente o subir una pieza nueva.</li>
-          <li>Escribir el texto principal, el titular y elegir el botón ("Enviar mensaje" en la mayoría de los casos para este rubro).</li>
-          <li>Revisar la vista previa en celular y publicar. La revisión de Meta suele tardar algunas horas.</li>
+          <li>Elegir objetivo.</li>
+          <li>Nombrarla: servicio + público + mes.</li>
+          <li>Presupuesto diario y fechas.</li>
+          <li>Ubicación, edad y, si corresponde, intereses.</li>
+          <li>Ubicaciones automáticas para empezar.</li>
+          <li>Publicación existente o pieza nueva.</li>
+          <li>Texto, titular y botón "Enviar mensaje".</li>
+          <li>Revisar la vista previa en celular y publicar.</li>
         </ol>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">4</span><span class="ttl">Reconocimiento, tráfico, interacción y clientes potenciales</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">4</span><span class="ttl">Qué objetivo elegir</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small">Elegir mal el objetivo es el error más caro y más común. Meta optimiza exactamente por lo que uno le pide.</p>
-        <div class="tablewrap">
-          <table>
-            <thead><tr><th>Objetivo</th><th>Qué busca Meta</th><th>Cuándo usarlo en este rubro</th><th>Qué medir</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Reconocimiento</strong></td><td>Que la mayor cantidad de gente vea el anuncio.</td><td>Apertura de local, cambio de dirección, presencia de marca en la zona.</td><td>Alcance y costo por mil impresiones.</td></tr>
-              <tr><td><strong>Tráfico</strong></td><td>Clics hacia un destino.</td><td>Llevar a WhatsApp o a un sistema de reservas online.</td><td>Clics en el enlace y costo por clic.</td></tr>
-              <tr><td><strong>Interacción</strong></td><td>Reacciones, comentarios, mensajes o vistas de video.</td><td>Dar impulso a un reel que ya funciona bien de forma orgánica, o pedir mensajes.</td><td>Costo por interacción, conversaciones iniciadas.</td></tr>
-              <tr><td><strong>Clientes potenciales</strong></td><td>Datos de contacto o conversaciones.</td><td>Es el objetivo principal para uñas y pestañas: generar mensajes de gente que quiere turno.</td><td>Costo por conversación o por contacto.</td></tr>
-              <tr><td><strong>Ventas</strong></td><td>Compras medibles.</td><td>Solo si hay venta online o reserva con pago. Para turnos presenciales, no aplica.</td><td>Costo por compra.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small">Para un local de servicios con agenda, la recomendación es <strong>Clientes potenciales</strong> con mensajes a WhatsApp o Instagram Direct, y <strong>Interacción</strong> solo como apoyo de una pieza que ya rinde.</p>
+        <p class="why">Meta optimiza exactamente por lo que uno le pide.</p>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Objetivo</th><th>Cuándo usarlo</th><th>Qué medir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Reconocimiento</strong></td><td>Apertura o cambio de dirección.</td><td>Alcance</td></tr>
+            <tr><td><strong>Tráfico</strong></td><td>Llevar a WhatsApp o a reservas online.</td><td>Costo por clic</td></tr>
+            <tr><td><strong>Interacción</strong></td><td>Impulsar un reel que ya rinde.</td><td>Costo por interacción</td></tr>
+            <tr><td><strong>Clientes potenciales</strong></td><td><strong>El principal acá:</strong> generar mensajes.</td><td>Costo por conversación</td></tr>
+            <tr><td><strong>Ventas</strong></td><td>Solo con venta o reserva online.</td><td>Costo por compra</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">5</span><span class="ttl">Definir y segmentar el público</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">5</span><span class="ttl">Segmentar el público</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <p class="small">En un negocio de barrio, la ubicación es la segmentación más importante. Todo lo demás es secundario.</p>
+        <p class="why">En un local de barrio, la ubicación es lo que más pesa.</p>
         <ol class="steps">
-          <li><strong>Ubicación:</strong> radio de 3 a 8 km alrededor del local, según el transporte de la zona. Elegir "personas que viven en este lugar", no "personas de visita".</li>
-          <li><strong>Edad y género:</strong> arrancar amplio (por ejemplo 18–45) y recortar cuando los datos lo justifiquen, no antes.</li>
-          <li><strong>Intereses:</strong> usarlos con cuidado. En públicos chicos, agregar intereses deja a Meta sin margen para optimizar. Probar primero sin intereses.</li>
-          <li><strong>Público personalizado:</strong> quienes interactuaron con la cuenta de Instagram en los últimos 365 días. Es el mejor público para campañas de reactivación de fin de mes.</li>
-          <li><strong>Público similar:</strong> recién cuando haya suficientes contactos previos para que Meta pueda construirlo.</li>
-          <li><strong>Exclusiones:</strong> en campañas de captación, excluir a quienes ya son clientas para no pagar por gente que ya viene.</li>
+          <li>Radio de 3 a 8 km, "personas que viven acá".</li>
+          <li>Edad amplia primero; recortar con datos.</li>
+          <li>Intereses con cuidado: achican demasiado el público.</li>
+          <li>Público personalizado: quienes interactuaron en 365 días.</li>
+          <li>Excluir clientas actuales en campañas de captación.</li>
         </ol>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">6</span><span class="ttl">Presupuestos: cuánto, cómo y por cuánto tiempo</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">6</span><span class="ttl">Presupuestos</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
         <ul class="ticks">
-          <li><strong>Presupuesto diario, no total.</strong> Da resultados más estables y es más fácil de controlar.</li>
-          <li><strong>Mínimo útil:</strong> por debajo de unos pocos dólares por día el sistema no junta datos suficientes para optimizar. Es mejor una campaña con presupuesto razonable que tres con presupuesto mínimo.</li>
-          <li><strong>Período de aprendizaje:</strong> los primeros días Meta prueba. No hay que tocar nada durante las primeras 72 horas, aunque los números arranquen mal.</li>
-          <li><strong>Duración:</strong> mínimo 7 días por prueba. Menos que eso no permite comparar.</li>
-          <li><strong>Un cambio por vez.</strong> Si se cambian público, pieza y presupuesto juntos, no se sabe qué fue lo que mejoró.</li>
-          <li><strong>Escalar de a poco:</strong> subir el presupuesto hasta un 20–30% cada pocos días reinicia menos el aprendizaje que duplicarlo de golpe.</li>
+          <li>Presupuesto diario, no total.</li>
+          <li>Las primeras 72 horas no se toca nada: período de aprendizaje.</li>
+          <li>Mínimo 7 días por prueba.</li>
+          <li>Un cambio por vez.</li>
+          <li>Escalar 20–30%, nunca duplicar de golpe.</li>
         </ul>
-        <div class="note"><strong>Esquema de prueba sugerido para el primer mes:</strong> dos conjuntos de anuncios con el mismo presupuesto diario y el mismo objetivo, cambiando solo el público (radio chico contra radio amplio). A los 7 días se apaga el que rinde peor y se reinvierte en el otro. El monto exacto lo define el negocio según su capacidad de atención: no sirve generar más consultas de las que se pueden atender.</div>
+        <div class="note"><strong>Prueba del primer mes:</strong> dos conjuntos iguales cambiando solo el público. A los 7 días se apaga el peor. El monto lo define el negocio: no sirve generar más consultas de las que se pueden atender.</div>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">7</span><span class="ttl">Qué publicaciones conviene promocionar</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">7</span><span class="ttl">Qué promocionar</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
         <ol class="steps">
-          <li>Promocionar lo que ya funcionó de forma orgánica: si una pieza tuvo buen alcance y guardados sin pagar, la publicidad la amplifica.</li>
-          <li>Priorizar video de resultado o de proceso: en estética es lo que más retención tiene.</li>
-          <li>La pieza tiene que entenderse sin sonido y mostrar el resultado en los primeros 3 segundos.</li>
-          <li>Evitar promocionar piezas con mucho texto encima o con precios que van a cambiar.</li>
-          <li>No promocionar contenido de fecha vencida: una promoción cerrada que sigue en circulación genera consultas imposibles de cumplir.</li>
+          <li>Lo que ya funcionó sin pagar.</li>
+          <li>Video de resultado o proceso.</li>
+          <li>Que se entienda sin sonido.</li>
+          <li>Sin textos largos ni precios que van a cambiar.</li>
+          <li>Nunca una promo ya vencida.</li>
         </ol>
       </div>
     </div>
 
     <div class="acc" data-acc>
-      <button type="button" aria-expanded="false"><span class="ix">8</span><span class="ttl">Interpretar resultados y optimizar sin gastar al aire</span><span class="mk">+</span></button>
+      <button type="button" aria-expanded="false"><span class="ix">8</span><span class="ttl">Leer resultados y optimizar</span><span class="mk">+</span></button>
       <div class="accbody" hidden>
-        <div class="tablewrap">
-          <table>
-            <thead><tr><th>Dato</th><th>Cómo leerlo</th></tr></thead>
-            <tbody>
-              <tr><td>Costo por resultado</td><td>Es la métrica que manda. Comparar siempre contra lo que vale un turno promedio.</td></tr>
-              <tr><td>CTR (porcentaje de clics)</td><td>Si es bajo, el problema es la pieza o el texto, no el público.</td></tr>
-              <tr><td>Frecuencia</td><td>Veces que la misma persona vio el anuncio. Arriba de 3 en poco tiempo, el público está saturado: hay que ampliarlo o cambiar la pieza.</td></tr>
-              <tr><td>Conversaciones iniciadas</td><td>El dato real de este rubro. Hay que cruzarlo con cuántas terminaron en turno.</td></tr>
-              <tr><td>Desglose por edad y zona</td><td>Muestra dónde se gasta sin retorno. Es la base para recortar.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="eyebrow" style="margin-top:.4rem">Rutina de optimización</p>
+        <div class="tablewrap"><table><tbody>
+          <tr><td><strong>Costo por resultado</strong></td><td>Comparar contra lo que vale un turno.</td></tr>
+          <tr><td><strong>CTR bajo</strong></td><td>El problema es la pieza, no el público.</td></tr>
+          <tr><td><strong>Frecuencia &gt; 3</strong></td><td>Público saturado: ampliar o cambiar pieza.</td></tr>
+          <tr><td><strong>Conversaciones</strong></td><td>Cruzar con cuántas terminaron en turno.</td></tr>
+        </tbody></table></div>
+        <p class="eyebrow">Rutina</p>
         <ol class="steps">
-          <li>Día 1 a 3: no tocar nada. Período de aprendizaje.</li>
-          <li>Día 4: revisar CTR y costo por resultado. Si el CTR es muy bajo, cambiar la pieza antes de tocar el público.</li>
-          <li>Día 7: apagar el conjunto con peor costo por resultado y reinvertir.</li>
-          <li>Día 14: revisar frecuencia. Si está alta, ampliar el radio o subir una pieza nueva.</li>
-          <li>Fin de mes: comparar costo por conversación contra el mes anterior y anotar la conclusión en el reporte.</li>
+          <li>Días 1–3: no tocar nada.</li>
+          <li>Día 4: si el CTR es bajo, cambiar la pieza.</li>
+          <li>Día 7: apagar el peor conjunto y reinvertir.</li>
+          <li>Día 14: revisar frecuencia.</li>
+          <li>Fin de mes: comparar y anotar la conclusión.</li>
         </ol>
-        <p class="eyebrow" style="margin-top:.4rem">Errores que hacen gastar de más</p>
-        <ul class="ticks">
-          <li>Apagar y prender campañas todos los días: reinicia el aprendizaje cada vez.</li>
-          <li>Públicos demasiado chicos por sumar muchos intereses juntos.</li>
-          <li>Dejar correr una campaña sin revisar durante semanas.</li>
-          <li>Publicitar sin tener resuelto quién responde los mensajes y en qué horario.</li>
-        </ul>
+        <p class="small"><strong>Gastos al aire:</strong> prender y apagar todos los días, públicos chicos por exceso de intereses, dejar correr sin revisar, publicitar sin tener quién responda los mensajes.</p>
       </div>
     </div>
   </div>
 
-  <div class="note" style="margin-top:1.4rem">
-    <strong>Cómo se factura la publicidad:</strong> los USD 400 mensuales cubren la configuración, la segmentación, la carga de piezas, la optimización y la lectura de resultados. La inversión publicitaria se paga directamente a Meta desde el medio de pago del negocio y se presupuesta por separado según el objetivo del mes y la capacidad de atención del local.
-  </div>
+  <div class="note" style="margin-top:1.2rem"><strong>Cómo se factura:</strong> los USD 400 cubren configuración, optimización y lectura. La inversión se paga a Meta desde la cuenta del negocio y se presupuesta aparte.</div>
 </section>
 
-<!-- ===== 06 PRODUCCIÓN ===== -->
+<!-- 06 -->
 <section id="produccion">
   <div class="sechead">
-    <span class="num">06 / Producción profesional de contenido</span>
-    <h2>Lo que produce nuestro equipo</h2>
-    <p class="lede">Además del acompañamiento, desarrollamos el contenido. Cada pieza se trabaja con herramientas profesionales y, antes de producirse, tiene que tener un objetivo comercial y una justificación estratégica.</p>
+    <span class="num">06 / Producción</span>
+    <h2>Lo que produce el equipo</h2>
+    <p class="lede">Cada pieza con objetivo comercial y justificación estratégica.</p>
   </div>
 
-  <div class="grid2">
+  <div class="grid2 top">
     <div class="card">
       <h3>Herramientas</h3>
-      <dl class="kv">
-        <dt>Photoshop</dt><dd>Diseño gráfico, retoque de piel y uñas, piezas publicitarias.</dd>
-        <dt>Illustrator</dt><dd>Identidad visual, logotipo aplicado, recursos gráficos y tipografía.</dd>
-        <dt>Premiere Pro</dt><dd>Edición profesional de reels y videos comerciales.</dd>
-        <dt>After Effects</dt><dd>Animaciones, títulos cinéticos y recursos audiovisuales.</dd>
-        <dt>Lightroom</dt><dd>Corrección de color consistente en toda la galería.</dd>
-        <dt>Audition</dt><dd>Limpieza de audio cuando hay voz o testimonio.</dd>
-      </dl>
-      <p class="small">Se suman otras herramientas profesionales según lo que pida el proyecto.</p>
+      <div class="tagrow" style="margin:.2rem 0 .4rem"><span class="tag oro">Photoshop</span><span class="tag oro">Illustrator</span><span class="tag oro">Premiere Pro</span><span class="tag oro">After Effects</span><span class="tag">Lightroom</span><span class="tag">Audition</span></div>
+      <ul class="ticks">
+        <li>Diseño, retoque y piezas publicitarias.</li>
+        <li>Identidad visual y recursos gráficos.</li>
+        <li>Edición de video y animación.</li>
+        <li>Color consistente en toda la galería.</li>
+      </ul>
     </div>
-
     <div class="card">
       <h3>Entregables del mes</h3>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Pieza</th><th class="num">Cantidad</th></tr></thead>
-          <tbody>
-            <tr><td>Diseños para feed (carruseles y placas)</td><td class="num">12</td></tr>
-            <tr><td>Reels editados (hasta 30 segundos)</td><td class="num">6</td></tr>
-            <tr><td>Plantillas y piezas de historias</td><td class="num">24</td></tr>
-            <tr><td>Piezas para campañas de Meta Ads</td><td class="num">4</td></tr>
-            <tr><td>Sesión de registro en el local (hasta 3 h)</td><td class="num">1</td></tr>
-            <tr><td>Calendario mensual con copys</td><td class="num">1</td></tr>
-            <tr><td>Reunión estratégica + revisión de mitad de mes</td><td class="num">2</td></tr>
-            <tr><td>Reporte mensual de métricas</td><td class="num">1</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="small">Las cantidades se pueden redistribuir entre formatos según el objetivo del mes, manteniendo el volumen total de producción.</p>
+      <div class="tablewrap"><table><tbody>
+        <tr><td>Diseños de feed</td><td class="num">12</td></tr>
+        <tr><td>Reels editados</td><td class="num">6</td></tr>
+        <tr><td>Piezas de historias</td><td class="num">24</td></tr>
+        <tr><td>Piezas para campañas</td><td class="num">4</td></tr>
+        <tr><td>Sesión en el local</td><td class="num">1</td></tr>
+        <tr><td>Reuniones</td><td class="num">2</td></tr>
+        <tr><td>Reporte de métricas</td><td class="num">1</td></tr>
+      </tbody></table></div>
     </div>
   </div>
 
-  <div class="stack g12" style="margin-top:1.6rem">
-    <p class="eyebrow">Criterio de producción</p>
-    <div class="grid3">
-      <div class="card"><h4>Cada pieza con objetivo</h4><p class="small">Antes de diseñar se define qué tiene que lograr: alcance, consulta, reserva, recompra o confianza. Sin eso, la pieza no se produce.</p></div>
-      <div class="card"><h4>Identidad consistente</h4><p class="small">Paleta, tipografías, encuadres y color se mantienen en todas las piezas, para que la galería se lea como una sola marca.</p></div>
-      <div class="card"><h4>Pensado para celular</h4><p class="small">Vertical, legible sin sonido, con el resultado visible en los primeros segundos y texto que no tapa el detalle del trabajo.</p></div>
-      <div class="card"><h4>Material reutilizable</h4><p class="small">De una sesión de registro salen piezas para feed, historias y anuncios. El archivo queda disponible para el negocio.</p></div>
-      <div class="card"><h4>Rondas de ajuste</h4><p class="small">Una ronda de correcciones por pieza, dentro del plazo del calendario aprobado.</p></div>
-      <div class="card"><h4>Archivos entregados</h4><p class="small">Piezas finales exportadas y entregadas al cliente en carpeta organizada por fecha.</p></div>
-    </div>
+  <div class="grid3" style="margin-top:.8rem">
+    <div class="card"><h4>Objetivo primero</h4><p class="small">Si no define qué tiene que lograr, no se produce.</p></div>
+    <div class="card"><h4>Identidad constante</h4><p class="small">Paleta, tipografía y color iguales en toda la galería.</p></div>
+    <div class="card"><h4>Pensado para celular</h4><p class="small">Vertical, legible sin sonido, resultado en los primeros segundos.</p></div>
   </div>
 </section>
 
-<!-- ===== 07 RUBRO ===== -->
+<!-- 07 -->
 <section id="rubro">
   <div class="sechead">
     <span class="num">07 / Adaptación al rubro</span>
-    <h2>Caso HOT LOOK: uñas y pestañas</h2>
-    <p class="lede">Estos servicios no son una necesidad básica para la mayoría de las consumidoras. Nadie los compra por urgencia: se compran por imagen personal, por costumbre de mantenimiento o por un evento. Toda la comunicación se construye sobre eso, y no sobre el descuento.</p>
+    <h2>Caso HOT LOOK</h2>
+    <p class="lede">No es una necesidad básica. Se compra por imagen, por mantenimiento y por confianza.</p>
+  </div>
+
+  <div class="stack g8" style="margin-bottom:1.4rem">
+    <p class="eyebrow">Dirección visual de referencia</p>
+    <div class="moodboard">
+      <img src="img/ref-01.jpg" alt="Uñas en marrón chocolate con animal print" width="520" height="520">
+      <img src="img/ref-05.jpg" alt="Manos con uñas marrones y anillos dorados sobre estampado de leopardo" width="520" height="520">
+      <img src="img/ref-02.jpg" alt="Uñas en rojo cereza con anillos finos" width="520" height="520">
+      <img src="img/ref-07.jpg" alt="Uñas nude con detalles dorados y animal print" width="520" height="520">
+      <img src="img/ref-08.jpg" alt="Uñas nude con flor dorada" width="520" height="520">
+      <img src="img/ref-04.jpg" alt="Uñas cromadas con tipografía sobre la imagen" width="520" height="520">
+      <img src="img/ref-03.jpg" alt="Esmalte rosa en mano sobre fondo celeste" width="520" height="520">
+      <img src="img/ref-06.jpg" alt="Tipografía script blanca sobre fondo negro" width="520" height="520">
+    </div>
+    <p class="moodnote">Tablero del cliente: chocolate y crema, dorado de joyería, cereza, animal print y cromado. Define paleta, tipografía y encuadres — no son trabajos de HOT LOOK.</p>
+  </div>
+
+  <div class="stack g8" style="margin-bottom:1.2rem">
+    <p class="eyebrow">Las nueve palancas de la decisión</p>
+    <div class="tagrow">
+      <span class="tag cereza">Imagen personal</span><span class="tag cereza">Resultado estético</span><span class="tag cereza">Experiencia</span>
+      <span class="tag">Confianza</span><span class="tag">Mantenimiento</span><span class="tag">Fidelización</span>
+      <span class="tag oro">Promoción inteligente</span><span class="tag oro">Reserva anticipada</span><span class="tag oro">Diferenciación</span>
+    </div>
   </div>
 
   <div class="grid2">
-    <div class="card pillar">
-      <h3>Las nueve palancas de la decisión</h3>
-      <ul class="ticks">
-        <li><strong>Imagen personal y autoestima:</strong> cómo se siente la clienta cuando se mira las manos.</li>
-        <li><strong>Resultado estético:</strong> el antes y después como argumento central.</li>
-        <li><strong>Experiencia y calidad:</strong> el tiempo de atención, la comodidad, el detalle.</li>
-        <li><strong>Confianza y profesionalismo:</strong> materiales, higiene, formación de quien atiende.</li>
-        <li><strong>Mantenimiento:</strong> el ciclo de 21 a 28 días como motor natural de recompra.</li>
-        <li><strong>Fidelización:</strong> que volver sea más cómodo que buscar otro lugar.</li>
-        <li><strong>Promoción inteligente:</strong> beneficio con condición, no rebaja general.</li>
-        <li><strong>Reserva anticipada:</strong> cerrar el próximo turno antes de que la clienta se vaya.</li>
-        <li><strong>Diferenciación:</strong> una razón concreta para elegir este local y no el de la esquina.</li>
-      </ul>
+    <div class="card">
+      <h3>Momentos de mayor predisposición</h3>
+      <div class="tablewrap"><table><tbody>
+        <tr><td><strong>Cobro y quincena</strong></td><td>Apertura de agenda.</td></tr>
+        <tr><td><strong>Jueves a sábado</strong></td><td>Recordatorio de disponibilidad.</td></tr>
+        <tr><td><strong>Eventos</strong></td><td>Reserva anticipada.</td></tr>
+        <tr><td><strong>Fechas del calendario</strong></td><td>Campaña puntual.</td></tr>
+        <tr><td><strong>Día 21 al 28</strong></td><td>Mensaje directo de retoque.</td></tr>
+      </tbody></table></div>
     </div>
-
     <div class="stack g16">
-      <div class="card">
-        <h3>Momentos de mayor predisposición</h3>
-        <div class="tablewrap">
-          <table>
-            <thead><tr><th>Momento</th><th>Cómo se trabaja</th></tr></thead>
-            <tbody>
-              <tr><td>Días de cobro y quincena</td><td>Apertura de agenda y presentación de servicios.</td></tr>
-              <tr><td>Jueves a sábado</td><td>Es cuando se quiere estar lista: ahí van los recordatorios de disponibilidad.</td></tr>
-              <tr><td>Eventos personales</td><td>Cumpleaños, casamientos, egresados, vacaciones: contenido de "lista para tu evento" con reserva anticipada.</td></tr>
-              <tr><td>Fechas del calendario</td><td>Día de la Madre, fiestas, San Valentín, inicio de temporada.</td></tr>
-              <tr><td>Vencimiento del mantenimiento</td><td>A los 21–28 días del último servicio, mensaje directo de retoque.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Generar necesidad sin liquidar el precio</h3>
+      <div class="card edge">
+        <h3>Generar necesidad sin bajar el precio</h3>
         <ul class="ticks">
-          <li>Instalar el ciclo de mantenimiento como hábito, no como gasto extra.</li>
-          <li>Agenda limitada y real: pocos turnos por día comunicados con honestidad.</li>
-          <li>Combos que ahorran tiempo, no plata (uñas y pestañas el mismo día).</li>
-          <li>Beneficio para quien reserva con anticipación o deja el turno siguiente agendado.</li>
-          <li>Reconocimiento a la clienta frecuente: un detalle en la visita número cinco rinde más que un 20% off.</li>
+          <li>El mantenimiento como hábito, no como gasto extra.</li>
+          <li>Agenda limitada y real.</li>
+          <li>Combos que ahorran tiempo, no plata.</li>
+          <li>Beneficio por reservar con anticipación.</li>
+          <li>Reconocimiento a la clienta frecuente.</li>
         </ul>
       </div>
+      <div class="grid2">
+        <div class="card"><h4>Promoción inteligente</h4><p class="small">Con condición y fecha. Atrae sin tocar la lista de precios.</p></div>
+        <div class="card"><h4>Descuento general</h4><p class="small">Baja el valor percibido y acostumbra a esperar la rebaja.</p></div>
+      </div>
     </div>
-  </div>
-
-  <div class="grid2" style="margin-top:1.3rem">
-    <div class="card"><h4>Promoción inteligente</h4><p class="small">Tiene condición, fecha y objetivo: "diseño simple sin cargo en tu primera visita, hasta el día 15". Atrae sin tocar la lista de precios y se puede medir.</p></div>
-    <div class="card"><h4>Descuento general</h4><p class="small">Baja el valor percibido, acostumbra a esperar la rebaja y compite solo por precio. Se usa como excepción, nunca como estrategia del mes.</p></div>
-  </div>
-
-  <div class="note" style="margin-top:1.3rem">
-    <strong>Trasladable a otros rubros:</strong> el mismo esquema se aplica a cualquier negocio cuyo servicio no sea de primera necesidad. Cambian las palancas y los momentos de demanda; el método de trabajo (etapas del mes, calendario con objetivo, producción y lectura de datos) es el mismo.
   </div>
 </section>
 
-<!-- ===== 08 INVERSIÓN ===== -->
+<!-- 08 -->
 <section id="inversion">
   <div class="sechead">
     <span class="num">08 / Propuesta comercial</span>
-    <h2>Qué recibís por USD 400 al mes</h2>
-    <p class="lede">Seis frentes de trabajo, entregables definidos y una lógica de mediano plazo. Es un acompañamiento integral, no una administración de Instagram.</p>
+    <h2>Qué recibís por USD 400</h2>
+    <p class="lede">Seis frentes, entregables definidos y una lógica de mediano plazo.</p>
   </div>
 
   <div class="price">
-    <div><span class="fig">USD 400</span><span class="per">por mes · honorarios de servicio</span></div>
-    <p class="small">Incluye estrategia, capacitación, planificación, producción de contenido, gestión de campañas y reporte. <strong>No incluye la inversión publicitaria en Meta Ads</strong>, que se presupuesta aparte y se paga directamente a Meta desde la cuenta del negocio.</p>
+    <div><span class="fig">USD 400</span><span class="per">por mes · honorarios</span></div>
+    <p>Estrategia, capacitación, planificación, producción, campañas y reporte. <strong>No incluye la inversión en Meta Ads</strong>, que se presupuesta aparte y se paga a Meta desde la cuenta del negocio.</p>
   </div>
 
-  <div class="tablewrap" style="margin-top:1.3rem">
+  <div class="tablewrap" style="margin-top:1rem">
     <table>
-      <thead><tr><th>Frente de trabajo</th><th>Qué incluye</th><th>Frecuencia</th></tr></thead>
+      <thead><tr><th>Frente</th><th>Incluye</th><th>Frecuencia</th></tr></thead>
       <tbody>
-        <tr><td><strong>1 · Acompañamiento estratégico</strong></td><td>Definición del eje del mes, servicio a priorizar, acciones comerciales y ajuste en curso.</td><td>Reunión de apertura + revisión a mitad de mes</td></tr>
-        <tr><td><strong>2 · Asesoramiento y capacitación</strong></td><td>Los nueve módulos de la guía aplicados a la cuenta real: perfil, público, comunicación, historias, herramientas, métricas y cierre de consultas.</td><td>Permanente, con sesiones de trabajo</td></tr>
-        <tr><td><strong>3 · Planificación mensual</strong></td><td>Calendario con fecha, formato, objetivo, idea, copy, llamado a la acción y objetivo comercial. Reparto de producción entre cliente y equipo.</td><td>1 calendario por mes, aprobado antes de arrancar</td></tr>
-        <tr><td><strong>4 · Producción de contenido</strong></td><td>12 diseños de feed, 6 reels editados, 24 piezas de historias, 4 piezas para campañas y una sesión de registro en el local.</td><td>Mensual</td></tr>
-        <tr><td><strong>5 · Meta Ads</strong></td><td>Configuración de campañas, segmentación, carga de piezas, optimización y capacitación para que el negocio entienda qué se hace y por qué.</td><td>Hasta 2 campañas activas, revisión semanal</td></tr>
-        <tr><td><strong>6 · Seguimiento y optimización</strong></td><td>Reporte mensual con métricas, lectura de resultados, conclusiones y plan preliminar del mes siguiente.</td><td>Mensual</td></tr>
+        <tr><td><strong>1 · Acompañamiento</strong></td><td>Eje del mes, servicio prioritario y acciones comerciales.</td><td>Apertura + revisión</td></tr>
+        <tr><td><strong>2 · Capacitación</strong></td><td>Los nueve módulos sobre la cuenta real.</td><td>Permanente</td></tr>
+        <tr><td><strong>3 · Planificación</strong></td><td>Calendario con copys, acciones y reparto de producción.</td><td>Mensual, aprobado antes</td></tr>
+        <tr><td><strong>4 · Producción</strong></td><td>42 piezas más la sesión de registro en el local.</td><td>Mensual</td></tr>
+        <tr><td><strong>5 · Meta Ads</strong></td><td>Configuración, segmentación, piezas y optimización.</td><td>Hasta 2 campañas</td></tr>
+        <tr><td><strong>6 · Seguimiento</strong></td><td>Reporte, conclusiones y plan del mes siguiente.</td><td>Mensual</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="grid2" style="margin-top:1.3rem">
+  <div class="grid2" style="margin-top:1rem">
     <div class="card">
-      <h3>Qué no está incluido</h3>
-      <ul class="ticks">
-        <li>Inversión publicitaria en Meta Ads (se presupuesta aparte).</li>
-        <li>Producción con modelos, locaciones externas o alquiler de equipamiento.</li>
-        <li>Pauta y gestión en otras plataformas (Google, TikTok Ads).</li>
-        <li>Desarrollo de sitio web o sistema de reservas.</li>
-        <li>Impresión de material gráfico e insumos del local.</li>
-        <li>Sesiones de producción adicionales a la mensual incluida.</li>
-      </ul>
-      <p class="small">Cualquiera de estos puntos se puede cotizar por separado.</p>
+      <h3>No incluye</h3>
+      <div class="tagrow" style="margin-top:.2rem">
+        <span class="tag">Inversión en Meta Ads</span><span class="tag">Modelos y locaciones</span><span class="tag">Google y TikTok Ads</span><span class="tag">Sitio web</span><span class="tag">Impresión</span><span class="tag">Sesiones extra</span>
+      </div>
+      <p class="small" style="margin-top:.4rem">Todo se puede cotizar por separado.</p>
     </div>
     <div class="card">
-      <h3>Condiciones de trabajo</h3>
+      <h3>Condiciones</h3>
       <ul class="ticks">
-        <li>Plazo sugerido de tres meses para poder evaluar resultados con datos propios.</li>
-        <li>Calendario aprobado por el cliente antes del inicio de cada mes.</li>
-        <li>Una ronda de ajustes por pieza, dentro del plazo del calendario.</li>
-        <li>Material en bruto y autorizaciones de imagen a cargo del cliente.</li>
-        <li>Respuesta y soporte en días hábiles.</li>
-        <li>La cuenta publicitaria, la página y los datos quedan a nombre del negocio.</li>
+        <li>Plazo sugerido de tres meses para evaluar con datos.</li>
+        <li>Calendario aprobado antes de cada mes.</li>
+        <li>Una ronda de ajustes por pieza.</li>
+        <li>Material en bruto y autorizaciones a cargo del cliente.</li>
+        <li>Cuenta publicitaria y datos a nombre del negocio.</li>
       </ul>
     </div>
   </div>
 
-  <div class="stack g12" style="margin-top:1.6rem">
-    <p class="eyebrow">Primera semana de trabajo</p>
-    <div class="grid3">
-      <div class="card"><h4>Días 1–2</h4><p class="small">Diagnóstico de la cuenta, accesos, revisión de precios, servicios y capacidad de agenda.</p></div>
-      <div class="card"><h4>Día 3</h4><p class="small">Reunión estratégica: eje del mes, servicio prioritario y acciones comerciales.</p></div>
-      <div class="card"><h4>Día 4</h4><p class="small">Sesión de registro en el local: fotos y video para todo el paquete del mes.</p></div>
-      <div class="card"><h4>Días 5–6</h4><p class="small">Calendario completo entregado y aprobado. Producción de las primeras piezas.</p></div>
-      <div class="card"><h4>Día 7</h4><p class="small">Perfil optimizado, destacados ordenados y arranque de publicaciones.</p></div>
-      <div class="card"><h4>Día 10</h4><p class="small">Primera campaña configurada, con el presupuesto que haya definido el negocio.</p></div>
-    </div>
+  <div class="stack g12" style="margin-top:1.2rem">
+    <p class="eyebrow">Primera semana</p>
+    <div class="tablewrap"><table><tbody>
+      <tr><td class="num">Días 1–2</td><td>Diagnóstico, accesos, precios y capacidad de agenda.</td></tr>
+      <tr><td class="num">Día 3</td><td>Reunión estratégica.</td></tr>
+      <tr><td class="num">Día 4</td><td>Sesión de registro en el local.</td></tr>
+      <tr><td class="num">Días 5–6</td><td>Calendario aprobado y primeras piezas.</td></tr>
+      <tr><td class="num">Día 7</td><td>Perfil optimizado y arranque de publicaciones.</td></tr>
+      <tr><td class="num">Día 10</td><td>Primera campaña configurada.</td></tr>
+    </tbody></table></div>
   </div>
 
-  <div class="note" style="margin-top:1.6rem">
-    <strong>Sobre expectativas:</strong> no prometemos una cantidad determinada de ventas, seguidores ni consultas, y no trabajamos con resultados garantizados. El contenido y la publicidad generan oportunidades; el cierre depende también del precio, la atención, la disponibilidad de agenda y la calidad del servicio. Lo que sí asumimos es el método, los entregables, los plazos y la lectura honesta de los números, mes a mes.
-  </div>
+  <div class="note" style="margin-top:1.2rem"><strong>Sobre expectativas:</strong> no trabajamos con resultados garantizados. El contenido y la publicidad generan oportunidades; el cierre depende también del precio, la atención y la agenda. Asumimos método, entregables, plazos y lectura honesta de los números.</div>
 
-  <div class="stack g12" style="margin-top:1.6rem">
+  <div class="stack g12" style="margin-top:1.2rem">
     <p class="eyebrow">Próximos pasos</p>
     <ol class="steps">
-      <li>Confirmar el inicio y definir el mes de arranque.</li>
-      <li>Reunión de diagnóstico y entrega de accesos (Instagram profesional, página de Facebook y cuenta publicitaria).</li>
-      <li>Definir el presupuesto publicitario mensual, separado de los honorarios, según la capacidad de atención del local.</li>
+      <li>Confirmar el mes de arranque.</li>
+      <li>Reunión de diagnóstico y entrega de accesos.</li>
+      <li>Definir el presupuesto publicitario, separado de los honorarios.</li>
     </ol>
   </div>
 </section>
 
 </main>
-</div><!-- /layout -->
-</div><!-- /shell -->
+</div>
+</div>
 
 <div class="pager" role="group" aria-label="Navegación entre secciones">
   <button type="button" id="prevSec" title="Sección anterior" aria-label="Sección anterior">&#8592;</button>
@@ -1010,7 +899,6 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 (function(){
   "use strict";
 
-  /* ---------- acordeones ---------- */
   document.querySelectorAll("[data-acc]").forEach(function(acc){
     var btn = acc.querySelector("button");
     var body = acc.querySelector(".accbody");
@@ -1023,12 +911,10 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     });
   });
 
-  /* ---------- checklists (conveniencia por navegador) ---------- */
   var KEY = "rinde-plan-checks";
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { saved = {}; }
-  var boxes = document.querySelectorAll('.check input[type="checkbox"]');
-  boxes.forEach(function(box){
+  document.querySelectorAll('.check input[type="checkbox"]').forEach(function(box){
     if (saved[box.id]) box.checked = true;
     box.addEventListener("change", function(){
       saved[box.id] = box.checked;
@@ -1036,7 +922,6 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     });
   });
 
-  /* ---------- etapas del mes ---------- */
   var tabs = document.querySelectorAll("[data-stage]");
   tabs.forEach(function(tab){
     tab.addEventListener("click", function(){
@@ -1052,188 +937,97 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     });
   });
 
-  /* ---------- calendario ---------- */
   var DIAS = [
-    {d:1,et:"Visibilidad",fmt:"Reel",obj:"Alcance en público nuevo",
-     idea:"Apertura de mes: tres diseños nuevos presentados en 15 segundos, uno por plano, con el detalle de la mano en primer plano.",
-     copy:"Arrancamos el mes con tres diseños nuevos: francesita invertida, efecto espejo y nude con línea. Los tres se pueden hacer en kapping o en esculpidas.",
-     cta:"Guardá el que más te gusta y escribinos para reservarlo.",
-     com:"Entrar en consideración de público nuevo de la zona y medir interés por diseño antes de producir el resto del mes.",
-     prod:"RINDE"},
-    {d:2,et:"Visibilidad",fmt:"Historia",obj:"Interacción y datos",
-     idea:"Encuesta de dos opciones: kapping o esculpidas, con una foto real de cada una.",
-     copy:"¿Qué preferís para el día a día: kapping o esculpidas? Votá y te cuento cuál conviene según cómo tengas la uña natural.",
-     cta:"Votá en la encuesta.",
-     com:"Obtener una preferencia concreta del público propio para decidir qué servicio empujar en el resto del mes.",
-     prod:"Cliente"},
-    {d:3,et:"Visibilidad",fmt:"Carrusel",obj:"Claridad de oferta",
-     idea:"Catálogo de servicios: una placa por servicio con qué incluye, duración de la sesión, cuánto dura el resultado y precio desde.",
-     copy:"Todo lo que hacemos, con tiempos y mantenimiento. Así sabés exactamente qué estás reservando antes de venir.",
-     cta:"Mandanos un mensaje con el servicio que te interesa y te pasamos los turnos disponibles.",
-     com:"Bajar las consultas repetidas de precio y subir la calidad del DM: que escriba gente ya informada.",
-     prod:"RINDE"},
-    {d:4,et:"Visibilidad",fmt:"Reel",obj:"Deseo y consulta",
-     idea:"Antes y después de pestañas volumen ruso, con corte seco entre los dos estados y el resultado a los 3 segundos.",
-     copy:"Volumen ruso: mirada más marcada sin maquillaje todos los días. La sesión dura alrededor de dos horas y el resultado se mantiene con un relleno cada tres semanas.",
-     cta:"Agendá tu turno por WhatsApp.",
-     com:"Generar consultas de un servicio de ticket alto mostrando el resultado y despejando la duda de duración.",
-     prod:"RINDE"},
-    {d:5,et:"Visibilidad",fmt:"Historia",obj:"Reservas",
-     idea:"Placa de agenda de la semana con los turnos libres por día y el enlace de WhatsApp.",
+    {d:1,et:"Visibilidad",fmt:"Reel",obj:"Alcance",idea:"Tres diseños nuevos del mes, uno por plano.",
+     copy:"Arrancamos el mes con tres diseños nuevos: francesita invertida, efecto espejo y nude con línea.",
+     cta:"Guardá el que más te gusta.",com:"Entrar en consideración y medir interés por diseño.",prod:"RINDE"},
+    {d:2,et:"Visibilidad",fmt:"Historia",obj:"Datos",idea:"Encuesta: kapping o esculpidas, con foto de cada una.",
+     copy:"¿Qué preferís para el día a día: kapping o esculpidas?",
+     cta:"Votá en la encuesta.",com:"Decidir qué servicio empujar el resto del mes.",prod:"Cliente"},
+    {d:3,et:"Visibilidad",fmt:"Carrusel",obj:"Claridad",idea:"Catálogo: una placa por servicio con duración y precio desde.",
+     copy:"Todo lo que hacemos, con tiempos y mantenimiento. Así sabés qué estás reservando.",
+     cta:"Escribinos el servicio que te interesa.",com:"Menos consultas repetidas, mejor calidad de DM.",prod:"RINDE"},
+    {d:4,et:"Visibilidad",fmt:"Reel",obj:"Deseo",idea:"Antes y después de volumen ruso, resultado a los 3 segundos.",
+     copy:"Volumen ruso: mirada marcada sin maquillarte. Se mantiene con un relleno cada tres semanas.",
+     cta:"Agendá tu turno.",com:"Consultas de un servicio de ticket alto.",prod:"RINDE"},
+    {d:5,et:"Visibilidad",fmt:"Historia",obj:"Reservas",idea:"Agenda de la semana con los turnos libres.",
      copy:"Turnos de esta semana: miércoles a la tarde, jueves temprano y sábado al mediodía.",
-     cta:"Tocá el enlace y reservá el que te sirva.",
-     com:"Convertir el alcance de los primeros días en turnos agendados de la semana en curso.",
-     prod:"Cliente"},
-    {d:6,et:"Visibilidad",fmt:"Imagen",obj:"Confianza",
-     idea:"Placa de marca con tres razones concretas: materiales que se usan, protocolo de higiene y tiempo de atención por clienta.",
-     copy:"Un turno por clienta, material esterilizado a la vista y productos de marca profesional. No atendemos apuradas ni superponemos turnos.",
-     cta:"Cualquier duda, escribinos: respondemos todos los mensajes.",
-     com:"Instalar la diferenciación por profesionalismo, que es lo que sostiene el precio sin descuento.",
-     prod:"RINDE"},
-    {d:7,et:"Visibilidad",fmt:"Reel",obj:"Objeción resuelta",
-     idea:"Video educativo: cuánto dura realmente un kapping y qué lo hace durar menos.",
-     copy:"Un kapping bien hecho acompaña el crecimiento de la uña entre tres y cuatro semanas. Lo que acorta la duración casi siempre es lo mismo: usar las uñas como herramienta y saltarse el retoque.",
-     cta:"Si tenés dudas con tus uñas, mandanos una foto por mensaje.",
-     com:"Resolver la objeción de durabilidad antes de que aparezca en el DM y preparar el terreno para el mantenimiento.",
-     prod:"RINDE"},
-    {d:8,et:"Visibilidad",fmt:"Carrusel",obj:"Prueba de servicio",
-     idea:"Beneficio del mes con condición y fecha: en la primera visita, el diseño simple va sin cargo hasta el día 15.",
-     copy:"Si nunca viniste, este mes el diseño simple va incluido en tu primera visita. Es hasta el día 15 y por orden de reserva.",
-     cta:"Escribinos 'primera vez' y te damos los turnos disponibles.",
-     com:"Atraer clientas nuevas sin tocar la lista de precios: el beneficio es un agregado, no una rebaja.",
-     prod:"RINDE"},
-    {d:9,et:"Visibilidad",fmt:"Historia",obj:"Confianza",
-     idea:"Detrás de escena: preparación del box antes del primer turno y esterilización del material.",
+     cta:"Tocá el enlace y reservá.",com:"Convertir el alcance en turnos de esta semana.",prod:"Cliente"},
+    {d:6,et:"Visibilidad",fmt:"Imagen",obj:"Confianza",idea:"Tres razones: materiales, higiene y tiempo por clienta.",
+     copy:"Un turno por clienta, material esterilizado a la vista y productos profesionales.",
+     cta:"Cualquier duda, escribinos.",com:"Diferenciación por profesionalismo: sostiene el precio.",prod:"RINDE"},
+    {d:7,et:"Visibilidad",fmt:"Reel",obj:"Objeción",idea:"Cuánto dura un kapping y qué lo acorta.",
+     copy:"Un kapping bien hecho acompaña tres o cuatro semanas. Lo que lo acorta es saltarse el retoque.",
+     cta:"Mandanos una foto de tus uñas.",com:"Resolver la duda de durabilidad antes del DM.",prod:"RINDE"},
+    {d:8,et:"Visibilidad",fmt:"Carrusel",obj:"Prueba",idea:"Beneficio con fecha: diseño simple sin cargo en la primera visita.",
+     copy:"Si nunca viniste, este mes el diseño simple va incluido. Hasta el día 15 y por orden de reserva.",
+     cta:"Escribinos 'primera vez'.",com:"Atraer clientas nuevas sin tocar la lista de precios.",prod:"RINDE"},
+    {d:9,et:"Visibilidad",fmt:"Historia",obj:"Confianza",idea:"Preparación del box y esterilización antes del primer turno.",
      copy:"Así arranca el día antes de que llegue la primera clienta.",
-     cta:"Mirá la secuencia completa en las historias.",
-     com:"Reforzar higiene y profesionalismo con material real, que es gratis de producir y muy convincente.",
-     prod:"Cliente"},
-    {d:10,et:"Visibilidad",fmt:"Reel",obj:"Prueba social",
-     idea:"Testimonio en video de una clienta habitual: por qué vuelve y hace cuánto viene.",
-     copy:"Carla viene hace casi dos años. Le preguntamos qué la hace volver y esto fue lo que contestó.",
-     cta:"Reservá tu turno y contanos qué te gustaría hacerte.",
-     com:"Cerrar la primera etapa con prueba social, que es el contenido que más empuja a la clienta indecisa.",
-     prod:"Mixta"},
-    {d:11,et:"Conversión",fmt:"Carrusel",obj:"Resultados",
-     idea:"Galería con los cuatro mejores trabajos del mes, cada uno con el servicio y el tiempo de duración indicados.",
-     copy:"Cuatro trabajos de estas últimas semanas. En cada placa te dejamos qué servicio es y cuánto dura.",
-     cta:"Mirá los diseños y decinos cuál querés para tu próximo turno.",
-     com:"Pasar de mostrar la oferta a mostrar la evidencia: es la etapa de decisión.",
-     prod:"RINDE"},
-    {d:12,et:"Conversión",fmt:"Historia",obj:"Objeciones",
-     idea:"Caja de preguntas abierta sobre pestañas, con respuesta en video a las tres más repetidas.",
-     copy:"¿Qué querés saber de las pestañas? Preguntá lo que sea: respondo todo, incluso lo que pensás que es obvio.",
-     cta:"Dejá tu pregunta en la caja.",
-     com:"Recolectar objeciones reales para convertirlas en contenido y en guiones de respuesta del DM.",
-     prod:"Cliente"},
-    {d:13,et:"Conversión",fmt:"Imagen",obj:"Valor percibido",
-     idea:"Placa que desarma la objeción de precio: qué incluye el servicio, línea por línea.",
-     copy:"Cuando reservás un servicio pagás el tiempo de trabajo, los materiales profesionales, el asesoramiento del diseño y el retoque dentro de los primeros días si hace falta.",
-     cta:"Consultá disponibilidad por mensaje.",
-     com:"Sostener el precio con argumentos en lugar de bajarlo: trabaja el valor percibido.",
-     prod:"RINDE"},
-    {d:14,et:"Conversión",fmt:"Reel",obj:"Alcance y calidad",
-     idea:"Proceso completo de esculpidas acelerado, con sonido ambiente del trabajo y sin música sobre el detalle.",
-     copy:"Dos horas de trabajo en 20 segundos. Cada capa tiene su tiempo y por eso el resultado se mantiene prolijo tres semanas.",
-     cta:"Guardalo si te gusta el diseño y escribinos para reservar.",
-     com:"Hacer visible el trabajo detrás del precio y ganar alcance con un formato que retiene bien.",
-     prod:"RINDE"},
-    {d:15,et:"Conversión",fmt:"Historia",obj:"Recompra",
-     idea:"Recordatorio de mantenimiento con la agenda de la semana siguiente abierta.",
-     copy:"Si tu último turno fue hace tres semanas, es momento del retoque. Dejame tu nombre y te reservo lugar.",
-     cta:"Respondé esta historia con tu nombre.",
-     com:"Activar el ciclo de mantenimiento, que es la fuente de ingresos más previsible del local.",
-     prod:"Cliente"},
-    {d:16,et:"Conversión",fmt:"Carrusel",obj:"Prueba social",
-     idea:"Capturas de mensajes de clientas, publicadas con autorización, una por placa.",
+     cta:"Mirá la secuencia completa.",com:"Higiene y profesionalismo con material real.",prod:"Cliente"},
+    {d:10,et:"Visibilidad",fmt:"Reel",obj:"Prueba social",idea:"Testimonio en video de una clienta habitual.",
+     copy:"Carla viene hace casi dos años. Le preguntamos qué la hace volver.",
+     cta:"Reservá y contanos qué querés hacerte.",com:"Empujar a la clienta indecisa.",prod:"Mixta"},
+    {d:11,et:"Conversión",fmt:"Carrusel",obj:"Resultados",idea:"Los cuatro mejores trabajos del mes, con servicio y duración.",
+     copy:"Cuatro trabajos de estas semanas. En cada placa te dejamos qué servicio es.",
+     cta:"Decinos cuál querés.",com:"Pasar de mostrar la oferta a mostrar la evidencia.",prod:"RINDE"},
+    {d:12,et:"Conversión",fmt:"Historia",obj:"Objeciones",idea:"Caja de preguntas sobre pestañas, con respuesta en video.",
+     copy:"¿Qué querés saber de las pestañas? Preguntá lo que sea.",
+     cta:"Dejá tu pregunta.",com:"Juntar objeciones para contenido y guiones de DM.",prod:"Cliente"},
+    {d:13,et:"Conversión",fmt:"Imagen",obj:"Valor",idea:"Qué incluye el precio, línea por línea.",
+     copy:"Pagás tiempo de trabajo, materiales profesionales, asesoramiento del diseño y retoque si hace falta.",
+     cta:"Consultá disponibilidad.",com:"Sostener el precio con argumentos.",prod:"RINDE"},
+    {d:14,et:"Conversión",fmt:"Reel",obj:"Alcance",idea:"Proceso completo de esculpidas acelerado, con sonido ambiente.",
+     copy:"Dos horas de trabajo en 20 segundos. Cada capa tiene su tiempo.",
+     cta:"Guardalo y escribinos.",com:"Hacer visible el trabajo detrás del precio.",prod:"RINDE"},
+    {d:15,et:"Conversión",fmt:"Historia",obj:"Recompra",idea:"Recordatorio de retoque con la agenda abierta.",
+     copy:"Si tu último turno fue hace tres semanas, es momento del retoque.",
+     cta:"Respondé con tu nombre.",com:"Activar el ciclo de mantenimiento.",prod:"Cliente"},
+    {d:16,et:"Conversión",fmt:"Carrusel",obj:"Prueba social",idea:"Capturas de mensajes de clientas, con autorización.",
      copy:"Mensajes que nos llegaron este mes. Los compartimos con permiso de cada una.",
-     cta:"Si querés vivir la misma experiencia, escribinos.",
-     com:"Prueba social en formato guardable, para empujar a quienes consultaron y no cerraron.",
-     prod:"RINDE"},
-    {d:17,et:"Conversión",fmt:"Reel",obj:"Autoridad",
-     idea:"Tres errores frecuentes al cuidar las pestañas, uno por corte, mostrando qué hacer en su lugar.",
-     copy:"Tres cosas que acortan la vida de tus pestañas: dormir boca abajo, aceites en el contorno de ojos y acomodarlas con los dedos.",
-     cta:"Seguinos para más cuidados y consultanos tu caso.",
-     com:"Posicionar al local como referente técnico: la autoridad sostiene el precio y la fidelidad.",
-     prod:"RINDE"},
-    {d:18,et:"Conversión",fmt:"Historia",obj:"Urgencia real",
-     idea:"Disponibilidad del fin de semana con los turnos que quedan, informados con honestidad.",
+     cta:"Escribinos.",com:"Empujar a quienes consultaron y no cerraron.",prod:"RINDE"},
+    {d:17,et:"Conversión",fmt:"Reel",obj:"Autoridad",idea:"Tres errores al cuidar las pestañas, uno por corte.",
+     copy:"Dormir boca abajo, aceites en el contorno y acomodarlas con los dedos.",
+     cta:"Consultanos tu caso.",com:"Posicionar al local como referente técnico.",prod:"RINDE"},
+    {d:18,et:"Conversión",fmt:"Historia",obj:"Urgencia",idea:"Disponibilidad real del fin de semana.",
      copy:"Quedan dos turnos para el viernes y uno para el sábado a la mañana.",
-     cta:"Escribinos ahora y te confirmamos.",
-     com:"Aprovechar el día de mayor predisposición de la semana con escasez real, no inventada.",
-     prod:"Cliente"},
-    {d:19,et:"Conversión",fmt:"Imagen",obj:"Ticket promedio",
-     idea:"Placa del combo uñas y pestañas en el mismo turno, con el tiempo total de la visita.",
-     copy:"Uñas y pestañas el mismo día: resolvés todo en una sola visita de alrededor de tres horas y te vas lista.",
-     cta:"Pedí el combo por mensaje y coordinamos el horario.",
-     com:"Subir el ticket promedio por visita ofreciendo ahorro de tiempo en lugar de descuento.",
-     prod:"RINDE"},
-    {d:20,et:"Conversión",fmt:"Reel",obj:"Cercanía",
-     idea:"Mini recorrido del local, dónde queda, cómo llegar y dónde estacionar.",
-     copy:"Para las que nos escriben preguntando dónde estamos: así es el local por dentro y así se llega.",
-     cta:"Te esperamos. Reservá tu turno por mensaje.",
-     com:"Eliminar la barrera de desconocimiento del lugar, habitual en clientas nuevas de la zona.",
-     prod:"Mixta"},
-    {d:21,et:"Reactivación",fmt:"Carrusel",obj:"Conversación",
-     idea:"Seis diseños numerados para elegir, pensados para el cierre de mes.",
-     copy:"Seis diseños para cerrar el mes. Elegí el tuyo y mandanos el número.",
-     cta:"Mandá el número del diseño por mensaje directo.",
-     com:"Convertir contenido en conversaciones con la menor fricción posible: un número en el DM.",
-     prod:"RINDE"},
-    {d:22,et:"Reactivación",fmt:"Historia",obj:"Cierre de agenda",
-     idea:"Últimos turnos del mes con la agenda real a la vista.",
-     copy:"Nos quedan los últimos turnos del mes. Después seguimos ya con la agenda del mes que viene.",
-     cta:"Reservá por WhatsApp.",
-     com:"Cerrar la agenda del mes y detectar quién queda en lista para el mes siguiente.",
-     prod:"Cliente"},
-    {d:23,et:"Reactivación",fmt:"Reel",obj:"Alcance",
-     idea:"Compilado de los mejores resultados del mes al ritmo de un audio en tendencia.",
-     copy:"Todo lo que pasó por el local este mes, en un solo video.",
-     cta:"Guardalo y elegí tu próximo diseño.",
-     com:"Cerrar el ciclo con una pieza de alcance que también funciona como carta de presentación.",
-     prod:"RINDE"},
-    {d:24,et:"Reactivación",fmt:"Imagen",obj:"Reactivación",
-     idea:"Pieza para acompañar el mensaje directo a clientas que no vuelven desde hace más de 45 días.",
-     copy:"Hace un rato que no te vemos. Te guardamos un lugar esta semana si querés retomar tus uñas.",
-     cta:"Respondé este mensaje y coordinamos el día.",
-     com:"Recuperar clientas inactivas, que es la vía más barata de facturación del cierre de mes.",
-     prod:"Mixta"},
-    {d:25,et:"Reactivación",fmt:"Historia",obj:"Datos",
-     idea:"Encuesta sobre qué servicio sumar al local el mes siguiente.",
+     cta:"Escribinos ahora.",com:"Aprovechar el día de mayor predisposición.",prod:"Cliente"},
+    {d:19,et:"Conversión",fmt:"Imagen",obj:"Ticket",idea:"Combo uñas y pestañas el mismo día, con el tiempo total.",
+     copy:"Uñas y pestañas el mismo día: resolvés todo en una visita de unas tres horas.",
+     cta:"Pedí el combo.",com:"Subir el ticket por visita sin descuento.",prod:"RINDE"},
+    {d:20,et:"Conversión",fmt:"Reel",obj:"Cercanía",idea:"Recorrido del local, cómo llegar y dónde estacionar.",
+     copy:"Para las que preguntan dónde estamos: así es el local y así se llega.",
+     cta:"Reservá tu turno.",com:"Eliminar la barrera de no conocer el lugar.",prod:"Mixta"},
+    {d:21,et:"Reactivación",fmt:"Carrusel",obj:"Conversación",idea:"Seis diseños numerados para elegir.",
+     copy:"Seis diseños para cerrar el mes. Elegí el tuyo.",
+     cta:"Mandá el número por DM.",com:"Convertir contenido en conversación con mínima fricción.",prod:"RINDE"},
+    {d:22,et:"Reactivación",fmt:"Historia",obj:"Cierre",idea:"Últimos turnos del mes con la agenda a la vista.",
+     copy:"Nos quedan los últimos turnos del mes.",
+     cta:"Reservá por WhatsApp.",com:"Cerrar agenda y armar lista para el mes siguiente.",prod:"Cliente"},
+    {d:23,et:"Reactivación",fmt:"Reel",obj:"Alcance",idea:"Compilado de los resultados del mes.",
+     copy:"Todo lo que pasó por el local este mes, en un video.",
+     cta:"Guardalo y elegí tu diseño.",com:"Cerrar el ciclo con una carta de presentación.",prod:"RINDE"},
+    {d:24,et:"Reactivación",fmt:"Imagen",obj:"Reactivación",idea:"Pieza para el mensaje directo a quienes no vuelven hace 45 días.",
+     copy:"Hace un rato que no te vemos. Te guardamos un lugar esta semana.",
+     cta:"Respondé y coordinamos.",com:"La vía más barata de facturación del cierre.",prod:"Mixta"},
+    {d:25,et:"Reactivación",fmt:"Historia",obj:"Datos",idea:"Encuesta sobre qué servicio sumar.",
      copy:"Estamos pensando qué sumar. ¿Qué te gustaría encontrar acá?",
-     cta:"Votá y, si querés, contanos por qué.",
-     com:"Decidir la oferta del mes siguiente con datos del público propio y generar participación.",
-     prod:"Cliente"},
-    {d:26,et:"Reactivación",fmt:"Carrusel",obj:"Fidelización",
-     idea:"Guía de cuidados post servicio, una placa por cuidado, pensada para guardar.",
+     cta:"Votá y contanos.",com:"Decidir la oferta del mes siguiente con datos propios.",prod:"Cliente"},
+    {d:26,et:"Reactivación",fmt:"Carrusel",obj:"Fidelización",idea:"Guía de cuidados post servicio, pensada para guardar.",
      copy:"Cómo cuidar tus uñas y pestañas para que lleguen impecables al próximo turno.",
-     cta:"Guardá el carrusel para tenerlo a mano.",
-     com:"Mejorar la experiencia y la duración del servicio, que es lo que hace que la clienta vuelva.",
-     prod:"RINDE"},
-    {d:27,et:"Reactivación",fmt:"Reel",obj:"Público nuevo",
-     idea:"Audio del momento adaptado al rubro, con el resultado del servicio como remate.",
+     cta:"Guardá el carrusel.",com:"Mejorar la experiencia y la duración del servicio.",prod:"RINDE"},
+    {d:27,et:"Reactivación",fmt:"Reel",obj:"Público nuevo",idea:"Audio del momento adaptado al rubro.",
      copy:"Nos subimos al audio del momento, pero con uñas.",
-     cta:"Seguinos y mirá los diseños del mes.",
-     com:"Buscar alcance en gente que todavía no conoce el local, con bajo costo de producción.",
-     prod:"RINDE"},
-    {d:28,et:"Reactivación",fmt:"Historia",obj:"Expectativa",
-     idea:"Anticipo del mes siguiente: un diseño o servicio nuevo, mostrado parcialmente.",
-     copy:"El mes que viene estrenamos algo nuevo. Por ahora solo te dejamos ver esto.",
-     cta:"Activá las notificaciones para no perdértelo.",
-     com:"Generar expectativa y sostener la atención en el momento más flojo del mes.",
-     prod:"Mixta"},
-    {d:29,et:"Reactivación",fmt:"Imagen",obj:"Reserva anticipada",
-     idea:"Placa de apertura de agenda del mes siguiente, con los días que se llenan primero.",
-     copy:"Ya abrimos la agenda del mes que viene. Los viernes y sábados son los primeros que se completan.",
-     cta:"Dejá tu turno reservado por mensaje.",
-     com:"Adelantar demanda y arrancar el mes siguiente con agenda cargada.",
-     prod:"RINDE"},
-    {d:30,et:"Reactivación",fmt:"Reel",obj:"Cierre",
-     idea:"Agradecimiento con resumen del mes y la invitación a reservar el próximo turno.",
-     copy:"Gracias a todas las que pasaron este mes por el local. Seguimos, con agenda abierta.",
-     cta:"Reservá tu próximo turno por WhatsApp.",
-     com:"Cerrar el ciclo con relación y dejar la puerta abierta para la primera semana del mes nuevo.",
-     prod:"RINDE"}
+     cta:"Seguinos.",com:"Alcance barato en gente que no conoce el local.",prod:"RINDE"},
+    {d:28,et:"Reactivación",fmt:"Historia",obj:"Expectativa",idea:"Anticipo parcial de un diseño o servicio nuevo.",
+     copy:"El mes que viene estrenamos algo nuevo.",
+     cta:"Activá las notificaciones.",com:"Sostener la atención en el momento más flojo.",prod:"Mixta"},
+    {d:29,et:"Reactivación",fmt:"Imagen",obj:"Anticipada",idea:"Apertura de agenda del mes siguiente.",
+     copy:"Ya abrimos la agenda del mes que viene. Viernes y sábados se completan primero.",
+     cta:"Dejá tu turno reservado.",com:"Adelantar demanda y arrancar con agenda cargada.",prod:"RINDE"},
+    {d:30,et:"Reactivación",fmt:"Reel",obj:"Cierre",idea:"Agradecimiento con resumen del mes.",
+     copy:"Gracias a todas las que pasaron este mes. Seguimos, con agenda abierta.",
+     cta:"Reservá tu próximo turno.",com:"Cerrar con relación y abrir la primera semana.",prod:"RINDE"}
   ];
 
   var grid = document.getElementById("dayGrid");
@@ -1242,29 +1036,23 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
   var fFmt = "all", fProd = "all", sel = 1;
 
   function matches(x){
-    var okF = fFmt === "all" || x.fmt === fFmt;
-    var okP = fProd === "all" || x.prod === fProd || x.prod === "Mixta";
-    return okF && okP;
+    return (fFmt === "all" || x.fmt === fFmt) && (fProd === "all" || x.prod === fProd || x.prod === "Mixta");
   }
-
   function etTag(et){
-    if (et === "Visibilidad") return '<span class="tag laca">Días 1–10 · Visibilidad</span>';
-    if (et === "Conversión") return '<span class="tag laca">Días 11–20 · Conversión</span>';
-    return '<span class="tag laca">Días 21–30 · Reactivación</span>';
+    var t = et === "Visibilidad" ? "Días 1–10" : (et === "Conversión" ? "Días 11–20" : "Días 21–30");
+    return '<span class="tag oro">' + t + ' · ' + et + '</span>';
   }
-
   function prodTag(p){
-    if (p === "RINDE") return '<span class="tag laca">Produce RINDE</span>';
-    if (p === "Cliente") return '<span class="tag jade">Produce el cliente</span>';
-    return '<span class="tag jade">Producción compartida</span>';
+    if (p === "RINDE") return '<span class="tag">Produce RINDE</span>';
+    if (p === "Cliente") return '<span class="tag cereza">Produce el cliente</span>';
+    return '<span class="tag cereza">Compartida</span>';
   }
-
   function renderGrid(){
     grid.innerHTML = "";
-    var visibles = 0;
+    var vis = 0;
     DIAS.forEach(function(x){
       var ok = matches(x);
-      if (ok) visibles++;
+      if (ok) vis++;
       var b = document.createElement("button");
       b.type = "button";
       b.className = "day" + (ok ? "" : " dim");
@@ -1274,36 +1062,18 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
       b.addEventListener("click", function(){ sel = x.d; renderGrid(); renderDetail(); });
       grid.appendChild(b);
     });
-    count.textContent = visibles + " de 30 días coinciden con el filtro. Las piezas atenuadas siguen en el plan.";
+    count.textContent = vis + " de 30 días coinciden con el filtro.";
   }
-
   function renderDetail(){
     var x = DIAS.filter(function(y){ return y.d === sel; })[0];
     detail.innerHTML =
       '<div class="tagrow">' + etTag(x.et) + prodTag(x.prod) + '</div>' +
-      '<div><p class="mono">DÍA ' + x.d + '</p><h3 style="font-size:1.35rem">' + x.fmt + ' · ' + x.obj + '</h3></div>' +
-      '<dl class="kv">' +
-        '<dt>Idea</dt><dd>' + x.idea + '</dd>' +
-        '<dt>Acción</dt><dd>' + x.cta + '</dd>' +
-        '<dt>Objetivo</dt><dd>' + x.com + '</dd>' +
-      '</dl>' +
-      '<div class="stack g8"><p class="eyebrow">Copy propuesto</p><p class="copybox" id="copyText">' + x.copy + '</p>' +
-      '<div><button class="btn" type="button" id="copyBtn">Copiar texto</button> <span class="small" id="copyMsg"></span></div></div>';
-
+      '<div><p class="mono">DÍA ' + x.d + '</p><h3 style="font-size:1.25rem">' + x.fmt + ' · ' + x.obj + '</h3></div>' +
+      '<dl class="kv"><dt>Idea</dt><dd>' + x.idea + '</dd><dt>Acción</dt><dd>' + x.cta + '</dd><dt>Objetivo</dt><dd>' + x.com + '</dd></dl>' +
+      '<div class="stack g8"><p class="eyebrow">Copy</p><p class="copybox" id="copyText">' + x.copy + '</p>' +
+      '<div><button class="btn" type="button" id="copyBtn">Copiar</button> <span class="small" id="copyMsg"></span></div></div>';
     var btn = document.getElementById("copyBtn");
     var msg = document.getElementById("copyMsg");
-    btn.addEventListener("click", function(){
-      var t = document.getElementById("copyText").textContent;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(t).then(function(){
-          msg.textContent = "Copiado.";
-        }).catch(function(){
-          selectCopy();
-        });
-      } else {
-        selectCopy();
-      }
-    });
     function selectCopy(){
       var node = document.getElementById("copyText");
       var r = document.createRange();
@@ -1311,10 +1081,15 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
       var s = window.getSelection();
       s.removeAllRanges();
       s.addRange(r);
-      msg.textContent = "Texto seleccionado: copialo con el teclado.";
+      msg.textContent = "Seleccionado: copialo con el teclado.";
     }
+    btn.addEventListener("click", function(){
+      var t = document.getElementById("copyText").textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(function(){ msg.textContent = "Copiado."; }).catch(selectCopy);
+      } else { selectCopy(); }
+    });
   }
-
   document.getElementById("fmtFilters").addEventListener("click", function(ev){
     var b = ev.target.closest("button[data-fmt]");
     if (!b) return;
@@ -1329,16 +1104,13 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
     renderGrid();
   });
-
   renderGrid();
   renderDetail();
 
-  /* ---------- índice activo + paginador ---------- */
   var secs = Array.prototype.slice.call(document.querySelectorAll("main section"));
   var links = Array.prototype.slice.call(document.querySelectorAll("#railList a"));
   var pos = document.getElementById("pagerPos");
   var current = 0;
-
   function pad(n){ return (n < 10 ? "0" : "") + n; }
   function setCurrent(i){
     current = i;
@@ -1346,7 +1118,6 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     pos.textContent = pad(i + 1) + " / " + pad(secs.length);
   }
   setCurrent(0);
-
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -1358,7 +1129,6 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     secs.forEach(function(s){ io.observe(s); });
   }
-
   function go(i){
     if (i < 0 || i >= secs.length) return;
     secs[i].scrollIntoView({ block: "start" });
@@ -1370,8 +1140,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
     var t = ev.target;
     if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
     if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
-    if (ev.key === "ArrowRight") { go(current + 1); }
-    else if (ev.key === "ArrowLeft") { go(current - 1); }
+    if (ev.key === "ArrowRight") go(current + 1);
+    else if (ev.key === "ArrowLeft") go(current - 1);
   });
 })();
 </script>
