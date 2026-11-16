@@ -210,32 +210,38 @@ function openCam(t) {
 }
 function planeAt(t) {
   const c = openCam(t);
-  const sp = 1 + 0.55 * expoOut((t - 0.5) / 0.5);               // lifts toward the camera
-  const r = 103 * expoInOut((t - 0.56) / 0.36);                 // banks from nose-left to nose-up
-  const x = c.fx + 120 * expoInOut((t - 0.56) / 0.44);
-  const y = c.fy - 1900 * expoIn((t - 0.62) / 0.42);            // climbs out, accelerating
+  const lift = expoOut((t - 0.5) / 0.3);                        // rises out of the A, toward the camera
+  const away = expoInOut((t - 0.66) / 0.5);                     // then climbs away into the sky
+  const drift = expoInOut((t - 1.06) / 0.7);                    // cruises above the headline
+  const out = expoIn((t - 1.62) / 0.4);                         // and leaves before the cut to Brasil
+  const sp = (1 + 0.35 * lift) * lerp(1, 0.25, away) * lerp(1, 0.82, drift);
+  const r = 103 * expoInOut((t - 0.56) / 0.36) + 16 * expoInOut((t - 1.0) / 0.6) + 10 * out;
+  const x = c.fx + 40 * lift + 120 * away + 90 * drift + 260 * out;
+  const y = c.fy - 60 * lift - 680 * away - 120 * drift - 900 * out;
   return { x, y, r, sc: c.s * c.Z * sp, yW: c.yW };
 }
 function buildPlane() {
   L.plane = layer('plane');
   L.trail = el('path', { d: '', fill: WHITE }, L.plane.inner);
   L.planeG = el('g', null, L.plane.inner);
-  el('path', { d: LOGO_DATA.plane, fill: BLACK }, L.planeG);
+  // white like the logo; a thin blue keyline separates it from the white A at takeoff
+  el('path', { d: LOGO_DATA.plane, fill: WHITE, stroke: BLUE, 'stroke-width': 4, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke' }, L.planeG);
 }
 function renderPlane(t) {
-  if (!vis(L.plane.outer, t >= 0.5 && t < 1.12)) return;
+  if (!vis(L.plane.outer, t >= 0.5 && t < 2.06)) return;
   const p = planeAt(t), [pcx, pcy] = LOGO_DATA.planeCentroid;
   L.planeG.setAttribute('transform', `translate(${f2(p.x)} ${f2(p.y)}) rotate(${f2(p.r)}) scale(${p.sc.toFixed(4)}) translate(${f2(-pcx)} ${f2(-pcy)})`);
   // contrail: where the tail has been, left behind in the sky (it drifts down with the camera)
   const tailAt = tt => {
     const q = planeAt(tt), a = q.r * DEG, dx = (PLANE_TAIL[0] - pcx) * q.sc, dy = (PLANE_TAIL[1] - pcy) * q.sc;
-    return [q.x + dx * Math.cos(a) - dy * Math.sin(a), q.y + dx * Math.sin(a) + dy * Math.cos(a) + (p.yW - q.yW)];
+    return [q.x + dx * Math.cos(a) - dy * Math.sin(a), q.y + dx * Math.sin(a) + dy * Math.cos(a) + (p.yW - q.yW), q.sc];
   };
-  const N = 30, A = [], B = [];
+  // the contrail shortens once the headline is up, so it never crosses the type
+  const N = 30, A = [], B = [], win = lerp(0.33, 0.13, expoInOut((t - 0.92) / 0.3));
   for (let i = 0; i <= N; i++) {
-    const tt = t - i * 0.011; if (tt < 0.53) break;
+    const tt = t - i * win / N; if (tt < 0.53) break;
     const c = tailAt(tt), c2 = tailAt(tt - 0.004);
-    const dx = c[0] - c2[0], dy = c[1] - c2[1], l = Math.hypot(dx, dy) || 1, w = 3.4 * p.sc * (1 - i / N);
+    const dx = c[0] - c2[0], dy = c[1] - c2[1], l = Math.hypot(dx, dy) || 1, w = 3.4 * c[2] * (1 - i / N);
     A.push([c[0] - dy / l * w, c[1] + dx / l * w]); B.push([c[0] + dy / l * w, c[1] - dx / l * w]);
   }
   L.trail.setAttribute('d', A.length > 1 ? ptsD(A.concat(B.reverse())) : '');
@@ -1429,7 +1435,7 @@ window.renderAudio = async function () {
   { const bp = biq('bandpass', 500, 1.2); bp.frequency.setValueAtTime(500, 0.02); bp.frequency.exponentialRampToValueAtTime(3000, 0.5);
     const e = AC.createGain(); e.gain.setValueAtTime(0.001, 0.02); e.gain.exponentialRampToValueAtTime(0.14, 0.48); e.gain.linearRampToValueAtTime(0, 0.5);
     chain(nsrc(0.02, 0.48, 0.5), bp, e, fx); }
-  jet(0.44, 1.3);
+  jet(0.44, 2.0);
   // hook: rising plucks on the words (beats 3 & 4)
   [['D4', 1.0], ['F4', 1.06], ['A4', 1.5], ['C5', 1.56]].forEach(([n, t]) => pluck(t, nt[n], 0.09, 0, 'sawtooth'));
   // BRASIL: tamborim + agogô + shaker

@@ -15,7 +15,7 @@ Toda la animación está escrita en código: un solo HTML donde cada cuadro es u
 
 ## Idea
 
-Arranca con el avión del logo: la cámara entra en la "A", el avión sale de su lugar, gira hacia arriba y despega dejando una estela; la cámara lo sigue hasta "EL MUNDO TE ESPERA". Después, un círculo blanco (el mundo) recorre la ruta: es la O de "MUNDO", se convierte en el Pan de Azúcar, sube como el sol de Miami, se transforma en el reloj del Big Ben y termina como el punto que cierra la línea bajo el logo.
+Arranca con el avión del logo: la cámara entra en la "A", el avión (blanco, como el logo) sale de su lugar dejando su silueta en la letra como sombra, gira hacia arriba, se aleja hacia el cielo con su estela y sigue volando sobre "EL MUNDO TE ESPERA" hasta salir de cuadro. Después, un círculo blanco (el mundo) recorre la ruta: es la O de "MUNDO", se convierte en el Pan de Azúcar, sube como el sol de Miami, se transforma en el reloj del Big Ben y termina como el punto que cierra la línea bajo el logo.
 
 | Tiempos | Técnica | Qué pasa |
 |---|---|---|

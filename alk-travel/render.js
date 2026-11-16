@@ -99,7 +99,7 @@ async function renderAudio() {
   const raw = path.join(WORK, 'soundtrack-raw.wav');
   fs.writeFileSync(raw, Buffer.from(b64, 'base64'));
   // gentle peak limiting to ≈ -14 LUFS for social playback, peaks kept under -1 dBFS
-  await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-af', 'alimiter=level_in=1.25:limit=0.8:attack=3:release=80:level=false',
+  await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-af', 'alimiter=level_in=1.25:limit=0.76:attack=3:release=80:level=false',
     '-ar', '48000', '-c:a', 'pcm_s16le', WAV]);
   console.log(`audio → ${WAV} (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
 }
