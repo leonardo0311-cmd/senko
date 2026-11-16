@@ -6,8 +6,6 @@
  *   node render.js frames t1 t2 ...      specific times → work/frames
  *   node render.js audio                 soundtrack (Web Audio OfflineAudioContext) → output/alk-travel-soundtrack.wav
  *   node render.js video                 60 fps, 3 sub-frames per frame blended with ffmpeg tmix, audio muxed
- *
- * If assets/logo.svg or assets/logo.png exists it replaces the placeholder logo.
  */
 const { chromium } = require('playwright');
 const { spawn, execFileSync } = require('child_process');
@@ -20,32 +18,12 @@ const WORK = path.join(HERE, 'work');
 const OUT = path.join(HERE, 'output');
 const W = 1080, H = 1920, DUR = 15, FPS = 60, SUB = 3;
 
-function logoAsset() {
-  for (const f of ['logo.svg', 'logo.png', 'logo.webp']) {
-    const p = path.join(HERE, 'assets', f);
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
-
 async function openPage(browser) {
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
   page.on('pageerror', e => console.error('[page error]', e.message));
   page.on('console', m => { if (m.type() === 'error') console.error('[console]', m.text()); });
   await page.goto(HTML);
   await page.waitForFunction(() => window.ready === true, null, { timeout: 30000 });
-  const logo = logoAsset();
-  if (logo) {
-    const ext = path.extname(logo).slice(1);
-    const mime = ext === 'svg' ? 'image/svg+xml' : 'image/' + ext;
-    const href = `data:${mime};base64,` + fs.readFileSync(logo).toString('base64');
-    await page.evaluate(async (href) => {
-      const img = new Image();
-      img.src = href;
-      await img.decode();
-      window.setLogo(href, img.naturalWidth / img.naturalHeight);
-    }, href);
-  }
   return page;
 }
 
