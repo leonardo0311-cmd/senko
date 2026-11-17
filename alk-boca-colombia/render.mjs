@@ -106,7 +106,7 @@ async function main() {
     for (let k = wi; k < todo.length; k += pages.length) {
       const f = todo[k];
       await page.evaluate((tt) => window.renderFrame(tt), f / FPS);
-      await page.screenshot({ path: join(frameDir, `${String(f).padStart(5, '0')}.png`), type: 'png' });
+      await page.screenshot({ path: join(frameDir, `${String(f).padStart(5, '0')}.png`), type: 'png', timeout: 180000 });
       done++;
       if (done % 10 === 0 || done === todo.length) {
         const el = (Date.now() - tStart) / 1000;

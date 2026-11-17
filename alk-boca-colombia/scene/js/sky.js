@@ -1,6 +1,6 @@
 // Night sky above a moonlit cloud deck (cruise shots). Units: metres.
 import * as THREE from 'three';
-import { GLSL_NOISE } from './util.js';
+import { GLSL_NOISE, rng } from './util.js';
 
 export function buildSky(W, H) {
   const scene = new THREE.Scene();
@@ -56,9 +56,10 @@ export function buildSky(W, H) {
   // wisps close to the camera for parallax / speed
   const N = 70;
   const wp = new Float32Array(N * 3), ws = new Float32Array(N);
+  const rnd = rng(2027);   // deterministic: every render worker must see the same wisps
   for (let i = 0; i < N; i++) {
-    wp.set([(Math.random() - 0.5) * 260, -40 + Math.random() * 120, -Math.random() * 1600], i * 3);
-    ws[i] = 30 + Math.random() * 70;
+    wp.set([(rnd() - 0.5) * 260, -40 + rnd() * 120, -rnd() * 1600], i * 3);
+    ws[i] = 30 + rnd() * 70;
   }
   const wGeo = new THREE.BufferGeometry();
   wGeo.setAttribute('position', new THREE.BufferAttribute(wp, 3));
