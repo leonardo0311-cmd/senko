@@ -1,0 +1,5 @@
+node_modules/
+tools/.cache/
+frames/
+*.log
+output/soundtrack.wav

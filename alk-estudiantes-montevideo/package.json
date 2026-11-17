@@ -1,0 +1,15 @@
+{
+  "name": "alk-estudiantes-montevideo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ALK TRAVEL \u2014 Estudiantes viaja a Montevideo (Instagram Reel 1080x1920, 30 fps)",
+  "type": "module",
+  "scripts": {
+    "prep": "python3 tools/prep_geo.py && python3 tools/extract_logo.py",
+    "render": "node render.mjs",
+    "preview": "node render.mjs --serve"
+  },
+  "dependencies": {
+    "three": "0.170.0"
+  }
+}
