@@ -1,0 +1,38 @@
+html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+#stage { position: relative; width: var(--W); height: var(--H); overflow: hidden; }
+#gl { position: absolute; inset: 0; width: var(--W); height: var(--H); display: block; }
+#overlay { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; transform: scale(var(--s)); pointer-events: none; }
+.shade { position:absolute; left:0; top:0; width:1080px; height:1150px; background: linear-gradient(180deg, rgba(3,10,26,0.8) 0%, rgba(3,10,26,0.52) 46%, rgba(3,10,26,0) 100%); }
+.block { position:absolute; }
+.mask { position:absolute; overflow:hidden; }
+.t { position:absolute; white-space:nowrap; color:#fff; transform-origin: 50% 60%; }
+.hl { font-family:'Barlow Condensed', sans-serif; font-weight:800; font-style:italic; text-transform:uppercase; line-height:1; letter-spacing:0.002em; }
+.center { left:0; width:1080px; text-align:center; }
+.yellow { color:#F5D400; }
+.shadow { text-shadow: 0 8px 28px rgba(0,6,24,0.65), 0 2px 4px rgba(0,0,0,0.5); }
+.glowY { text-shadow: 0 0 28px rgba(245,212,0,0.42), 0 8px 26px rgba(0,6,24,0.6); }
+.bar { position:absolute; background: linear-gradient(90deg, #F5D400, #FFE45C); transform-origin: 0 50%; box-shadow: 0 0 22px rgba(245,212,0,0.6); }
+.label { font-family:'Barlow', sans-serif; font-weight:600; letter-spacing:.42em; color:#fff; }
+.anchor { position:absolute; width:0; height:0; }
+.anchor .lead { position:absolute; left:6px; top:0; height:3px; background:#fff; transform: translateY(-1px); box-shadow:0 0 10px rgba(255,255,255,.7); }
+.anchor .t { transform: translateX(52px); }
+.lab1 { font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:52px; letter-spacing:.04em; text-shadow: 0 2px 14px rgba(0,0,0,.7); }
+.lab2 { font-family:'Barlow', sans-serif; font-weight:600; font-size:29px; letter-spacing:.38em; color: rgba(220,232,255,.9); text-shadow: 0 2px 10px rgba(0,0,0,.7); }
+.sub { font-family:'Barlow', sans-serif; font-weight:600; font-size:46px; display:flex; align-items:center; justify-content:center; gap:20px; letter-spacing:.16em; text-shadow: 0 4px 18px rgba(0,0,0,.5); }
+.sub .rule { display:inline-block; width:64px; height:3px; background: linear-gradient(90deg, rgba(245,212,0,0), #F5D400); }
+.sub .rule:last-child { transform: scaleX(-1); }
+.price { display:flex; justify-content:center; align-items:flex-start; gap:20px; transform-origin: 50% 55%; }
+.price .usd { font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:100px; color:#fff; margin-top:52px; letter-spacing:.02em; text-shadow: 0 6px 24px rgba(0,0,0,.5); }
+.price .numwrap { position:relative; display:inline-block; }
+.price .num, .price .numShine { font-family:'Barlow Condensed', sans-serif; font-weight:900; font-style:italic; font-size:336px; line-height:0.95; letter-spacing:-0.01em; padding-right:12px; }
+.price .num { color:#F5D400; text-shadow: 0 0 50px rgba(245,212,0,.5), 0 12px 40px rgba(0,0,0,.55); }
+.price .numShine { position:absolute; left:0; top:0; color:transparent; background-image: linear-gradient(105deg, rgba(255,255,255,0) 42%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 58%); background-size: 300% 100%; background-repeat:no-repeat; -webkit-background-clip:text; background-clip:text; }
+.pill { display:flex; justify-content:center; }
+.pill span { display:inline-block; font-family:'Barlow', sans-serif; font-weight:700; font-size:40px; letter-spacing:.2em; color:#fff; padding: 16px 30px 16px 40px; border:3px solid #F5D400; border-radius: 60px; background: rgba(0,43,127,0.92); box-shadow: 0 0 34px rgba(0,43,127,.7); }
+.logo .wrap { position:relative; width:600px; margin:0 auto; }
+.logo img { width:600px; height:auto; display:block; filter: drop-shadow(0 6px 24px rgba(0,0,0,.55)); }
+.logo .lshine { position:absolute; inset:0; -webkit-mask-image:url(../assets/alk-logo-white.png); mask-image:url(../assets/alk-logo-white.png); -webkit-mask-size:100% 100%; mask-size:100% 100%;
+  background-image: linear-gradient(105deg, rgba(245,212,0,0) 40%, rgba(255,226,60,1) 50%, rgba(245,212,0,0) 60%); background-size: 300% 100%; background-repeat:no-repeat; }
+.anchor.left .t { transform: translateX(calc(-100% - 52px)); text-align: right; }
+.anchor.left .lab2 { left: auto !important; }
+.anchor.left .lead { left: auto; right: 6px; }
