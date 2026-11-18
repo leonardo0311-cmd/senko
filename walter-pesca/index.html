@@ -143,11 +143,17 @@ h2{font-size:clamp(42px,6vw,76px)}
 .kick{animation:drop .5s var(--t) 3 both}
 .foam{animation:foam 1.4s .15s ease-out both}
 .ring{transform-box:fill-box;transform-origin:center;animation:ring 1.5s var(--t,1.38s) ease-out both}
-.rod-a{transform-box:view-box;transform-origin:174px 110px;animation:cast-a 1.1s 2.35s ease-in-out both}
-.rod-b{transform-box:view-box;transform-origin:432px 92px;animation:cast-b 1.1s 1.9s ease-in-out both}
+.rod-a{transform-box:view-box;transform-origin:174px 110px;animation:cast-a 1.1s 2.35s ease-in-out both,recast-a 9s 8.45s ease-in-out infinite}
+.rod-b{transform-box:view-box;transform-origin:432px 92px;animation:cast-b 1.1s 1.9s ease-in-out both,recast-b 9s 8s ease-in-out infinite}
 .line{stroke-dasharray:1;stroke-dashoffset:1;animation:line .7s cubic-bezier(.25,.6,.3,1) forwards}
-.rod-b .line{animation-delay:2.23s}
-.rod-a .line{animation-delay:2.68s}
+.rod-b .line{animation:line .7s 2.23s cubic-bezier(.25,.6,.3,1) forwards,reline 9s 8s linear infinite}
+.rod-a .line{animation:line .7s 2.68s cubic-bezier(.25,.6,.3,1) forwards,reline 9s 8.45s linear infinite}
+.ring.pb{animation:ring 1.5s var(--t) ease-out both,replop-ring 9s calc(8s + var(--o,0s)) linear infinite}
+.ring.pa{animation:ring 1.5s var(--t) ease-out both,replop-ring 9s calc(8.45s + var(--o,0s)) linear infinite}
+.drop.pb{animation:drop 1s var(--t) both,replop-drop 9s 8s linear infinite}
+.drop.pa{animation:drop 1s var(--t) both,replop-drop 9s 8.45s linear infinite}
+/* la entrada arranca cuando la portada está a la vista */
+.js .hero:not(.go) :is(.hero-boat,.pitch,.late,.trail,.spray,.drop,.ring,.rod-a,.rod-b,.line,.foam,.bob,.bob-r){animation-play-state:paused}
 .reeds{position:absolute;bottom:-2px;z-index:2;height:auto;fill:#02080c;pointer-events:none}
 .reeds-l{left:-1.5%;width:clamp(150px,21vw,330px)}
 .reeds-r{right:-1%;width:clamp(100px,11vw,200px);transform:scaleX(-1)}
@@ -294,6 +300,11 @@ a.ci-val:hover{color:var(--amber-2)}
 @keyframes ring{0%{opacity:0;transform:scale(.3,.5)}15%{opacity:.9}100%{opacity:0;transform:scale(2.6,1.5)}}
 @keyframes cast-b{0%{transform:rotate(0)}30%{transform:rotate(-58deg)}48%{transform:rotate(22deg)}70%{transform:rotate(-6deg)}100%{transform:rotate(0)}}
 @keyframes cast-a{0%{transform:rotate(0)}30%{transform:rotate(58deg)}48%{transform:rotate(-22deg)}70%{transform:rotate(6deg)}100%{transform:rotate(0)}}
+@keyframes recast-b{0%,5%{transform:rotate(0)}8.67%{transform:rotate(-58deg)}10.89%{transform:rotate(22deg)}13.33%{transform:rotate(-6deg)}17.22%,100%{transform:rotate(0)}}
+@keyframes recast-a{0%,5%{transform:rotate(0)}8.67%{transform:rotate(58deg)}10.89%{transform:rotate(-22deg)}13.33%{transform:rotate(6deg)}17.22%,100%{transform:rotate(0)}}
+@keyframes reline{0%{stroke-dashoffset:0;animation-timing-function:ease-in}5%{stroke-dashoffset:1}9.11%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.25,.6,.3,1)}16.11%,100%{stroke-dashoffset:0}}
+@keyframes replop-ring{0%,16.1%{opacity:0;transform:scale(.3,.5);animation-timing-function:cubic-bezier(.2,.7,.4,1)}18%{opacity:.9}32%,100%{opacity:0;transform:scale(2.6,1.5)}}
+@keyframes replop-drop{0%,16.1%{opacity:0;transform:translate(0,0) scale(.4);animation-timing-function:cubic-bezier(.2,.7,.4,1)}17.4%{opacity:1}19.8%{transform:translate(calc(var(--dx) * .55),var(--h)) scale(1);animation-timing-function:cubic-bezier(.55,0,.85,.45)}25%,100%{opacity:0;transform:translate(var(--dx),14px) scale(.6)}}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-.45deg)}}
 @keyframes bob-r{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
 @keyframes line{to{stroke-dashoffset:0}}
@@ -360,11 +371,14 @@ a.ci-val:hover{color:var(--amber-2)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .hero-boat,.pitch,.rod-a,.rod-b,.line{animation:none!important}
-  .line{stroke-dashoffset:0}
-  .trail,.spray,.drop,.ring,.foam{display:none}
-  .js .reveal{opacity:1;transform:none}
+  .ticker-track,.bob,.bob-r,.glints,.ripples,.birds,.pin-pulse,.wa-float::before{animation:none}
+  .js .reveal{opacity:1;transform:none;transition:none}
+  .rod-a{animation:cast-a 1.1s 2.35s ease-in-out both}
+  .rod-b{animation:cast-b 1.1s 1.9s ease-in-out both}
+  .rod-b .line{animation:line .7s 2.23s cubic-bezier(.25,.6,.3,1) forwards}
+  .rod-a .line{animation:line .7s 2.68s cubic-bezier(.25,.6,.3,1) forwards}
+  .ring.pa,.ring.pb{animation:ring 1.5s var(--t) ease-out both}
+  .drop.pa,.drop.pb{animation:drop 1s var(--t) both}
 }
 </style>
 </head>
@@ -583,10 +597,10 @@ a.ci-val:hover{color:var(--amber-2)}
         <ellipse class="ring" cx="516" cy="231" rx="34" ry="5" vector-effect="non-scaling-stroke"/>
         <ellipse class="ring" cx="516" cy="231" rx="34" ry="5" vector-effect="non-scaling-stroke" style="--t:1.6s"/>
         <ellipse class="ring" cx="74" cy="232" rx="20" ry="4" vector-effect="non-scaling-stroke" style="--t:1.45s"/>
-        <ellipse class="ring" cx="598" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:2.85s"/>
-        <ellipse class="ring" cx="598" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.05s"/>
-        <ellipse class="ring" cx="8" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.3s"/>
-        <ellipse class="ring" cx="8" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.5s"/>
+        <ellipse class="ring pb" cx="598" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:2.85s"/>
+        <ellipse class="ring pb" cx="598" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.05s;--o:.2s"/>
+        <ellipse class="ring pa" cx="8" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.3s"/>
+        <ellipse class="ring pa" cx="8" cy="230" rx="9" ry="2.4" vector-effect="non-scaling-stroke" style="--t:3.5s;--o:.2s"/>
       </g>
       <ellipse class="foam" cx="240" cy="229.6" rx="96" ry="3" fill="#ffe7c4"/>
       <path class="spray" d="M504 229C508 204 530 186 566 182C542 196 528 212 524 229Z" fill="#ffe7c4"/>
@@ -614,12 +628,12 @@ a.ci-val:hover{color:var(--amber-2)}
         <circle class="drop" cx="64" cy="227" r="2" style="--t:1.45s;--dx:-46px;--h:-22px"/>
         <circle class="drop" cx="76" cy="227" r="2.2" style="--t:1.45s;--dx:-14px;--h:-48px"/>
         <circle class="drop" cx="58" cy="227" r="1.6" style="--t:1.45s;--dx:-54px;--h:-12px"/>
-        <circle class="drop" cx="598" cy="228" r="1.6" style="--t:2.85s;--dx:-7px;--h:-16px"/>
-        <circle class="drop" cx="598" cy="228" r="1.3" style="--t:2.85s;--dx:6px;--h:-20px"/>
-        <circle class="drop" cx="598" cy="228" r="1.1" style="--t:2.85s;--dx:12px;--h:-11px"/>
-        <circle class="drop" cx="8" cy="228" r="1.6" style="--t:3.3s;--dx:-6px;--h:-17px"/>
-        <circle class="drop" cx="8" cy="228" r="1.3" style="--t:3.3s;--dx:7px;--h:-21px"/>
-        <circle class="drop" cx="8" cy="228" r="1.1" style="--t:3.3s;--dx:-12px;--h:-10px"/>
+        <circle class="drop pb" cx="598" cy="228" r="1.6" style="--t:2.85s;--dx:-7px;--h:-16px"/>
+        <circle class="drop pb" cx="598" cy="228" r="1.3" style="--t:2.85s;--dx:6px;--h:-20px"/>
+        <circle class="drop pb" cx="598" cy="228" r="1.1" style="--t:2.85s;--dx:12px;--h:-11px"/>
+        <circle class="drop pa" cx="8" cy="228" r="1.6" style="--t:3.3s;--dx:-6px;--h:-17px"/>
+        <circle class="drop pa" cx="8" cy="228" r="1.3" style="--t:3.3s;--dx:7px;--h:-21px"/>
+        <circle class="drop pa" cx="8" cy="228" r="1.1" style="--t:3.3s;--dx:-12px;--h:-10px"/>
       </g>
     </svg>
   </div>
@@ -958,6 +972,15 @@ document.querySelectorAll('[data-wa]').forEach((a) => {
   a.target = '_blank';
   a.rel = 'noopener';
 });
+
+const hero = document.querySelector('.hero');
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) { hero.classList.add('go'); obs.disconnect(); }
+  }, { threshold: 0.35 }).observe(hero);
+} else {
+  hero.classList.add('go');
+}
 
 const header = document.querySelector('.site-header');
 const fab = document.querySelector('.wa-float');
