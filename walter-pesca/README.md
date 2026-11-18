@@ -8,6 +8,10 @@ Página de una sola hoja para Walter Pesca (trackers de pesca en San Miguel del 
 | `preview/portada-celular.jpg` | Captura del inicio en celular, para mandar por WhatsApp |
 | `preview/portada-compu.jpg` | Captura del inicio en computadora |
 | `preview/pagina-completa.jpg` | La página entera en computadora |
+| `preview/animacion-celular.mp4` | Video de la animación de entrada en celular (5 s) |
+| `preview/animacion-compu.mp4` | Video de la animación de entrada en computadora (5 s) |
+
+Al abrir la página, el bote entra deslizándose con la proa levantada, frena salpicando y los dos pescadores tiran la caña. Es solo CSS, sin librerías. Si el dispositivo tiene activado "reducir movimiento", la portada aparece quieta.
 
 Secciones: portada con ilustración del amanecer en la laguna · cinta animada · 3 modelos de tracker · equipamiento · por qué elegirnos con mapa ilustrado · llamada a la acción · contacto con formulario que abre WhatsApp · botón flotante de WhatsApp.
 
