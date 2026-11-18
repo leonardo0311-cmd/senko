@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walter Pesca · Trackers en San Miguel del Monte</title>
+<meta name="description" content="Trackers de pesca, motores y equipamiento en San Miguel del Monte, Buenos Aires. Asesoramiento de pescador a pescador. Consultá por WhatsApp.">
+<meta name="theme-color" content="#06121b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Walter Pesca · Trackers en San Miguel del Monte">
+<meta property="og:description" content="Trackers de pesca, motores y equipamiento en San Miguel del Monte. Consultá por WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23ff8a3d'/%3E%3Cpath d='M10.5 20 4.8 14.6l2 5.4-2 5.4z' fill='%2306121b'/%3E%3Cpath d='M9 20c5-6.5 16-7 24-.4-8 6.8-19 6.6-24 .4z' fill='%2306121b'/%3E%3Ccircle cx='28.2' cy='18.8' r='1.3' fill='%23ff8a3d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&display=swap">
+<script>document.documentElement.classList.add('js')</script>
+<!--
+  WALTER PESCA — landing de muestra
+  Para editar rápido:
+  · Número de WhatsApp: buscá "const WHATSAPP" al final del archivo (formato 549 + característica + número, sin espacios).
+  · Número visible, Instagram, horarios: sección "Contacto".
+  · Modelos, medidas y textos: sección "Modelos". Todo lo que está acá es de ejemplo.
+-->
+<style>
+:root{
+  --ink:#06121b;
+  --navy:#0b1d28;
+  --navy-2:#102837;
+  --teal:#1f6a78;
+  --sand:#f4eee3;
+  --paper:#fffaf1;
+  --amber:#ff8a3d;
+  --amber-2:#ffad5c;
+  --gold:#ffd08a;
+  --text:#10202a;
+  --muted:#56656d;
+  --muted-light:rgba(255,255,255,.68);
+  --line:rgba(16,32,42,.12);
+  --wa:#25d366;
+  --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--sand);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--amber-2);outline-offset:3px}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.skip{position:absolute;left:12px;top:-80px;z-index:100;background:#fff;color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700}
+.skip:focus{top:12px}
+
+h1,h2,h3{font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.92;margin:0;letter-spacing:.004em;text-wrap:balance}
+h2{font-size:clamp(42px,6vw,76px)}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber)}
+.eyebrow::before{content:"";width:30px;height:2px;border-radius:2px;background:currentColor}
+.section{padding:clamp(76px,9vw,124px) 0}
+.section-head{max-width:720px;margin-bottom:clamp(36px,5vw,60px)}
+.section-head > p:last-child:not(.eyebrow){margin:18px 0 0;font-size:18px;color:var(--muted);max-width:520px}
+.section-head.split{display:flex;align-items:flex-end;justify-content:space-between;gap:24px 48px;max-width:none;flex-wrap:wrap}
+.section-head.split > p:last-child{max-width:420px;margin:0}
+.dark{background:var(--navy);color:#fff}
+.dark .section-head > p:last-child:not(.eyebrow){color:var(--muted-light)}
+
+/* Botones */
+.btn{--h:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:var(--h);padding:0 24px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:16px;line-height:1;white-space:nowrap;cursor:pointer;transition:transform .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:none}
+.btn-primary{background:var(--amber);color:#241000;box-shadow:0 14px 32px -14px rgba(255,138,61,.85)}
+.btn-primary:hover{background:var(--amber-2)}
+.btn-ghost{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.btn-ghost:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:#13293a}
+.btn-wa{background:var(--wa);color:#04240f;box-shadow:0 14px 32px -16px rgba(37,211,102,.9)}
+.btn-wa:hover{background:#3ae07b}
+.btn-block{width:100%}
+
+/* Header */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:60;padding:18px 0;transition:padding .3s ease,background-color .3s ease,box-shadow .3s ease}
+.site-header.is-scrolled{padding:10px 0;background:rgba(6,18,27,.84);-webkit-backdrop-filter:saturate(140%) blur(14px);backdrop-filter:saturate(140%) blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.07)}
+.header-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:inline-flex;align-items:center;gap:11px;color:#fff}
+.brand-mark{width:42px;height:42px;flex:none}
+.brand-text{display:flex;flex-direction:column;line-height:1}
+.brand-name{font-family:var(--display);font-weight:800;font-style:italic;font-size:25px;letter-spacing:.02em;text-transform:uppercase}
+.brand-name b{color:var(--amber);font-weight:800}
+.brand-sub{margin-top:4px;font-size:10.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.nav{display:flex;align-items:center;gap:32px}
+.nav-links{display:flex;gap:28px;margin:0;padding:0;list-style:none}
+.nav-links a{position:relative;font-weight:600;font-size:15.5px;color:rgba(255,255,255,.82);transition:color .2s}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav .btn{--h:44px;padding:0 18px;font-size:15px}
+.menu-btn{display:none;width:46px;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);color:#fff;align-items:center;justify-content:center;cursor:pointer}
+.menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;transition:transform .25s ease,background-color .2s}
+.menu-btn span{position:relative}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
+.menu-btn span::before{top:-6px}
+.menu-btn span::after{top:6px}
+.menu-open .menu-btn span{background:transparent}
+.menu-open .menu-btn span::before{transform:translateY(6px) rotate(45deg)}
+.menu-open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* Hero */
+.hero{
+  --boat-w:min(45vw,680px);
+  --boat-x:calc(100% - 3vw - var(--boat-w));
+  --boat-b:clamp(24px,6.5vh,76px);
+  --horizon:calc(var(--boat-b) + var(--boat-w) * .21);
+  --sun-x:calc(var(--boat-x) + var(--boat-w) * .64);
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:100vh;min-height:100svh;
+  display:flex;align-items:center;
+  color:#fff;background:var(--ink);
+}
+.scene{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.sky{position:absolute;left:0;right:0;top:0;bottom:var(--horizon);background:linear-gradient(180deg,#050f17 0%,#0a2332 24%,#1b3a4b 46%,#4d4c58 64%,#a05f4c 79%,#e88b4e 91%,#f9c47f 100%)}
+.sky::after{content:"";position:absolute;inset:0 0 40% 0;opacity:.7;background-image:radial-gradient(1.2px 1.2px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 27% 9%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 41% 26%,#fff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 58% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 69% 31%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 83% 8%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 92% 24%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 6% 36%,#fff 50%,transparent 51%)}
+.sun-glow{position:absolute;left:var(--sun-x);bottom:var(--horizon);width:calc(var(--boat-w) * 1.7);aspect-ratio:1;border-radius:50%;transform:translate(-50%,50%);background:radial-gradient(circle,rgba(255,200,130,.6) 0%,rgba(255,165,95,.25) 28%,rgba(255,140,80,0) 60%)}
+.sun{position:absolute;left:var(--sun-x);bottom:var(--horizon);width:calc(var(--boat-w) * .21);aspect-ratio:1;border-radius:50%;transform:translate(-50%,50%);background:radial-gradient(circle,#fffaf0 0%,#ffe6b8 48%,#ffc275 100%);box-shadow:0 0 50px 14px rgba(255,196,125,.5)}
+.birds{position:absolute;left:calc(var(--boat-x) + var(--boat-w) * .14);bottom:calc(var(--horizon) + var(--boat-w) * .5);width:calc(var(--boat-w) * .3);opacity:.8;animation:birds 26s ease-in-out infinite alternate}
+.shore{position:absolute;left:0;bottom:calc(var(--horizon) - 1px);width:100%;height:clamp(24px,2.8vw,44px)}
+.water{position:absolute;left:0;right:0;bottom:0;height:var(--horizon);background:linear-gradient(180deg,#f6b46e 0%,#c97a52 3%,#7a5650 11%,#34434c 30%,#162b3a 58%,#07131b 100%)}
+.water-glow{position:absolute;left:var(--sun-x);top:calc(100% - var(--horizon));width:calc(var(--boat-w) * 1.3);height:calc(var(--horizon) * .9);transform:translateX(-50%);background:radial-gradient(50% 60% at 50% 0%,rgba(255,190,125,.5),rgba(255,160,90,0) 100%)}
+.glints{position:absolute;left:var(--sun-x);top:calc(100% - var(--horizon) + 1px);width:calc(var(--boat-w) * .5);height:var(--horizon);transform:translateX(-50%);animation:shimmer 4.5s ease-in-out infinite}
+.ripples{position:absolute;left:-40px;right:-40px;bottom:0;width:calc(100% + 80px);height:var(--horizon);animation:drift 16s ease-in-out infinite alternate}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(3,10,15,.74) 0%,rgba(3,10,15,.42) 36%,rgba(3,10,15,0) 62%),linear-gradient(180deg,rgba(3,10,15,.5) 0%,rgba(3,10,15,0) 24%)}
+.hero-boat{position:absolute;left:var(--boat-x);bottom:var(--boat-b);width:var(--boat-w);z-index:1;pointer-events:none;animation:fade 1.4s .2s ease both}
+.hero-boat svg{width:100%;height:auto;overflow:visible}
+.bob{animation:bob 7s ease-in-out infinite;transform-box:view-box;transform-origin:300px 228px}
+.bob-r{animation:bob-r 7s ease-in-out infinite;transform-box:view-box;transform-origin:300px 228px}
+.cast path{stroke-dasharray:1;stroke-dashoffset:1;animation:cast 1.8s 1s cubic-bezier(.3,.6,.2,1) forwards}
+.reeds{position:absolute;bottom:-2px;z-index:2;height:auto;fill:#02080c;pointer-events:none}
+.reeds-l{left:-1.5%;width:clamp(150px,21vw,330px)}
+.reeds-r{right:-1%;width:clamp(100px,11vw,200px);transform:scaleX(-1)}
+.hero-inner{position:relative;z-index:3;padding:112px 0 calc(var(--horizon) * .5 + 24px)}
+.hero-copy{max-width:640px}
+.hero-copy > *{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-copy > :nth-child(2){animation-delay:.08s}
+.hero-copy > :nth-child(3){animation-delay:.16s}
+.hero-copy > :nth-child(4){animation-delay:.24s}
+.hero-copy > :nth-child(5){animation-delay:.32s}
+.pill{display:inline-flex;align-items:center;gap:9px;margin:0 0 22px;padding:8px 15px 8px 11px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.9)}
+.pill svg{width:16px;height:16px;color:var(--amber-2)}
+.hero h1{font-size:clamp(54px,6.5vw,98px);line-height:.86;letter-spacing:-.004em}
+.hero h1 em{position:relative;display:inline-block;font-style:italic;color:var(--amber-2);padding-right:.04em}
+.hero h1 em::after{content:"";position:absolute;left:.02em;right:.06em;bottom:-.1em;height:.13em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' preserveAspectRatio='none'%3E%3Cpath d='M0 5Q10 0 20 5T40 5' fill='none' stroke='%23ffad5c' stroke-width='2.6'/%3E%3C/svg%3E") 0 0/.62em 100% repeat-x;opacity:.9}
+.lead{max-width:520px;margin:24px 0 30px;font-size:clamp(17px,1.45vw,20px);color:rgba(255,255,255,.84)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-points{display:flex;flex-wrap:wrap;gap:10px 20px;margin:30px 0 0;padding:0;list-style:none;font-size:14px;font-weight:600;color:rgba(255,255,255,.82)}
+.hero-points li{display:flex;align-items:center;gap:8px}
+.hero-points svg{width:18px;height:18px;flex:none;color:var(--amber-2);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* Ticker */
+.ticker{position:relative;z-index:5;overflow:hidden;background:var(--amber);color:var(--ink)}
+.ticker-track{display:flex;width:max-content;animation:ticker 40s linear infinite}
+.ticker-group{display:flex;align-items:center;gap:26px;padding:15px 13px;font-family:var(--display);font-weight:800;font-style:italic;font-size:clamp(22px,2.4vw,30px);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+.tk-fish{width:34px;height:18px;fill:currentColor;opacity:.85}
+
+/* Modelos */
+.model-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.model-card{position:relative;display:flex;flex-direction:column;overflow:hidden;background:var(--paper);border:1px solid rgba(16,32,42,.07);border-radius:26px;box-shadow:0 1px 0 rgba(16,32,42,.04),0 26px 50px -32px rgba(16,32,42,.4);transition:transform .35s ease,box-shadow .35s ease}
+.model-card:hover{transform:translateY(-6px);box-shadow:0 1px 0 rgba(16,32,42,.04),0 40px 70px -34px rgba(16,32,42,.5)}
+.model-card.featured{border-color:rgba(255,138,61,.55);box-shadow:0 0 0 1px rgba(255,138,61,.35),0 30px 60px -32px rgba(255,120,40,.45)}
+.model-media{position:relative;aspect-ratio:16/10;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(120% 110% at 78% 0%,#2c5d74 0%,#173649 48%,#0c2130 100%)}
+.model-media::before{content:"";position:absolute;right:8%;top:6%;width:44%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,196,128,.5) 0%,rgba(255,160,90,.14) 45%,rgba(255,160,90,0) 70%)}
+.model-len{position:absolute;left:7%;top:8%;font-family:var(--display);font-weight:800;font-style:italic;font-size:clamp(70px,8vw,118px);line-height:1;letter-spacing:.01em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.2)}
+.model-media .boat{position:relative;width:var(--size,92%);height:auto;overflow:visible;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.model-card:hover .boat{transform:translateX(10px)}
+.model-badge{position:absolute;top:16px;right:16px;z-index:1;padding:7px 12px;border-radius:999px;background:var(--amber);color:#241000;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.model-body{display:flex;flex:1;flex-direction:column;gap:20px;padding:26px 26px 28px}
+.model-card h3{font-size:clamp(32px,2.8vw,38px)}
+.model-card h3 span{color:var(--amber)}
+.model-tag{margin:10px 0 0;font-size:16px;color:var(--muted)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:0;overflow:hidden;background:var(--line);border:1px solid var(--line);border-radius:16px}
+.specs div{padding:11px 14px;background:var(--paper)}
+.specs dt{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.specs dd{margin:2px 0 0;font-family:var(--display);font-weight:700;font-size:23px;line-height:1.1;color:var(--text)}
+.features{display:grid;gap:8px;margin:0;padding:0;list-style:none;font-size:15.5px}
+.features li{display:flex;gap:10px;align-items:flex-start}
+.features li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--teal);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center/contain no-repeat}
+.model-foot{display:grid;gap:10px;margin-top:auto}
+.price-note{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+.price-note strong{color:var(--text);font-weight:700}
+
+/* Equipamiento */
+.equip{background-color:var(--navy);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28' viewBox='0 0 120 28'%3E%3Cpath d='M0 14Q15 6 30 14T60 14T90 14T120 14' fill='none' stroke='%23ffffff' stroke-opacity='.035' stroke-width='1.5'/%3E%3C/svg%3E")}
+.equip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.equip-item{padding:28px 26px 26px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);transition:border-color .3s ease,transform .3s ease}
+.equip-item:hover{border-color:rgba(255,173,92,.45);transform:translateY(-4px)}
+.equip-ico{display:grid;place-items:center;width:56px;height:56px;margin-bottom:22px;border-radius:16px;background:rgba(255,138,61,.13);color:var(--amber-2)}
+.equip-ico svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.equip-item h3{margin-bottom:8px;font-size:26px}
+.equip-item p{margin:0;font-size:16px;color:var(--muted-light)}
+
+/* Por qué */
+.why-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(36px,6vw,88px);align-items:center}
+.map-card{margin:0;overflow:hidden;background:var(--paper);border:1px solid rgba(16,32,42,.08);border-radius:26px;box-shadow:0 34px 70px -42px rgba(16,32,42,.55)}
+.map-card svg{width:100%;height:auto}
+.map-card figcaption{display:grid;gap:6px;padding:22px 24px 24px}
+.map-card strong{font-family:var(--display);font-weight:800;font-size:28px;line-height:1;text-transform:uppercase}
+.map-card figcaption span{font-size:15.5px;color:var(--muted)}
+.map-card figcaption a{display:inline-flex;align-items:center;gap:6px;width:max-content;margin-top:6px;font-weight:700;color:var(--teal)}
+.map-card figcaption a:hover{color:var(--amber)}
+.map-card figcaption a svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pin-pulse{animation:pulse 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.why .section-head{margin-bottom:28px}
+.reasons{margin:0;padding:0;list-style:none}
+.reasons li{display:grid;grid-template-columns:58px 1fr;gap:6px;padding:22px 0;border-top:1px solid var(--line)}
+.reasons li:last-child{border-bottom:1px solid var(--line)}
+.reasons .num{font-family:var(--display);font-weight:800;font-style:italic;font-size:22px;line-height:1.3;color:var(--amber)}
+.reasons h3{margin-bottom:6px;font-size:28px}
+.reasons p{margin:0;color:var(--muted)}
+
+/* CTA */
+.cta{position:relative;overflow:hidden;padding:clamp(60px,7vw,92px) 0;background:linear-gradient(115deg,#ff9445 0%,#ff7c32 55%,#f2652a 100%);color:var(--ink)}
+.cta-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:28px 40px;flex-wrap:wrap}
+.cta h2{font-size:clamp(42px,5.6vw,74px);max-width:13ch}
+.cta p{margin:14px 0 0;font-size:18px;font-weight:500;color:rgba(6,18,27,.78)}
+.cta .btn{--h:62px;padding:0 30px;font-size:17px}
+.cta-fish{position:absolute;right:-4%;top:50%;width:min(560px,70vw);transform:translateY(-50%) rotate(-8deg);fill:var(--ink);opacity:.07}
+
+/* Contacto */
+.contact{background:var(--ink)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(36px,6vw,80px);align-items:start}
+.contact-lead{margin:18px 0 0;max-width:460px;font-size:18px;color:var(--muted-light)}
+.contact-list{display:grid;gap:12px;margin:34px 0 0;padding:0;list-style:none}
+.contact-list li{display:flex;align-items:center;gap:16px;padding:15px 18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.ci-ico{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:14px;background:rgba(255,138,61,.14);color:var(--amber-2)}
+.ci-ico.wa{background:rgba(37,211,102,.14);color:var(--wa)}
+.ci-ico svg{width:22px;height:22px}
+.ci-ico svg.line{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.contact-list small{display:block;font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.ci-val{font-size:17px;font-weight:600}
+a.ci-val:hover{color:var(--amber-2)}
+.form-card{display:grid;gap:16px;padding:clamp(22px,3vw,34px);border-radius:26px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 90px -50px rgba(0,0,0,.8)}
+.form-card h3{font-size:36px}
+.form-card > p{margin:-6px 0 6px;font-size:15.5px;color:var(--muted-light)}
+.form-card label{display:grid;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.form-card input,.form-card select,.form-card textarea{width:100%;padding:14px 16px;border:1px solid rgba(255,255,255,.14);border-radius:13px;outline:none;background-color:rgba(2,8,12,.5);color:#fff;font-size:16px;font-weight:500;letter-spacing:0;text-transform:none;-webkit-appearance:none;appearance:none;transition:border-color .2s,box-shadow .2s}
+.form-card select{padding-right:46px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffad5c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;background-size:18px}
+.form-card select option{color:var(--text);background:#fff}
+.form-card textarea{min-height:100px;resize:vertical}
+.form-card ::placeholder{color:rgba(255,255,255,.4)}
+.form-card input:focus,.form-card select:focus,.form-card textarea:focus{border-color:var(--amber);box-shadow:0 0 0 4px rgba(255,138,61,.18)}
+.form-card .btn{--h:56px;margin-top:4px}
+.form-note{margin:-4px 0 0;font-size:13px;text-align:center;color:rgba(255,255,255,.5)}
+
+/* Footer */
+.site-footer{padding:48px 0 calc(28px + env(safe-area-inset-bottom));background:#030a0f;color:rgba(255,255,255,.7)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-nav{display:flex;gap:8px 26px;flex-wrap:wrap}
+.footer-nav a{font-size:15px;font-weight:600}
+.footer-nav a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;padding-top:22px;font-size:14px;color:rgba(255,255,255,.45)}
+
+/* WhatsApp flotante */
+.wa-float{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:70;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;box-shadow:0 16px 34px -12px rgba(37,211,102,.75),0 4px 12px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s}
+.wa-float svg{width:32px;height:32px}
+.wa-float::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--wa);animation:ping 2.8s cubic-bezier(0,0,.2,1) infinite}
+.wa-float:hover{transform:scale(1.07)}
+.js .wa-float:not(.show){opacity:0;transform:translateY(20px) scale(.6);pointer-events:none}
+
+/* Animaciones de entrada */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
+
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-.45deg)}}
+@keyframes bob-r{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+@keyframes cast{to{stroke-dashoffset:0}}
+@keyframes shimmer{0%,100%{opacity:.78;transform:translateX(-50%) scaleX(1)}50%{opacity:1;transform:translateX(-50%) scaleX(1.08)}}
+@keyframes drift{to{transform:translateX(-28px)}}
+@keyframes birds{to{transform:translate(-26px,-8px)}}
+@keyframes ticker{to{transform:translateX(-50%)}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.65}100%{transform:scale(2.6);opacity:0}}
+@keyframes ping{0%{transform:scale(1);opacity:.5}80%,100%{transform:scale(1.75);opacity:0}}
+
+/* Responsive */
+@media (min-width:1081px) and (max-height:820px){
+  .hero h1{font-size:clamp(54px,5.6vw,84px)}
+  .hero-inner{padding-top:96px}
+  .pill{margin-bottom:16px}
+  .lead{margin:18px 0 24px}
+  .hero-points{margin-top:22px}
+}
+@media (max-width:1080px){
+  .hero{--boat-w:min(calc(100vw - 20px),600px);--boat-x:calc(50% - var(--boat-w) / 2);--boat-b:22px;align-items:center}
+  .hero-inner{padding:106px 0 calc(var(--boat-b) + var(--boat-w) * .5 + 14px)}
+  .hero::before{background:linear-gradient(180deg,rgba(3,10,15,.55) 0%,rgba(3,10,15,.25) 52%,rgba(3,10,15,0) 78%)}
+  .birds{display:none}
+  .reeds-l{width:clamp(120px,30vw,240px)}
+  .reeds-r{width:clamp(90px,20vw,170px)}
+  .model-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .model-card:last-child{grid-column:1 / -1;max-width:calc(50% - 12px);justify-self:center;width:100%}
+}
+@media (max-width:900px){
+  .menu-btn{display:inline-flex}
+  .nav{position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;align-items:stretch;gap:8px;padding:12px;border-radius:20px;background:#081620;border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+  .menu-open .nav{opacity:1;transform:none;pointer-events:auto}
+  .nav-links{flex-direction:column;gap:0}
+  .nav-links a{display:block;padding:14px 12px;font-size:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .nav-links a::after{display:none}
+  .nav .btn{--h:52px;margin-top:6px}
+  .equip-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .why-grid{grid-template-columns:1fr}
+  .map-card{order:2}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  body{font-size:16.5px}
+  .model-grid{grid-template-columns:1fr}
+  .model-card:last-child{max-width:none}
+  .equip-grid{grid-template-columns:1fr;gap:12px}
+  .equip-item{display:grid;grid-template-columns:52px 1fr;column-gap:16px;padding:18px}
+  .equip-ico{grid-row:span 2;width:52px;height:52px;margin:0}
+  .equip-item h3{margin:3px 0 5px;font-size:22px}
+  .equip-item p{font-size:15px}
+  .section-head > p:last-child:not(.eyebrow){font-size:17px}
+  .cta-inner{flex-direction:column;align-items:flex-start}
+  .cta .btn{width:100%}
+}
+@media (max-width:520px){
+  .brand-name{font-size:22px}
+  .brand-mark{width:38px;height:38px}
+  .hero-ctas .btn{--h:50px;width:100%}
+  .hero-points{display:none}
+  .lead{margin:20px 0 24px}
+  .pill{margin-bottom:18px}
+  .reasons li{grid-template-columns:44px 1fr}
+  .reasons h3{font-size:25px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .cast path{animation-delay:0s!important}
+  .js .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#modelos">Saltar al contenido</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="bs-water" x1="0" y1="134" x2="0" y2="172" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3f97aa" stop-opacity=".5"/>
+      <stop offset=".35" stop-color="#1a4556" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#0b1d28" stop-opacity=".96"/>
+    </linearGradient>
+    <linearGradient id="bs-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bs-shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".38"/>
+    </linearGradient>
+    <clipPath id="bs-hull"><path d="M60 96L324 90Q346 89 358 94Q352 118 326 136L74 140Q62 140 60 130Z"/></clipPath>
+  </defs>
+
+  <symbol id="fish" viewBox="3.5 12 31 16"><path d="M10.5 20 4.8 14.6l2 5.4-2 5.4z"/><path d="M9 20c5-6.5 16-7 24-.4-8 6.8-19 6.6-24 .4z"/></symbol>
+
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+
+  <symbol id="reeds" viewBox="0 0 360 320"><path d="M91.3 320Q104.6 215.3 134.3 129.6Q106.8 215.3 95.7 320ZM18.8 320Q26.7 206.3 44 113.2Q28.2 206.3 21.9 320ZM3.1 320Q41.6 168.3 129.2 44.2Q44.5 168.3 9 320ZM156.3 320Q154.1 263.9 148.1 218.1Q155.6 263.9 159.3 320ZM29.5 320Q32.7 263.2 38.2 216.7Q35.4 263.2 35 320ZM166.9 320Q173.6 235.4 188 166.2Q175.4 235.4 170.6 320ZM355.6 320Q361.6 253.4 374.4 199Q363.4 253.4 359.1 320ZM1.9 320Q5.8 172.9 13.6 52.6Q7.8 172.9 6 320ZM269.5 320Q270.1 288.3 270 262.3Q272.2 288.3 273.8 320ZM73.2 320Q77.6 262.8 86.9 216Q79.5 262.8 76.8 320ZM53.8 320Q80.1 163.6 140.5 35.7Q81.7 163.6 57 320ZM90.1 320Q104.9 252.6 138.2 197.4Q106.5 252.6 93.3 320ZM24.1 320Q35.7 235.1 61.5 165.6Q37.5 235.1 27.8 320ZM23.9 320Q35 220.7 59.9 139.5Q36.6 220.7 27.1 320ZM24.2 320Q32.5 236.4 50.7 168Q34.4 236.4 27.9 320ZM149.4 320Q152.8 243.8 159.1 181.5Q154.9 243.8 153.8 320ZM279.5 320Q279.7 277.4 278.5 242.5Q282.4 277.4 284.9 320ZM18.5 320Q53.5 180.2 133.2 65.8Q56.3 180.2 24.2 320ZM81.1 320Q79.2 260.4 73.5 211.7Q80.9 260.4 84.6 320ZM34.1 320Q43.1 174 63 54.6Q44.8 174 37.4 320ZM1.4 320Q6.7 236.9 17.4 168.8Q9.1 236.9 6.2 320ZM36.4 320Q55.7 217.2 99.2 133Q58 217.2 41 320ZM174.8 320Q189.5 220.4 222.8 139Q190.9 220.4 177.7 320ZM194.6 320Q189.8 202.8 177 107Q191.9 202.8 199 320ZM49 320Q43.7 158.7 29.8 26.7Q46.3 158.7 54.2 320ZM212.4 320Q221.9 228 242.7 152.7Q223.8 228 216.3 320ZM298.7 320Q301.9 237.4 307.7 169.8Q304.7 237.4 304.2 320ZM160.4 320Q165.2 244.5 175.4 182.8Q166.7 244.5 163.4 320ZM353.3 320Q360.2 251.1 374.4 194.7Q362.8 251.1 358.5 320ZM87.9 320Q83.4 185.9 71.9 76.2Q84.8 185.9 90.8 320ZM101.3 320Q107.8 250.1 121.2 193Q110.2 250.1 106.1 320ZM33.7 320Q34.7 265.6 35.7 221.1Q36.4 265.6 37.2 320ZM302.3 320Q305.2 251 310.5 194.6Q307.1 251 306.1 320ZM20.2 320Q31.5 216.1 55.9 131.1Q34.3 216.1 25.9 320ZM141.2 320Q140.4 247.6 136.8 188.4Q143.2 247.6 146.6 320ZM199.9 320Q222.1 205.2 272.7 111.3Q223.9 205.2 203.5 320ZM49.1 320Q68.2 176 111.8 58.2Q69.7 176 52.1 320ZM136.6 320Q148.6 247.5 175.2 188.3Q150.7 247.5 140.8 320ZM260 320Q271.1 271 295.5 231Q273.2 271 264.2 320ZM173.7 320Q188 210.3 220.4 120.5Q189.8 210.3 177.1 320ZM17.6 320Q20.3 264.2 25.4 218.5Q22 264.2 21 320ZM56.6 320Q63.2 193.6 76.9 90.1Q65.8 193.6 61.8 320ZM239.6 320Q237 219.5 229.3 137.3Q239.6 219.5 244.7 320ZM65.6 320Q79.1 209.3 108.5 118.8Q82 209.3 71.4 320ZM171.3 320Q177.1 261.8 189.1 214.1Q179.5 261.8 176.1 320ZM23.8 320Q44.9 162.9 92.7 34.3Q47.2 162.9 28.3 320ZM50.5 320Q67 168.6 104.6 44.8Q68.5 168.6 53.5 320ZM128.9 320Q156 202.9 218.1 107.1Q157.5 202.9 131.9 320ZM16 320Q31.4 226.4 65.8 149.8Q33.6 226.4 20.4 320ZM264.7 320Q275.7 241 299.5 176.4Q278.6 241 270.6 320ZM25.3 320Q26.4 206 27.5 112.7Q28.9 206 30.2 320ZM266.9 320Q268.5 250.2 270.4 193.2Q271.2 250.2 272.4 320ZM22.7 320Q42.8 168.2 88.3 44.1Q45.1 168.2 27.3 320ZM-1.9 320Q6.6 147.9 24.4 7.1Q9.2 147.9 3.5 320Z"/><ellipse cx="124.5" cy="72.1" rx="3.2" ry="9.9" transform="rotate(22.6 124.5 72.1)"/><ellipse cx="43.9" cy="197.6" rx="2.8" ry="11.9" transform="rotate(12 43.9 197.6)"/><ellipse cx="15.1" cy="186.5" rx="2.6" ry="10" transform="rotate(7.2 15.1 186.5)"/><ellipse cx="84.4" cy="164.6" rx="3.6" ry="13.5" transform="rotate(23.4 84.4 164.6)"/><ellipse cx="255.8" cy="145.5" rx="3.1" ry="12.1" transform="rotate(24.6 255.8 145.5)"/><ellipse cx="100.9" cy="90" rx="3.3" ry="9.2" transform="rotate(18.1 100.9 90)"/><ellipse cx="232.3" cy="166.6" rx="3.5" ry="12.1" transform="rotate(-5.4 232.3 166.6)"/><ellipse cx="74.2" cy="86.1" rx="3.2" ry="11.5" transform="rotate(17.3 74.2 86.1)"/></symbol>
+
+  <!-- Tracker visto de costado. Colores por variables: --hull-top, --hull-bottom, --stripe, --decal -->
+  <symbol id="boat-side" viewBox="0 0 400 170" overflow="visible">
+    <ellipse cx="205" cy="137" rx="168" ry="6" fill="#02080c" opacity=".35"/>
+    <g fill="#1b2226">
+      <rect x="38" y="98" width="12" height="40"/>
+      <rect x="29" y="134" width="30" height="2.6" rx="1"/>
+      <path d="M27 143Q27 137 35 137L58 137Q65 140 58 145.5L35 146Q27 146 27 143Z"/>
+      <path d="M44 146L51 146L48 156Z"/>
+      <ellipse cx="25" cy="141.5" rx="2.2" ry="8"/>
+    </g>
+    <g fill="none" stroke="#9fb1ba" stroke-opacity=".75" stroke-linecap="round">
+      <path d="M150 94L122 22" stroke-width="1.6"/>
+      <path d="M162 93L142 18" stroke-width="1.6"/>
+      <path d="M150 94L146.5 83" stroke-width="3.4"/>
+      <path d="M162 93L159.2 82" stroke-width="3.4"/>
+    </g>
+    <circle cx="145.4" cy="79" r="3" fill="#7d8f98"/>
+    <circle cx="158.3" cy="78.4" r="3" fill="#7d8f98"/>
+    <rect x="112" y="74" width="4" height="20" fill="#5b6b73"/>
+    <rect x="98" y="68" width="30" height="7" rx="3.5" fill="#c9d2d6"/>
+    <rect x="98" y="51" width="7" height="21" rx="3" fill="#c9d2d6"/>
+    <rect x="294" y="72" width="4" height="20" fill="#5b6b73"/>
+    <rect x="281" y="66" width="28" height="7" rx="3.5" fill="#c9d2d6"/>
+    <rect x="281" y="50" width="7" height="20" rx="3" fill="#c9d2d6"/>
+    <path d="M184 93L191 64H226L233 92Z" fill="#e4e9ec"/>
+    <path d="M184 93L191 64H198L193 92.6Z" fill="#000" opacity=".13"/>
+    <path d="M196 64L201 46H222L227 64Z" fill="#9ccbdc" fill-opacity=".72" stroke="#22313a" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M203.5 49.5H208L205 61H200.6Z" fill="#fff" opacity=".55"/>
+    <path d="M189 64H228" stroke="#22313a" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M313 87.5L351 85.5" stroke="#26323a" stroke-width="3" stroke-linecap="round"/>
+    <rect x="349" y="79" width="11" height="9" rx="2" fill="#1f292f"/>
+    <ellipse cx="311" cy="87.6" rx="7" ry="3.4" fill="#1f292f"/>
+    <path d="M60 96L324 90Q346 89 358 94Q352 118 326 136L74 140Q62 140 60 130Z" style="fill:var(--hull-bottom,#1f4252)"/>
+    <g clip-path="url(#bs-hull)">
+      <path d="M40 70H372V100Q300 106 40 114Z" style="fill:var(--hull-top,#f3efe6)"/>
+      <path d="M40 114Q300 106 372 100V105.5Q300 111.5 40 119.5Z" style="fill:var(--stripe,#ff8a3d)"/>
+      <rect x="40" y="86" width="332" height="16" fill="url(#bs-shine)" opacity=".6"/>
+      <rect x="40" y="118" width="332" height="24" fill="url(#bs-shade)"/>
+    </g>
+    <path d="M60 96L324 90Q346 89 358 94" fill="none" stroke="#1b262d" stroke-width="3.2" stroke-linecap="round"/>
+    <rect x="56" y="84" width="9" height="18" rx="1.5" fill="#2a363d"/>
+    <path d="M30 85H58L55 100H33Z" fill="#1b2226"/>
+    <path d="M22 50C22 40 30 36 40 36H52C62 36 66 42 66 52L64 74C63 82 58 86 50 86H34C26 86 22 80 22 72Z" fill="#14181b"/>
+    <path d="M23 66L65 61.5L64.6 67L23 71.6Z" style="fill:var(--decal,#ff8a3d)"/>
+    <path d="M28 45C30 41 34 39.5 40 39.5H53" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.6" stroke-linecap="round"/>
+    <rect x="-600" y="134" width="1600" height="220" fill="url(#bs-water)"/>
+    <path d="M-600 134q5.0 -2.4 10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0t10 0" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="1.2"/>
+    <ellipse cx="333" cy="134.6" rx="20" ry="2.2" fill="#fff" opacity=".45"/>
+    <ellipse cx="44" cy="134.6" rx="18" ry="2" fill="#fff" opacity=".35"/>
+  </symbol>
+</svg>
+
+<header class="site-header" id="top">
+  <div class="wrap header-row">
+    <a class="brand" href="#inicio" aria-label="Walter Pesca, inicio">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#ff8a3d"/>
+        <path d="M10.5 20 4.8 14.6l2 5.4-2 5.4z" fill="#06121b"/>
+        <path d="M9 20c5-6.5 16-7 24-.4-8 6.8-19 6.6-24 .4z" fill="#06121b"/>
+        <path d="M12.5 20.2 29 19.4" stroke="#ffd08a" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="28.2" cy="18.8" r="1.3" fill="#ff8a3d"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Walter <b>Pesca</b></span>
+        <span class="brand-sub">San Miguel del Monte</span>
+      </span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <ul class="nav-links">
+        <li><a href="#modelos">Modelos</a></li>
+        <li><a href="#equipamiento">Equipamiento</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a class="btn btn-primary" data-wa="Hola Walter! Vi la web y quiero hacer una consulta." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="scene" aria-hidden="true">
+    <div class="sky"></div>
+    <div class="sun-glow"></div>
+    <div class="sun"></div>
+    <svg class="birds" viewBox="0 0 200 80" fill="none" stroke="#0a1620" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 40q6-6 12 0q6-6 12 0"/>
+      <path d="M62 20q4.5-4.5 9 0q4.5-4.5 9 0"/>
+      <path d="M98 50q3.5-3.5 7 0q3.5-3.5 7 0"/>
+      <path d="M140 28q5-5 10 0q5-5 10 0"/>
+      <path d="M170 60q3-3 6 0q3-3 6 0"/>
+    </svg>
+    <svg class="shore" viewBox="0 0 3000 60" preserveAspectRatio="xMidYMax slice">
+      <path d="M0 60L0 55.5Q15.5 45.8 31 53.3Q44.7 51 58.4 53Q73.2 47.8 88 51.4Q94.6 36.3 101.3 44.4Q107.8 41.6 114.3 48.5Q125.8 45.7 137.3 51.3Q150.1 45.8 162.9 51.2Q167.6 26.5 172.2 54.9Q181.3 34.5 190.4 41.8Q205.2 36.5 219.9 54.9Q228.9 37 237.9 41.9Q250.7 35.4 263.4 40.1L271.1 57.1L327.4 57.1Q340.9 40.4 354.3 47.6Q369.4 43.2 384.6 46.4Q390.3 25.8 396 53.9Q406.6 38.2 417.2 56.5Q428.8 37.2 440.5 45.5Q452.6 34.5 464.7 40.7Q478 32.5 491.4 52.8Q496.1 27.1 500.9 50Q519.4 42.5 538 55.2Q546.5 46.3 555.1 54.6Q572.3 44 589.5 52.7Q606.4 44.8 623.3 55.5Q642.6 43.7 661.8 49.8Q672.4 42.4 683 52.3L701.4 56.6L835.8 56.6L852.5 57.3L974.9 57.3Q989.6 45.4 1004.4 54.2Q1012.4 52 1020.4 56.3Q1028.5 43 1036.6 45.9Q1047.5 42.7 1058.4 53.3Q1064.2 28.2 1070 52L1088.8 56.8L1226.6 56.8Q1244.5 51.3 1262.4 53.8Q1271 45.8 1279.6 52.7Q1286.2 43.4 1292.9 51.7Q1306.4 38.2 1320 40.9Q1333.6 36.4 1347.2 40.6Q1361.1 32.9 1375 55.9Q1386.3 37.4 1397.6 40.1L1405 56.9L1458.6 56.9Q1471.4 50.2 1484.1 56.7Q1497.8 46.6 1511.6 50.2L1525.4 58.2L1626.7 58.2Q1645 45.6 1663.2 49.2Q1676.5 38 1689.8 40.6Q1703.2 33.2 1716.6 41.9Q1734 35 1751.3 42.4Q1761 36.1 1770.7 50.4Q1791.1 46.3 1811.6 56.9Q1823.5 50.6 1835.3 53.1Q1855.5 46.4 1875.6 49.1Q1892.2 42.6 1908.8 54.7Q1918.7 47.7 1928.6 51.5Q1936.9 45.3 1945.2 53.6Q1956.9 44 1968.6 49.1Q1978.8 45.2 1989 54.3Q1996.8 35.6 2004.7 49.7Q2021.3 48.5 2037.8 53.5Q2054.3 47.7 2070.9 56.9L2082.4 57.8L2167.2 57.8Q2178.8 43.7 2190.3 51.5Q2197 45.6 2203.8 54.2Q2221.8 33.1 2239.8 41.3L2256.3 58.6L2377.2 58.6Q2394.4 51.4 2411.6 53.8Q2426.7 41.4 2441.8 49Q2451.8 42.6 2461.9 51.9Q2468.9 45.2 2476 53.4Q2481.4 35.4 2486.9 56.7Q2503.1 47.9 2519.3 54.3Q2533.4 38.2 2547.5 45.3Q2554.6 43 2561.8 53.4Q2575.8 46.4 2589.8 54Q2598.2 34.9 2606.6 43.3Q2615.9 35.9 2625.2 41.7Q2645.7 32.4 2666.3 41Q2672.4 34.7 2678.6 46.6Q2694.3 40.8 2710 50.5Q2719.1 40.1 2728.2 47.6Q2747.5 42.7 2766.7 55.6Q2773.1 27 2779.5 53.7L2786 57.8L2833.5 57.8Q2839.9 50.7 2846.3 53.4Q2860.2 45.4 2874 48.3Q2886.4 36.6 2898.7 43.9Q2908.5 38.5 2918.3 50.6Q2932.4 42.8 2946.5 56.4Q2964.5 35.6 2982.5 44.6Q2994.4 38.5 3006.3 52.3L3006.3 60Z" fill="#3d3a47" opacity=".6"/>
+      <path d="M0 60L0 52.8Q7.9 49.1 15.8 53.8Q24.9 38.9 34.1 44.1Q43 40.4 51.8 53.7L62.6 57.9L141.9 57.9Q153.5 44.2 165.2 53.2L182.4 57.9L308.3 57.9Q319.3 36.5 330.4 43.1Q345.1 34.4 359.9 55.3Q368.8 33.8 377.7 40.9Q388 30.2 398.2 33.2Q405.7 24.5 413.2 37.7Q426.7 32 440.3 54.3Q447.3 35.9 454.4 42.8Q459.8 26.8 465.1 51.2Q477.5 26.1 489.8 34.3Q495.7 24.3 501.6 46.7Q510.6 43 519.7 48.2Q530.8 44.6 541.9 51.2Q554.6 36.7 567.3 40.7L574.8 58.6L630.1 58.6Q641.5 35.9 652.9 42.9Q659.8 38.2 666.8 54.5Q683.9 28.9 701.1 30.9Q710.2 22.2 719.4 55.1Q740.2 42.6 761.1 51.4Q768.4 37.8 775.6 43.1Q780.5 17.4 785.5 49.7L799.4 57.1L901.4 57.1Q914.4 43 927.5 46.6Q933.6 25.2 939.6 45.8Q954.8 40.6 970 52L993.4 57.1L1165.2 57.1Q1181.7 47.8 1198.3 53.5Q1214 40.9 1229.7 49.3Q1249.6 45.2 1269.6 50.2Q1290.2 23.6 1310.9 31.5Q1326.2 27.5 1341.6 35.6Q1350.5 23.1 1359.5 31.1Q1369.8 24.3 1380.2 34.1Q1397.1 29.6 1414 40.3Q1427.4 30.3 1440.7 34.2L1459.9 58.2L1600.7 58.2Q1608.5 44.8 1616.2 48.9Q1629.8 41.3 1643.3 46.2Q1663.8 32.8 1684.3 36.6Q1699.3 29.1 1714.2 46.4Q1726 26.8 1737.8 35.7Q1755.6 28.9 1773.4 49.3L1787.8 56.8L1892.8 56.8Q1912.7 41.3 1932.6 49.3Q1943.4 37.9 1954.2 45.9Q1965.7 27.7 1977.2 34.8Q1988 30.5 1998.8 52.1Q2006.5 43.8 2014.2 47Q2026 33 2037.9 35.7Q2043.4 24.1 2048.9 45.5L2055.8 57.5L2106.5 57.5Q2124.9 39.3 2143.3 47.5Q2156.5 22.7 2169.7 31.7Q2177.7 28.5 2185.6 45.4Q2192.6 34.5 2199.5 40.8Q2219.5 24.2 2239.6 32.7Q2260.3 24.8 2281.1 46.5Q2291.7 40.7 2302.3 43.6Q2315.8 33.6 2329.3 42.1Q2338.6 28.3 2347.9 36.1Q2355.7 31.5 2363.6 55.1Q2374.8 36.8 2386 39.8Q2393.2 37 2400.4 49.6Q2412.8 28.2 2425.1 30.9Q2431.7 22 2438.3 38.9Q2458.5 35.8 2478.7 43.6Q2490.2 36 2501.7 46.3Q2517.1 39.4 2532.6 54.5Q2543.3 48.9 2553.9 53.4Q2568.4 31.7 2582.8 39.2Q2599.9 31.3 2617 49.2Q2635.9 34.1 2654.8 39.6Q2666 32.3 2677.1 36.8Q2689.9 31 2702.8 46Q2711.4 43.4 2720 46.9Q2737.4 43.2 2754.7 49Q2763.7 42 2772.7 55.6Q2778.3 10.9 2783.9 45.7Q2798.5 30.8 2813.1 55.7Q2832 30.3 2850.8 32.3Q2858.2 23.4 2865.7 43.5Q2886.4 40.4 2907.1 44.9Q2914.1 11.3 2921.1 46.7Q2936 31.8 2951 49.4Q2955.6 25.9 2960.2 49.2Q2969.6 34.1 2979 38Q2994 31.1 3009 50.6L3009 60Z" fill="#0b161e"/>
+    </svg>
+    <div class="water"></div>
+    <div class="water-glow"></div>
+    <svg class="ripples" viewBox="0 0 1600 300" preserveAspectRatio="none"><g fill="#ffe4bf"><rect x="1268.2" y="186.1" width="83.7" height="2" rx="1" opacity="0.14"/><rect x="27" y="220.5" width="111.6" height="2.2" rx="1.1" opacity="0.10"/><rect x="1439.5" y="280.3" width="99.8" height="2.6" rx="1.3" opacity="0.07"/><rect x="860.9" y="140.9" width="33.3" height="1.7" rx="0.9" opacity="0.09"/><rect x="432.8" y="6.9" width="14.1" height="0.9" rx="0.5" opacity="0.09"/><rect x="1271.4" y="228.1" width="36.3" height="2.3" rx="1.1" opacity="0.07"/><rect x="-17.1" y="184.5" width="28.6" height="2" rx="1" opacity="0.13"/><rect x="1571.5" y="64.6" width="21.4" height="1.3" rx="0.6" opacity="0.10"/><rect x="853.5" y="88.1" width="68.5" height="1.4" rx="0.7" opacity="0.09"/><rect x="1098.8" y="63.2" width="58.6" height="1.3" rx="0.6" opacity="0.11"/><rect x="565.1" y="265.8" width="56.2" height="2.5" rx="1.2" opacity="0.08"/><rect x="468.2" y="45.8" width="12.1" height="1.2" rx="0.6" opacity="0.08"/><rect x="527.4" y="4" width="29.2" height="0.9" rx="0.5" opacity="0.05"/><rect x="491.6" y="243.6" width="72.3" height="2.4" rx="1.2" opacity="0.11"/><rect x="1559.7" y="210.2" width="24.4" height="2.2" rx="1.1" opacity="0.05"/><rect x="9.3" y="223.4" width="104.8" height="2.2" rx="1.1" opacity="0.13"/><rect x="-5.3" y="110.7" width="51.2" height="1.6" rx="0.8" opacity="0.04"/><rect x="298.4" y="56.2" width="56.9" height="1.2" rx="0.6" opacity="0.09"/><rect x="537.9" y="276.3" width="133" height="2.6" rx="1.3" opacity="0.10"/><rect x="155" y="157.3" width="78.1" height="1.8" rx="0.9" opacity="0.11"/><rect x="39.3" y="237.4" width="110.8" height="2.3" rx="1.2" opacity="0.16"/><rect x="969.5" y="29.8" width="22.2" height="1.1" rx="0.5" opacity="0.09"/><rect x="863.1" y="102.9" width="71.4" height="1.5" rx="0.8" opacity="0.07"/><rect x="106.7" y="96.1" width="23" height="1.5" rx="0.7" opacity="0.05"/><rect x="241.7" y="205.6" width="113.6" height="2.1" rx="1.1" opacity="0.06"/><rect x="637.5" y="293.1" width="89" height="2.7" rx="1.3" opacity="0.09"/><rect x="718.2" y="177.6" width="88.6" height="2" rx="1" opacity="0.09"/><rect x="33" y="19.4" width="42.4" height="1" rx="0.5" opacity="0.06"/><rect x="1165.3" y="249.5" width="35.5" height="2.4" rx="1.2" opacity="0.16"/><rect x="152.7" y="188.3" width="88.5" height="2" rx="1" opacity="0.09"/><rect x="457.6" y="46.9" width="48.5" height="1.2" rx="0.6" opacity="0.07"/><rect x="1561.1" y="296.8" width="129.1" height="2.7" rx="1.3" opacity="0.11"/><rect x="756" y="146.5" width="71.4" height="1.8" rx="0.9" opacity="0.07"/><rect x="590.7" y="121.7" width="23.8" height="1.6" rx="0.8" opacity="0.13"/><rect x="788.9" y="285.2" width="98.4" height="2.6" rx="1.3" opacity="0.10"/><rect x="1246.9" y="29.2" width="19.3" height="1.1" rx="0.5" opacity="0.09"/><rect x="1235.3" y="109.2" width="64.5" height="1.6" rx="0.8" opacity="0.10"/><rect x="568.8" y="198.2" width="88.8" height="2.1" rx="1" opacity="0.12"/><rect x="1227" y="85.6" width="39.8" height="1.4" rx="0.7" opacity="0.09"/><rect x="1032.5" y="89.4" width="68" height="1.4" rx="0.7" opacity="0.08"/><rect x="386.1" y="6.4" width="25.4" height="0.9" rx="0.5" opacity="0.07"/><rect x="1028.8" y="139.1" width="75.8" height="1.7" rx="0.9" opacity="0.11"/><rect x="1175.3" y="105.3" width="54.1" height="1.5" rx="0.8" opacity="0.11"/><rect x="1389.3" y="105.9" width="67.2" height="1.5" rx="0.8" opacity="0.10"/><rect x="819.4" y="290" width="139.6" height="2.6" rx="1.3" opacity="0.12"/><rect x="1498.6" y="51.9" width="49.7" height="1.2" rx="0.6" opacity="0.07"/><rect x="1163.2" y="206.3" width="87.4" height="2.1" rx="1.1" opacity="0.07"/><rect x="1058.2" y="232.4" width="80.4" height="2.3" rx="1.1" opacity="0.10"/><rect x="1011.7" y="186.4" width="86.7" height="2" rx="1" opacity="0.12"/><rect x="694.5" y="11.1" width="12.7" height="1" rx="0.5" opacity="0.07"/><rect x="1002" y="67.4" width="46.6" height="1.3" rx="0.7" opacity="0.04"/><rect x="67.7" y="141.6" width="31.9" height="1.7" rx="0.9" opacity="0.06"/><rect x="293.2" y="96.3" width="23.3" height="1.5" rx="0.7" opacity="0.04"/><rect x="971.1" y="139.8" width="43.2" height="1.7" rx="0.9" opacity="0.10"/><rect x="-18.9" y="72.9" width="60" height="1.3" rx="0.7" opacity="0.07"/><rect x="166.4" y="84.9" width="35.3" height="1.4" rx="0.7" opacity="0.10"/><rect x="974" y="112.9" width="15.5" height="1.6" rx="0.8" opacity="0.05"/><rect x="921.1" y="163.3" width="44" height="1.9" rx="0.9" opacity="0.14"/><rect x="1297" y="243.6" width="65.7" height="2.4" rx="1.2" opacity="0.12"/><rect x="945.4" y="111.6" width="22.4" height="1.6" rx="0.8" opacity="0.09"/><rect x="965.9" y="284.4" width="139" height="2.6" rx="1.3" opacity="0.10"/><rect x="154.8" y="265.7" width="22.3" height="2.5" rx="1.2" opacity="0.12"/><rect x="999.7" y="183.9" width="29.8" height="2" rx="1" opacity="0.13"/><rect x="346.7" y="113.5" width="42" height="1.6" rx="0.8" opacity="0.07"/><rect x="1537" y="288.9" width="69.5" height="2.6" rx="1.3" opacity="0.17"/><rect x="1569.2" y="178.2" width="39.6" height="2" rx="1" opacity="0.10"/><rect x="1574.5" y="125.2" width="36.3" height="1.7" rx="0.8" opacity="0.08"/><rect x="177.5" y="87.2" width="39.6" height="1.4" rx="0.7" opacity="0.09"/><rect x="1246.4" y="133.4" width="35.7" height="1.7" rx="0.9" opacity="0.12"/><rect x="423.5" y="6.9" width="25" height="0.9" rx="0.5" opacity="0.09"/><rect x="413.7" y="232.9" width="45.7" height="2.3" rx="1.1" opacity="0.07"/><rect x="965" y="293.7" width="59.8" height="2.7" rx="1.3" opacity="0.12"/><rect x="1184.4" y="192.6" width="73" height="2.1" rx="1" opacity="0.06"/><rect x="844.3" y="226.6" width="50.5" height="2.3" rx="1.1" opacity="0.09"/><rect x="732.2" y="90.3" width="43.4" height="1.4" rx="0.7" opacity="0.07"/><rect x="39" y="222" width="78.9" height="2.2" rx="1.1" opacity="0.08"/><rect x="1418.5" y="137" width="82.5" height="1.7" rx="0.9" opacity="0.09"/><rect x="672.9" y="7.3" width="33.5" height="0.9" rx="0.5" opacity="0.07"/><rect x="760.6" y="211.2" width="80.3" height="2.2" rx="1.1" opacity="0.14"/><rect x="1360.1" y="116.3" width="39.9" height="1.6" rx="0.8" opacity="0.06"/><rect x="87" y="90.2" width="61.4" height="1.4" rx="0.7" opacity="0.10"/><rect x="443.9" y="207.2" width="60.2" height="2.1" rx="1.1" opacity="0.13"/><rect x="755" y="270.7" width="39" height="2.5" rx="1.3" opacity="0.12"/><rect x="228.7" y="149.3" width="41.1" height="1.8" rx="0.9" opacity="0.10"/><rect x="352.6" y="241.7" width="28.1" height="2.4" rx="1.2" opacity="0.14"/><rect x="21.4" y="235.8" width="89.8" height="2.3" rx="1.2" opacity="0.13"/><rect x="1116" y="290.7" width="144.9" height="2.6" rx="1.3" opacity="0.06"/><rect x="1026.1" y="250.6" width="45.2" height="2.4" rx="1.2" opacity="0.16"/><rect x="453.8" y="212.5" width="32.2" height="2.2" rx="1.1" opacity="0.15"/><rect x="650.6" y="47" width="37.6" height="1.2" rx="0.6" opacity="0.05"/><rect x="155.3" y="186" width="21.3" height="2" rx="1" opacity="0.09"/><rect x="911.9" y="24.2" width="10" height="1" rx="0.5" opacity="0.08"/><rect x="679.3" y="261.3" width="37.1" height="2.5" rx="1.2" opacity="0.09"/><rect x="1500.4" y="179.5" width="59.8" height="2" rx="1" opacity="0.08"/><rect x="224.8" y="19.4" width="34.1" height="1" rx="0.5" opacity="0.07"/><rect x="878.9" y="151.7" width="87.1" height="1.8" rx="0.9" opacity="0.10"/><rect x="391.8" y="80.4" width="42.5" height="1.4" rx="0.7" opacity="0.10"/><rect x="359.8" y="155" width="26.3" height="1.8" rx="0.9" opacity="0.08"/><rect x="1135.5" y="219.6" width="37.3" height="2.2" rx="1.1" opacity="0.12"/><rect x="127.7" y="28.1" width="35.2" height="1.1" rx="0.5" opacity="0.04"/><rect x="1400.6" y="177.6" width="37.6" height="2" rx="1" opacity="0.09"/><rect x="27.7" y="98" width="61.8" height="1.5" rx="0.7" opacity="0.10"/><rect x="1522.3" y="18.8" width="13.2" height="1" rx="0.5" opacity="0.08"/><rect x="1555.8" y="68.6" width="16.6" height="1.3" rx="0.7" opacity="0.09"/><rect x="992.2" y="244.3" width="35.9" height="2.4" rx="1.2" opacity="0.09"/><rect x="974.3" y="72.1" width="28.7" height="1.3" rx="0.7" opacity="0.06"/><rect x="1326.4" y="116.4" width="22.5" height="1.6" rx="0.8" opacity="0.10"/><rect x="1359.6" y="239.5" width="66.5" height="2.3" rx="1.2" opacity="0.11"/><rect x="1179.1" y="177.2" width="66.6" height="2" rx="1" opacity="0.09"/><rect x="307.9" y="31.5" width="9.6" height="1.1" rx="0.5" opacity="0.04"/></g></svg>
+    <svg class="glints" viewBox="0 0 200 400" preserveAspectRatio="none"><g fill="#ffd9a3"><rect x="95.8" y="1.2" width="8.4" height="1.3" rx="0.7" opacity="0.78"/><rect x="97.6" y="3.8" width="4.5" height="1.3" rx="0.7" opacity="0.87"/><rect x="97" y="5.8" width="6.5" height="1.3" rx="0.7" opacity="0.71"/><rect x="95" y="10.4" width="10.3" height="1.4" rx="0.7" opacity="0.57"/><rect x="92" y="13.5" width="16.1" height="1.4" rx="0.7" opacity="0.81"/><rect x="97.2" y="17.4" width="6.4" height="1.4" rx="0.7" opacity="0.74"/><rect x="97.5" y="20.3" width="6.3" height="1.5" rx="0.7" opacity="0.69"/><rect x="89.8" y="26.1" width="21.2" height="1.5" rx="0.8" opacity="0.86"/><rect x="89.3" y="29.5" width="21.1" height="1.6" rx="0.8" opacity="0.86"/><rect x="94.1" y="36.1" width="9.6" height="1.6" rx="0.8" opacity="0.57"/><rect x="91.6" y="41.4" width="17.7" height="1.7" rx="0.8" opacity="0.59"/><rect x="90.8" y="44.6" width="17.4" height="1.7" rx="0.8" opacity="0.69"/><rect x="85.1" y="50.2" width="31.3" height="1.7" rx="0.9" opacity="0.82"/><rect x="82.7" y="56.8" width="36.2" height="1.8" rx="0.9" opacity="0.52"/><rect x="83.1" y="62.4" width="37.8" height="1.8" rx="0.9" opacity="0.66"/><rect x="92.9" y="67.4" width="17.7" height="1.9" rx="0.9" opacity="0.65"/><rect x="95.1" y="71.2" width="13.9" height="1.9" rx="1" opacity="0.79"/><rect x="80.3" y="76.2" width="38.3" height="1.9" rx="1" opacity="0.49"/><rect x="82.6" y="83.2" width="39.8" height="2" rx="1" opacity="0.44"/><rect x="93.6" y="90.9" width="16" height="2.1" rx="1" opacity="0.53"/><rect x="73.2" y="98.6" width="53.6" height="2.1" rx="1.1" opacity="0.74"/><rect x="91.4" y="102" width="18.7" height="2.2" rx="1.1" opacity="0.41"/><rect x="84.2" y="107.9" width="33.5" height="2.2" rx="1.1" opacity="0.45"/><rect x="70.8" y="113.7" width="55.1" height="2.3" rx="1.1" opacity="0.69"/><rect x="81.5" y="124.9" width="36.3" height="2.4" rx="1.2" opacity="0.53"/><rect x="76.5" y="130.4" width="48.2" height="2.4" rx="1.2" opacity="0.56"/><rect x="76.1" y="138.9" width="46.3" height="2.5" rx="1.2" opacity="0.57"/><rect x="87.3" y="142" width="36.3" height="2.5" rx="1.3" opacity="0.51"/><rect x="87.9" y="150.8" width="22.1" height="2.6" rx="1.3" opacity="0.51"/><rect x="73.2" y="154.9" width="56.9" height="2.6" rx="1.3" opacity="0.36"/><rect x="76.8" y="165.6" width="51.2" height="2.7" rx="1.4" opacity="0.42"/><rect x="58.2" y="173.4" width="70.2" height="2.8" rx="1.4" opacity="0.33"/><rect x="52.7" y="180.7" width="87.3" height="2.8" rx="1.4" opacity="0.42"/><rect x="74.3" y="187.6" width="47.3" height="2.9" rx="1.4" opacity="0.38"/><rect x="63.1" y="193.9" width="67.6" height="2.9" rx="1.5" opacity="0.38"/><rect x="86.2" y="204" width="29.8" height="3" rx="1.5" opacity="0.45"/><rect x="82.7" y="208.8" width="44.8" height="3.1" rx="1.5" opacity="0.33"/><rect x="72.3" y="215.8" width="62.2" height="3.1" rx="1.6" opacity="0.29"/><rect x="77.8" y="224.5" width="56.5" height="3.2" rx="1.6" opacity="0.35"/><rect x="74.1" y="235.9" width="45.6" height="3.3" rx="1.7" opacity="0.37"/><rect x="59.3" y="244.1" width="70.7" height="3.4" rx="1.7" opacity="0.26"/><rect x="81.2" y="249.9" width="49.9" height="3.4" rx="1.7" opacity="0.38"/><rect x="77" y="255.7" width="58.6" height="3.5" rx="1.7" opacity="0.34"/><rect x="58.4" y="268" width="67.3" height="3.6" rx="1.8" opacity="0.25"/><rect x="65.5" y="276.2" width="62.2" height="3.6" rx="1.8" opacity="0.26"/><rect x="71.2" y="282.1" width="76.6" height="3.7" rx="1.8" opacity="0.21"/><rect x="43.7" y="287.7" width="130.2" height="3.7" rx="1.9" opacity="0.33"/><rect x="42.4" y="299.1" width="135.6" height="3.8" rx="1.9" opacity="0.20"/><rect x="40" y="309.7" width="128.1" height="3.9" rx="2" opacity="0.22"/><rect x="54.4" y="315.2" width="77.5" height="4" rx="2" opacity="0.16"/><rect x="71.1" y="325.9" width="74" height="4.1" rx="2" opacity="0.14"/><rect x="50.3" y="336.8" width="122.3" height="4.2" rx="2.1" opacity="0.22"/><rect x="30.7" y="345.6" width="111.7" height="4.2" rx="2.1" opacity="0.18"/><rect x="64.3" y="349.3" width="80.4" height="4.3" rx="2.1" opacity="0.16"/><rect x="23.5" y="359.9" width="159.4" height="4.4" rx="2.2" opacity="0.12"/><rect x="22.7" y="367.7" width="153.2" height="4.4" rx="2.2" opacity="0.14"/><rect x="64.3" y="377.4" width="73.6" height="4.5" rx="2.3" opacity="0.13"/><rect x="37.5" y="385.1" width="151" height="4.6" rx="2.3" opacity="0.11"/></g></svg>
+  </div>
+
+  <div class="hero-boat" aria-hidden="true">
+    <svg viewBox="0 0 600 300">
+      <defs>
+        <linearGradient id="refl-fade" x1="0" y1="228" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="refl-mask" maskUnits="userSpaceOnUse" x="-100" y="228" width="800" height="90">
+          <rect x="-100" y="228" width="800" height="90" fill="url(#refl-fade)"/>
+        </mask>
+        <clipPath id="above-water"><rect x="-300" y="-300" width="1200" height="528"/></clipPath>
+      </defs>
+      <g mask="url(#refl-mask)" opacity=".5">
+        <g class="bob-r"><use href="#sil" transform="matrix(1 0 0 -.6 0 364.8)"/></g>
+      </g>
+      <g clip-path="url(#above-water)">
+        <g class="bob">
+          <g id="sil">
+            <g fill="#050d13">
+              <path d="M92 166L486 158Q520 156 540 162Q534 200 500 240L112 246Q96 246 92 230Z"/>
+              <path d="M44 124C44 110 54 104 68 104H84C98 104 104 112 104 124L102 150C101 160 94 166 84 166H62C50 166 45 158 44 148Z"/>
+              <path d="M56 164H94L90 188H60Z"/>
+              <rect x="67" y="186" width="16" height="56"/>
+              <rect x="92" y="158" width="10" height="26"/>
+              <path d="M282 163L290 126H336L344 161Z"/>
+              <rect x="176" y="140" width="6" height="25"/>
+              <rect x="160" y="133" width="36" height="8" rx="3"/>
+              <rect x="191" y="104" width="8" height="34" rx="3"/>
+              <path d="M168 106Q178 98 190 104L192 137H170Z"/>
+              <circle cx="176" cy="92" r="9.5"/>
+              <path d="M166.5 90Q167 80 177 79.5Q186 80 186 89Z"/>
+              <path d="M170 87.5L154.5 90.5L168 92Z"/>
+              <path d="M171 128L146 130Q141.5 131 141.5 136V140.5H173Z"/>
+              <path d="M141.5 132L135.5 163H145L151 134Z"/>
+              <path d="M418 160L424 120H438L446 160H438.5L431 132L426 160Z"/>
+              <path d="M420 122L418 88Q430 80 442 88L440 122Z"/>
+              <circle cx="431" cy="72" r="9.5"/>
+              <path d="M421 70Q422 60 431 59.5Q440.5 60 441 69Z"/>
+              <path d="M436 67.5L452 70L437 71.5Z"/>
+              <rect x="526" y="146" width="15" height="9" rx="2"/>
+            </g>
+            <g fill="none" stroke="#050d13" stroke-linecap="round">
+              <path d="M174 110L152 121" stroke-width="7"/>
+              <path d="M154 121Q112 74 62 40" stroke-width="2.6"/>
+              <path d="M438 93L456 80" stroke-width="7"/>
+              <path d="M424 95L452 84" stroke-width="7"/>
+              <path d="M452 82Q502 32 562 8" stroke-width="2.6"/>
+              <path d="M533.5 154L535 240" stroke-width="3.2"/>
+            </g>
+          </g>
+          <path d="M296 126L303 104H330L338 126Z" fill="#ffb877" fill-opacity=".34" stroke="#050d13" stroke-width="3" stroke-linejoin="round"/>
+          <g fill="none" stroke="#ffc98a" stroke-linecap="round">
+            <path d="M92 166L486 158Q520 156 540 162" stroke-width="2.2" stroke-opacity=".9"/>
+            <path d="M50 116C52 108 60 105 68 105H86C94 105 100 109 102 116" stroke-width="1.8" stroke-opacity=".6"/>
+            <path d="M422 66Q431 56.5 440 66" stroke-width="1.6" stroke-opacity=".6"/>
+            <path d="M419.5 89Q430 81.5 441 88.5" stroke-width="1.6" stroke-opacity=".5"/>
+            <path d="M168 88Q177 77.5 185.5 87" stroke-width="1.6" stroke-opacity=".6"/>
+            <path d="M169 105.5Q179 98.5 189.5 103.5" stroke-width="1.6" stroke-opacity=".5"/>
+            <path d="M290 126H336" stroke-width="1.6" stroke-opacity=".6"/>
+          </g>
+          <g class="cast" fill="none" stroke="#ffe2b8" stroke-opacity=".75" stroke-width="1.1">
+            <path pathLength="1" d="M562 8Q612 70 642 228"/>
+            <path pathLength="1" d="M62 40Q14 84 -8 228"/>
+          </g>
+        </g>
+      </g>
+      <g fill="none" stroke="#ffd4a0" stroke-linecap="round">
+        <path d="M58 231.5H128" stroke-opacity=".55" stroke-width="1.6"/>
+        <path d="M84 236H150" stroke-opacity=".3" stroke-width="1.2"/>
+        <path d="M470 230.5H566" stroke-opacity=".55" stroke-width="1.6"/>
+        <path d="M500 235H590" stroke-opacity=".3" stroke-width="1.2"/>
+        <path d="M180 240H420" stroke-opacity=".16" stroke-width="1.2"/>
+      </g>
+    </svg>
+  </div>
+  <svg class="reeds reeds-l" viewBox="0 0 360 320" aria-hidden="true"><use href="#reeds"/></svg>
+  <svg class="reeds reeds-r" viewBox="0 0 360 320" aria-hidden="true"><use href="#reeds"/></svg>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>San Miguel del Monte · Buenos Aires</p>
+      <h1>Trackers hechos para <em>la laguna</em></h1>
+      <p class="lead">Embarcaciones de pesca, motores y equipamiento con asesoramiento de pescador a pescador. Elegí tu tracker y salí al agua con el equipo justo.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" data-wa="Hola Walter! Vi la web y quiero info sobre los trackers." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>Consultar por WhatsApp</a>
+        <a class="btn btn-ghost" href="#modelos">Ver modelos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <ul class="hero-points">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Asesoramiento personalizado</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Entrega lista para navegar</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Post-venta en Monte</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-group">
+      <span>Trackers de pesca</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Motores</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Equipamiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Laguna de Monte</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Pejerrey</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Asesoramiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Trackers de pesca</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Motores</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Equipamiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Laguna de Monte</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Pejerrey</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Asesoramiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+    </div>
+    <div class="ticker-group">
+      <span>Trackers de pesca</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Motores</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Equipamiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Laguna de Monte</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Pejerrey</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Asesoramiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Trackers de pesca</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Motores</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Equipamiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Laguna de Monte</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Pejerrey</span><svg class="tk-fish"><use href="#fish"/></svg>
+      <span>Asesoramiento</span><svg class="tk-fish"><use href="#fish"/></svg>
+    </div>
+  </div>
+</div>
+
+<section class="section models" id="modelos">
+  <div class="wrap">
+    <header class="section-head split reveal">
+      <div>
+        <p class="eyebrow">Modelos</p>
+        <h2>Elegí tu tracker</h2>
+      </div>
+      <p>Tres medidas pensadas para la pesca embarcada en laguna y río. Todos se pueden equipar a tu medida.</p>
+    </header>
+
+    <div class="model-grid">
+      <article class="model-card reveal" style="--hull-top:#f3efe6;--hull-bottom:#1f4252;--stripe:#ff8a3d;--decal:#ff8a3d;--size:84%">
+        <div class="model-media">
+          <span class="model-len" aria-hidden="true">4.60</span>
+          <svg class="boat" viewBox="0 0 400 170" role="img" aria-label="Ilustración del Tracker 4.60 Laguna"><use href="#boat-side"/></svg>
+        </div>
+        <div class="model-body">
+          <div>
+            <h3>Tracker 4.60 <span>Laguna</span></h3>
+            <p class="model-tag">Ágil y liviano. Ideal para salir de a dos o tres a la laguna.</p>
+          </div>
+          <dl class="specs">
+            <div><dt>Eslora</dt><dd>4,60 m</dd></div>
+            <div><dt>Manga</dt><dd>1,85 m</dd></div>
+            <div><dt>Capacidad</dt><dd>4 personas</dd></div>
+            <div><dt>Motor</dt><dd>25–40 HP</dd></div>
+          </dl>
+          <ul class="features">
+            <li>Consola central</li>
+            <li>2 butacas giratorias</li>
+            <li>Vivero y porta cañas</li>
+          </ul>
+          <div class="model-foot">
+            <p class="price-note" style="margin:0"><span>Precio y financiación</span><strong>Consultar</strong></p>
+            <a class="btn btn-dark btn-block" data-wa="Hola Walter! Quiero info y precio del Tracker 4.60 Laguna." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>Consultar este modelo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="model-card featured reveal" style="--d:.08s;--hull-top:#f3efe6;--hull-bottom:#a8402c;--stripe:#10202a;--decal:#ff8a3d;--size:92%">
+        <span class="model-badge">Recomendado</span>
+        <div class="model-media">
+          <span class="model-len" aria-hidden="true">5.20</span>
+          <svg class="boat" viewBox="0 0 400 170" role="img" aria-label="Ilustración del Tracker 5.20 Pro"><use href="#boat-side"/></svg>
+        </div>
+        <div class="model-body">
+          <div>
+            <h3>Tracker 5.20 <span>Pro</span></h3>
+            <p class="model-tag">El equilibrio justo: estable, cómodo y preparado para jornadas largas.</p>
+          </div>
+          <dl class="specs">
+            <div><dt>Eslora</dt><dd>5,20 m</dd></div>
+            <div><dt>Manga</dt><dd>2,05 m</dd></div>
+            <div><dt>Capacidad</dt><dd>5 personas</dd></div>
+            <div><dt>Motor</dt><dd>50–75 HP</dd></div>
+          </dl>
+          <ul class="features">
+            <li>Consola con parabrisas</li>
+            <li>Plataforma de proa para motor eléctrico</li>
+            <li>Cofres estancos y vivero</li>
+          </ul>
+          <div class="model-foot">
+            <p class="price-note" style="margin:0"><span>Precio y financiación</span><strong>Consultar</strong></p>
+            <a class="btn btn-primary btn-block" data-wa="Hola Walter! Quiero info y precio del Tracker 5.20 Pro." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>Consultar este modelo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="model-card reveal" style="--d:.16s;--hull-top:#2b3439;--hull-bottom:#101518;--stripe:#ffad5c;--decal:#ffad5c;--size:100%">
+        <div class="model-media">
+          <span class="model-len" aria-hidden="true">5.80</span>
+          <svg class="boat" viewBox="0 0 400 170" role="img" aria-label="Ilustración del Tracker 5.80 Max"><use href="#boat-side"/></svg>
+        </div>
+        <div class="model-body">
+          <div>
+            <h3>Tracker 5.80 <span>Max</span></h3>
+            <p class="model-tag">Más espacio y más motor para laguna grande, río y embalse.</p>
+          </div>
+          <dl class="specs">
+            <div><dt>Eslora</dt><dd>5,80 m</dd></div>
+            <div><dt>Manga</dt><dd>2,25 m</dd></div>
+            <div><dt>Capacidad</dt><dd>6 personas</dd></div>
+            <div><dt>Motor</dt><dd>90–115 HP</dd></div>
+          </dl>
+          <ul class="features">
+            <li>Tanque de combustible incorporado</li>
+            <li>Preparado para sonda y GPS</li>
+            <li>Butacas acolchadas con respaldo</li>
+          </ul>
+          <div class="model-foot">
+            <p class="price-note" style="margin:0"><span>Precio y financiación</span><strong>Consultar</strong></p>
+            <a class="btn btn-dark btn-block" data-wa="Hola Walter! Quiero info y precio del Tracker 5.80 Max." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>Consultar este modelo</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section dark equip" id="equipamiento">
+  <div class="wrap">
+    <header class="section-head split reveal">
+      <div>
+        <p class="eyebrow">Equipamiento</p>
+        <h2>Armalo a tu medida</h2>
+      </div>
+      <p>Motor, electrónica y accesorios: lo configuramos según cómo y dónde pescás.</p>
+    </header>
+    <div class="equip-grid">
+      <article class="equip-item reveal">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h7a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M10 12v6M13.5 12v6"/><path d="M8 18h8l-1.5 2.5h-5z"/><path d="M5.5 17v4.5"/></svg></span>
+        <h3>Motores fuera de borda</h3>
+        <p>De 25 a 115 HP, instalados y probados en el agua.</p>
+      </article>
+      <article class="equip-item reveal" style="--d:.06s">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+        <h3>Motor eléctrico de proa</h3>
+        <p>Para arrimarte al cardumen sin hacer ruido.</p>
+      </article>
+      <article class="equip-item reveal" style="--d:.12s">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M9 21h6M12 17v4"/><path d="M7.5 11.5c1.6-1.7 3.6-1.9 5.2 0-1.6 1.9-3.6 1.7-5.2 0z"/><path d="M12.7 11.5l2.3-1.6v3.2z"/></svg></span>
+        <h3>Sonda y GPS</h3>
+        <p>Encontrá el pique y guardá tus mejores puntos.</p>
+      </article>
+      <article class="equip-item reveal">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h12.5l2 4H5z"/><path d="M2 15h16l3.5-2.5"/><circle cx="8" cy="18" r="2.4"/></svg></span>
+        <h3>Tráiler</h3>
+        <p>Para llevar tu tracker a la laguna, al río o de vacaciones.</p>
+      </article>
+      <article class="equip-item reveal" style="--d:.06s">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3a1 1 0 0 1 1 1v9H6V4a1 1 0 0 1 1-1z"/><path d="M6 13h11a1.5 1.5 0 0 1 0 3H6z"/><path d="M11 16v5M8 21h6"/></svg></span>
+        <h3>Butacas y cofres</h3>
+        <p>Comodidad y orden para jornadas largas de pesca.</p>
+      </article>
+      <article class="equip-item reveal" style="--d:.12s">
+        <span class="equip-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10c3-4.5 15-4.5 18 0"/><path d="M6.5 8.6 5 17M17.5 8.6 19 17"/><path d="M2.5 17h19"/><path d="M4 20.5c2-1 4-1 6 0s4 1 6 0 3-1 4.5-.3"/></svg></span>
+        <h3>Toldo y cobertor</h3>
+        <p>Protección para vos y para la embarcación.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section why" id="nosotros">
+  <div class="wrap why-grid">
+    <figure class="map-card reveal">
+      <svg class="map" viewBox="0 0 480 360" role="img" aria-label="Mapa ilustrativo de San Miguel del Monte y su laguna">
+        <defs>
+          <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#10202a" stroke-opacity=".06"/></pattern>
+          <pattern id="blocks" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)"><rect x="2" y="2" width="16" height="16" rx="3" fill="#d8c9ae"/></pattern>
+          <linearGradient id="lake" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f7686"/><stop offset="1" stop-color="#163848"/></linearGradient>
+        </defs>
+        <rect width="480" height="360" fill="#efe6d5"/>
+        <rect width="480" height="360" fill="url(#grid)"/>
+        <path d="M38 64C78 40 160 46 192 88C208 110 196 138 172 150C142 164 108 172 78 162C46 152 28 122 32 94C34 80 34 70 38 64Z" fill="url(#blocks)"/>
+        <path d="M178 150C196 124 226 112 256 116C274 118 284 108 302 106C330 103 352 116 368 128C392 146 420 150 438 172C456 194 452 222 444 244C436 268 446 290 428 306C404 326 368 318 340 326C310 334 280 330 254 318C228 306 214 290 196 276C172 258 150 246 152 218C154 196 166 170 178 150Z" fill="url(#lake)"/>
+        <path d="M178 150C196 124 226 112 256 116C274 118 284 108 302 106C330 103 352 116 368 128C392 146 420 150 438 172C456 194 452 222 444 244C436 268 446 290 428 306C404 326 368 318 340 326C310 334 280 330 254 318C228 306 214 290 196 276C172 258 150 246 152 218C154 196 166 170 178 150Z" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round" transform="translate(306 220) scale(.9) translate(-306 -220)"/>
+        <g stroke="#7f8f4e" stroke-width="2.2" stroke-linecap="round" opacity=".8"><path d="M150 232v-12M156 236v-15M162 233v-10"/><path d="M448 188v-12M454 192v-15M460 189v-10"/><path d="M318 338v-12M324 341v-15M330 338v-10"/></g>
+        <path d="M-10 238C40 200 60 150 70 104S96 28 132 -10" fill="none" stroke="#f0a35e" stroke-width="7" stroke-linecap="round"/>
+        <path d="M-10 238C40 200 60 150 70 104S96 28 132 -10" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="6 7"/>
+        <g transform="translate(46 176)"><rect x="-19" y="-12" width="38" height="24" rx="7" fill="#10202a"/><text y="5" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="800" font-size="14" letter-spacing=".5" fill="#fff">RN 3</text></g>
+        <text x="302" y="226" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-style="italic" font-weight="800" font-size="22" letter-spacing="2.5" fill="#fff" fill-opacity=".92">LAGUNA DE MONTE</text>
+        <text x="118" y="32" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" letter-spacing="2.2" fill="#10202a" fill-opacity=".7">SAN MIGUEL DEL MONTE</text>
+        <g transform="translate(178 144)">
+          <circle class="pin-pulse" cy="-2" r="12" fill="#ff8a3d"/>
+          <path d="M0 0C0 0-15-13-15-25A15 15 0 0 1 15-25C15-13 0 0 0 0Z" fill="#ff8a3d" stroke="#fff" stroke-width="2.5"/>
+          <circle cy="-25" r="5.5" fill="#fff"/>
+        </g>
+        <g transform="translate(200 80)"><rect width="108" height="30" rx="15" fill="#10202a"/><text x="54" y="20" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-weight="700" font-size="13.5" fill="#fff">Walter Pesca</text></g>
+        <g transform="translate(446 38)"><circle r="17" fill="#fffaf1" stroke="#10202a" stroke-opacity=".15"/><path d="M0-12 4.5 1H-4.5Z" fill="#ff8a3d"/><text y="12.5" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="800" font-size="10" fill="#10202a">N</text></g>
+      </svg>
+      <figcaption>
+        <strong>San Miguel del Monte</strong>
+        <span>Provincia de Buenos Aires · sobre la Ruta 3, a poco más de 100 km de CABA.</span>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=San+Miguel+del+Monte%2C+Buenos+Aires" target="_blank" rel="noopener">Cómo llegar <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      </figcaption>
+    </figure>
+
+    <div class="why-copy">
+      <header class="section-head reveal">
+        <p class="eyebrow">Por qué Walter Pesca</p>
+        <h2>De pescador a pescador</h2>
+        <p>La Laguna de Monte es nuestra cancha. Te ayudamos a elegir el equipo que de verdad vas a usar.</p>
+      </header>
+      <ol class="reasons">
+        <li class="reveal"><span class="num">01</span><div><h3>Conocemos la laguna</h3><p>Sabemos qué casco y qué motor rinden en estas aguas, con viento y con calma.</p></div></li>
+        <li class="reveal"><span class="num">02</span><div><h3>Asesoramiento honesto</h3><p>Te recomendamos lo que necesitás según cómo pescás. Ni más, ni menos.</p></div></li>
+        <li class="reveal"><span class="num">03</span><div><h3>Listo para navegar</h3><p>Te lo entregamos armado, probado y con todo en regla para salir al agua.</p></div></li>
+        <li class="reveal"><span class="num">04</span><div><h3>Post-venta cercana</h3><p>Service, repuestos y respuesta rápida por WhatsApp.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <svg class="cta-fish" aria-hidden="true"><use href="#fish"/></svg>
+  <div class="wrap cta-inner reveal">
+    <div>
+      <h2>¿Listo para salir al agua?</h2>
+      <p>Escribinos y te armamos un presupuesto sin compromiso.</p>
+    </div>
+    <a class="btn btn-dark" data-wa="Hola Walter! Quiero que me armes un presupuesto." href="#contacto"><svg aria-hidden="true"><use href="#wa"/></svg>Pedir presupuesto</a>
+  </div>
+</section>
+
+<section class="section dark contact" id="contacto">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <p class="eyebrow">Contacto</p>
+      <h2>Te esperamos en Monte</h2>
+      <p class="contact-lead">Escribinos por WhatsApp, pasá a ver los trackers o coordinamos una visita.</p>
+      <ul class="contact-list">
+        <li><span class="ci-ico wa"><svg aria-hidden="true"><use href="#wa"/></svg></span><div><small>WhatsApp</small><a class="ci-val" data-wa="Hola Walter! Vi la web y quiero hacer una consulta." href="#contacto">+54 9 2271 00-0000</a></div></li>
+        <li><span class="ci-ico"><svg class="line" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r=".6" fill="currentColor"/></svg></span><div><small>Instagram</small><a class="ci-val" href="#" target="_blank" rel="noopener">Seguinos en Instagram</a></div></li>
+        <li><span class="ci-ico"><svg class="line" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><small>Ubicación</small><span class="ci-val">San Miguel del Monte, Buenos Aires</span></div></li>
+        <li><span class="ci-ico"><svg class="line" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><small>Horarios</small><span class="ci-val">Lunes a sábado · 9 a 18 h</span></div></li>
+      </ul>
+    </div>
+
+    <form class="form-card reveal" id="consulta" style="--d:.1s">
+      <h3>Pedí tu presupuesto</h3>
+      <p>Completá estos datos y te abrimos WhatsApp con el mensaje listo.</p>
+      <label>Nombre<input name="nombre" type="text" autocomplete="name" placeholder="Tu nombre"></label>
+      <label>¿Qué te interesa?
+        <select name="interes">
+          <option>Tracker 4.60 Laguna</option>
+          <option selected>Tracker 5.20 Pro</option>
+          <option>Tracker 5.80 Max</option>
+          <option>Motores</option>
+          <option>Equipamiento y accesorios</option>
+          <option>Otra consulta</option>
+        </select>
+      </label>
+      <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Contanos cómo y dónde pescás…"></textarea></label>
+      <button class="btn btn-wa btn-block" type="submit"><svg aria-hidden="true"><use href="#wa"/></svg>Enviar por WhatsApp</button>
+      <p class="form-note">Se abre WhatsApp con tu consulta lista para enviar.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <a class="brand" href="#inicio" aria-label="Walter Pesca, volver al inicio">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#ff8a3d"/>
+        <path d="M10.5 20 4.8 14.6l2 5.4-2 5.4z" fill="#06121b"/>
+        <path d="M9 20c5-6.5 16-7 24-.4-8 6.8-19 6.6-24 .4z" fill="#06121b"/>
+        <path d="M12.5 20.2 29 19.4" stroke="#ffd08a" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="28.2" cy="18.8" r="1.3" fill="#ff8a3d"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Walter <b>Pesca</b></span>
+        <span class="brand-sub">San Miguel del Monte</span>
+      </span>
+    </a>
+    <nav class="footer-nav" aria-label="Pie de página">
+      <a href="#modelos">Modelos</a>
+      <a href="#equipamiento">Equipamiento</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© <span id="year">2026</span> Walter Pesca · San Miguel del Monte, Buenos Aires</span>
+    <span>Trackers · Motores · Equipamiento</span>
+  </div>
+</footer>
+
+<a class="wa-float" data-wa="Hola Walter! Vi la web y quiero hacer una consulta." href="#contacto" aria-label="Escribinos por WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+
+<script>
+// Número de WhatsApp de Walter: 549 + característica sin 0 + número sin 15 (ej: 5492271123456)
+const WHATSAPP = '5492271000000';
+
+const waLink = (msg) => 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
+document.querySelectorAll('[data-wa]').forEach((a) => {
+  a.href = waLink(a.dataset.wa);
+  a.target = '_blank';
+  a.rel = 'noopener';
+});
+
+const header = document.querySelector('.site-header');
+const fab = document.querySelector('.wa-float');
+const onScroll = () => {
+  const y = window.scrollY;
+  header.classList.toggle('is-scrolled', y > 30);
+  fab.classList.toggle('show', y > window.innerHeight * 0.55);
+};
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+const menuBtn = document.querySelector('.menu-btn');
+const setMenu = (open) => {
+  document.body.classList.toggle('menu-open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+};
+menuBtn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+document.querySelectorAll('.nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+}
+
+document.getElementById('consulta').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const f = e.currentTarget;
+  const nombre = f.nombre.value.trim();
+  const mensaje = f.mensaje.value.trim();
+  let txt = 'Hola Walter! ' + (nombre ? 'Soy ' + nombre + '. ' : '') + 'Me interesa: ' + f.interes.value + '.';
+  if (mensaje) txt += '\n' + mensaje;
+  window.open(waLink(txt), '_blank', 'noopener');
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
